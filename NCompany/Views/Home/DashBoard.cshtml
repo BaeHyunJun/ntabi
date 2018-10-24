@@ -1,0 +1,559 @@
+﻿@using NCompany.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string out0 = "",
+           out1 = "",
+           out2 = "",
+           out3 = "",
+           out4 = "",
+           out5 = "",
+           out6 = "",
+           out7 = "",
+           out8 = "",
+           out9 = "";
+
+    int index = 0;
+
+    var user = Session["user"] as User;
+
+    string PER_CODE = user.PER_CODE,
+           POS_CODE = user.POS_CODE;
+
+    if (PER_CODE == "GD")
+    {
+        <script>
+                location.href = "/Car/Schedule";
+        </script>
+    }
+}
+
+<style>
+    section.dashboard > div {
+        height: 48%;
+        padding: 0;
+        margin: 0;
+    }
+
+    section.dashboard > div > article {
+        height: 100%;
+    }
+
+    section.dashboard > div > article > h4 {
+        height: 10%;
+        margin: 0;
+        line-height: 45px;
+    }
+
+    section.dashboard > div > article > a.btn {
+        padding: 6px 6px 3px;
+        font-size: 12px;
+    }
+
+    section.dashboard > div > article > ul,
+    section.dashboard > div > article > ul ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+        text-align: center;
+        line-height: 26px;
+    }
+
+    section.dashboard > div > article > ul.table-header {
+        height: 10%;
+        line-height: 45px;
+        border-bottom: 2px solid #ccc;
+    }
+
+    section.dashboard > div > article > ul.table-body {
+        height: 80%;
+        height: 70%;
+        overflow: auto;
+    }
+
+    section.dashboard > div > article > ul li {
+        width: 100%;
+        font-size: 12px;
+        float: left;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        overflow: hidden;
+    }
+
+    section.dashboard > div > article > ul.table-body > li {
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+
+<section class="dashboard row">
+    <div class="col-md-12 row">
+        <article class="col-md-6 pdt">
+            <a href="/Products" class="btn btn-default pull-right">자세히 보기</a>
+            <h4>상품 정보</h4>
+
+            <ul class="table-header">
+                <li style="width: 10%">진행 구분</li>
+                <li style="width: 50%">상품 명</li>
+                <li style="width: 15%">옵션</li>
+                <li style="width: 25%">상태</li>
+            </ul>
+
+            <ul class="table-body">
+        @{
+            foreach (object item in ViewBag.pdt)
+            {
+                out0 = "";
+                out1 = "";
+                out2 = "";
+                out3 = "";
+                out4 = "";
+                out5 = "";
+                out6 = "";
+                out7 = "";
+                out8 = "";
+                out9 = "";
+                index = 0;
+                           
+                try { out0 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                try { out1 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                try { out2 = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+
+                index++;
+
+                switch (out0)
+                {
+                    case "01":
+                        out0 = "<span style='color: red;'>준비중</span>";
+                        break;
+                    case "02":
+                        out0 = "<span style='color: green;'>판매중</span>";
+                        break;
+                    case "03":
+                        out0 = "<span style='color: green;'>마감</span>";
+                        break;
+                }
+
+                switch (out2)
+                {
+                    case "best":
+                        out2 = "베스트 상품";
+                        break;
+                    default:
+                        out2 = "없음";
+                        break;
+                }
+                        
+                <li>
+                    <ul>
+                        <li style="width: 10%">@MvcHtmlString.Create(out0)</li>
+                        <li style="width: 50%">@out1</li>
+                        <li style="width: 15%">@out2</li>
+                        <li style="width: 25%"></li>
+                    </ul>
+                </li>
+            }
+
+            if (index < 1)
+            {
+                <li style="height: 100%; border: 1px solid #ccc;">
+                    <p style="margin-top: 100px;">
+                        상품이 없습니다.
+                    </p>
+                </li>
+
+            }
+        }
+                @*
+                <li>
+                    <ul>
+                        <li style="width: 10%">판매중</li>
+                        <li style="width: 50%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 15%">베스트 상품</li>
+                        <li style="width: 25%">판매일 5일 남음</li>
+                    </ul>
+                </li>
+                *@   
+
+            </ul>
+        </article>
+        <article class="col-md-6 rev">
+            <a href="/Reserve" class="btn btn-default pull-right">자세히 보기</a>
+            <h4>예약 정보</h4>
+
+            <ul class="table-header">
+                <li style="width: 10%">상태</li>
+                <li style="width: 15%">출발일</li>
+                <li style="width: 50%">상품 명</li>
+                <li style="width: 25%">예약자</li>
+            </ul>
+
+            <ul class="table-body">
+        @{
+            foreach (object item in ViewBag.rev)
+            {
+                out0 = "";
+                out1 = "";
+                out2 = "";
+                out3 = "";
+                out4 = "";
+                out5 = "";
+                out6 = "";
+                out7 = "";
+                out8 = "";
+                out9 = "";
+                index = 0;
+                           
+                try { out0 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                try { out1 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                try { out2 = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                try { out3 = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+
+                index++;
+                
+                switch(out0)
+                {
+                    case "10":
+                        out0 = "<span style='color: red;'>취소</span>";
+                        break;
+                    case "20":
+                        out0 = "<span style='color: green;'>확인중</span>";
+                        break;
+                    case "30":
+                        out0 = "<span style='color: green;'>진행중</span>";
+                        break;
+                    case "40":
+                        out0 = "<span style='color: green;'>확정</span>";
+                        break;
+                    case "50":
+                        out0 = "<span style='color: green;'>완료</span>";
+                        break;
+                }
+                
+                <li>
+                    <ul>
+                        <li style="width: 10%">@MvcHtmlString.Create(out0)</li>
+                        <li style="width: 15%">@out1</li>
+                        <li style="width: 50%; text-align: left;">@out2</li>
+                        <li style="width: 25%">@out3</li>
+                    </ul>
+                </li>
+            }
+
+            if (index < 1)
+            {
+                <li style="height: 100%; border: 1px solid #ccc;">
+                    <p style="margin-top: 100px;">
+                        예약이 없습니다.
+                    </p>
+                </li>
+
+            }
+        }
+                @*
+                <li>
+                    <ul>
+                        <li style="width: 10%">진행중</li>
+                        <li style="width: 15%">2017-08-27</li>
+                        <li style="width: 50%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 25%">배현준</li>
+                    </ul>
+                </li>
+                *@
+            </ul>
+        </article>
+    </div>
+
+    <hr />
+
+    <div class="col-md-12 row">
+        <article class="col-md-3 notice">
+            <a href="/community/notice" class="btn btn-default pull-right">자세히 보기</a>
+            <h4>자유게시판</h4>
+
+            <ul class="table-header">
+                <li style="width: 70%; margin-right: 5%; text-overflow: ellipsis; white-space: nowrap; word-wrap: normal; overflow: hidden;">제목</li>
+                <li style="width: 25%">날짜</li>
+            </ul>
+
+            <ul class="table-body">
+
+                @{
+                    index = 0;
+                    
+                    foreach (object item in ViewBag.notice)
+                    {
+                        out0 = "";
+                        out1 = "";
+                        out2 = "";
+                        out3 = "";
+                        out4 = "";
+                        out5 = "";
+                        out6 = "";
+                        out7 = "";
+                        out8 = "";
+                        out9 = "";
+
+                        try { out0 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { out1 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                        catch { continue; }
+
+                        index++;
+
+                        out1 = Html.Action("convertDate8To10", new { date = out1 }).ToString();
+
+                        <li>
+                            <ul>
+                                <li style="width: 70%; margin-right: 5%;">@out0</li>
+                                <li style="width: 25%;">@out1</li>
+                            </ul>
+                        </li>
+                    }
+
+                    if (index < 1)
+                    {
+                        <li style="height: 100%; border: 1px solid #ccc;">
+                            <p style="margin-top: 100px;">
+                                공지사항이 없습니다.
+                            </p>
+                        </li>
+
+                    }
+                }
+
+                @*<li>
+                    <ul>
+                        <li style="width: 70%;">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 25%">2017-08-22</li>
+                    </ul>
+                </li>*@
+            </ul>
+        </article>
+        <article class="col-md-3 Qna">
+            <a href="/Community/Qna" class="btn btn-default pull-right">자세히 보기</a>
+            <h4>질문과 답변</h4>
+
+            <ul class="table-header">
+                <li style="width: 80%">제목</li>
+                <li style="width: 20%">상태</li>
+            </ul>
+
+            <ul class="table-body">
+
+                @{
+                    index = 0;
+                    
+                    foreach (object item in ViewBag.qna)
+                    {
+                        out0 = "";
+                        out1 = "";
+                        out2 = "";
+                        out3 = "";
+                        out4 = "";
+                        out5 = "";
+                        out6 = "";
+                        out7 = "";
+                        out8 = "";
+                        out9 = "";
+
+                        try { out0 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { out1 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                        catch { continue; }
+
+                        index++;
+
+                        switch (out1)
+                        {
+                            case "N":
+                                out1 = "답변 중";
+                                break;
+                            case "Y":
+                                out1 = "답변 완료";
+                                break;
+                        }
+
+                        <li>
+                            <ul>
+                                <li style="width: 80%">@out0</li>
+                                <li style="width: 20%; color: blue">@out1</li>
+                            </ul>
+                        </li>
+                    }
+
+                    if (index < 1)
+                    {
+                        <li style="height: 100%; border: 1px solid #ccc;">
+                            <p style="margin-top: 100px;">
+                                질문 글이 없습니다.
+                            </p>
+                        </li>
+
+                    }
+                }
+                @*
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">답변 완료</li>
+                    </ul>
+                </li>
+                *@
+            </ul>
+        </article>
+        <article class="col-md-3 Review">
+            <a href="/Community/Review" class="btn btn-default pull-right">자세히 보기</a>
+            <h4>상품 후기</h4>
+
+            <ul class="table-header">
+                <li style="width: 70%; margin-right: 5%;">제목</li>
+                <li style="width: 25%;">별점</li>
+            </ul>
+
+            <ul class="table-body">
+
+                @{
+                    index = 0;
+                    
+                    foreach (object item in ViewBag.review)
+                    {
+                        out0 = "";
+                        out1 = "";
+                        out2 = "";
+                        out3 = "";
+                        out4 = "";
+                        out5 = "";
+                        out6 = "";
+                        out7 = "";
+                        out8 = "";
+                        out9 = "";
+
+                        try { out0 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { out1 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                        catch { continue; }
+
+                        index++;
+
+                        switch (out1)
+                        {
+                            case "5":
+                                out1 = "★★★★★";
+                                break;
+                            case "4":
+                                out1 = "★★★★";
+                                break;
+                            case "3":
+                                out1 = "★★★";
+                                break;
+                            case "2":
+                                out1 = "★★";
+                                break;
+                            case "1":
+                                out1 = "★";
+                                break;
+                        }
+
+                        <li>
+                            <ul>
+                                <li style="width: 70%; margin-right: 5%;">@out0</li>
+                                <li style="width: 25%;">@out1</li>
+                            </ul>
+                        </li>
+                    }
+
+                    if (index < 1)
+                    {
+                        <li style="height: 100%; border: 1px solid #ccc;">
+                            <p style="margin-top: 100px;">
+                                질문 글이 없습니다.
+                            </p>
+                        </li>
+
+                    }
+                }
+
+                @*<li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>*@
+            </ul>
+        </article>
+        <article class="col-md-3 event">
+            <a href="/Community/Event" class="btn btn-default pull-right">자세히 보기</a>
+            <h4>이벤트</h4>
+
+            <ul class="table-body" style="margin-top: 30px;">
+                @{
+                    index = 0;
+
+                    foreach (object item in ViewBag.evData)
+                    {
+                        out0 = "";
+                        out1 = "";
+                        out2 = "";
+                        out3 = "";
+                        out4 = "";
+                        out5 = "";
+                        out6 = "";
+                        out7 = "";
+                        out8 = "";
+                        out9 = "";
+
+                        try { out0 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                        try { out1 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                        try { out2 = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+
+                        index++;
+
+                        <li style="max-width: 100%; border: 1px solid #ddd;">
+                            <img src='@out2' style="width: 100%;">
+                            <p>@out0</p>
+                        </li>
+                    }
+
+                    if (index < 1)
+                    {
+                        <li style="height: 100%; border: 1px solid #ccc;">
+                            <p style="margin-top: 100px;">
+                                이벤트가 없습니다.
+                            </p>
+                        </li>
+
+                    }
+                }
+            </ul>
+        </article>
+
+    </div>
+</section>

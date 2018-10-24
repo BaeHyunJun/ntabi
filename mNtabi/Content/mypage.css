@@ -1,0 +1,599 @@
+﻿
+body{
+min-width:320px;
+max-width:768px;
+margin:0;
+}
+div#wrap{}
+div#wrap a{
+text-decoration:none;
+color:#161616;
+}
+div#wrap p{
+margin:0;
+}
+div#wrap ul{
+margin:0;
+padding:0;
+list-style:none;
+}
+div#wrap h3, div#wrap h4, div#wrap h5{
+margin:0
+}
+dl, dd{
+margin: 0;
+}
+    
+/*메뉴*/
+div#wrap section.menu{
+width: 100%;
+margin-top: 10px;
+margin-bottom: 20px;
+text-align: center;
+}
+div#wrap section.menu li{
+display: inline-block;
+margin: 0 5px;
+}
+div#wrap section.menu li a{
+display: block;
+font-size: 14px;
+text-align: center;
+color: #999;
+}
+div#wrap section.menu li.on a{
+color: #2a2a2a;
+}
+    
+/*예약상품목록*/
+div#wrap section.mybooking{
+width: 100%;
+margin-top: 20px;
+}
+div#wrap section.mybooking div.bookinglist{
+padding: 0;
+}
+div#wrap section.mybooking div.bookinglist li{
+height: 95px;
+margin: 5px 0;
+border: none;
+border-bottom: 1px solid #ddd;
+}
+div#wrap section.mybooking div.bookinglist li a{
+display: block;
+height: 100%;
+}
+div#wrap section.mybooking div.bookinglist li a h5{
+height: 38px;
+margin-bottom: 5px;
+font-weight: normal;
+font-size: 15px;
+overflow: hidden;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+}
+div#wrap section.mybooking div.bookinglist li a div.dateinfo{
+float: left;
+width: 35%;
+padding: 0;
+margin:0;
+}
+div#wrap section.mybooking div.bookinglist li a div.dateinfo dl{
+margin-bottom: 3px;
+font-size: 13px;
+}
+div#wrap section.mybooking div.bookinglist li a div.dateinfo dl:after{content: ""; display: block; clear: both;}
+div#wrap section.mybooking div.bookinglist li a div.dateinfo dl dt{
+float: left;
+margin-right: 10px;
+font-size: 12px;
+line-height: 15px;
+}
+div#wrap section.mybooking div.bookinglist li a div.dateinfo dl dd{
+float: left;
+font-size: 11px;
+line-height: 15px;
+}
+div#wrap section.mybooking div.bookinglist li a div.pdinfo{
+float: right;
+width: 65%;
+padding: 0;
+margin:0;
+}
+
+div#wrap section.mybooking div.bookinglist li a div.pdinfo p.status{
+display: none;
+
+float: left;
+font-size: 13px;
+}
+div#wrap section.mybooking div.bookinglist li a div.pdinfo h5{
+float: left;
+width: 25%;
+font-size: 13px;
+line-height: 32px;
+text-align: center;
+}
+div#wrap section.mybooking div.bookinglist li a div.pdinfo p.price{
+float: right;
+width:74%;
+text-align: right;
+font-size: 18px;
+line-height: 32px;
+}
+    
+/*페이지*/
+div#wrap div.paging{
+width: 100%;
+margin-top: 30px;
+text-align: center;
+}
+div#wrap div.paging ul li{
+display: inline-block;
+margin: 0 5px;
+}
+div#wrap div.paging ul li a{
+display: block;
+color: #999;
+}
+div#wrap div.paging ul li.on a{
+color: #2a2a2a;
+}
+
+
+
+/*예약결제내역보기*/
+
+body{
+min-width:320px;
+max-width:768px;
+margin:0;
+}
+div#wrap{}
+div#wrap a{
+text-decoration:none;
+color:#161616;
+}
+div#wrap p{
+margin:0;
+}
+div#wrap ul{
+margin:0;
+padding:0;
+list-style:none;
+}
+div#wrap h3, div#wrap h4, div#wrap h5{
+margin:0
+}
+dl, dd{
+margin: 0;
+}
+    
+/*타이틀*/
+div#wrap h4{
+font-size: 14px;
+font-weight: normal;
+margin: 10px 0 20px 10px;
+}
+    
+/*예약정보*/
+div#wrap section{
+width:100%;
+margin-top:50px;
+}
+div#wrap section.bookinginfo{
+margin-top: 0;
+}
+div#wrap section h3{
+position:relative;
+margin-left:10px;
+font-size:18px;
+letter-spacing:-0.5px;
+font-weight: normal;
+}
+div#wrap section h3:after{
+display:block;
+content:"";
+position:absolute;
+top:15px;
+right:0;
+height:2px;
+background-color:#eee;
+}
+div#wrap section.bookinginfo h3:after{
+width: 72%;
+}
+div#wrap section.bookingpersoninfo h3:after{
+width: 65%;
+}
+div#wrap section.payinfo h3:after{
+width: 72%;
+}
+div#wrap section div{
+padding:0 10px;
+margin-top: 10px;
+box-sizing: border-box;
+}
+div#wrap section.bookingpersoninfo p.howmany{
+padding: 3px 10px;
+text-align: right;
+font-size: 13px;
+}
+div#wrap section li{
+margin-top: 5px;
+}
+div#wrap section div.person01 p.subscriber{
+margin-bottom: 2px;
+background-color: #f1f1ee;
+border-radius: 2px;
+}
+div#wrap section div.person01 p.subscriber a{
+display:block;
+padding: 2px 20px;
+font-size: 12px;
+font-weight: 600;
+}
+div#wrap section div ul{}
+div#wrap section div ul >li{
+width:100%;
+height:100%;
+padding:7px 0;
+margin-bottom:10px;
+border: 1px solid #f3f3f3;
+}
+div#wrap section div ul >li.status, div#wrap section div ul >li.payall{
+border: 1px solid #a0ce54;
+}
+div#wrap section div ul li:after{content:""; display:block; clear:both;}
+div#wrap section div ul li h4{
+float:left;
+width:25%;
+margin:0;
+text-align:center;
+font-size:15px;
+letter-spacing:-0.5px;
+}
+div#wrap section div ul li p{
+float:left;
+width:75%;
+padding:0 5px;
+font-size:14px;
+border-left:1px solid #f3f3f3;
+box-sizing:border-box;
+}
+div#wrap section div ul li p span{
+display:inline-block;
+}
+div#wrap section.payinfo div li.howmany p{
+float: left;
+width: 23%;
+letter-spacing: -0.5px;
+border-left: 0;
+}
+div#wrap section.payinfo div li.howmany p:nth-child(2){
+border-left: 1px solid #f3f3f3;
+}
+    
+/*결제방법*/
+div#wrap section.pay{
+padding: 20px 0;
+text-align: center;
+border-top: 1px solid #a0ce54;
+border-bottom: 1px solid #a0ce54;
+box-sizing: border-box;
+}
+div#wrap section.pay h3{
+text-align: center;
+}
+div#wrap section.pay form{
+margin-top: 20px;
+}
+div#wrap section.pay form select{
+width: 60%;
+padding: 5px 10px;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+div#wrap section.pay form select option{}
+    
+/*결제금액입력*/
+div#wrap section.pay input{
+width: 60%;
+margin-top: 20px;
+padding: 5px 10px;
+text-align: center;
+border: 0;
+border-radius: 0;
+border-bottom: 1px solid #ddd;
+box-sizing: border-box;
+}
+    
+/*버튼*/
+div#wrap section.pay p.btn{
+margin-top: 10px;
+text-align: center;
+}
+div#wrap section.pay p.btn a{
+display: inline-block;
+width: 80%;
+margin-right: 10px;
+padding: 5px 0;
+border-radius: 4px;
+background-color: #a0ce54;
+color: white;
+font-size: 13px;
+}
+    
+/*결제내역*/
+div#wrap section.payrecord{}
+div#wrap section.payrecord h3:after{
+width: 75%;
+}
+div#wrap section.payrecord ul.record{
+height: 65px;
+padding: 0 10px;
+margin-top: 10px;
+border-bottom: 1px solid #eee;
+box-sizing: border-box;
+}
+div#wrap section.payrecord ul.record:after{display: block; clear: both; content: "";}
+div#wrap section.payrecord ul.record li{
+float: left;
+box-sizing: border-box;
+}
+div#wrap section.payrecord ul.record li:first-child{
+width: 45%;
+padding-left: 10px;
+}
+div#wrap section.payrecord ul.record li:nth-child(2){
+width: 55%;
+padding-right: 10px;
+text-align: right;
+}
+div#wrap section.payrecord ul.record li:first-child p:first-child{
+margin-bottom: 10px;
+font-size: 12px;
+}
+div#wrap section.payrecord ul.record li:nth-child(2) p{
+margin: 2px 0;
+font-size: 13px;
+}
+div#wrap section.payrecord div.totalsum{}
+div#wrap section.payrecord div.totalsum li{
+background-color: #e9e9e9;
+border: 0;
+}
+div#wrap section.payrecord div.totalsum li h4{
+font-size: 14px;
+letter-spacing: -1px;
+}
+div#wrap section.payrecord div.totalsum li p{
+text-align: right;
+padding-right: 10px;
+}
+
+
+/*내가쓴글*/
+div#wrap section.mywrite{
+margin-top: 20px;
+}
+div#wrap section.mywrite li{
+margin-bottom: 5px;
+border-radius: 0;
+box-shadow: none;
+}
+div#wrap section.mywrite li div.panel-heading{
+margin: 0;
+padding: 0;
+border: none;
+}
+div#wrap section.mywrite li div.panel-heading h4{
+margin: 0;
+}
+div#wrap section.mywrite li div.panel-heading h4 a{
+padding: 5px;
+overflow: hidden;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+}
+div#wrap section.mywrite li div.panel-collapse{
+margin: 0;
+}
+div#wrap section.mywrite li:after{content: ""; display: block; clear: both;}
+div#wrap section.mywrite li p{
+margin-top: 10px;
+}
+div#wrap section.mywrite li p.review{
+float: left;
+padding-left: 10px;
+font-size: 12px;
+line-height: 17px;
+letter-spacing: -0.5px;
+color: cornflowerblue;
+}
+div#wrap section.mywrite li p.qna{
+float: left;
+padding-left: 10px;
+font-size: 12px;
+line-height: 17px;
+letter-spacing: -0.5px;
+color: deeppink;
+}
+div#wrap section.mywrite li p.customer{
+float: left;
+padding-left: 10px;
+font-size: 12px;
+line-height: 17px;
+letter-spacing: -0.5px;
+color: coral;
+}
+div#wrap section.mywrite li p.date{
+float: right;
+padding-right: 10px;
+font-size: 13px;
+line-height: 13px;
+text-align: right;
+color: #999;
+}
+
+
+/*정보수정*/
+div#wrap section.memberinfo{
+margin-top: 20px;
+}
+div#wrap section.memberinfo h3{}
+div#wrap section.memberinfo h3:after{
+width: 73%;
+}
+div#wrap section.memberinfo div.member{
+padding: 0;
+}
+div#wrap section.memberinfo div.member li{
+position: relative;
+margin-bottom: 10px;
+padding: 0;
+height: 31px;
+line-height: 30px;
+border-bottom: 1px solid #eee;
+box-sizing: border-box;
+}
+div#wrap section.memberinfo div.member li p{
+float: left;
+width: 30%;
+font-size: 15px;
+text-align: center;
+border-right: 1px solid #eee;
+border-left: none;
+box-sizing: border-box;
+}
+div#wrap section.memberinfo div.member li:nth-child(1) p:nth-child(2),
+div#wrap section.memberinfo div.member li:nth-child(5) p:nth-child(2){
+width: 70%;
+padding-left: 10px;
+text-align: left;
+font-size: 14px;
+border: none;
+}
+div#wrap section.memberinfo div.member li:nth-child(4) p{
+letter-spacing: -1px;
+}
+div#wrap section.memberinfo div.member ul li:after{display: none;}
+div#wrap section.memberinfo div.member li p:after{display: none;}
+div#wrap section.memberinfo div.member li input{
+float: left;
+width: 70%;
+height: 100%;
+padding: 0;
+padding-left: 10px;
+font-size: 12px;
+border: none;
+border-radius: 0;
+box-shadow: none;
+}
+div#wrap section.selectmemberinfo{
+margin-top: 30px;
+}
+div#wrap section.selectmemberinfo h3{}
+div#wrap section.selectmemberinfo h3:after{
+width: 63%;
+}
+div#wrap section.selectmemberinfo div.member{
+padding: 0;
+}
+div#wrap section.selectmemberinfo div.member li{
+position: relative;
+margin-bottom: 10px;
+padding: 0;
+height: 31px;
+line-height: 30px;
+border-bottom: 1px solid #eee;
+box-sizing: border-box;
+}
+div#wrap section.selectmemberinfo div.member li p{
+float: left;
+width: 30%;
+font-size: 15px;
+text-align: center;
+border-right: 1px solid #eee;
+border-left: none;
+box-sizing: border-box;
+}
+div#wrap section.selectmemberinfo div.member li input{
+float: left;
+width: 70%;
+height: 100%;
+padding: 0;
+padding-left: 10px;
+font-size: 12px;
+border: none;
+border-radius: 0;
+box-shadow: none;
+}
+div#wrap section.selectmemberinfo div.member li label{
+padding:0;
+padding-left: 10px;
+font-size: 12px;
+}
+div#wrap section.selectmemberinfo div ul li:after{display: none;}
+div#wrap section.selectmemberinfo div.member li div.sex{
+float: left;
+width: 70%;
+margin: 0;
+}
+div#wrap section.selectmemberinfo div.member li div.sex p{
+float: left;
+width: 41%;
+padding: 0;
+border: 0;
+text-align: left;
+font-size: 14px;
+line-height: 30px;
+}
+div#wrap section.selectmemberinfo div.member li div.sex p input{
+width: 12px;
+height: 23px;
+margin-right: 5px;
+}
+
+div#wrap section.selectmemberinfo div.member li:nth-child(6) div.agreecheck{
+float: left;
+width: 70%;
+height: 100%;
+margin: 0;
+padding: 0;
+padding-left: 10px;
+}
+div#wrap section.selectmemberinfo div.member li:nth-child(6) div.agreecheck p{
+width: 39%;
+margin: 0;
+padding: 0;
+border: 0;
+font-size: 12px;
+text-align: left;
+}
+div#wrap section.selectmemberinfo div.member li:nth-child(6) div.agreecheck p input{
+float: inherit;
+width: 12px;
+height: 30px;
+padding: 0;
+margin: 0;
+margin-right: 4px;
+}
+
+/*버튼*/
+div#wrap p.btn{
+display: inherit;
+margin: 0 60px;
+text-align: center;
+}
+div#wrap p.btn a{
+display: inline-block;
+width: 100%;
+font-size: 13px;
+line-height: 25px;
+color: white;
+border-radius: 4px;
+background-color: #a0ce54;
+}

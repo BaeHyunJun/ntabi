@@ -1,0 +1,128 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="Viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <title>엔데이트립 가이드 스케쥴러</title>
+
+    @Styles.Render("~/Content/css")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.css" />
+
+    <script src="~/Scripts/lib/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/locale-all.js"></script>
+
+    <style>
+        html, body {
+            padding: 0;
+            background: white;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            max-width: 450px;
+            position: relative;
+            min-width: auto;
+            min-height: auto;
+            margin: 0 auto;
+        }
+
+        section.Gcontainer > div.navbar-header
+        {
+            margin: 0;
+        }
+        
+        section.Gcontainer > article
+        {
+            padding-top: 50px;
+        }
+        
+        section.Gcontainer > article > ul
+        {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            font-size: 0;
+            position: relative;
+        }
+        
+        section.Gcontainer > article > ul > li
+        {
+            font-size: 16px;
+        }
+        
+        section.Gcontainer > article > ul > li > h3
+        {
+            padding: 20px 20px 0px;
+            margin: 0;
+        }
+        
+        section.Gcontainer > article > ul > li > h4
+        {
+            margin: 0;
+            padding: 6px 20px;
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        
+        section.Gcontainer > article > ul > li > p
+        {
+            padding: 20px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="Gcontainer">
+        <div class="navbar-header navbar navbar-default navbar-fixed-top">
+            <button type="button" class="btn btn-default pull-right" style="background-color: transparent; border: 1px solid black; margin: 8px;">
+                <i class="glyphicon glyphicon-cog"></i>
+            </button>
+
+            <a class="navbar-brand" href="/Guide">Guide</a>
+        </div>
+        <article>
+            <ul>
+                <li>
+                    <h3 class="title">비에이 & 후라노</h3>
+                    <p class="date">2017.10.16</p>
+                </li>
+                <li>
+                    <h4>운전기사</h4>
+                    <p class="driver">백인철</p>
+                </li>
+                <li>
+                    <h4>차량</h4>
+                    <p class="car">대형 버스(-)</p>
+                </li>
+                <li>
+                    <h4>인원</h4>
+                    <span class="glyphicon glyphicon-chevron-right pull-right" style="padding: 18px; font-size: 20px;"></span>
+                    <p class="cnt">2명</p>
+                </li>
+                <li>
+                    <h4>특이사항</h4>
+                    <p class="note">
+                        차량번호 4919<br />
+                        기사 전화번호 010.123.4567
+                    </p>
+                </li>
+            </ul>
+        </article>
+    </section>
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+﻿@using mNtabi.Models;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var type = Request["type"];
+
+    if (string.IsNullOrEmpty(type))
+    {
+        type = "notice";
+    }
+
+    string addClass = "class=on";
+
+    var user = Session["user"] as User;
+
+    string typeTxt = "";
+
+    switch (type)
+    {
+        case "notice":
+            typeTxt = "공지사항";
+            break;
+        case "qna":
+            typeTxt = "질문과 답변";
+            break;
+        case "review":
+            typeTxt = "고객리뷰";
+            break;
+        case "customer":
+            typeTxt = "맞춤여행문의";
+            break;
+    }
+}
+
+<section class="board @type">
+    <div class="listsHeader">
+        <ul>
+            <li @if (type == "notice") { @addClass       }>
+                <a href="/Community/Lists?type=notice">공지사항</a>
+            </li>
+            <li @if (type == "qna") { @addClass       }>
+                <a href="/Community/Lists?type=qna">질문과 답변</a>
+            </li>
+            <li @if (type == "review") { @addClass       }>
+                <a href="/Community/Lists?type=review">고객리뷰</a>
+            </li>
+            <li @if (type == "customer") { @addClass        }>
+                <a href="/Community/Lists?type=customer">맞춤여행문의</a>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <ul class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+            @{
+
+                string title = "",
+                       ist_date = "",
+                       author = "",
+                       className = "",
+                       category = "",
+                       catText = "",
+                       starPoint = "",
+                       pdt_title = "",
+                       post_key = "",
+                       rCont = "",
+                       content = "",
+                       post_state = "";
+
+                int count = 0,
+                    pageNum = 1,
+                    maxPage = 1,
+                    boardNum = 0;
+
+                try { count = ViewBag.Cnt; }
+                catch { }
+                try { pageNum = ViewBag.pageNum; }
+                catch { }
+
+                decimal a = count / 10;
+
+                maxPage = count / 10;
+
+                boardNum = count - ((pageNum - 1) * 10);
+                
+                string cuyy = "",
+                       cuseq = "";
+
+                foreach (object item in Model)
+                {
+                    title = "";
+                    ist_date = "";
+                    author = "";
+                    category = "";
+                    catText = "";
+                    starPoint = "";
+                    pdt_title = "";
+                    post_key = "";
+                    rCont = "";
+                    content = "";
+                    post_state = "";
+
+                    cuyy = "";
+                    cuseq = "";
+
+                    try { post_key = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { ist_date = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { post_state = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { author = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { cuyy = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { cuseq = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { starPoint = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { category = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { rCont = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { content = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+                    catch { }
+
+                    switch (category)
+                    {
+                        case "notice":
+                            catText = "<공지사항>";
+                            break;
+                        case "air":
+                            catText = "<항공>";
+                            break;
+                        case "ship":
+                            catText = "<선박>";
+                            break;
+                        case "event":
+                            catText = "<특가/이벤트>";
+                            break;
+                        case "local":
+                            catText = "<현지소식>";
+                            break;
+
+                        case "JP":
+                            catText = "일본";
+                            break;
+                        case "TW":
+                            catText = "대만";
+                            break;
+                        case "VE":
+                            catText = "베트남";
+                            break;
+                        case "PH":
+                            catText = "필리핀";
+                            break;
+                        case "HAW":
+                            catText = "하와이";
+                            break;
+                        case "GSA":
+                            catText = "괌/사이판";
+                            break;
+
+                        case "AIR":
+                            catText = "항공";
+                            break;
+                        case "SHP":
+                            catText = "선박";
+                            break;
+                        case "PAC":
+                            catText = "패키지";
+                            break;
+                        case "LOC":
+                            catText = "현지투어";
+                            break;
+                        default:
+                            catText = "기타";
+                            break;
+
+                    }
+
+                    switch (starPoint)
+                    {
+                        case "5":
+                            starPoint = "★★★★★";
+                            break;
+                        case "4":
+                            starPoint = "★★★★";
+                            break;
+                        case "3":
+                            starPoint = "★★★";
+                            break;
+                        case "2":
+                            starPoint = "★★";
+                            break;
+                        case "1":
+                            starPoint = "★";
+                            break;
+                    }
+
+
+
+                    <li class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@boardNum" aria-expanded="true" aria-controls="@boardNum">
+                                    <span class="@category">@catText </span>
+                                    @title
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="@boardNum" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                                @if (type == "customer")
+                                {
+                                <div class="selectcustomer">
+                                    <ul class="tripInfo">
+                                        <li>
+                                            <p>출발지</p>
+                                            <p>부산</p>
+                                        </li>
+                                        <li>
+                                            <p>목적지</p>
+                                            <p>일본</p>
+                                        </li>
+                                        <li>
+                                            <p>이용편</p>
+                                            <p>항공</p>
+                                        </li>
+                                        <li>
+                                            <p>출발일</p>
+                                            <p>2018-09-20</p>
+                                        </li>
+                                    </ul>
+                                    <p class="peoplenum">성인 1명 | 소아 0명 | 유아 0명</p>
+                                </div>
+                                }
+
+                                @if (post_state != "Y" || (user != null && ("ASPN15TRGT" + cuyy + cuseq).Equals(user.Login)))
+                                {
+                                    @MvcHtmlString.Create(content)
+                                }
+                                else
+                                {
+                                    <span>해당 글은 비밀글 입니다.</span>
+                                }
+                            </div>
+                        </div>
+                        
+                        @if (post_state == "Y")
+                        {
+                        <p class="lock"></p>
+                        }
+                        <p class="date">@ist_date</p>
+                        <p class="writer">@author</p>
+                        @*@if (type == "qna")
+                        {
+                            <p class="state">확인중</p>
+                            <div class="reply">
+                                <textarea name="reply" placeholder="답변달기"></textarea>
+                                <p class="btn"><a href="#">등록</a></p>
+                            </div>
+                        }*@
+                    </li>
+
+                        boardNum--;
+                }
+
+                if (count < 1)
+                {
+                    <li colspan="6" style="height: 300px;">
+                        글이 없습니다.
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+
+    @if ((type == "qna" || type == "customer") && user != null)
+    {
+        <p class="write"><a href="/Community/Write?type=@type"> 글쓰기 </a></p>
+    }
+
+    <div class="paging">
+        <ul>
+            @{
+                int curBlock = 1,
+                    maxBlock = 10;
+                
+                if (count % 10 > 0)
+                {
+                    maxPage++;
+                }
+                
+                int aaaaa = (maxBlock * curBlock) < maxPage ?(maxBlock * curBlock) : maxPage;
+
+                if (pageNum > 1)
+                {
+                    <li class="prev_btn"><a href="?type=@type&idx=@(pageNum-1)"><span><</span></a></li>
+               } 
+
+                for (var i = 0 * curBlock; i < aaaaa; i++)
+                {
+                    if (i + 1 == pageNum)
+                    {
+                        className = "class=on";
+                    }
+                    else
+                    {
+                        className = "";
+                    }
+
+                    <li><a href="?type=@type&idx=@(i+1)" @className><span>@(i + 1)</span></a></li>
+                }
+
+                if (pageNum < maxPage)
+                {
+                    <li class="next_btn"><a href="?type=@type&idx=@(pageNum+1)"><span>></span></a></li>
+                }
+            }
+        </ul>
+    </div>
+</section>
+
+
+<script>
+    $('.collapse').on('show.bs.collapse', function () {
+        var _this = $(this);
+
+        _this.prev().find("a").css("-webkit-line-clamp", "initial");
+    })
+
+    $('.collapse').on('hidden.bs.collapse', function () {
+        var _this = $(this);
+
+        _this.prev().find("a").css("-webkit-line-clamp", "2");
+    })
+</script>

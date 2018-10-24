@@ -1,0 +1,1399 @@
+﻿@using Ntabi.Models;
+@using System.Globalization;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var user = Session["user"] as User;
+
+    string nation = Request["N"],
+           area = Request["A"],
+           type = Request["T"],
+           ssss = Request["S"],
+           areaTxt = "",
+           typeTxt = "";
+
+    string noneClass = "none";
+
+    string pdtKey = "",
+           pdtCode = "",
+           pdtTitle = "",
+           pdtContent = "",
+           pdtFeature = "",
+           pdtPrice = "",
+           pdtDasys = "",
+           pdtOptions = "",
+           pdtTraff = "",
+           pdtSCity = "",
+           pdtSTime = "",
+           pdtECity = "",
+           pdtETime = "",
+
+           pdtDasysTxt = "",
+
+           inTraff = "",
+
+           Chat_Title = "실시간 최저가 항공권 문의 채팅창입니다. 문의사항을 입력해주세요.",
+
+           userKey = user == null ? "" : user.Login,
+           nickName = user == null ? "" : user.Name;
+
+    switch (area)
+    {
+        case "OSA":
+            areaTxt = "오사카";
+            break;
+        case "FUK":
+            areaTxt = "규슈";
+            break;
+        case "TYO":
+            areaTxt = "동경";
+            break;
+        case "OKA":
+            areaTxt = "오키나와";
+            break;
+        case "CTS":
+            areaTxt = "홋카이도";
+            break;
+        case "TSM":
+            areaTxt = "대마도";
+            break;
+        case "ETC":
+            areaTxt = "기타지역";
+            break;
+        case "HKG":
+            areaTxt = "홍콩";
+            break;
+        case "TPE":
+            areaTxt = "대만";
+            break;
+        case "SEA":
+            areaTxt = "동남아";
+            break;
+        case "HNL":
+            areaTxt = "하와이";
+            break;
+        case "GUM":
+            areaTxt = "괌/사이판";
+            break;
+        default:
+            areaTxt = "NTABI";
+            break;
+    }
+
+    switch (type)
+    {
+        case "P":
+            typeTxt = "패키지 여행";
+            break;
+        case "F":
+            typeTxt = "자유 여행";
+            break;
+        case "A":
+            typeTxt = "항공 자유 여행";
+            inTraff = "기내";
+            break;
+        case "S":
+            typeTxt = "선박 자유 여행";
+            inTraff = "선내";
+            Chat_Title = "실시간 최저가 승선권 문의 채팅창입니다. 문의사항을 입력해주세요.";
+            break;
+        case "L":
+            typeTxt = "현지투어";
+            break;
+        default:
+            typeTxt = "상품 모음";
+            break;
+    }
+}
+
+<style>
+    section.pdtLists {
+        position: relative;
+    }
+
+        section.pdtLists div.pdtCat {
+            width: 100%;
+            height: 40px;
+            margin-top: 50px;
+            text-align: center;
+            line-height: 40px;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        section.pdtLists div.pdtCat.air {
+            background-color: #f1f8ff;
+            color: #333b42;
+        }
+
+        section.pdtLists div.pdtCat.ship {
+            background-color: #fffaf1;
+            color: #423c33;
+        }
+
+        section.pdtLists > ul {
+            margin-top: 2px;
+        }
+
+        section.pdtLists > ul > li > a > div.pdt {
+            position: relative;
+        }
+
+            section.pdtLists > ul > li > a > div.pdt span.box {
+                display: inline-block;
+                padding: 2px 5px;
+                color: white;
+                margin: 5px;
+            }
+
+                section.pdtLists > ul > li > a > div.pdt span.box.trf {
+                    background-color: #22be4e;
+                    margin-left: 0;
+                }
+
+                section.pdtLists > ul > li > a > div.pdt span.box.sCity {
+                    background-color: #1f26b6;
+                }
+
+                section.pdtLists > ul > li > a > div.pdt span.box.options {
+                    font-size: 14px;
+                    position: absolute;
+                    background-color: white;
+                    left: 5px;
+                    top: 0;
+                    color: black;
+                }
+
+                section.pdtLists > ul > li > a > div.pdt span.box:first-child {
+                    margin-left: 0;
+                }
+
+    @* div#container > article > section.pdtSelect {
+        margin: 15px auto;
+    }
+
+    div#container > article > section.pdtSelect select {
+        float: right;
+        width: 12%;
+        padding: 3px 10px;
+        letter-spacing: -0.5px;
+        border: 2px solid #2571e2;
+        border-radius: 5px;
+        transition-duration: 0.3s;
+    }
+
+    *@ section.pdtLists div.select {
+        position: absolute;
+        top: 5px;
+        right: 19%;
+    }
+
+    section.pdtLists div.select ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    section.pdtLists div.select li {
+        float: left;
+        margin: 0 2px;
+        border-radius: 15px;
+        border: 1px solid #555;
+        text-align: center;
+        line-height: 13px;
+    }
+
+        section.pdtLists div.select li a {
+            display: block;
+            padding: 5px 8px;
+            text-decoration: none;
+            color: #2a2a2a;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        section.pdtLists div.select li.click.all {
+            background-color: #a0ce54;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.PK {
+            background-color: #0c4f9d;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.CA {
+            background-color: #cf1753;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.BE {
+            background-color: #1b1b1b;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.KE {
+            background-color: #cb0501;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.BX {
+            background-color: #3272df;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.LJ {
+            background-color: #cae70e;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.JL {
+            background-color: #d51096;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.j7C {
+            background-color: #fd7802;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.PA {
+            background-color: #fd4a22;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.NN {
+            background-color: #26b1b6;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.OF {
+            background-color: #000898;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click.KB {
+            background-color: #2d55c8;
+            border-color: #eee;
+        }
+
+        section.pdtLists div.select li.click a {
+            color: white;
+        }
+
+    ul,
+    ul li {
+        list-style: none;
+    }
+
+
+    div#container > article > section.pdtSelect.none {
+        display: none;
+    }
+
+    section.sideMenu li.on h5 {
+        color: #fb5438;
+    }
+</style>
+
+<section class="sideMenu">
+    @Html.Partial("_SubMenu")
+</section>
+
+
+<section class="pdtSelect @{ if (areaTxt != "오사카" && areaTxt != "규슈" && typeTxt != "현지투어") { @noneClass } }">
+    <h4 class="sr-only sr-only-focusable">상품 조건</h4>
+
+
+
+    @*<select class="trfSelect">
+            <option value="0">선박별로 보기</option>
+            @if (areaTxt == "오사카")
+            {
+                switch (typeTxt)
+                {
+                    case "패키지 여행":
+                        <option value="KE">대한항공</option>
+                        <option value="BX">에어부산</option>
+                        <option value="LJ">진에어</option>
+                        <option value="7C">제주항공</option>
+                        <option value="PA">팬스타</option>
+                        break;
+                    case "항공 자유 여행":
+                        <option value="KE">대한항공</option>
+                        <option value="BX">에어부산</option>
+                        <option value="LJ">진에어</option>
+                        <option value="7C">제주항공</option>
+                        break;
+                    case "선박 자유 여행":
+                        <option value="PA">팬스타</option>
+                        break;
+                }
+            }
+            else if (areaTxt == "규슈")
+            {
+                switch (typeTxt)
+                {
+                    case "패키지 여행":
+                        <option value="KE">대한항공</option>
+                        <option value="BX">에어부산</option>
+                        <option value="LJ">진에어</option>
+                        <option value="7C">제주항공</option>
+                        <option value="PK">부관훼리</option>
+                        <option value="CA">카멜리아</option>
+                        <option value="BE">비틀</option>
+                        break;
+                    case "항공 자유 여행":
+                        <option value="KE">대한항공</option>
+                        <option value="BX">에어부산</option>
+                        <option value="LJ">진에어</option>
+                        <option value="7C">제주항공</option>
+                        break;
+                    case "선박 자유 여행":
+                        <option value="PK">부관훼리</option>
+                        <option value="CA">카멜리아</option>
+                        <option value="BE">비틀</option>
+                        break;
+                }
+            }
+
+            @{
+                string tempText = "";
+
+                foreach(object item in ViewBag.trfDatas)
+                {
+                    tempText = "";
+
+                    try { tempText = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+
+                    <option>@tempText</option>
+                }
+            }
+        </select>*@
+
+
+    @*<select>
+            <option value="0">출발지 선택</option>
+
+            @foreach(object item in ViewBag.sCityDatas)
+            {
+                tempText = "";
+
+                try { tempText = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+
+                <option>@tempText</option>
+            }
+        </select>*@
+</section>
+
+<section class="pdtLists">
+    <h3 class="sr-only sr-only-focusable">@areaTxt > @typeTxt</h3>
+
+
+    @*<!--셀렉트(부관/카멜/비틀)-->
+        <div class="select">
+            <ul>
+                <li class="all click"><a href="#">전체보기</a></li>
+                <li class="pukuan"><a href="#">부관훼리</a></li>
+                <li class="camel"><a href="#">카멜리아</a></li>
+                <li class="bittle"><a href="#">비틀</a></li>
+            </ul>
+        </div><!--.select-->*@
+
+    @*<div class="select">
+            <ul>
+                <li class="all click"><a href="#">전체보기</a></li>
+                @if (areaTxt == "오사카")
+                {
+                    switch (typeTxt)
+                    {
+                        case "패키지 여행":
+                            <li class="KE"><a href="#">대한항공</a></li>
+                            <li class="BX"><a href="#">에어부산</a></li>
+                            <li class="LJ"><a href="#">진에어</a></li>
+                            <li class="j7C"><a href="#">제주항공</a></li>
+                            <li class="PA"><a href="#">팬스타</a></li>
+                            break;
+                        case "항공 자유 여행":
+                        <li class="KE"><a href="#">대한항공</a></li>
+                        <li class="BX"><a href="#">에어부산</a></li>
+                        <li class="LJ"><a href="#">진에어</a></li>
+                        <li class="j7C"><a href="#">제주항공</a></li>
+                            break;
+                        case "선박 자유 여행":
+                        <li class="PA"><a href="#">팬스타</a></li>
+                            break;
+                    }
+                }
+                else if (areaTxt == "규슈")
+                {
+                    switch (typeTxt)
+                    {
+                        case "패키지 여행":
+                            <li class="KE"><a href="#">대한항공</a></li>
+                            <li class="BX"><a href="#">에어부산</a></li>
+                            <li class="LJ"><a href="#">진에어</a></li>
+                            <li class="j7C"><a href="#">제주항공</a></li>
+                            <li class="PK"><a href="#">부관훼리</a></li>
+                            <li class="CA"><a href="#">카멜리아</a></li>
+                            <li class="BE"><a href="#">비틀</a></li>
+                            break;
+                        case "항공 자유 여행":
+                        <li class="KE"><a href="#">대한항공</a></li>
+                        <li class="BX"><a href="#">에어부산</a></li>
+                        <li class="LJ"><a href="#">진에어</a></li>
+                        <li class="j7C"><a href="#">제주항공</a></li>
+                            break;
+                        case "선박 자유 여행":
+                        <li class="PK"><a href="#">부관훼리</a></li>
+                        <li class="CA"><a href="#">카멜리아</a></li>
+                        <li class="BE"><a href="#">비틀</a></li>
+                            break;
+                    }
+                }
+                else if (areaTxt == "동경")
+                {
+                    <li class="KE"><a href="#">대한항공</a></li>
+                    <li class="JL"><a href="#">일본항공</a></li>
+                    <li class="LJ"><a href="#">진에어</a></li>
+                }
+                else if (areaTxt == "대마도")
+                {
+                    <li class="NN"><a href="#">니나</a></li>
+                    <li class="OF"><a href="#">오션플라워</a></li>
+                    <li class="KB"><a href="#">코비</a></li>
+                    <li class="BE"><a href="#">비틀</a></li>
+                }
+            </ul>
+        </div>
+
+        <script>
+            $("div.select > ul > li > a").on("click", function () {
+                var _this = $(this),
+                    parent = _this.parents("li");
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Products/JSON_getPdtLists",
+                    data: { N: "@nation", A: "@area", T: "@type", trf: parent.attr("class") },
+                    success: function (data) {
+
+                        var html = "";
+
+                        for (i in data) {
+                            var code = data[i].CORP_CODE + data[i].PDT_TYPE_CODE + data[i].PDT_IST_EMP_NO + data[i].PDT_YY + data[i].PDT_SEQ;
+                            var key = data[i].PDT_IST_EMP_NO;
+                            var pdtOptions = "";
+
+                            switch (data[i].PDT_OPTIONS) {
+                                case "best":
+                                    pdtOptions = "베스트 상품";
+                                    break;
+                                case "vari":
+                                    pdtOptions = "버라이어티 팩";
+                                    break;
+                                case "airf":
+                                    pdtOptions = "에어 프리 팩";
+                                    break;
+                                default:
+                                    pdtOptions = "";
+                                    break;
+                            }
+
+                            switch (data[i].PDT_DAYS_CODE.substring(2)) {
+                                case "01":
+                                    pdtDasysTxt = "당일치기";
+                                    break;
+                                case "02":
+                                    pdtDasysTxt = "1박 2일";
+                                    break;
+                                case "03":
+                                    pdtDasysTxt = "2박 3일";
+                                    break;
+                                case "04":
+                                    pdtDasysTxt = "3박 4일";
+                                    break;
+                                case "05":
+                                    pdtDasysTxt = "4박 5일";
+                                    break;
+                                case "06":
+                                    pdtDasysTxt = "5박 6일";
+                                    break;
+                                case "07":
+                                    pdtDasysTxt = "6박 7일";
+                                    break;
+                                case "08":
+                                    pdtDasysTxt = "7박 8일";
+                                    break;
+                                case "09":
+                                    pdtDasysTxt = "8박 9일";
+                                    break;
+                                case "10":
+                                    pdtDasysTxt = "9박 10일";
+                                    break;
+                            }
+
+                            html += "<li>" +
+                                        "<a href='./Views?C=" + code + "&K=" + key + "'>" +
+                                            "<div class='pdt'>";
+
+                            if (pdtOptions != "") {
+                                html += "<span class='box options'>" + pdtOptions + "</span>";
+                            }
+
+                            html += "<img src='" + data[i].PDT_IMG + "' alt='" + data[i].PDT_TITLE + "' />" +
+                                                "<div>" +
+                                                    "<div class='pdtInfo'>" +
+                                                        "<span class='code'>" + code + "</span>" +
+                                                        "<h4 class='title'>" + data[i].PDT_TITLE + "</h4>" +
+                                                        "<span class='remark'>" + data[i].PDT_CONTENT + "</span>" +
+                                                        "<p>" + pdtDasysTxt + " | " + data[i].DATE + "<br />" +
+                                                            data[i].TRF_SAREA + " " + data[i].TRF_STIME + " ~ " + data[i].TRF_EAREA + " " + data[i].TRF_ETIME + "<br />" +
+                                                            "<span class='box sCity'>출발지 : " + data[i].TRF_SAREA + "</span>" +
+                                                            "<span class='box trf'>" + data[i].TRF_TITLE + "</span>" +
+                                                        "</p>" +
+                                                    "</div>" +
+                                                    //"<div class='priceInfo'> <span>1인</span> " + data[i].minPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원 ~ </div>" +
+                                                    "<div class='priceInfo'><span style='font-size: 20px;'>1인</span> " + data[i].minPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " <span style='font-size: 20px;'>원 ~</span></div>" +
+                                                "</div>" +
+                                            "</div>" +
+                                        "</a>" +
+                                    "</li>"
+                        }
+
+                        $("section.pdtLists > ul").html(html);
+
+                    }
+                    , beforeSend: function () {
+                        $('#pdtLoading').show();
+                    }
+                    , complete: function () {
+                        $('#pdtLoading').hide();
+
+                        if (parent.hasClass("click")) {
+                            parent.removeClass("click").siblings(".all").addClass("click");
+                        }
+                        else {
+                            parent.addClass("click").siblings().removeClass("click");
+                        }
+                    }
+                });
+            });
+        </script>*@
+
+
+
+    @if (type != "P" && type != "L")
+    {
+        <style>
+            div.message_List {
+                width: 100%;
+                height: 400px;
+                background: #E8EDF3;
+                margin: 0px auto;
+                padding: 20px;
+                overflow: auto;
+            }
+
+                div.message_List > hr {
+                    border-color: #aaa;
+                }
+
+                div.message_List div.notice {
+                    text-align: left;
+                }
+
+                    div.message_List div.notice > ul {
+                        border-bottom: 1px solid #aaa;
+                        padding: 0 0 10px;
+                        font-size: 0;
+                        list-style: none;
+                    }
+
+                        div.message_List div.notice > ul > li {
+                            font-size: 12px;
+                        }
+
+                div.message_List div.message_Box {
+                    overflow: hidden;
+                }
+
+                    div.message_List div.message_Box div.imgBox {
+                        width: 6%;
+                        float: left;
+                        visibility: hidden;
+                    }
+
+                    div.message_List div.message_Box.first div.imgBox {
+                        visibility: visible;
+                    }
+
+                    div.message_List div.message_Box div.imgBox > img {
+                        width: 100%;
+                    }
+
+                    div.message_List div.message_Box span.user_Name {
+                        float: left;
+                        margin-left: 2%;
+                        font-size: 13px;
+                        width: 92%;
+                        text-align: left;
+                        display: none;
+                    }
+
+                    div.message_List div.message_Box.first {
+                        margin-top: 20px;
+                    }
+
+                        div.message_List div.message_Box.first span.user_Name {
+                            display: block;
+                        }
+
+                    div.message_List div.message_Box div.message_Text {
+                        background: white;
+                        padding: 10px;
+                        text-align: left;
+                        max-width: 450px;
+                        float: left;
+                        margin-top: 5px;
+                        border-radius: 10px;
+                        position: relative;
+                        margin-left: 2%;
+                    }
+
+                    div.message_List div.message_Box.first div.message_Text span.arrow {
+                        width: 15px;
+                        height: 10px;
+                        display: block;
+                        position: absolute;
+                        left: -5px;
+                        top: 0;
+                        background: white;
+                        border-radius: 2px 0 0 8px;
+                    }
+
+                    div.message_List div.message_Box div.message_Text p {
+                        margin: 0;
+                    }
+
+                    div.message_List div.message_Box div.message_Text div.message_Date {
+                        position: absolute;
+                        bottom: 0;
+                        right: -95px;
+                        font-size: 12px;
+                        color: #777;
+                        display: none;
+                    }
+
+                    div.message_List div.message_Box.last div.message_Text div.message_Date {
+                        display: block;
+                    }
+
+                    div.message_List div.message_Box.user div.imgBox,
+                    div.message_List div.message_Box.user span.user_Name {
+                        display: none;
+                    }
+
+                    div.message_List div.message_Box.user div.message_Text {
+                        float: right;
+                        background: #c7f779;
+                        margin-right: 5px;
+                    }
+
+                        div.message_List div.message_Box.user div.message_Text span.arrow {
+                            left: auto;
+                            right: -5px;
+                            border-radius: 0 2px 8px 0;
+                            background: #c7f779;
+                        }
+
+                        div.message_List div.message_Box.user div.message_Text div.message_Date {
+                            right: auto;
+                            left: -95px;
+                        }
+        </style>
+
+        <div style="display: none; max-width: 1200px; margin: 0 auto; font-size: 15px; text-align: right;">
+            <div class="inquery_View">
+
+                <div class="title" style="background-image: url(/Content/Images/Products/lists/banner_Ntalk.jpg);
+		background-repeat: no-repeat; whith:1200px; height:70px; position:relative;">
+
+                    <span class="titletext" style="text-align:left; font-size:30px; color:#fff; font-weight:bold;
+		    display:inline; position:absolute; left:130px; top:15px; text-indent: -9999px; ">
+                        실시간 최저가 항공 · 선박권 상담 : N Talk
+                    </span>
+                    <a href="#" class="Close" style="position:absolute; top:30px; right:10px;
+		    padding: 1px 5px; border: 1px solid white; border-radius: 14px; color:#fff; ">
+                        접기
+                    </a>
+                    <a href="#" class="Open" style="position:absolute; top:30px; right:10px;
+		    padding: 1px 5px; border: 1px solid white; border-radius: 14px; color:white; display:none;">
+                        펼치기
+                    </a>
+
+                </div>
+
+                <div class="message_List" style="background-image: url(/Content/Images/Products/lists/bg_chat_logo.png);
+		background-repeat: no-repeat; background-position: 50% 50%; background-size: 20%;">
+                    <div class="notice">
+                        <ul style="display:none;">
+                            <li>
+                                문의 전 확인해주세요! <a class="btn">→</a>
+                            </li>
+                        </ul>
+                        <ul class="list">
+                            <li>
+                                *문의에 대한 응대는 영업일 월~금 09:00~18:00 (점심시간 12:00~13:00 제외)에 진행되며 이 외의 문의는 이후 영업일에 답변될 수 있습니다.
+                            </li>
+                            <li>
+                                * 해당 실시간 채팅 문의창은 선박권,항공권 조회, 예약 전용 1:1 채팅창입니다.
+                            </li>
+                            <li>
+                                * 한국출발 국제선 항공권만 대응 가능하며 일본 외 전세계 항공권도 가능합니다.
+                            </li>
+                            <li>
+                                * 실시간 최저가 티켓을 검색하여 안내해 드리오나, 실시간 상황으로 변동이 있을 수 있습니다.
+                            </li>
+                            <li>
+                                * 선박, 항공권 외 여행문의는 질문과 답변 게시판 혹은 1670-4601로 문의 바랍니다.
+                            </li>
+                            <li>
+                                * 선박권은 부산출발 일본(카멜리아, 부관훼리, 팬스타, 쾌속선, 대마도) 티켓만 대응 가능합니다.
+                            </li>
+                            <li>
+                                * 1:1 문의창으로 진행된 예약체결내용은 계약의 일부로 간주됩니다.
+                            </li>
+                            <li>
+                                * 항공권 외 엔타비에서 제공하는 여행 프로모션이나 현지에서 활용할 수 있는 광고가 제공될 수 있습니다.
+                            </li>
+                            <li>
+                                * 기업 및 동호회 단체 할인 항공권도 많은 문의 바랍니다.
+                            </li>
+                            <li>
+                                * 비상 시(천재지변 및 결항) 에 대체 항공편 확인에 많은 이용 바랍니다.
+                            </li>
+                            <li style="color:red;">
+                                * 엔톡은 로그인 후 상담이 가능하며 로그인 한 회원 본인만 볼 수 있는 1:1 상담 서비스 입니다.
+                            </li>
+                        </ul>
+                    </div>
+
+                    @{
+                        if (ViewBag.chat != null)
+                        {
+                            string chkUser = "",
+                                   messages = "",
+                                   date = "",
+
+                                   userName = "",
+                                   addClass = "",
+
+                                   outDate = "";
+
+                            foreach (object item in ViewBag.chat)
+                            {
+                                chkUser = "";
+                                messages = "";
+                                date = "";
+                                addClass = "";
+
+                                try { chkUser = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                                catch { continue; }
+                                try { messages = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                                catch { continue; }
+                                try { date = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                                catch { continue; }
+
+                                string tempDate = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture).ToString("MM월 dd일 hh:mm");
+                                string tempName = userName;
+
+                                if (chkUser == "ADMN")
+                                {
+                                    userName = "엔타비";
+                                }
+                                else
+                                {
+                                    userName = ViewBag.nickName;
+                                    addClass += "user";
+                                }
+
+                                if (outDate != tempDate || tempName != userName)
+                                {
+                                    outDate = tempDate;
+                                    addClass += " first";
+                                }
+                                else
+                                {
+                                    addClass += "";
+                                }
+
+                                <div class="message_Box @addClass">
+                                    <div class="imgBox">
+                                        <img src="/Content/images/community/icon_chat_ntabi.png" />
+                                    </div>
+                                    <span class="user_Name">@userName</span>
+                                    <div class="message_Text">
+                                        <span class="arrow"></span>
+                                        <p>
+                                            @MvcHtmlString.Create(messages)
+                                        </p>
+                                        <div class="message_Date">
+                                            <span>@outDate</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+
+                </div>
+
+                <div id="mForm" style="width: 100%; margin: -11px auto 0; font-size: 0; position: relative;">
+                    <textarea id="message_area" style="width: 100%; height: 60px; font-size: 10pt; padding: 17px 14% 10px 20px; resize: none; border-color: #9fd759;" placeholder="@Chat_Title"></textarea>
+                    <a class="btn btn-default sendMSG" style="border: 0; position: absolute; top: 10px; right: 15px; background-color: #a0ce54 !important; color: white; width: 80px; height: 40px; line-height: 28px;">전송</a>
+                </div>
+            </div>
+            <a class="btn btn-default inqueryBtn" style="display: none;">
+                항공권 문의하기
+            </a>
+        </div>
+
+
+        <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+        <script src="http://admin.ntabi.kr/signalr/hubs"></script>
+
+        <script>
+            $(function () {
+
+                $(".title a.Close").click(function () {
+                    var _this = $(this);
+
+                    if ($(".notice .list").is(":visible")) {
+                        $(".notice .list").slideUp();
+                        _this.text("펼치기");
+                    } else {
+                        $(".notice .list").slideDown();
+                        _this.text("접기");
+                    }
+                });
+
+                @*$(".title a.Close").click(function(){
+		  $(".notice .list").toggle();
+		  return false;
+		});*@
+
+                $("textarea#message_area").keyup(function (e) {
+                    if (e.keyCode == 13)
+                        $("a.sendMSG").click();
+                });
+
+                $.connection.hub.start({ jsonp: true })
+                .done(function () {
+                })
+                .fail(function () {
+                    console.log("연결 실패");
+                });
+
+                setLast();
+
+                function setLast() {
+                    $("div.message_Box").each(function () {
+                        if ($(this).next().hasClass("first") || $(this).next().length == 0) {
+                            $(this).addClass("last");
+                        }
+                    })
+                }
+
+                $("div.inquery_View").hide();
+
+                var user = "",
+                    name = "";
+                var chatNum = 0;
+
+                $.connection.hub.url = "http://admin.ntabi.kr/signalr";
+
+                var chat = $.connection.chat;
+
+                //$("a.inqueryBtn").on("click", function () {
+
+                @*@{
+                        string userData = "";
+
+                        try {
+                            userData = user.Login;
+                        }
+                        catch {
+                            int rand = new Random().Next(0, 9999);
+
+                            userData = "GUEST" + DateTime.Now.ToString("yyyyMMddhhmmss") + rand;
+                        }
+
+                               @userData
+                    }*@
+
+                $("div.inquery_View").show();
+
+                if ("@userKey" == "") {
+                    // 로그아웃 상태
+                    $("a.sendMSG").on("click", function () {
+                        alert("로그인을 해주세요.");
+                        $('a.loginBtn').click();
+                    });
+                }
+                else {
+                    // 로그인 상태
+                    user = "@userKey";
+                    name = "@nickName"
+                    $(this).hide();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Products/getChatRoomNum",
+                        data: { user: user },
+                        success: function (data) {
+                            chatNum = data;
+
+                            chat.server.joinRoom(chatNum);
+
+                            $("a.sendMSG").on("click", function () {
+                                chat.server.send(chatNum, user, $("#message_area").val(), name, "1234");
+
+                                $("#message_area").val('').focus();
+                            });
+                        }
+                        , beforeSend: function () {
+                            $('#loading').show();
+                        }
+                        , complete: function () {
+                            $('#loading').hide();
+                        }
+                    });
+
+                }
+
+                var Viewer = $("div.message_List");
+                Viewer.scrollTop(Viewer[0].scrollHeight);
+                //});
+
+                chat.client.addNewmessageToPage = function (roomNo, name, message, date, type) {
+                    var html = "";
+                    var Viewer = $("div.message_List");
+                    var setClass = "first last";
+
+                    if (message == "") {
+                        alert("메시지를 입력해 주세요.");
+                        return;
+                    }
+
+                    if (isLast(name, date)) {
+                        $("div.message_List").find(".message_Box").last().removeClass("last");
+                        setClass = "last";
+                    }
+
+                    if (type == user) {
+                        setClass += " user";
+                    }
+
+                    html = "<div class='message_Box " + setClass + "'>" +
+                               "<div class='imgBox'>" +
+                                   "<img src='/Content/images/community/icon_chat_ntabi.png' />" +
+                               "</div>" +
+                               "<span class='user_Name'>" + htmlEncode(name) + "</span>" +
+                               "<div class='message_Text'>" +
+                                   "<span class='arrow'></span>" +
+                                   "<p>" + message + "</p>" +
+                                   "<div class='message_Date'>" +
+                                       "<span>" + htmlEncode(date) + "</span>" +
+                                   "</div>" +
+                               "</div>" +
+                           "</div>";
+
+                    Viewer.append(html);
+                    Viewer.scrollTop(Viewer[0].scrollHeight);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Products/JSON_chkNewMessage",
+                        data: { chatID: roomNo },
+                        success: function (data) {
+
+                        }
+                        , beforeSend: function () {
+                            $('#loading').show();
+                        }
+                        , complete: function () {
+                            $('#loading').hide();
+                        }
+                    });
+                }
+
+                function htmlEncode(value) {
+                    var encodedValue = $('<div />').text(value).html();
+                    return encodedValue;
+                }
+
+                function isLast(name, date) {
+                    if ($("div.message_List").find(".user_Name").last().text() == name &&
+                        $("div.message_List").find(".message_Date").last().text() == date) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            });
+        </script>
+    }
+
+    @if (type == "P" && (area == "KYU" || area == "FUK"))
+    {
+        <div class="pdtCat air">항공</div>
+    }
+    <ul>
+        @try
+        {
+            string date = "";
+
+            foreach (object item in Model)
+            {
+                pdtKey = "";
+                pdtCode = "";
+                pdtTitle = "";
+                pdtContent = "";
+                pdtFeature = "";
+                pdtPrice = "";
+                pdtDasys = "";
+                pdtOptions = "";
+                pdtTraff = "";
+                pdtSCity = "";
+                pdtSTime = "";
+                pdtECity = "";
+                pdtETime = "";
+                pdtDasysTxt = "";
+                date = "";
+
+                try { pdtKey = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try
+                {
+                    pdtCode = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+                    pdtCode += item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+                    pdtCode += item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+                    pdtCode += item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+                    pdtCode += item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+                }
+                catch { continue; }
+                try { pdtTitle = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtContent = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtDasys = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtOptions = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtTraff = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtSCity = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtSTime = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtECity = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtETime = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtFeature = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtPrice = item.GetType().GetProperties()[15].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { date = item.GetType().GetProperties()[16].GetValue(item, null).ToString(); }
+                catch { continue; }
+
+                if (pdtPrice == "0")
+                {
+                    continue;
+                }
+
+                //switch (pdtDasys)
+                //{
+                //    case "0001":
+                //        pdtDasys = "당일치기";
+                //        break;
+                //    case "0002":
+                //        pdtDasys = "1박 2일";
+                //        break;
+                //    case "0003":
+                //        pdtDasys = "무박 3일";
+                //        break;
+                //    case "0102":
+                //        pdtDasys = "1박 2일";
+                //        break;
+                //    case "0103":
+                //        pdtDasys = "1박 3일";
+                //        break;
+                //    case "0104":
+                //        pdtDasys = "1박 4일";
+                //        break;
+                //    case "0203":
+                //        pdtDasys = "2박 3일";
+                //        break;
+                //    case "0204":
+                //        pdtDasys = "2박 4일";
+                //        break;
+                //    case "0304":
+                //        pdtDasys = "3박 4일";
+                //        break;
+                //    case "0305":
+                //        pdtDasys = "3박 5일";
+                //        break;
+                //    case "0405":
+                //        pdtDasys = "4박 5일";
+                //        break;
+                //    case "0406":
+                //        pdtDasys = "4박 6일";
+                //        break;
+                //    case "0506":
+                //        pdtDasys = "5박 6일";
+                //        break;
+                //    case "0507":
+                //        pdtDasys = "5박 7일";
+                //        break;
+                //    case "0607":
+                //        pdtDasys = "6박 7일";
+                //        break;
+                //    case "0608":
+                //        pdtDasys = "6박 8일";
+                //        break;
+                //    case "0708":
+                //        pdtDasys = "7박 8일";
+                //        break;
+                //    case "0709":
+                //        pdtDasys = "7박 9일";
+                //        break;
+                //    case "0809":
+                //        pdtDasys = "8박 9일";
+                //        break;
+                //    case "0810":
+                //        pdtDasys = "8박 10일";
+                //        break;
+                //}
+
+                switch (pdtDasys.Substring(2, 2))
+                {
+                    case "01":
+                        pdtDasysTxt = "당일치기";
+                        break;
+                    case "02":
+                        pdtDasysTxt = "1박 2일";
+                        break;
+                    case "03":
+                        pdtDasysTxt = "2박 3일";
+                        break;
+                    case "04":
+                        pdtDasysTxt = "3박 4일";
+                        break;
+                    case "05":
+                        pdtDasysTxt = "4박 5일";
+                        break;
+                    case "06":
+                        pdtDasysTxt = "5박 6일";
+                        break;
+                    case "07":
+                        pdtDasysTxt = "6박 7일";
+                        break;
+                    case "08":
+                        pdtDasysTxt = "7박 8일";
+                        break;
+                    case "09":
+                        pdtDasysTxt = "8박 9일";
+                        break;
+                    case "10":
+                        pdtDasysTxt = "9박 10일";
+                        break;
+                }
+
+                int inCnt = Convert.ToInt32(pdtDasys.Substring(2, 2)) - (Convert.ToInt32(pdtDasys.Substring(0, 2)) + 1);
+
+                if (!string.IsNullOrEmpty(inTraff) && inCnt != 0)
+                {
+                    pdtDasysTxt += " (" + inTraff + " " + inCnt + "박)";
+                }
+
+                switch (pdtOptions)
+                {
+                    case "best":
+                        pdtOptions = "베스트 상품";
+                        break;
+                    case "vari":
+                        pdtOptions = "버라이어티 팩";
+                        break;
+                    case "airf":
+                        pdtOptions = "에어 프리 팩";
+                        break;
+                    default:
+                        pdtOptions = "";
+                        break;
+                }
+
+                string ttttttt = "출발지";
+
+                if (type == "L")
+                {
+                    ttttttt = "집결지";
+                }
+
+                <li>
+                    <a href="./Views?C=@pdtCode&K=@pdtKey">
+                        <div class="pdt">
+                            @if (!string.IsNullOrEmpty(pdtOptions))
+                            {
+                                <span class="box options">@pdtOptions</span>
+                            }
+                            <img src="@pdtFeature" alt="@pdtTitle" />
+                            <div>
+                                <div class="pdtInfo">
+                                    <span class="code">@pdtCode</span>
+                                    <h4 class="title">@pdtTitle</h4>
+                                    <span class="remark">@pdtContent</span>
+                                    <p>
+                                        @pdtDasysTxt | @date<br />
+                                        @pdtSCity @pdtSTime ~ @pdtECity @pdtETime<br />
+                                        <span class="box sCity">@ttttttt : @pdtSCity</span><span class="box trf">@pdtTraff</span>
+                                    </p>
+                                </div>
+                                <div class="priceInfo">
+                                    <span style="font-size: 20px;">
+                                    @{ 
+                                        string outTxt = "1인";
+
+                                        if (pdtCode == "NTBVP3183")
+                                        {
+                                            outTxt = "2인";
+                                        }
+                                    }
+                                        @outTxt
+                                    </span> @{@String.Format("{0:#,##0}", int.Parse(pdtPrice))} <span style="font-size: 20px;">원 ~</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            }
+        }
+        catch { }
+    </ul>
+
+
+    @if (type == "P" && (area == "KYU" || area == "FUK"))
+    {
+        <div class="pdtCat ship">선박</div>
+
+        <ul class="shpLists"></ul>
+
+        <script>
+        $.ajax({
+            type: "POST",
+            url: "/Products/JSON_getPdtLists",
+            data: { N: "@nation", A: "@area", T: "@type", trf: "shp" },
+            success: function (data) {
+
+                var html = "";
+
+                for (i in data) {
+                    var code = data[i].CORP_CODE + data[i].PDT_TYPE_CODE + data[i].PDT_IST_EMP_NO + data[i].PDT_YY + data[i].PDT_SEQ;
+                    var key = data[i].PDT_IST_EMP_NO;
+                    var pdtOptions = "";
+
+                    switch (data[i].PDT_OPTIONS) {
+                        case "best":
+                            pdtOptions = "베스트 상품";
+                            break;
+                        case "vari":
+                            pdtOptions = "버라이어티 팩";
+                            break;
+                        case "airf":
+                            pdtOptions = "에어 프리 팩";
+                            break;
+                        default:
+                            pdtOptions = "";
+                            break;
+                    }
+
+                    switch (data[i].PDT_DAYS_CODE.substring(2)) {
+                        case "01":
+                            pdtDasysTxt = "당일치기";
+                            break;
+                        case "02":
+                            pdtDasysTxt = "1박 2일";
+                            break;
+                        case "03":
+                            pdtDasysTxt = "2박 3일";
+                            break;
+                        case "04":
+                            pdtDasysTxt = "3박 4일";
+                            break;
+                        case "05":
+                            pdtDasysTxt = "4박 5일";
+                            break;
+                        case "06":
+                            pdtDasysTxt = "5박 6일";
+                            break;
+                        case "07":
+                            pdtDasysTxt = "6박 7일";
+                            break;
+                        case "08":
+                            pdtDasysTxt = "7박 8일";
+                            break;
+                        case "09":
+                            pdtDasysTxt = "8박 9일";
+                            break;
+                        case "10":
+                            pdtDasysTxt = "9박 10일";
+                            break;
+                    }
+
+                    html += "<li>" +
+                                "<a href='./Views?C=" + code + "&K=" + key + "'>" +
+                                    "<div class='pdt'>";
+
+                    if (pdtOptions != "") {
+                        html += "<span class='box options'>" + pdtOptions + "</span>";
+                    }
+
+                    html += "<img src='" + data[i].PDT_IMG + "' alt='" + data[i].PDT_TITLE + "' />" +
+                                        "<div>" +
+                                            "<div class='pdtInfo'>" +
+                                                "<span class='code'>" + code + "</span>" +
+                                                "<h4 class='title'>" + data[i].PDT_TITLE + "</h4>" +
+                                                "<span class='remark'>" + data[i].PDT_CONTENT + "</span>" +
+                                                "<p>" + pdtDasysTxt + " | " + data[i].DATE + "<br />" +
+                                                    data[i].TRF_SAREA + " " + data[i].TRF_STIME + " ~ " + data[i].TRF_EAREA + " " + data[i].TRF_ETIME + "<br />" +
+                                                    "<span class='box sCity'>출발지 : " + data[i].TRF_SAREA + "</span>" +
+                                                    "<span class='box trf'>" + data[i].TRF_TITLE + "</span>" +
+                                                "</p>" +
+                                            "</div>" +
+                                            //"<div class='priceInfo'> <span>1인</span> " + data[i].minPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원 ~ </div>" +
+                                            "<div class='priceInfo'><span style='font-size: 20px;'>1인</span> " + data[i].minPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " <span style='font-size: 20px;'>원 ~</span></div>" +
+                                        "</div>" +
+                                    "</div>" +
+                                "</a>" +
+                            "</li>"
+                }
+
+                $("section.pdtLists > ul.shpLists").html(html);
+
+            }
+            , beforeSend: function () {
+                $('#pdtLoading').show();
+            }
+            , complete: function () {
+                $('#pdtLoading').hide();
+            }
+        });
+        </script>
+
+    }
+    <div id="pdtLoading" style="display: none; position: absolute; top: 0; left: 50%; width: 100px; text-align: center;">
+        <img src="~/Content/Images/Shared/loading.gif" alt="로딩중..." style="width: 100%;" />
+    </div>
+</section>

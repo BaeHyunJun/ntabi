@@ -1,0 +1,55 @@
+﻿.container {
+    width: 1500px;
+    min-width: 1500px;
+    max-width: none;
+}
+
+section.event ul {
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+    list-style: none;
+}
+
+section.event ul.table-header > li {
+    display: inline-block;
+    font-size: 12px;
+    text-align: center;
+    line-height: 24px;      
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+section.event ul.table-footer > li {
+    display: inline-block; 
+    font-size: 12px;
+    text-align: center;
+    line-height: 24px;      
+    font-weight: bold; 
+    border: none;
+}
+
+section.event ul ul > li {
+    display: inline-block;
+    font-size: 12px;
+    text-align: center;
+    line-height: 30px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;    
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+}
+
+section.event ul ul > li:first-child {
+    border-left: none;
+}
+
+section.event ul ul > li > select,
+section.event ul ul > li > input {
+    width: 100%;
+    border: none;
+    text-align: center;
+    padding: 1px 2px;
+}

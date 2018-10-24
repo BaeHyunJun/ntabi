@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    div#container > article section.rentcar {
+        text-align: center;
+        padding-top: 20px;
+    }
+</style>
+
+<section class="rentcar">
+    <h5 class="sr-only sr-only-focusable">타임즈 렌트카</h5>
+
+    <img src="~/Content/Images/Rentcar/bg.jpg" usemap="#car">
+
+    <map name="car" id="rent">
+        <area shape="rect" coords="79,760,331,1030" alt="면허바로가기" href="http://dl.koroad.or.kr/PAGE_license/view.jsp?code=105000" target="_blank">
+        <area shape="rect" coords="359,760,611,1030" alt="교통법규바로가기" href="http://www.timescar-rental.kr/beginner/rule.html" target="_blank">
+        <area shape="rect" coords="643,760,887,1030" alt="주차바로가기" href="http://www.timescar-rental.kr/beginner/stop.html" target="_blank">
+        <area shape="rect" coords="79,1060,331,1330" alt="주의사항바로가기" href="http://www.timescar-rental.kr/beginner/return.html" target="_blank">
+        <area shape="rect" coords="359,1060,611,1330" alt="etc바로가기" href="http://www.timescar-rental.kr/beginner/etc/etccard.html" target="_blank">
+        <area shape="rect" coords="643,1060,887,1330" alt="보험바로가기" href="http://www.timescar-rental.kr/support/" target="_blank">
+        <area shape="rect" coords="79,1350,331,1620" alt="점포바로가기" href="http://www.timescar-rental.kr/shop/" target="_blank">
+        <area shape="rect" coords="643,1350,887,1620" alt="qa바로가기" href="http://www.timescar-rental.kr/faq/faq_a.html" target="_blank">
+        <area shape="rect" coords="285,2630,675,2730" alt="예약바로가기" href="http://www.timescar-rental.kr/af/7822000010/kr/" target="_blank">
+    </map>
+</section>

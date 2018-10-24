@@ -1,0 +1,198 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string url = Request["r"];
+}
+
+<style>
+    div#wrap article#container div.pro_top {
+        height: 80px;
+        background-color: #ededed;
+    }
+
+        div#wrap article#container div.pro_top p {
+            width: 1050px;
+            margin: 0 auto;
+            font-size: 24px;
+            line-height: 80px;
+        }
+
+    div#wrap article#container div#content {
+        max-width: 700px;
+        margin: 100px auto;
+    }
+
+        div#wrap article#container div#content div.left_box {
+            float: left;
+            width: 60%;
+        }
+
+            div#wrap article#container div#content div.left_box article.login {
+                position: relative;
+            }
+
+                div#wrap article#container div#content div.left_box article.login > input {
+                    width: 300px;
+                    height: 40px;
+                    padding: 10px;
+                    margin-bottom: 10px;
+                    border: 1px solid #ededed;
+                }
+
+                div#wrap article#container div#content div.left_box article.login > button {
+                    width: 100px;
+                    height: 90px;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    background-color: #a0ce54;
+                    border: 1px solid #a0ce54;
+                    color: white;
+                    cursor: pointer;
+                }
+
+                div#wrap article#container div#content div.left_box article.login > p {
+                    margin: 30px;
+                    text-align: center;
+                }
+
+                    div#wrap article#container div#content div.left_box article.login > p a.memBtn {
+                        border: 1px solid #a0ce54;
+                        padding: 5px 10px;
+                        border-radius: 3px;
+                    }
+
+                div#wrap article#container div#content div.left_box article.login a {
+                    margin: 0 10px;
+                }
+
+                div#wrap article#container div#content div.left_box article.login > div.options {
+                    border-bottom: 1px solid #ddd;
+                    overflow: hidden;
+                }
+
+        div#wrap article#container div#content div.right_box {
+            float: right;
+            width: 40%;
+        }
+
+            div#wrap article#container div#content div.right_box img {
+                width: 250px;
+                margin-left: 30px;
+            }
+
+    .pull-left {
+        float: left;
+    }
+
+    .pull-right {
+        float: right;
+    }
+</style>
+
+<div class="pro_top">
+
+    <p><span>로그인</span></p>
+
+</div>
+
+<div id="content">
+    <div class="left_box">
+        <article class="login">
+            <input type="text" name="ndtId" placeholder="아이디" />
+            <input type="password" name="ndtPwd" placeholder="비밀 번호" />
+            <div class="options">
+                <label class="pull-left"><input type="checkbox" name="setid" id="setid" /> 아이디 저장</label>
+                <label class="pull-right"><a href="/Login/getidpwd">아이디 찾기<span> | </span>비밀번호 찾기</a></label>
+            </div>
+            <button class="loginBtn">로그인</button>
+            <p>
+                아직 엔데이트립 회원이 아니신가요?<br /><br />
+                <a href="/Login/Membership" class="memBtn">회원가입</a>
+            </p>
+        </article>
+    </div>
+
+    <div class="right_box">
+        <a href="/Community/Views?t=event&k=1">
+            <img src="http://admin.ntabi.kr/mobile/thumb/20170901042940_400.jpg">
+        </a>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.cookie.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#setid").on("click", function () {
+            var _this = $(this);
+            var id = $("input[name='ndtId']").val();
+
+            if (_this.is(":checked") == true) {
+                $.cookie('userID', id);
+            } else {
+                $.removeCookie('userID');
+            }
+        });
+
+        var ckID = $.cookie('userID');
+
+        if (ckID != "" && ckID != undefined) {
+            $("#setid").attr("checked", true);
+            $("input[name='ndtId']").val(ckID);
+        }
+
+        $("article.login button.loginBtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var rUrl = "/";
+
+            if ("@url" != "") {
+                rUrl = decodeURIComponent(window.location.search).substring(3);
+            }
+
+            var id = $("input[name='ndtId']");
+            var pwd = $("input[name='ndtPwd']");
+
+            if (id.val() == "") {
+                alert("아이디를 입력해주세요.");
+                id.focus();
+                return;
+            }
+
+            if (pwd.val() == "") {
+                alert("비밀번호를 입력해주세요.");
+                pwd.focus();
+                return;
+            }
+
+            $(this).attr("disabled", true);
+
+            var url = "/Login/getLogin";
+            var data = { id: id.val(), pwd: pwd.val() };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (rData) {
+                    alert(rData);
+
+                    $(this).attr("disabled", false);
+
+                    if (rData.indexOf("반갑습니다.") > -1) {
+                        location.href = rUrl;
+                    }
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,140 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    min-width: 1300px;
+} 
+
+.body-content { 
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+a,
+a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+a.community > img {
+    position: absolute;
+    left: 0;
+    top: auto;
+}
+
+/* 전체 */
+html,
+body,
+.body-content {
+    height: 100%; 
+    background-color: #ddd;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: black;
+    color: white;
+    text-align: center;
+}
+
+footer p {
+    margin: 0;
+}
+
+#loginForm input {
+    max-width: 250px; 
+}
+
+.container {
+  min-width: 1100px;
+}
+
+html,
+body
+{
+    min-width: 1100px;
+}
+
+div.container.body-content > section {
+    padding: 20px 0;
+    height: 100%;
+    background-color: white;
+    overflow: hidden;
+    position: relative;
+}
+
+
+a.community > img 
+{
+    position: absolute;
+    left: 0;
+    top: 10px;
+}
+
+/* 조직관리탭 */ 
+section.manage_org,
+section.manage_org article {
+    height: 100%;
+}
+
+section.manage_org article {
+    background-color: white;
+}
+
+section.manage_org aside {
+    margin: 20px 0;
+    padding: 0;
+}
+
+section.manage_org aside .nav-pills > li > a
+{
+    border-radius: 0;
+}
+
+section.manage_org aside .nav-pills > li.active > a, 
+section.manage_org aside .nav-pills > li.active > a:hover, 
+section.manage_org aside .nav-pills > li.active > a:focus {
+    background-color: #428bca;
+}
+
+section.manage_org a.btn {
+    font-size: 12px;
+    padding: 4px 5px 2px;
+}
+
+section.manage_org table a.btn {
+    padding-bottom: 3px;
+}
+
+.instPdt .form-control,
+.instPdt .input-group-addon {
+    padding: 6px;
+}
+
+div#loading
+{
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    background: rgba(0,0,0,.2);
+    z-index: 9999;
+}
+
+div#loading img
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+}

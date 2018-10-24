@@ -1,0 +1,537 @@
+﻿@{
+    Layout = null;
+
+    string dateTxt = ViewBag.date;
+
+    Dictionary<string, string>
+    traff = ViewBag.trafLists;
+
+    string title = "",
+    value = "",
+    hasDays = Request["setTraff"];
+
+    int inCnt = 0;
+
+    string setTraff = Request["trf"] != null ? Request["trf"] : "",
+    setPrice = Request["prc"] != null ? Request["prc"] : "",
+    setHotel = Request["htl"] != null ? Request["htl"] : "",
+    setRoom = Request["room"] != null ? Request["room"] : "";
+    }
+
+    <style>
+        div.getOptions div.modal-dialog {
+            width: 450px;
+        }
+
+            div.getOptions div.modal-dialog div.modal-content {
+                border-radius: 0;
+                border: 2px solid #a0ce54;
+            }
+
+                div.getOptions div.modal-dialog div.modal-content div.modal-header,
+                div.getOptions div.modal-dialog div.modal-content div.modal-body > form {
+                    text-align: center;
+                    border: none;
+                }
+
+                div.getOptions div.modal-dialog div.modal-content div.modal-body .noIn {
+                    display: none;
+                }
+
+                div.getOptions div.modal-dialog div.modal-content div.modal-body label.control-label {
+                    color: #afafaf;
+                }
+
+                div.getOptions div.modal-dialog div.modal-content div.modal-body select.form-control {
+                    border: none;
+                    box-shadow: none;
+                    border-radius: 0;
+                    border-bottom: 1px solid #ddd;
+                }
+
+                div.getOptions div.modal-dialog div.modal-content div.modal-body button.btn {
+                    width: 70%;
+                    border: none;
+                    background-color: #e7f1d7;
+                    border-radius: 0;
+                }
+
+
+        div.non_vis {
+            display: none;
+        }
+    </style>
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@dateTxt</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal", name = "setOptionsForm", onsubmit = "return false" }))
+                {
+                @Html.Hidden("code", Request["Code"])
+                @Html.Hidden("key", Request["Key"])
+                @Html.Hidden("date", Request["Date"])
+
+                @*if (traff != null)
+                {
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><span style="color:red">*</span> 교통 - </label>
+                    <div class="col-sm-9">
+                        <select class="form-control traffic">
+                            <option value="">교통을 선택해주세요.</option>
+                            @foreach (var item in traff)
+                            {
+                            <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <script>
+                    if ("@setTraff" != "") {
+                        $("form[name='setOptionsForm'] select.traffic").val("@setTraff");
+                        getTraffOptions();
+                    }
+
+                    $("form[name='setOptionsForm'] select.traffic").on("change", function () {
+                        getTraffOptions();
+                    });
+
+                    function getTraffOptions() {
+                        var _this = $("form[name='setOptionsForm'] select.traffic");
+
+                        var options = $("form[name='setOptionsForm'] select.options");
+
+                        var url = "/Products/getOptionsData",
+                            code = $("input#code").val(),
+                            key = $("input#key").val(),
+                            date = $("input#date").val();
+
+                        var datas = { code: code, key: key, trf_code: _this.val(), date: date };
+
+                        var html = "";
+
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: datas,
+                            success: function (data) {
+                                html = "<option>옵션을 선택해주세요.</option>";
+
+                                for (var i in data) {
+                                    html += '<option value="' + data[i].PRC_SEQ + '" data-AP="' + data[i].APrice + '" data-CP="' + data[i].CPrice + '" data-BP="' + data[i].BPrice + '" data-Currency="' + data[i].PRC_Currency_CODE + '">' + data[i].PRC_EXP + '</option>';
+                                }
+
+                                options.html(html);
+                                options.parents("div.non_vis").show();
+                                options.val("@setPrice");
+                            }
+                            , beforeSend: function () {
+                                $('#loading').show();
+                            }
+                            , complete: function () {
+                                $('#loading').hide();
+                            }
+                        });
+                    }
+                </script>
+
+                <div class="form-group non_vis">
+                    <label class="col-sm-3 control-label"><span style="color:red">*</span> 옵션 - </label>
+                    <div class="col-sm-9">
+                        <select class="form-control options">
+                            <option value="">교통을 선택해주세요.</option>
+                        </select>
+                    </div>
+                </div>
+                }*@
+
+                <div class="form-group noIn">
+                    <label class="col-sm-3 control-label">호텔 - </label>
+                    <div class="col-sm-9">
+                        <select class="form-control hotel">
+                            <option value="">호텔을 선택해주세요.</option>
+                            @foreach (object item in Model)
+                            {
+                            title = "";
+                            value = "";
+                            inCnt = 0;
+
+                            try { value = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+                            try { title = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+                            try { inCnt = Convert.ToInt32(item.GetType().GetProperties()[2].GetValue(item, null).ToString()); } catch { }
+
+                            <option value="@value" data-inCnt="@inCnt">@title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">룸타입 - </label>
+                    <div class="col-sm-9">
+                        <select class="form-control" disabled="disabled">
+                            <option>
+                                더블(2인실) 기준입니다.
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group non_vis">
+                    <label class="col-sm-3 control-label">옵션 - </label>
+                    <div class="col-sm-9">
+                        <select class="form-control options"></select>
+                    </div>
+
+                    @*<div class="col-sm-3">
+                        <select class="form-control inCnt"></select>
+                    </div>
+                    <label class="col-sm-1 control-label">박</label>*@
+
+                </div>
+
+                <div class="form-group non_vis">
+                    <label class="col-sm-3 control-label">룸타입 - </label>
+                    <div class="col-sm-9 room" style="padding-top: 7px;">
+                        @*<select class="form-control "></select>*@
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                    <label for="inputID" class="col-sm-3 control-label">선택 옵션 - </label>
+                    <div class="col-sm-9">
+                        <select class="form-control stOptions">
+                            <option>옵션을 선택해주세요.</option>
+                            @foreach (object item in Model)
+                            {
+                            title = "";
+                            value = "";
+
+                            try { title = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+                            try { value = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+
+                            <option value="@value">@title</option>
+                            }
+                        </select>
+                    </div>
+                </div>*@
+
+                @*<p>
+                    <span style="color:red">*</span> 은 필수 선택 사항입니다.
+                </p>*@
+
+                <button class="btn btn-default selectOptBtn">선택 완료</button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if ($("input#inCnt").val() > 0) {
+            $("div.getOptions .noIn").css("display", "block");
+
+            var options = "";
+
+            var maxIdx = ($("input#inCnt").val() * 1) - ("@hasDays" * 1 - 1);
+
+            for (i = 1; i <= maxIdx; i++) {
+                options += "<option>" + i + "</option>";
+            }
+
+            $("select.inCnt").html(options);
+
+            if (maxIdx < 1) {
+                $('.getOptions').modal('hide');
+                alert("해당 날짜에는 선택할 수 있는 옵션이 없습니다.");
+            }
+        } else {
+            if ("@traff" == "") {
+                $('.getOptions').modal('hide');
+                alert("선택할 수 있는 옵션이 없습니다.");
+            }
+        }
+
+        @*if ("@setHotel" != "") {
+            $("form[name='setOptionsForm'] select.hotel").val("@setHotel");
+            getOptions();
+        }
+
+        $("form[name='setOptionsForm'] select.hotel").on("change", function () {
+            getOptions();
+        });*@
+
+        //$("form[name='setOptionsForm'] select.options").on("change", function () {
+        //    getRooms()
+        //});
+
+        //function getRooms()
+        //{
+        //    var f = $("form[name='setOptionsForm']");
+        //    var hotelSeq = f.find("select.hotel option:selected").val();
+        //    var optionSeq = f.find("select.options option:selected").val();
+        //    var rooms = f.find("div.room");
+
+        //    var url = "/Products/JSON_getRoom";
+
+        //    var datas = { HSeq: hotelSeq, OSeq: optionSeq };
+
+        //    var html = "";
+
+        //    $.ajax({
+        //        type: "POST",
+        //        url: url,
+        //        data: datas,
+        //        success: function (data) {
+        //            html = "";
+
+        //            if (data[0].room1 != null) {
+        //                html += '<label style="margin: 0 10px;"><input type="radio" name="rType" value="1">' + data[0].room1 + '</label>';
+        //            }
+
+        //            if (data[0].room2 != null) {
+        //                html += '<label style="margin: 0 10px;"><input type="radio" name="rType" value="2">' + data[0].room2 + '</label>';
+        //            }
+
+        //            if (data[0].room3 != null) {
+        //                html += '<label style="margin: 0 10px;"><input type="radio" name="rType" value="3">' + data[0].room3 + '</label>';
+        //            }
+
+        //            if (data[0].room4 != null) {
+        //                html += '<label style="margin: 0 10px;"><input type="radio" name="rType" value="4">' + data[0].room4 + '</label>';
+        //            }
+
+        //            rooms.html(html);
+        //            rooms.parents("div.non_vis").show();
+        //        }
+        //        , beforeSend: function () {
+        //            $('#loading').show();
+        //        }
+        //        , complete: function () {
+        //            $('#loading').hide();
+        //        }
+        //    });
+        //}
+
+        @* function getOptions() {
+            var _this = $("form[name='setOptionsForm'] select.hotel");
+
+            var options = $("form[name='setOptionsForm'] select.options");
+
+            var url = "/Products/getOptionData",
+                seq = _this.val(),
+                date = $("input#date").val();
+
+            var datas = { seq: seq, date: date };
+
+            var html = "";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    html = "<option value=''>옵션을 선택해주세요.</option>";
+
+                    for (var i in data) {
+                        html += '<option value="' + data[i].HTL_PRC_SEQ + '">' + data[i].HTL_EXP + '</option>';
+                    }
+
+                    options.html(html);
+                    options.parents("div.non_vis").show();
+                    options.val("@setRoom");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        } *@
+
+        $("button.selectOptBtn").on("click", function () {
+            var htl = $("form[name='setOptionsForm'] select.hotel option:selected"),
+                //opt = $("form[name='setOptionsForm'] select.options option:selected"),
+                //rom = $("form[name='setOptionsForm'] input[name=rType]:checked"),
+                iCt = ($("form[name='setOptionsForm'] select.hotel option:selected").attr("data-inCnt") * 1);
+
+            var fullDate = $("h4.modal-title").text();
+
+            var setHtl = $("#inHotels").val();
+            var dateNo = $("ul.optionLists li[data-fullDate='" + fullDate + "']").attr("data-firstdate") * 1 - 1;
+
+            if (htl.val() == undefined || htl.val() == "" || isNaN(htl.val())) {
+                alert("호텔을 선택해주세요.");
+                return;
+            }
+
+            //if (opt.val() == undefined || opt.val() == "" || isNaN(opt.val())) {
+            //    alert("옵션을 선택해주세요.");
+            //    return;
+            //}
+
+            //if (rom.val() == undefined || rom.val() == "" || isNaN(rom.val())) {
+            //    alert("룸 타입을 선택해주세요.");
+            //    return;
+            //}
+
+            for (i = 1 + dateNo; i <= iCt + dateNo; i++) {
+                if (setHtl == "" || setHtl == undefined) {
+                    setHtl += i + ":" + htl.val() + ":" + opt.val() + ":" + rom.val() + ", ";
+                }
+
+                var tArea = $("ul.optionLists li[data-firstdate=" + i + "]");
+
+                tArea.find("span.tourtraff").text(htl.text());
+                tArea.find("span.roomType").text(rom.parent().text());
+                tArea.find("span.tourOptions").text(opt.text());
+            }
+
+            $("#inHotels").val(setHtl);
+
+            $('.getOptions').modal('hide');
+        });
+
+        @*if ($("form[name='setOptionsForm']").find("select:visible").length == 0 && "@traff" == null) {
+        }*@
+
+        @* $("button.selectOptBtn").on("click", function () {
+            var trf = $("form[name='setOptionsForm'] select.traffic option:selected"),
+                prc = $("form[name='setOptionsForm'] select.options option:selected"),
+                hotel = $("form[name='setOptionsForm'] select.hotel option:selected"),
+                room = $("form[name='setOptionsForm'] select.room option:selected"),
+                inCnt = $("form[name='setOptionsForm'] select.inCnt option:selected");
+
+            var chkTraff = "@traff";
+            var fullDate = $("h4.modal-title").text();
+
+            var dateNo = $("ul.optionLists li[data-fullDate='" + fullDate + "']").attr("data-firstdate") * 1 - 1;
+
+            var tourtraff = "옵션을 선택해주세요.",
+                tourHotel = ""
+
+            var f = document.reserveForm;
+
+            var inCntVal = inCnt.val() == undefined ? 1 : inCnt.val();
+
+            if (chkTraff != "") {
+                if (trf.val() == undefined || trf.val() == "" || isNaN(trf.val())) {
+                    alert("교통편을 선택해주세요.");
+                    return;
+                }
+
+                if (prc.val() == undefined || prc.val() == "" || isNaN(prc.val())) {
+                    alert("옵션을 선택해주세요.");
+                    return;
+                }
+
+                f.trfCD.value = trf.val();
+                f.prcCD.value = prc.val();
+                f.revDate.value = fullDate;
+                f.APrice.value = prc.attr("data-AP");
+                f.CPrice.value = prc.attr("data-CP");
+                f.BPrice.value = prc.attr("data-BP");
+                f.Currency.value = prc.attr("data-Currency");
+
+                var tourtraff = "<h6>교통 편</h6>" + trf.text() + "<br />" + prc.text();
+
+            }
+            else {
+                if (hotel.val() == undefined || hotel.val() == "" || isNaN(hotel.val())) {
+                    alert("호텔을 선택해주세요.");
+                    return;
+                }
+
+                tourtraff = "";
+            }
+
+            if (hotel.val() != "") {
+                if (room.val() == undefined || room.val() == "" || isNaN(room.val())) {
+                    alert("룸타입을 선택해주세요.");
+                    return;
+                }
+
+                var maxIn = room.attr("data-maxin");
+
+                if (maxIn < inCntVal) {
+                    alert("해당 룸타입은 최대 " + maxIn + "박 까지만 선택할 수 있습니다.");
+                    return;
+                }
+
+                var getExchanged = "/Products/exchanged";
+
+                var currency = room.attr("data-currency"),
+                    money = room.attr("data-price");
+
+                var datas = { currency: currency, money: money }
+
+                $.ajax({
+                    type: "POST",
+                    url: getExchanged,
+                    data: datas,
+                    success: function (data) {
+                        f.APrice.value = (f.APrice.value * 1) == 0 ? 0 : (f.APrice.value * 1) + (data * inCntVal);
+                        f.CPrice.value = (f.CPrice.value * 1) == 0 ? 0 : (f.CPrice.value * 1) + (data * inCntVal);
+                        f.BPrice.value = (f.BPrice.value * 1) == 0 ? 0 : (f.BPrice.value * 1) + (data * inCntVal);
+
+                        $(".totalPrice").find("span").text(f.APrice.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원");
+                    }
+                });
+
+                var tourHotel = "<h6>호텔</h6>" + hotel.text() + "<br /><span>" + room.text() + "</span>";
+
+            }
+
+            var tourIn = "@hasDays" * 1
+
+            for (idx = dateNo; idx < dateNo + (inCntVal * 1); idx++) {
+                $("#hotel_" + tourIn).val(hotel.val());
+                $("#room_" + tourIn).val(room.val());
+
+                $("li.date_" + idx).find("span.tourtraff").html(tourtraff);
+                $("li.date_" + idx).find("span.tourHotel").html(tourHotel);
+
+                if (tourtraff != "") {
+                    $("li.date_" + idx).find("span.tourHotel").addClass("topBorder");
+                }
+
+                if (tourHotel == "") {
+                    $("li.date_" + idx).find("span.tourHotel").removeClass("topBorder");
+                }
+
+                tourIn++;
+                tourtraff = "";
+            }
+
+            $(".totalPrice").find("span").text(f.APrice.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원");
+
+            resetPeoples();
+
+            if (f.APrice.value != 0) {
+                $("select[name=adultCnt]").parents("P").show();
+                $("select[name=adultCnt]").parents("P").find("span").text(f.APrice.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원");
+            }
+
+            if (f.CPrice.value != 0) {
+                $("select[name=childCnt]").parents("P").show();
+                $("select[name=childCnt]").parents("P").find("span").text(f.CPrice.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원");
+            }
+
+            if (f.BPrice.value != 0) {
+                $("select[name=babyCnt]").parents("P").show();
+                $("select[name=babyCnt]").parents("P").find("span").text(f.BPrice.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원");
+            }
+
+            $('.getOptions').modal('hide');
+        });*@
+
+        function resetPeoples() {
+            $("select[name=adultCnt]").val(1).parents("P").hide();
+            $("select[name=childCnt]").val(0).parents("P").hide();
+            $("select[name=babyCnt]").val(0).parents("P").hide();
+        }
+    </script>

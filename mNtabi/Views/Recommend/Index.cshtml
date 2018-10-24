@@ -1,0 +1,131 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="theme">
+    <section class="top">
+        <p><img src="/Content/Images/recommend/theme_top.jpg"></p>
+    </section> <!--.top-->
+    <section class="list">
+        <ul>
+            @{
+                string key = "",
+                       title = "",
+                       date = "",
+                       name = "",
+                       thumb = "",
+                       cont = "",
+                       cat = "";
+
+                foreach (object item in Model)
+                {
+                    key = "";
+                    title = "";
+                    date = "";
+                    name = "";
+                    thumb = "";
+                    cont = "";
+                    cat = "";
+
+                    try { key = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { date = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { name = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { thumb = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { cont = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+                    catch { }
+                    try { cat = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+                    catch { }
+
+                    switch (cat)
+                    {
+                        case "local":
+                            cat = "<span class=" + cat + ">현지 소식</span>";
+                            break;
+                        case "theme":
+                            cat = "<span class=" + cat + ">테마 여행</span>";
+                            break;
+                        case "ryokan":
+                            cat = "<span class=" + cat + ">료칸</span>";
+                            break;
+                        default:
+                            cat = "<span class='local'>현지 소식</span>";
+                            break;
+                    }
+                    <li>
+                        <a href="/Recommend/Views?k=@key">
+                            <img src="@thumb" alt="@title">
+                            <div class="box">
+                                <p class="ryokan">@MvcHtmlString.Create(cat)</p>
+                            </div> <!--.box-->
+                            <div class="text">
+                                <p class="tit">@title</p>
+                                <p class="subtit">
+                                    @cont
+                                </p>
+                            </div> <!--.text-->
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </section> <!--.list-->
+    <div class="paging">
+        <ul>
+            @{
+
+                int count = 0,
+                    pageNum = 1,
+                    maxPage = 1,
+                    boardNum = 0;
+
+                string className = "";
+
+                try { count = ViewBag.Cnt; }
+                catch { }
+                try { pageNum = ViewBag.pageNum; }
+                catch { }
+
+                decimal a = count / 10;
+
+                maxPage = count / 10;
+
+                boardNum = count - ((pageNum - 1) * 10);
+
+                if (count % 10 > 0)
+                {
+                    maxPage++;
+                }
+
+                if (pageNum > 1)
+                {
+                    <li class="prev_btn"><a href="?p=@(pageNum-1)"><span><</span></a></li>
+                }
+
+                for (var i = 0; i < maxPage; i++)
+                {
+                    if (i + 1 == pageNum)
+                    {
+                        className = "class=on";
+                    }
+                    else
+                    {
+                        className = "";
+                    }
+
+                    <li><a href="?p=@(i+1)" @className><span>@(i + 1)</span></a></li>
+                }
+
+                if (pageNum < maxPage)
+                {
+                    <li class="next_btn"><a href="?p=@(pageNum+1)"><span>></span></a></li>
+                }
+            }
+        </ul>
+    </div> <!--.paging-->
+</div>  <!--.theme-->

@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+        footer > ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            overflow: hidden;
+            background-color: white;
+            line-height: 40px;
+        }
+
+            footer > ul li {
+                float: left;
+                width: 20%;
+                text-align: center;
+                height: 40px;
+            }
+
+                footer > ul li.active {
+                    background-color: black;
+                }
+
+                    footer > ul li.active a {
+                        color: white;
+                        font-weight: bold;
+                    }
+</style>
+
+<footer>
+    <ul>
+        <li class="active"><a href="/Products">LOCAL@*<img src="~/Content/Images/home/ICON_LOC.png" />*@</a></li>
+        <li><a href="https://www.booking.com/?aid=1294434" target="_blank">@*HOTEL*@<img src="~/Content/Images/home/ICON_HOTEL.png" /></a></li>
+        <li><a href="http://www.timescar-rental.kr/af/7822000010/kr/" target="_blank">@*RENTCAR*@<img src="~/Content/Images/home/ICON_CAR.png" /></a></li>
+        <li><a href="/Community">@*SOCIAL*@<img src="~/Content/Images/home/ICON_COM.png" /></a></li>
+        <li><a href="/Mypage">@*MYPAGE*@<img src="~/Content/Images/home/ICON_MY.png" /></a></li>
+    </ul>
+</footer>

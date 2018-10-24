@@ -1,0 +1,527 @@
+﻿@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+html {
+    height: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+body {
+    position: relative;
+    max-width: 450px;
+    /*max-height: 650px;*/
+    margin: 0 auto;
+    /*overflow: hidden;*/ 
+    width: 100%;
+    height: 100%;
+    font-family: "Nanum Gothic", sans-serif; 
+} 
+
+input:focus,
+button:focus,
+textarea:focus {
+  outline: none;
+}
+
+section.home {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url('/Content/Images/main.jpg');
+    background-size: 100%;
+} 
+
+section.home article.snsLoginForm {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 55px;
+    font-size: 0;
+} 
+
+section.home article.snsLoginForm span {
+    width: 50%;
+    display: inline-block;
+    padding: 5px;
+} 
+
+section.home article.snsLoginForm span img {
+    width: 100%;
+}
+
+section.home article.footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 50px;
+    line-height: 50px;
+    background-color: #9cc952;
+    font-size: 0;
+} 
+
+section.home article.footer span {
+    width: 50%;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+}
+
+section.slideForm {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden; 
+}
+
+section.slideForm .bg {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.2);
+}
+
+section.slideForm article {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    border-radius: 10px 10px 0 0;
+    /*top: 50%;*/   
+}
+
+section.slideForm article .form-Body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+section.slideForm article form table td input[type="text"],
+section.slideForm article form table td input[type="password"] {
+    width: 100%;
+    height: 30px;
+    border: 1px solid #d7d7d7;
+    font-size: 14px;
+    padding: 5px;
+}
+
+section.slideForm article form table td span {
+    width: 5%;
+    display: inline-block;
+    text-align: center;
+}
+
+section.slideForm article form table td input[type="tel"] {
+    width:30%; 
+    height:30px; 
+    border:1px solid #d7d7d7; 
+    font-size:14px;
+    padding: 5px;
+} 
+
+section.slideForm article form {
+    position: relative; 
+    padding: 10px;
+    min-height: 100%;
+    padding-bottom: 40px;
+} 
+
+section.slideForm article form h3 {
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 19px;
+    font-weight: bold;
+    margin: 0 auto;
+}
+
+section.slideForm article form h3:after {
+    width: 10%;
+    height: 3px;
+    content: '';
+    display: block;
+    margin: 0 auto;
+    margin-top: -3px;
+    margin-bottom: 10px;
+    background-color: #a0ce54;
+}
+
+section.slideForm article form table {
+    margin: 0 auto;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+section.slideForm article form table td button {
+    border: none;
+    background-color: #a0ce54;
+    color: #fff;
+    font-size: 14px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    min-width: 75px;
+    min-height: 35px;
+}
+
+section.slideForm article .form-Body .footer {
+    position: relative;
+    border-bottom: 2px solid #a0ce54;
+    height: 40px;
+    line-height: 40px;
+    margin-top: -40px;
+    font-size: 0;
+}
+
+section.slideForm article .form-Body .footer span {
+    text-align: center;
+    display: inline-block;
+    width: 50%;
+    color: #474747;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* 로그인 창 */
+section.slideForm article.login form table td {
+    height: 100%;
+}
+
+section.slideForm article.login form ul {
+    margin: 0;
+    list-style: none;
+    padding: 15px;
+    font-size: 0;
+}
+
+section.slideForm article.login form ul li {
+    font-size: 13px;
+    overflow: hidden;
+}
+
+section.slideForm article.login form ul li div.left {
+    width: 65%;
+    float: left;
+}
+
+section.slideForm article.login form ul li div.right {
+    width: 34%;
+    float: left;
+    margin-left: 1%;
+    height: 82px;
+    margin-bottom: 2px;
+}
+
+section.slideForm article.login form ul li div.left input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #d7d7d7;
+    font-size: 14px;
+    padding: 5px;
+    margin-bottom: 2px;
+}
+
+section.slideForm article.login form ul li div.right button {
+    border: none;
+    background-color: #a0ce54;
+    color: #fff;
+    font-size: 14px;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+/* 로그인 창 */
+
+/* 회원가입 창 */
+section.slideForm article.membership .form-Body form {
+    padding-bottom: 60px;
+}
+
+section.slideForm article.membership .form-Body .footer {
+    padding: 10px;
+    margin-top: -60px;
+    height: 60px;
+}
+
+section.slideForm article.membership .form-Body .footer span {
+    border-radius: 0;
+    border-color: #a0ce54;
+    background-color: #a0ce54;
+    color: white;
+}
+
+section.slideForm article.membership .form-Body .footer span:first-child {
+    border-color: #f0f0f0;
+    background-color: #f0f0f0;
+    color: #474747;
+}
+/* 회원가입 창 */
+
+/* 기본 헤더 */
+div.navbar,
+div.navbar div.container {
+    background-color: white;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 0;
+    z-index: 999;
+}
+
+div.navbar div.container div.navbar-header {
+    text-align: center;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e6e6e6;
+    position: relative;
+    width: 100%;
+    margin: 0;
+}
+
+div.navbar div.container div.navbar-header button {
+    margin: 0;
+    border: none;
+    margin: 6px 0;
+}
+
+div.navbar div.container div.navbar-header button:hover {
+    background-color: transparent;
+}
+
+div.navbar div.container div.navbar-header button.menuBtn span.icon-bar {
+    width: 30px;
+    height: 5px;
+    border-radius: 3px;
+    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+        
+div.navbar div.container div.navbar-header button.menuBtn.in span.icon-bar {
+    margin: 0 0 3px;
+}
+div.navbar div.container div.navbar-header button.menuBtn.in span.icon-bar:first-child {
+    -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+    -webkit-transform-origin: 6px;
+            transform-origin: 6px;
+}
+div.navbar div.container div.navbar-header button.menuBtn.in span.icon-bar:nth-child(2) {
+    opacity: 0;
+}
+div.navbar div.container div.navbar-header button.menuBtn.in span.icon-bar:nth-child(3) {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+    -webkit-transform-origin: 2px;
+            transform-origin: 2px;
+}
+
+div.navbar div.container div.navbar-header button.searchBtn {
+    padding: 6px 10px;
+}
+
+div.navbar div.container div.navbar-header button.searchBtn span.glyphicon-search:before {
+    font-size: 22px;
+    color: #ccc;
+}
+
+div.navbar div.container div.navbar-header a img.logo {
+    height: 50px;
+    padding: 10px;
+}
+
+div.navbar div.container div.navbar-collapse.menu {
+    overflow: auto;
+    position: fixed;
+    top: 55px;
+    left: 15px;
+    right: 15px;
+    bottom: 0px;
+    max-height: 100%;
+    background-color: white;
+    border-top-color: white;
+}
+
+div.navbar div.container div.navbar-collapse.menu ul.depth1 {
+    font-size: 0;
+    padding: 0px 15px 50px;
+}
+
+div.navbar div.container div.navbar-collapse.menu ul.depth1 > li {
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+div.navbar div.container div.navbar-collapse.menu ul.depth1 li a {
+    color: black;
+}
+
+div.navbar div.container div.navbar-collapse.menu ul.depth1 li a img {
+    display: block;
+    margin: 0 auto;
+}
+
+div.navbar div.container div.navbar-collapse.menu ul.depth1 li ul.depth2 {
+    padding: 0;
+    list-style: none;
+    font-size: 0;
+}
+
+div.navbar div.container div.navbar-collapse.menu ul.depth1 li ul.depth2 li {
+    display: inline-block;
+    width: 30%;
+    margin-left: 5%;
+}
+
+div.navbar div.container div.navbar-collapse.menu ul.depth1 li ul.depth2 li:first-child,
+div.navbar div.container div.navbar-collapse.menu ul.depth1 li ul.depth2 li:nth-child(4) {
+    margin-left: 0;
+}
+
+div.navbar div.container div.navbar-collapse.menu ul.depth1 li ul.depth2 li a {
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 10px;
+    display: block;
+    color: black;
+}
+/* 기본 헤더 */
+
+
+
+
+
+
+section.slideForm article form table td input[type="text"],
+section.slideForm article form table td input[type="password"] {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #d7d7d7;
+    font-size: 14px;
+    padding: 5px;
+	margin-top:2px;
+}
+
+
+section.slideForm article form h3 {
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 19px;
+    font-weight: bold;
+    margin: 0 auto;
+	margin-top: 2%;
+}
+
+
+section.slideForm article form table {
+    margin: 0 auto;
+    margin-top: 5%;
+    font-weight: bold;
+    font-size: 16px;
+	width:90%;
+	min-height: 100%;
+}
+
+
+section.slideForm article form table td button {
+    border: none;
+    background-color: #a0ce54;
+    color: #fff;
+    font-size: 14px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    min-width: 75px;
+    min-height: 35px;
+	margin-top:5%;
+}
+
+section.slideForm article.membership .form-Body form table td input{
+margin-top:3%;
+}
+
+ @media screen and (max-width:330px){
+
+section.slideForm article.membership .form-Body form table td input{ 
+    height: 30px;
+}
+
+}
+
+div#loading
+{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    background: rgba(0,0,0,.2);
+}
+
+div#loading img
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+}
+
+
+
+div.fMenu
+{
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid black;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+div.fMenu > ul
+{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+    background-color: white;
+    line-height: 50px;
+}
+
+div.fMenu > ul li
+{
+    float: left;
+    width: 20%;
+    text-align: center;
+    height: 50px;
+}
+
+div.fMenu > ul li.active
+{
+    background-color: black;
+}
+
+div.fMenu > ul li.active a
+{
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+div.fMenu > ul li > a > img
+{
+    width: 35px;
+    height: 35px;
+}

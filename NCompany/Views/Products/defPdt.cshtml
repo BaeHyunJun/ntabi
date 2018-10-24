@@ -1,0 +1,556 @@
+﻿@using NCompany.Models
+
+@{
+    Layout = null;
+
+    var pdtData = ViewBag.pdtData;
+    var inHotels = ViewBag.getInHotels;
+    
+    string type = "",
+           nation = "",
+           area = "",
+           title = "",
+           content = "",
+           emp = "",
+           scity = "",
+           proc = "",
+           order = "",
+           days = "",
+           options = "",
+           istDate = "",
+           istEmp = "",
+           udtDate = "",
+           udtEmp = "",
+           options1 = "",
+           options2 = "",
+           options3 = "",
+           options4 = "",
+           city = "",
+           minCnt = "",
+           combineHotels = "",
+           hotelTxt = "";
+
+
+
+    string chked = "checked=checked",
+           selected = "selected=selected",
+           disabled = "disabled=disabled";
+
+    if (pdtData != null)
+    {
+        foreach (object item in pdtData)
+        {
+            try { type      = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+            try { nation    = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+            try { area      = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+            try { title     = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+            try { content   = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+            try { emp       = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+            try { scity     = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+            try { proc      = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+            try { order     = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+            try { days      = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { }
+            try { options   = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); } catch { }
+            try { istDate   = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); } catch { }
+            try { udtDate   = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); } catch { }
+            try { istEmp    = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); } catch { }
+            try { udtEmp    = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); } catch { }
+            
+            try { options1  = item.GetType().GetProperties()[15].GetValue(item, null).ToString(); } catch { }
+            try { options2  = item.GetType().GetProperties()[16].GetValue(item, null).ToString(); } catch { }
+            try { options3  = item.GetType().GetProperties()[17].GetValue(item, null).ToString(); } catch { }
+            try { options4  = item.GetType().GetProperties()[18].GetValue(item, null).ToString(); } catch { }
+            
+            try { city  = item.GetType().GetProperties()[19].GetValue(item, null).ToString(); } catch { }
+            try { minCnt  = item.GetType().GetProperties()[20].GetValue(item, null).ToString(); } catch { }
+            try { combineHotels  = item.GetType().GetProperties()[21].GetValue(item, null).ToString(); } catch { }
+        }
+        
+        if (options1 != "Y" || options2 != "Y" || options3 != "Y" || options4 != "Y")
+        {
+            proc = "";
+        }
+    }
+    
+    if (inHotels != null)
+    {
+        
+        foreach (object item in inHotels)
+        {
+            string chk = "";
+            try
+            {
+                chk = item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+            }
+            catch
+            {
+                
+            }
+
+            hotelTxt += item.GetType().GetProperties()[0].GetValue(item, null).ToString() + " : " + item.GetType().GetProperties()[1].GetValue(item, null).ToString() + " : " + chk + ", ";
+        }
+    }
+
+    var user = Session["user"] as User;
+    
+    if (emp == "")
+    {
+        emp = user.Login;
+    }
+}
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">상품 등록</h4>
+        </div>
+        <div class="modal-body">
+            <form name="pdtForm" method="post" action="/Products/updatePdt">
+                <input type="hidden" name="redirect" value="@ViewBag.rUrl" />
+                <input type="hidden" name="code" value="@Request["code"]" />
+                <input type="hidden" name="key" value="@Request["key"]" />
+                <input type="hidden" name="inHotels" value="@hotelTxt" />
+                <div class="row">
+                    <div class="form-group input-group col-xs-12 col-md-3">
+                        <div class="input-group-addon">구분</div>
+                        <select class="form-control PdtType" name="type">
+                            <option value="">선택</option>
+                            <option value="FT" @{ if (type == "FT") { @selected } }>자유여행</option>
+                            <option value="PT" @{ if (type == "PT") { @selected } }>패키지여행</option>
+                            <option value="VP" @{ if (type == "VP") { @selected } }>버라이어티팩</option>
+                            <option value="LT" @{ if (type == "LT") { @selected } }>현지투어</option>
+                            <option value="PS" @{ if (type == "PS") { @selected } }>패스/티켓</option>
+                            <option value="HT" @{ if (type == "HT") { @selected } }>호텔</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-xs-12 col-md-3">
+                        <div class="input-group-addon">국가</div>
+                        <select class="form-control" name="nation">
+                            <option value="">선택</option>
+                            @*<option value="JP" @{ if (nation == "JP") { @selected } }>@Html.Action("getNationTxt", new { code = "JP" })</option>
+                            <option value="HM" @{ if (nation == "HM") { @selected } }>@Html.Action("getNationTxt", new { code = "HM" })</option>
+                            <option value="TW" @{ if (nation == "TW") { @selected } }>@Html.Action("getNationTxt", new { code = "TW" })</option>
+                            <option value="SA" @{ if (nation == "SA") { @selected } }>@Html.Action("getNationTxt", new { code = "SA" })</option>
+                            <option value="HN" @{ if (nation == "HN") { @selected } }>@Html.Action("getNationTxt", new { code = "HN" })</option>
+                            <option value="GS" @{ if (nation == "GS") { @selected } }>@Html.Action("getNationTxt", new { code = "GS" })</option>*@
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-xs-12 col-md-3">
+                        <div class="input-group-addon">지역</div>
+                        <select class="form-control" name="area">
+                            <option value="" @{ if (area == "") { @selected } }>선택</option>
+                            @*<option value="KYU" @{ if (area == "KYU") { @selected } }>@Html.Action("getAreaTxt", new { code = "KYU" })</option>
+                            <option value="TOK" @{ if (area == "TOK") { @selected } }>@Html.Action("getAreaTxt", new { code = "TOK" })</option>
+                            <option value="OSA" @{ if (area == "OSA") { @selected } }>@Html.Action("getAreaTxt", new { code = "OSA" })</option>
+                            <option value="HOK" @{ if (area == "HOK") { @selected } }>@Html.Action("getAreaTxt", new { code = "HOK" })</option>
+                            <option value="TSU" @{ if (area == "TSU") { @selected } }>@Html.Action("getAreaTxt", new { code = "TSU" })</option>
+                            <option value="OKI" @{ if (area == "OKI") { @selected } }>@Html.Action("getAreaTxt", new { code = "OKI" })</option>
+                            <option value="NGY" @{ if (area == "NGY") { @selected } }>@Html.Action("getAreaTxt", new { code = "NGY" })</option>*@
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-xs-12 col-md-3">
+                        <div class="input-group-addon">도시</div>
+                        <select class="form-control" name="city">
+                            <option value="" @{ if (scity == "") { @selected } }>선택</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-12">
+                        <input type="text" class="form-control" placeholder="상품 명" maxlength="50" name="title" value="@{ if(title != ""){ @title } }" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-12">
+                        <textarea class="form-control" rows="3" placeholder="간단한 상품 설명을 써주세요." name="content">@{ if(content != ""){ @content } }</textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-xs-6 col-md-6">
+                        <input type="text" class="form-control" placeholder="여행 도시" maxlength="50" name="cities" value="@{ if(city != ""){ @city } }" />
+                    </div>
+                    <div class="form-group col-xs-3 col-md-3 input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" name="combine" id="combine" value="Y" @if (combineHotels == "Y") { @chked } />
+                        </span>
+                        <label for="combine" class="form-control"> 결합 상품? </label>
+                            
+                    </div>
+                        
+                    <div class="form-group input-group col-xs-3 col-md-3">
+                        <button class="form-control btn btn-default" data-toggle="popup">
+                            호텔 등록
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">담당 사원</div>
+                        <select class="form-control" name="emp">
+                            <option value="" @{ if (emp == "") { @selected } }>선택</option>
+
+                            <option value="7" @{ if (emp == "7") { @selected  } }>@Html.Action("getName", new { emp = 7 })</option>
+                            <option value="6" @{ if (emp == "6") { @selected  } }>@Html.Action("getName", new { emp = 6 })</option>
+                            <option value="24" @{ if (emp == "24") { @selected  } }>@Html.Action("getName", new { emp = 24 })</option>
+                            <option value="11" @{ if (emp == "11") { @selected  } }>@Html.Action("getName", new { emp = 11 })</option>
+                            <option value="13" @if (emp == "13") { @selected }>@Html.Action("getName", new { emp = 13 })</option>
+                            <option value="20" @{ if (emp == "20") { @selected  } }>@Html.Action("getName", new { emp = 20 })</option>
+                            <option value="3" @{ if (emp == "3") { @selected  } }>@Html.Action("getName", new { emp = 3 })</option>
+                            <option value="21" @{ if (emp == "21") { @selected  } }>@Html.Action("getName", new { emp = 21 })</option>
+                            <option value="4" @{ if (emp == "4") { @selected  } }>@Html.Action("getName", new { emp = 4 })</option>
+                            <option value="22" @{ if (emp == "22") { @selected  } }>@Html.Action("getName", new { emp = 22 })</option>
+                            <option value="23" @{ if (emp == "23") { @selected  } }>@Html.Action("getName", new { emp = 23 })</option>
+                            <option value="28" @{ if (emp == "28") { @selected  } }>@Html.Action("getName", new { emp = 28 })</option>
+                            <option value="29" @{ if (emp == "29") { @selected  } }>@Html.Action("getName", new { emp = 29 })</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">최소 인원</div>
+                        @*<select class="form-control" name="scity" disabled="disabled">
+                            <option value="" @{ if (scity == "") { @selected } }>선택</option>
+                            <option value="tok" @{ if (scity == "tok") { @selected } } selected="selected">준비중</option>
+                        </select>*@
+                        <input type="text" class="form-control" maxlength="3" name="minCnt" value="@{ if (minCnt == "") { minCnt = "1"; } @minCnt }">
+                    </div>
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">진행 구분</div>
+                        <select class="form-control" name="proc" @{ if (proc == "") { @disabled } }>>
+                            <option value="01" @{ if (proc == "01") { @selected } }>준비중</option>
+                            <option value="02" @{ if (proc == "02") { @selected } }>판매중</option>
+                            <option value="03" @{ if (proc == "03") { @selected } }>마감</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">정렬 순서</div>
+                        <input type="text" class="form-control" maxlength="3" name="order" value="@{ if (order == "") { order = "1"; } @order }">
+                    </div>
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">행사 일수</div>
+                        <select class="form-control" name="days">
+                            <option value="" @{ if (days == "") { @selected } }>선택</option>
+                            <option value="0001" @{ if (days == "0001") { @selected } }>당일치기</option>
+                            <option value="0002" @{ if (days == "0002") { @selected } }>0박 2일</option>
+                            <option value="0003" @{ if (days == "0003") { @selected } }>0박 3일</option>
+                            <option value="0102" @{ if (days == "0102") { @selected } }>1박 2일</option>
+                            <option value="0103" @{ if (days == "0103") { @selected } }>1박 3일</option>
+                            <option value="0104" @{ if (days == "0104") { @selected } }>1박 4일</option>
+                            <option value="0203" @{ if (days == "0203") { @selected } }>2박 3일</option>
+                            <option value="0204" @{ if (days == "0204") { @selected } }>2박 4일</option>
+                            <option value="0205" @{ if (days == "0205") { @selected } }>2박 5일</option>
+                            <option value="0304" @{ if (days == "0304") { @selected } }>3박 4일</option>
+                            <option value="0305" @{ if (days == "0305") { @selected } }>3박 5일</option>
+                            <option value="0306" @{ if (days == "0306") { @selected } }>3박 6일</option>
+                            <option value="0405" @{ if (days == "0405") { @selected } }>4박 5일</option>
+                            <option value="0406" @{ if (days == "0406") { @selected } }>4박 6일</option>
+                            <option value="0506" @{ if (days == "0506") { @selected } }>5박 6일</option>
+                            <option value="0507" @{ if (days == "0507") { @selected } }>5박 7일</option>
+                            <option value="0607" @{ if (days == "0607") { @selected } }>6박 7일</option>
+                            <option value="0608" @{ if (days == "0608") { @selected } }>6박 8일</option>
+                            <option value="0708" @{ if (days == "0708") { @selected } }>7박 8일</option>
+                            <option value="0709" @{ if (days == "0709") { @selected } }>7박 9일</option>
+                            <option value="0809" @{ if (days == "0809") { @selected } }>8박 9일</option>
+                            <option value="0810" @{ if (days == "0810") { @selected } }>8박 10일</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">상품 옵션</div>
+                        <select class="form-control" name="options">
+                            <option value="없음" @{ if (options == "" || options == "없음") { @selected } }>선택</option>
+                            <option value="best" @{ if (options == "best") { @selected } }>베스트 상품</option>
+                            <option value="vari" @{ if (options == "vari") { @selected } }>버라이어티 팩</option>
+                            <option value="airf" @{ if (options == "airf") { @selected } }>에어프리팩</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group input-group col-xs-12 col-md-12" style="margin-bottom: 0;">
+                        <table class="table table-bordered" style="margin-bottom: 0;">
+                            <colgroup>
+                                <col style="width: 20%" />
+                                <col style="width: 30%" />
+                                <col style="width: 20%" />
+                                <col style="width: 30%" />
+                            </colgroup>
+                            <tr>
+                                <th>등록 일</th>
+                                <td> @{ 
+                                        string txt = ""; 
+                                        
+                                        if (istDate == "") { 
+                                            txt = "-"; 
+                                        } else { 
+                                            txt = istDate.Split('.')[0] + "년 " + istDate.Split('.')[1] + "월 " + istDate.Split('.')[2] + "일";
+                                        } 
+                                        
+                                        @txt
+                                    }
+                                </td>
+                                <th>수정 일</th>
+                                <td>
+                                    @{
+                                        if (udtDate == "") { 
+                                            txt = "-"; 
+                                        } else {
+                                            txt = udtDate.Split('.')[0] + "년 " + udtDate.Split('.')[1] + "월 " + udtDate.Split('.')[2] + "일";
+                                        } 
+                                        
+                                        @txt
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>등록 사원</th>
+                                <td>
+                                    @{
+                                        if (istEmp == "") { 
+                                            txt = "-"; 
+                                        } else {
+                                            txt = Html.Action("getName", new { emp = int.Parse(istEmp) }).ToString();
+                                        }
+
+                                        @txt
+                                    }
+                                </td>
+                                <th>수정 사원</th>
+                                <td>
+                                    @{
+                                        if (udtEmp == "") { 
+                                            txt = "-"; 
+                                        } else {
+                                            txt = Html.Action("getName", new { emp = int.Parse(istEmp) }).ToString();
+                                        } 
+                                        
+                                        @txt
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">등록</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+<script>
+    $('[data-toggle="popup"]').on("click", function (e) {
+        e.preventDefault();
+        var _this = $(this),
+            url = "/Products/setOptions",
+            nation = "",
+            area = "",
+            days = "";
+
+        //if (_this.find("input").is(":checked"))
+        //{
+        //    if (confirm("등록된 호텔이 삭제 됩니다. 정말 삭제하시겠습니까?"))
+        //    {
+        //        $("input[name='inHotels']").val("");
+        //        $("input[name='combine']").attr("checked", false);
+        //    }
+        //    return;
+        //}
+
+        nation  = $("form[name=pdtForm] select[name=nation] option:selected").val();
+        area    = $("form[name=pdtForm] select[name=area] option:selected").val();
+        days    = $("form[name=pdtForm] select[name=days] option:selected").val();
+
+        if (nation == "" || area == "")
+        {
+            alert("국가/지역 을 선택해 주세요.");
+            return;
+        }
+
+        var datas = { nation: nation, area: area, days: days };
+
+        if (url.indexOf('#') == 0) {
+            $(url).modal('show');
+        } else {
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade setOptions">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        }
+    });
+
+    $(document).on('hidden.bs.modal', function (e) {
+        $(e.target).remove();
+    });
+
+    $("form[name='pdtForm'] select[name=nation]").on("change", function () {
+        getAreas();
+    });
+
+    function getAreas()
+    {
+        var _this = $("form[name='pdtForm'] select[name=nation]");
+
+        var url = "/Products/JSON_getCode";
+        //var datas = { nation: _this.val() };
+        var datas = { category: 'ARE', nation: _this.find("option:selected").attr("data-code3") };
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datas,
+            success: function (data) {
+                var html = '<option value="">선택</option>';
+
+                for (i in data) {
+                    html += '<option value="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                    //html += '<option value="' + i + '">' + data[i] + '</option>';
+                }
+
+                $("form[name='pdtForm'] select[name='area']").html(html);
+                $("form[name='pdtForm'] select[name='area']").val("@area");
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+                getCity()
+            }
+        });
+    }
+
+    function getCity() {
+        var _this = $("form[name='pdtForm'] select[name=area]");
+
+        var url = "/Products/JSON_getCode";
+        var datas = { category: 'CTY', area: _this.find("option:selected").val() };
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datas,
+            success: function (data) {
+                var html = '<option value="">선택</option>';
+
+                for (i in data) {
+                    html += '<option value="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                }
+
+                $("form[name='pdtForm'] select[name='city']").html(html);
+                $("form[name='pdtForm'] select[name='city']").val("@scity");
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    }
+
+    $("select[name=area]").on("change", function () {
+        getCity();
+    });
+
+    function getNations()
+    {
+        var url = "/Products/JSON_getCode";
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { category: 'NAT' },
+            success: function (data) {
+                var html = '<option value="">선택</option>';
+
+                for (i in data) {
+                    html += '<option value="' + data[i].AlterCode + '" data-code3="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                    //html += '<option value="' + i + '">' + data[i] + '</option>';
+                }
+
+                $("form[name='pdtForm'] select[name='nation']").html(html);
+                $("form[name='pdtForm'] select[name='nation']").val("@nation");
+                //$("form[name='pdtForm'] select[name='nation'] > option[value='" + nation + "']").attr("selected", "true").change();
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+                getAreas();
+            }
+        });
+    }
+
+    $(".PdtType").on("change", function () {
+        var _this = $(this),
+            f = document.pdtForm;
+
+        if (_this.val() == "PS")
+        {
+            f.combine.disabled = true;
+            f.proc.disabled = false;
+        }
+        else
+        {
+            f.combine.disabled = false;
+            f.proc.disabled = true;
+        }
+    });
+
+    $("#uptBtn").on("click", function () {
+        var f = document.pdtForm,
+            ErMsg = "",
+            focusEl;
+
+        if (f.type.value == "") {
+            ErMsg = "상품 구분을 선택해주세요.";
+            focusEl = f.type;
+        } else if (f.nation.value == "") {
+            ErMsg = "국가를 선택해주세요.";
+            focusEl = f.nation;
+        } else if (f.area.value == "") {
+            ErMsg = "지역을 선택해주세요.";
+            focusEl = f.area;
+        } else if (f.title.value == "") {
+            ErMsg = "상품 명을 입력해주세요.";
+            focusEl = f.title;
+        } else if (f.content.value == "") {
+            ErMsg = "상품의 간단한 설명을 입력해주세요.";
+            focusEl = f.content;
+        } else if (f.emp.value == "") {
+            ErMsg = "담당 사원을 선택해주세요.";
+            focusEl = f.emp;
+        } else if (f.city.value == "") {
+            ErMsg = "도시를 선택해주세요.";
+            focusEl = f.city;
+        } else if (f.order.value == "") {
+            ErMsg = "정렬 순서를 입력해주세요.";
+            focusEl = f.order;
+        } else if (f.days.value == "") {
+            ErMsg = "행사 일수를 선택해주세요.";
+            focusEl = f.days;
+        }
+
+        if (ErMsg != "") {
+            alert(ErMsg);
+            focusEl.focus();
+            return;
+        }
+
+        $(this).attr("disabled", true)
+
+        f.submit();
+    });
+
+    getNations();
+</script>

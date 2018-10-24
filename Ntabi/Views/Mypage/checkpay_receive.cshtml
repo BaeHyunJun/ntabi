@@ -1,0 +1,5 @@
+﻿@{
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Raw(Html.Encode(Model).Replace("&quot;", "\""))

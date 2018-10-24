@@ -1,0 +1,345 @@
+﻿@{
+    Layout = null;
+
+    string title = "",
+           content = "",
+           feature = "",
+           name = "",
+           corp = "",
+           category = "",
+           option = "",
+           mContent = "",
+           chked = "checked=checked",
+           disabled = "disabled=disabled";
+           
+    foreach(object item in Model)
+    {
+        title = "";
+        content = "";
+        feature = "";
+        name = "";
+        option = "";
+        mContent = "";
+        
+        try { title     = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+        try { name      = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+        try { content   = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+        try { feature   = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+        try { corp      = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+        try { category  = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { }
+        try { option    = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); } catch { }
+        try { mContent  = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); } catch { }
+    }
+
+    string txt = "글 작성";
+
+    if (!string.IsNullOrEmpty(title))
+    {
+        txt = "글 수정";
+    }
+
+    if (corp == "")
+    {
+        corp = "NTB";
+    }
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/smart_editor2_in.css" />
+
+<div class="modal-dialog" role="document" style="width: 780px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">@txt</h4>
+        </div>
+        <div class="modal-body">
+            
+            <form name="schForm" method="post" action="/Community/Update">
+                <input type="hidden" name="type" value="@Request["type"]" />
+                <input type="hidden" name="key" value="@Request["key"]" />
+
+                @if (!string.IsNullOrEmpty(title))
+                { 
+                    @Html.Hidden("corp[]", corp)
+                }
+
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-12">
+                        <label>
+                            <input type="radio" name="corp[]" value="NTB" @if (corp == "NTB") { @chked } @if (!string.IsNullOrEmpty(title)) { @disabled } required />
+                            엔타비
+                        </label>
+                        <label>
+                            <input type="radio" name="corp[]" value="NDT" @if (corp == "NDT") { @chked } @if (!string.IsNullOrEmpty(title)) { @disabled } required />
+                            엔데이트립
+                        </label>
+                    </div>
+                </div>
+                
+                @if (Request["type"] == "notice")
+                { 
+                <div class="row ntabiCat">
+                    <div class="form-group col-xs-12 col-md-12">
+                        <label>
+                            <input type="radio" name="category[]" value="notice" @if (category == "notice") { @chked } required />
+                            공지사항
+                        </label>
+                        <label>
+                            <input type="radio" name="category[]" value="air" @if (category == "air") { @chked  } required />
+                            항공
+                        </label>
+                        <label>
+                            <input type="radio" name="category[]" value="ship" @if (category == "ship") { @chked } required />
+                            선박
+                        </label>
+                        <label>
+                            <input type="radio" name="category[]" value="event" @if (category == "event") { @chked } required />
+                            특가/이벤트
+                        </label>
+                        <label>
+                            <input type="radio" name="category[]" value="local" @if (category == "local") { @chked } required />
+                            현지소식
+                        </label>
+                    </div>
+                </div>
+                }
+                
+                @if (Request["type"] == "event")
+                { 
+                <div class="row ntabiCat">
+                    <div class="form-group col-xs-12 col-md-12">
+                        <label>
+                            <input type="radio" name="category[]" value="events" @if (category == "events") { @chked } required />
+                            이벤트
+                        </label>
+                        <label>
+                            <input type="radio" name="category[]" value="coupon" @if (category == "coupon") { @chked } required />
+                            쿠폰
+                        </label>
+                    </div>
+                </div>
+                }
+                
+                @if (Request["type"] == "recommend")
+                { 
+                <div class="row ntabiCat">
+                    <div class="form-group col-xs-12 col-md-12">
+                        <label>
+                            <input type="radio" name="category[]" value="local" @if (category == "local") { @chked } required />
+                            현지소식
+                        </label>
+                        <label>
+                            <input type="radio" name="category[]" value="theme" @if (category == "theme") { @chked  } required />
+                            테마파크
+                        </label>
+                        <label>
+                            <input type="radio" name="category[]" value="ryokan" @if (category == "ryokan") { @chked } required />
+                            료칸
+                        </label>
+                    </div>
+                </div>
+                }
+
+                @if (Request["type"] == "event" || Request["type"] == "promotion" || Request["type"] == "recommend")
+                {
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-md-12">
+                            <p style="display: inline-block; margin: 0 20px 10px 10px; font-size: 17px; color: #999;">대표 이미지 등록</p>
+                            <a class="uploadImg" id="featureImg" href="#" style="border: 1px solid #ddd; display: inline-block; width: 120px; height: 90px;">
+                                @if (string.IsNullOrEmpty(feature))
+                                {
+                                    <img src="~/Content/images/upload.jpg" style="width: 100%; height: 100%;" />
+                                }
+                                else
+                                {
+                                    <img src="@feature" style="width: 100%; height: 100%;" />
+                                }
+                            </a>
+                            <input type="hidden" name="feature" value="@feature" />
+                        </div>
+                    </div>
+                }
+                
+
+                @if (Request["type"] == "review")
+                {
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-12">
+                        <input type="text" class="form-control" placeholder="글쓴이" maxlength="50" name="name" value="@name">
+                    </div>
+                </div>
+                }
+
+                <div class="row">
+                    <div class="form-group col-xs-12 col-md-12">
+                        <input type="text" class="form-control" placeholder="제목" maxlength="50" name="title" value="@title">
+                    </div>
+                </div>
+
+                @if (Request["type"] == "recommend" || Request["type"] == "promotion")
+                {
+                    string placeTxt= "",
+                           length = "0";
+                    
+                    switch(Request["type"])
+                    {
+                        case "recommend":
+                            placeTxt = "간단 소개";
+                            length = "10";
+                            break;
+                        case "promotion":
+                            placeTxt = "파일 이름";
+                            length = "20";
+                            break;
+                    }
+                    
+                    <div class="row">
+                        <div class="form-group col-xs-12 col-md-12">
+                            <input type="text" class="form-control" placeholder="@placeTxt" maxlength="@length" name="option" value="@option">
+                        </div>
+                    </div>
+                }
+
+                <div class="row">
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation"><a href="#PC" aria-controls="PC" role="tab" data-toggle="tab">PC 버전</a></li>
+                        @if (Request["type"] == "event")
+                        {
+                            <li role="presentation"><a href="#Mobile" aria-controls="Mobile" role="tab" data-toggle="tab">Mobile 버전</a></li>
+                        }
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane" id="PC">
+                            <div class="form-group col-xs-12 col-md-12">
+                                <textarea class="form-control content" rows="15" name="content" id="content"  style="width: 100%;">@content</textarea>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="Mobile">
+                            <div class="form-group col-xs-12 col-md-12">
+                                <textarea class="form-control content" rows="15" name="mContent" id="mContent" style="width: 100%;">@mContent</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">저장</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/HuskyEZCreator.js"></script>
+
+<script>
+    var oEditors = [];
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        e.target // newly activated tab
+        e.relatedTarget // previous active tab
+
+        var className = $(this).attr("aria-controls");
+
+        var txtara = $("div#" + className).find("textarea.content");
+        var id = txtara.attr("id");
+
+        var isShow = txtara.css("display");
+
+        if (isShow == "block") {
+            nhn.husky.EZCreator.createInIFrame({
+                oAppRef: oEditors,
+                elPlaceHolder: id,
+                sSkinURI: "/Editor/SmartEditor2Skin",
+                fCreator: "createSEditor2"
+            });
+        }
+    })
+
+    $("ul.nav.nav-tabs").find("li:eq(0) > a").click();
+
+    $('.uploadImg').on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var opt = "left=0,top=0,width=403,height=359,scrollbars=yes,location=no,status=0,resizable=no";
+        window.open("/Editor/Photo_uploader?isFeature=true", "대표 이미지", opt);
+    });
+
+    $("input[name='corp[]']").on("change", function () {
+        var _this = $(this);
+
+        if(_this.val() == "NTB")
+        {
+            $(".ntabiCat").show();
+        }
+        else
+        {
+            $(".ntabiCat").hide();
+        }
+    });
+
+    $("#uptBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.schForm;
+
+        oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+                        
+        
+        if ('@Request["type"]' == "event")
+        {
+            oEditors.getById["mContent"].exec("UPDATE_CONTENTS_FIELD", []);
+            var mContent = f.mContent.value;
+            f.mContent.value = encodeURIComponent(mContent);
+        }
+
+        var type        = f.type.value;
+        var title       = f.title.value;
+        var content     = f.content.value;
+
+        f.content.value = encodeURIComponent(content);
+
+        var corp = $("input[name='corp[]']:checked").val();
+
+        switch(corp)
+        {
+            case "NTB":
+                corp = "엔타비";
+
+                if (type == "promotion")
+                    break;
+
+                if ($("input[name='category[]']:checked").val() == "" || $("input[name='category[]']:checked").val() == undefined)
+                {
+                    alert("타입을 선택해주세요.");
+                    return;
+                }
+
+                break;
+            case "NDT":
+                corp = "엔데이트립";
+                break;
+        }
+
+        if (title == "") {
+            alert("제목을 입력하지 않았습니다. 입력해주세요.");
+            return;
+        }
+
+        if (content == "") {
+            alert("내용을 입력하지 않았습니다. 입력해주세요.");
+            return;
+        }
+
+        if (confirm(corp + " 홈페이지로 글이 작성됩니다. \n확인하셨습니까?"))
+        {
+            f.submit();
+        }
+    });
+</script>

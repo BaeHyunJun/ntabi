@@ -1,0 +1,335 @@
+﻿@using NDayTrip_PC.Models;
+@using System.Text.RegularExpressions;
+@{
+    var type = Request["t"];
+    var key = Request["k"];
+
+    if (string.IsNullOrEmpty(type))
+    {
+        type = "notice";
+    }
+
+    string title = "",
+           addClass = "class=in",
+           imgName = "_in";
+
+    switch (type)
+    {
+        case "notice":
+            title = "자유게시판";
+            break;
+        case "review":
+            title = "이용후기";
+            break;
+        case "qna":
+            title = "질문과답변";
+            break;
+        case "event":
+            title = "이벤트";
+            break;
+    }
+}
+<style>
+    div#wrap article#container div.pro_top {
+        height: 80px;
+        background-color: #ededed;
+    }
+
+        div#wrap article#container div.pro_top p {
+            width: 1050px;
+            margin: 0 auto;
+            font-size: 24px;
+            line-height: 80px;
+        }
+
+    div#wrap article#container ul.set {
+        padding: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+        width: 50%;
+        margin: 50px auto;
+    }
+
+        div#wrap article#container ul.set > li {
+            float: left;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid #ddd;
+            width: 25%;
+            padding: 18px 0 5px;
+            line-height: 35px;
+            border-left: 0;
+        }
+
+            div#wrap article#container ul.set > li:first-child {
+                border-left: 1px solid #ddd;
+            }
+
+            div#wrap article#container ul.set > li a.in {
+                color: #a0ce54;
+            }
+
+            div#wrap article#container ul.set > li > a > img {
+                width: 100%;
+            }
+
+    section.board {
+        width: 1030px;
+        margin: 0 auto 60px;
+        border: 1px solid #ddd;
+        padding: 20px;
+    }
+
+        section.board > h4 {
+            border-bottom: 1px solid #ddd;
+            margin: -20px;
+            padding: 20px 20px;
+            font-size: 16px;
+            background-color: #a0ce54;
+            color: white;
+            font-weight: normal;
+        }
+
+            section.board > h4 > span {
+                float: right;
+            }
+
+        section.board > span {
+            line-height: 35px;
+            display: block;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        section.board div.cont {
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+            section.board div.cont img {
+                max-width: 946px;
+            }
+
+        section.board div.reply {
+            margin: 20px 0;
+        }
+
+            section.board div.reply > h2 {
+                font-size: 24px;
+            }
+
+            section.board div.reply div.comment {
+                background-color: #eee;
+                padding: 20px;
+            }
+
+                section.board div.reply div.comment textarea.rContent {
+                    width: 830px;
+                    padding: 10px;
+                    line-height: 25px;
+                    height: 72px;
+                }
+
+                section.board div.reply div.comment a.reply_add_btn {
+                    width: 105px;
+                    height: 72px;
+                    display: inline-block;
+                    float: right;
+                    line-height: 72px;
+                    text-align: center;
+                    background-color: #a0ce54;
+                    color: white;
+                    font-size: 16px;
+                    border-radius: 5px;
+                }
+</style>
+
+<div class="pro_top">
+
+    <p><span>@title</span></p>
+
+</div>
+
+<ul class="set">
+    <li><a href="/Community/Lists?t=notice" @if (type == "notice" ) { @addClass }><img src="~/Content/Images/icon_notice@{if(type == " notice"){@imgName}}.png"><br>자유게시판</a></li>
+    <li><a href="/Community/Lists?t=review" @if (type == "review" ) { @addClass }><img src="~/Content/Images/icon_review@{if(type == " review"){@imgName}}.png"><br>이용후기</a></li>
+    <li><a href="/Community/Lists?t=qna" @if (type == "qna" ) { @addClass }><img src="~/Content/Images/icon_qna@{if(type == " qna"){@imgName}}.png"><br>질문과답변</a></li>
+    <li><a href="/Community/Lists?t=event" @if (type == "event" ) { @addClass }><img src="~/Content/Images/icon_event@{if(type == " event"){@imgName}}.png"><br>이벤트</a></li>
+</ul>
+
+<section class="board">
+    @{
+    var user = Session["user"] as User;
+
+    string Btype = "",
+    Bkey = "",
+    Btitle = "",
+    Bdate = "",
+    Bname = "",
+    Bstate = "",
+    Bcontent = "";
+
+    object aaaaa;
+
+    foreach (object item in Model)
+    {
+    Btype = "";
+    Bkey = "";
+    Btitle = "";
+    Bdate = "";
+    Bname = "";
+    Bstate = "";
+    Bcontent = "";
+
+    try { Btype = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+    try { Bkey = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+    try { Btitle = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+    try { Bdate = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+    try { Bstate = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+    try { Bname = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+    try { Bcontent = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+
+
+    aaaaa = item.GetType().GetProperties()[7].GetValue(item, null);
+    <h4>
+        @Btitle
+        <span>@Bdate</span>
+    </h4>
+    <span>작성자 : @Bname</span>
+
+
+    <div class="cont">
+        @{
+        string cont = Bcontent;
+
+        try
+        {
+        cont = Regex.Replace(cont, @"\r\n|\n|\r", "<br />");
+        }
+        catch { }
+
+        @MvcHtmlString.Create(cont)
+        }
+    </div>
+
+    <div class="reply">
+        <h2>
+            @{
+            int rcnt = 0;
+            var cnt = aaaaa as List<review>
+                ;
+                if (cnt[0].CU_SEQ != 0)
+                {
+                rcnt = cnt.Count;
+                }
+                }
+                댓글 @(rcnt > 0 ? rcnt.ToString() : "없음")
+        </h2>
+        @*
+        <div class="comment">
+            <textarea class="rContent"></textarea>
+            <a class="reply_add_btn">등록</a>
+        </div>
+        *@
+        @{
+        string rid = "",
+        rcont = "",
+        rdate = "",
+        rname = "";
+
+        foreach (object ab in aaaaa as List<review>
+            )
+            {
+            rid = "";
+            rcont = "";
+            rdate = "";
+            rname = "";
+
+            try { rid = ab.GetType().GetProperties()[0].GetValue(ab, null).ToString(); } catch { break; }
+            try { rname = ab.GetType().GetProperties()[3].GetValue(ab, null).ToString(); } catch { break; }
+            try { rcont = ab.GetType().GetProperties()[4].GetValue(ab, null).ToString(); } catch { break; }
+            try { rdate = ab.GetType().GetProperties()[6].GetValue(ab, null).ToString(); } catch { break; }
+
+
+            if (rid == "0")
+            {
+            break;
+            }
+
+            <div style="padding: 20px; border-bottom: 1px solid #e1e1e1; font-size: 14px;">
+                <div style="line-height: 35px;">
+                    <span style="margin-right: 20px;">@rname (@rid)</span>@rdate
+
+                    @*@if (rPK == txt)
+                    {
+                    <span style="float:right" data-code="@rCode" class="removeRBtn">삭제</span>
+                    }*@
+
+                </div>
+                <p style="line-height: 22px; margin: 0;">
+                    @{
+                    string rrcont = rcont;
+
+                    try { rrcont = Regex.Replace(rrcont, @"\r\n|\n|\r", "<br />"); } catch { }
+
+                    @MvcHtmlString.Create(rrcont)
+                    }
+                </p>
+            </div>
+            }
+            }
+    </div>
+
+
+    @*
+    <script>
+        $(document).ready(function () {
+            $("div.comment a.reply_add_btn").on("click", function () {
+                var url = window.location.pathname + window.location.search;
+                url = encodeURIComponent(url);
+
+                if ("@user" == "") {
+                    alert("로그인을 하셔야 댓글을 등록할 수 있습니다.");
+                    location.href = "/Home/NDTLogin?r=" + url;
+                    return;
+                }
+
+                var _this = $(this),
+                    key = "@key",
+                    cont = _this.parents("div.comment").find("textarea");
+
+                var url = "/Community/JSON_Update";
+                var datas = { type: "@type", key: key, content: cont.val() };
+
+                if (cont.val() == "") {
+                    alert("내용을 입력해 주세요.");
+                    return;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: datas,
+                    success: function (data) {
+                        var cmdHtml = "";
+
+                        cmdHtml = "<li><p>" + data.post_content + "</p><span class='date'>등록일 " + data.ist_date.substring(0, 4) + "-" + data.ist_date.substring(4, 6) + "-" + data.ist_date.substring(6, 8) + "</span><span class='user'>" + data.name + "</span>"
+
+                        $("div.comment ul").html(cmdHtml);
+                        cont.val("");
+                    }
+                    , beforeSend: function () {
+                        $('#loading').show();
+                    }
+                    , complete: function () {
+                        $('#loading').hide();
+                    }
+                });
+            });
+        });
+    </script>*@
+
+    }
+    }
+</section>

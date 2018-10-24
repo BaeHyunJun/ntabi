@@ -1,0 +1,117 @@
+﻿@using System.Globalization;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string name = Model[0],
+           sDate = "",
+           eDate = "",
+           title = Model[1],
+           inCnt = Model[3],
+           empData = "";
+
+    var trfData = ViewBag.trfData;
+
+    string trfCode = "",
+           TRF_TITLE = "",
+           TRF_STIME = "",
+           TRF_SAREA = "",
+           TRF_ETIME = "",
+           TRF_EAREA = "",
+           TRF_TYPE = "",
+           TRF_SUB_SEQ = "";
+
+    int inCnt2 = Convert.ToInt32(inCnt.Substring(2)) - 1;
+    try
+    {
+        sDate = DateTime.ParseExact(Model[2], "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("yyyy.MM.dd") + " (" + DateTime.ParseExact(Model[2], "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("ddd") + ")";
+        eDate = DateTime.ParseExact(Model[2], "yyyy-MM-dd", CultureInfo.InvariantCulture).AddDays(inCnt2).ToString("yyyy.MM.dd") + " (" + DateTime.ParseExact(Model[2], "yyyy-MM-dd", CultureInfo.InvariantCulture).AddDays(inCnt2).ToString("ddd") + ")";
+    }
+    catch
+    {
+
+    }
+
+    foreach (object item in ViewBag.empData)
+    {
+        empData = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+    }
+}
+
+
+<div class="confirm">
+    <section class=" notice">
+        <p class="complete">예약이 정상적으로 접수되었습니다.</p>
+        <p class="happycall">
+            예약은 확정이 아니라 담당자의 예약내역 확인 후해피콜을 드립니다.<br />
+            <span>(주말 및 공휴일은 담당자의 확인이 늦어질 수도 있으므로<br>양해 부탁드립니다.)</span>
+            결제는 예약확정 후 진행 부탁드립니다.
+        </p>
+    </section> <!--.notice-->
+    <section class="bookinginfo">
+        <h3>예약정보</h3>
+        <div>
+            <ul>
+                <li class="city">
+                    <h4>예약자</h4>
+                    <p>@name</p>
+                </li> <!--.city-->
+                <li class="pdname">
+                    <h4>상품명</h4>
+                    <p>@title</p>
+                </li> <!--.pdname-->
+                @if (!string.IsNullOrEmpty(Model[2]))
+                {
+                <li class="time">
+                    <h4>여행일정</h4>
+                    @foreach (object item in trfData)
+                    {
+                    string outDate = "";
+
+                    try { trfCode       = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+                    try { TRF_TITLE     = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+                    try { TRF_STIME     = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+                    try { TRF_SAREA     = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+                    try { TRF_ETIME     = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+                    try { TRF_EAREA     = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+                    try { TRF_TYPE      = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+                    try { TRF_SUB_SEQ   = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { }
+
+                    if (TRF_SUB_SEQ.Equals("1"))
+                    {
+                    TRF_SUB_SEQ = "출국편";
+                    outDate = sDate;
+                    }
+                    else if (TRF_SUB_SEQ.Equals("2"))
+                    {
+                    TRF_SUB_SEQ = "귀국편";
+                    outDate = eDate;
+                    }
+
+                    <p>
+                        <strong>@TRF_SUB_SEQ</strong> @outDate<br />
+                        @TRF_TITLE | @TRF_SAREA (@TRF_STIME) - @TRF_EAREA (@TRF_ETIME)<br />
+                    </p>
+                    }
+                </li> <!--.time-->
+                }
+                <li class="planner">
+                    <h4>담당자</h4>
+                    <p>
+                        @empData
+                    </p>
+                </li> <!--.planner-->
+            </ul>
+        </div>
+    </section> <!--.bookinginfo-->
+    <div class="btn">
+        <ul>
+            <li class="write"><a href="/Mypage">예약확인</a></li>
+            <li class="back"><a href="/">메인으로</a></li>
+        </ul>
+    </div> <!--.btn-->
+    <section class="banner">
+        <p><a href="#"><img src="/Content/Images/pass/banner_pass.jpg" /></a></p>
+        <p><a href="#"><img src="/Content/Images/pass/banner_wifi.jpg" /></a></p>
+        <p><a href="#"><img src="/Content/Images/pass/banner_rentcar.jpg" /></a></p>
+    </section> <!--.banner-->
+</div>

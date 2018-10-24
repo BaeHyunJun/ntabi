@@ -1,0 +1,452 @@
+﻿@using mNtabi.Models;
+@using System.Globalization;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var user = Session["user"] as User;
+
+    string userKey = user == null ? "" : user.Login,
+           nickName = user == null ? "" : user.Name;
+}
+
+
+<style>
+
+    html,
+    body,
+    div#wrap {
+        height: 100%;
+    }
+
+    div#wrap {
+        margin: 0 !important;
+        padding-top: 60px;
+    }
+
+    footer {
+        display: none !important;
+    }
+
+    div.message_List {
+        width: 100%;
+        background: #E8EDF3;
+        margin: 0px auto;
+        padding: 20px;
+        overflow: auto;
+        background-image: url(/Content/Images/Products/bg_chat_logo.png);
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 20%;
+        height: 100%;
+        padding-bottom: 80px;
+    }
+
+        div.message_List > hr {
+            border-color: #aaa;
+        }
+
+        div.message_List div.notice {
+            text-align: left;
+        }
+
+            div.message_List div.notice > ul {
+                border-bottom: 1px solid #aaa;
+                padding: 0 0 10px;
+                font-size: 0;
+                list-style: none;
+            }
+
+                div.message_List div.notice > ul > li {
+                    font-size: 12px;
+                }
+
+        div.message_List div.message_Box {
+            overflow: hidden;
+        }
+
+            div.message_List div.message_Box div.imgBox {
+                width: 6%;
+                float: left;
+                visibility: hidden;
+            }
+
+            div.message_List div.message_Box.first div.imgBox {
+                visibility: visible;
+            }
+
+            div.message_List div.message_Box div.imgBox > img {
+                width: 100%;
+            }
+
+            div.message_List div.message_Box span.user_Name {
+                float: left;
+                margin-left: 2%;
+                font-size: 13px;
+                width: 92%;
+                text-align: left;
+                display: none;
+            }
+
+            div.message_List div.message_Box.first {
+                margin-top: 20px;
+            }
+
+                div.message_List div.message_Box.first span.user_Name {
+                    display: block;
+                }
+
+            div.message_List div.message_Box div.message_Text {
+                background: white;
+                padding: 10px;
+                text-align: left;
+                max-width: 450px;
+                float: left;
+                margin-top: 5px;
+                border-radius: 10px;
+                position: relative;
+                margin-left: 2%;
+            }
+
+            div.message_List div.message_Box.first div.message_Text span.arrow {
+                width: 15px;
+                height: 10px;
+                display: block;
+                position: absolute;
+                left: -5px;
+                top: 0;
+                background: white;
+                border-radius: 2px 0 0 8px;
+            }
+
+            div.message_List div.message_Box div.message_Text p {
+                margin: 0;
+            }
+
+            div.message_List div.message_Box div.message_Text div.message_Date {
+                position: absolute;
+                bottom: 0;
+                right: -95px;
+                font-size: 12px;
+                color: #777;
+                display: none;
+            }
+
+            div.message_List div.message_Box.last div.message_Text div.message_Date {
+                display: block;
+            }
+
+            div.message_List div.message_Box.user div.imgBox,
+            div.message_List div.message_Box.user span.user_Name {
+                display: none;
+            }
+
+            div.message_List div.message_Box.user div.message_Text {
+                float: right;
+                background: #c7f779;
+                margin-right: 5px;
+            }
+
+                div.message_List div.message_Box.user div.message_Text span.arrow {
+                    left: auto;
+                    right: -5px;
+                    border-radius: 0 2px 8px 0;
+                    background: #c7f779;
+                }
+
+                div.message_List div.message_Box.user div.message_Text div.message_Date {
+                    right: auto;
+                    left: -95px;
+                }
+</style>
+
+<div style="display: block; max-width: 1200px; margin: 0 -15px; font-size: 15px; text-align: right; height: 100%;">
+    <div class="inquery_View" style="height: 100%; position: relative;">
+
+        <div class="title" style="display: none; background-image: url(/Content/Images/Products/banner_Ntalk.jpg); background-repeat: no-repeat; width:1200px; height:70px; position:relative;">
+            <a href="#" class="Close" style="position:absolute; top:30px; right:10px; color:#fff;">접기</a>
+        </div>
+
+        <div class="message_List" style="background-image: url(/Content/Images/Products/bg_chat_logo.png); background-repeat: no-repeat; background-position: 50% 50%; background-size: 20%;">
+            <div class="notice">
+                <ul style="display:none;">
+                    <li>
+                        문의 전 확인해주세요! <a class="btn">→</a>
+                    </li>
+                </ul>
+                <ul class="list">
+                    <li>
+                        *문의에 대한 응대는 영업일 월~금 09:00~18:00 (점심시간 12:00~13:00 제외)에 진행되며 이 외의 문의는 이후 영업일에 답변될 수 있습니다.
+                    </li>
+                    <li>
+                        * 해당 실시간 채팅 문의창은 선박권,항공권 조회, 예약 전용 1:1 채팅창입니다.
+                    </li>
+                    <li>
+                        * 한국출발 국제선 항공권만 대응 가능하며 일본 외 전세계 항공권도 가능합니다.
+                    </li>
+                    <li>
+                        * 실시간 최저가 티켓을 검색하여 안내해 드리오나, 실시간 상황으로 변동이 있을 수 있습니다.
+                    </li>
+                    <li>
+                        * 선박, 항공권 외 여행문의는 질문과 답변 게시판 혹은 1670-4601로 문의 바랍니다.
+                    </li>
+                    <li>
+                        * 선박권은 부산출발 일본(카멜리아, 부관훼리, 팬스타, 쾌속선, 대마도) 티켓만 대응 가능합니다.
+                    </li>
+                    <li>
+                        * 1:1 문의창으로 진행된 예약체결내용은 계약의 일부로 간주됩니다.
+                    </li>
+                    <li>
+                        * 항공권 외 엔타비에서 제공하는 여행 프로모션이나 현지에서 활용할 수 있는 광고가 제공될 수 있습니다.
+                    </li>
+                    <li>
+                        * 기업 및 동호회 단체 할인 항공권도 많은 문의 바랍니다.
+                    </li>
+                    <li>
+                        * 비상 시(천재지변 및 결항) 에 대체 항공편 확인에 많은 이용 바랍니다.
+                    </li>
+                    <li style="color:red;">
+                        * 엔톡은 로그인 후 상담이 가능하며 로그인 한 회원 본인만 볼 수 있는 1:1 상담 서비스 입니다.
+                    </li>
+                </ul>
+            </div>
+
+            @{
+            if (ViewBag.chat != null)
+            {
+            string chkUser = "",
+            messages = "",
+            date = "",
+
+            userName = "",
+            addClass = "",
+
+            outDate = "";
+
+            foreach (object item in ViewBag.chat)
+            {
+            chkUser = "";
+            messages = "";
+            date = "";
+            addClass = "";
+
+            try { chkUser = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+            catch { continue; }
+            try { messages = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+            catch { continue; }
+            try { date = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { continue; }
+
+            string tempDate = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture).ToString("MM월 dd일 hh:mm");
+            string tempName = userName;
+
+            if (chkUser == "ADMN")
+            {
+            userName = "엔타비";
+            }
+            else
+            {
+            userName = ViewBag.nickName;
+            addClass += "user";
+            }
+
+            if (outDate != tempDate || tempName != userName)
+            {
+            outDate = tempDate;
+            addClass += " first";
+            }
+            else
+            {
+            addClass += "";
+            }
+
+            <div class="message_Box @addClass">
+                <div class="imgBox">
+                    <img src="/Content/images/community/icon_chat_ntabi.png" />
+                </div>
+                <span class="user_Name">@userName</span>
+                <div class="message_Text">
+                    <span class="arrow"></span>
+                    <p>
+                        @MvcHtmlString.Create(messages)
+                    </p>
+                    <div class="message_Date">
+                        <span>@outDate</span>
+                    </div>
+                </div>
+            </div>
+            }
+            }
+            }
+
+        </div>
+
+        <div id="mForm" style="width: 100%; margin: -11px auto 0; font-size: 0; position: absolute; bottom: 0; left: 0;">
+            <textarea id="message_area" style="width: 100%; height: 60px; font-size: 10pt; padding: 17px 14% 10px 20px; resize: none; border-color: #9fd759;" placeholder="실시간 문의 채팅창입니다."></textarea>
+            <a class="btn btn-default sendMSG" style="border: 0; position: absolute; top: 10px; right: 15px; background-color: #a0ce54 !important; color: white; width: 80px; height: 40px; line-height: 28px;">전송</a>
+        </div>
+    </div>
+    <a class="btn btn-default inqueryBtn" style="display: none;">
+        항공권 문의하기
+    </a>
+</div>
+
+
+
+<script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+<script src="http://admin.ntabi.kr/signalr/hubs"></script>
+
+<script>
+    $(function () {
+
+        $(".notice .btn").click(function () {
+            $(".notice .list").toggle();
+            return false;
+        });
+
+        $("textarea#message_area").keyup(function (e) {
+            if (e.keyCode == 13)
+                $("a.sendMSG").click();
+        });
+
+        setLast();
+
+        function setLast() {
+            $("div.message_Box").each(function () {
+                if ($(this).next().hasClass("first") || $(this).next().length == 0) {
+                    $(this).addClass("last");
+                }
+            })
+        }
+
+        $("div.inquery_View").hide();
+
+        var user = "",
+            name = "";
+        var chatNum = 0;
+
+        $.connection.hub.url = "http://admin.ntabi.kr/signalr";
+
+        var chat = $.connection.chat;
+
+        function chatConn(chatNum) {
+            $.connection.hub.start({ jsonp: true })
+                .done(function () {
+                    console.log("연결 성공");
+
+                    chat.server.joinRoom(chatNum);
+                })
+                .fail(function () {
+                    console.log("연결 실패");
+                });
+        }
+
+        $("div.inquery_View").show();
+
+        if ("@userKey" == "") {
+            // 로그아웃 상태
+            $("a.sendMSG").on("click", function () {
+                alert("로그인을 해주세요.");
+                $('a.loginBtn').click();
+            });
+        }
+        else {
+            // 로그인 상태
+            user = "@userKey";
+            name = "@nickName"
+            $(this).hide();
+
+            $.ajax({
+                type: "POST",
+                url: "/Community/getChatRoomNum",
+                data: { user: user },
+                success: function (data) {
+                    chatNum = data;
+
+                    chatConn(chatNum);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+
+            $("a.sendMSG").on("click", function () {
+                chat.server.send(chatNum, user, $("#message_area").val(), name, "1234");
+
+                $("#message_area").val('').focus();
+            });
+        }
+
+        var Viewer = $("div.message_List");
+        Viewer.scrollTop(Viewer[0].scrollHeight);
+
+        chat.client.addNewmessageToPage = function (roomNo, name, message, date, type) {
+            var html = "";
+            var Viewer = $("div.message_List");
+            var setClass = "first last";
+
+            if (message == "") {
+                alert("메시지를 입력해 주세요.");
+                return;
+            }
+
+            if (isLast(name, date)) {
+                $("div.message_List").find(".message_Box").last().removeClass("last");
+                setClass = "last";
+            }
+
+            if (type == user) {
+                setClass += " user";
+            }
+
+            html = "<div class='message_Box " + setClass + "'>" +
+                "<div class='imgBox'>" +
+                "<img src='/Content/images/community/icon_chat_ntabi.png' />" +
+                "</div>" +
+                "<span class='user_Name'>" + htmlEncode(name) + "</span>" +
+                "<div class='message_Text'>" +
+                "<span class='arrow'></span>" +
+                "<p>" + message + "</p>" +
+                "<div class='message_Date'>" +
+                "<span>" + htmlEncode(date) + "</span>" +
+                "</div>" +
+                "</div>" +
+                "</div>";
+
+            Viewer.append(html);
+            Viewer.scrollTop(Viewer[0].scrollHeight);
+
+            $.ajax({
+                type: "POST",
+                url: "/Community/JSON_chkNewMessage",
+                data: { chatID: roomNo },
+                success: function (data) {
+
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+
+        function isLast(name, date) {
+            if ($("div.message_List").find(".user_Name").last().text() == name &&
+                $("div.message_List").find(".message_Date").last().text() == date) {
+                return true;
+            }
+
+            return false;
+        }
+    });
+</script>

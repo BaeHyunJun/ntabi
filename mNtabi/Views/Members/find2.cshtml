@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string id = "";
+
+    foreach (object item in Model)
+    {
+        try { id = string.IsNullOrEmpty(id) ? item.GetType().GetProperties()[0].GetValue(item, null).ToString() : ", " + item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+        catch { }
+    }
+}
+
+
+<div class="find2">
+    <section class="findnotice">
+        <p class="notice">
+            고객님의 아이디는 <span>" @id "</span> 입니다.
+        </p>
+        <div class="btn">
+            <p class="login"><a href="#" onclick="$('a.loginBtn').click();">로그인</a></p>
+            <p class="findpassword"><a href="/Members/find1">비밀번호 찾기</a></p>
+        </div> <!--.btn-->
+    </section> <!--.findnotice-->
+</div>

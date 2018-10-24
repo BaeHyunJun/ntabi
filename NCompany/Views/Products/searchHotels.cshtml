@@ -1,0 +1,240 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    ul.htlLists {
+        padding: 0; 
+        margin: 0; 
+        list-style: none; 
+        max-height: 300px; 
+        overflow: auto;
+    }
+
+    ul.htlLists li {
+        text-overflow: ellipsis;
+        border: 1px solid #ddd; 
+        white-space: nowrap;
+        word-wrap: normal;
+        overflow: hidden;
+        margin-top: -1px; 
+        cursor: pointer;
+        font-size: 16px;
+        padding: 8px; 
+    }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 430px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">상품 정보</h4>
+        </div>
+        <div class="modal-body">
+
+            <form name="searchHotels" method="post" style="border: 1px solid #ddd; padding: 8px;">
+                <div class="row pdt" style="margin: 0;">
+                    <div class="form-group input-group" style="width: 130px; float: left; margin: 0; margin-left: 21px;">
+                        <div class="input-group-addon">국가</div>
+                        <select class="form-control" name="nation">
+                            @*<option value="JP">일본</option>*@
+                        </select>
+                    </div>
+                    <div class="form-group input-group" style="width: 160px; float: left; margin: 0; margin-left: 21px;">
+                        <div class="input-group-addon">지역</div>
+                        <select class="form-control" name="area">
+                            <option value="">선택</option>
+                            @*<option value="KYU">@Html.Action("getAreaTxt", new { code = "KYU" })</option>
+                            <option value="TOK">@Html.Action("getAreaTxt", new { code = "TOK" })</option>
+                            <option value="OSA">@Html.Action("getAreaTxt", new { code = "OSA" })</option>
+                            <option value="HOK">@Html.Action("getAreaTxt", new { code = "HOK" })</option>
+                            <option value="TSU">@Html.Action("getAreaTxt", new { code = "TSU" })</option>
+                            <option value="OKI">@Html.Action("getAreaTxt", new { code = "OKI" })</option>
+                            <option value="NGY">@Html.Action("getAreaTxt", new { code = "NGY" })</option>*@
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <ul class="htlLists">
+        @{
+            string code = "",
+                   title = "";
+                               
+            foreach(object item in Model)
+            {
+                code = "";
+                title = "";
+
+                try { code = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+                try { title = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+                            
+                <li data-code="@code">@title</li>
+            }
+        }
+            </ul>
+
+        </div>
+        <div class="modal-footer">
+            <div class="input-group" style="width: 70%; float: left;">
+                <input type="text" class="form-control" placeholder="호텔검색">
+                <span class="input-group-btn">
+                    <button class="btn btn-default srcHtlBtn2" type="button">검색</button>
+                </span>
+            </div>
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            @*<button type="button" class="btn btn-primary">선택</button>*@
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        function getNations() {
+            var url = "/Products/JSON_getCode";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { category: 'NAT' },
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].AlterCode + '" data-code3="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                    }
+
+                    $("form[name='searchHotels'] select[name='nation']").html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                    getAreas();
+                }
+            });
+        }
+
+        getNations();
+
+        function getAreas() {
+            var _this = $("form[name='searchHotels'] select[name=nation]");
+
+            var url = "/Products/JSON_getCode";
+            var datas = { category: 'ARE', nation: _this.find("option:selected").attr("data-code3") };
+            
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                        //html += '<option value="' + i + '">' + data[i] + '</option>';
+                    }
+
+                    $("form[name='searchHotels'] select[name='area']").html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        $("form[name='searchHotels'] select[name=nation]").on("change", function () {
+            getAreas();
+        });
+
+        $("form[name='searchHotels'] select[name=area]").on("change", function () {
+            var url = "/Products/JSON_getHotels";
+
+            var f = document.searchHotels;
+            var nation = f.nation.value;
+            var area = f.area.value;
+
+            var datas = { nation: nation, area: area };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = '';
+
+                    for (i in data) {
+                        html += '<li data-code="' + data[i].seq + '">' + data[i].name + '</li>';
+                    }
+
+                    $(".searchHotels ul.htlLists").html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $(".srcHtlBtn2").on("click", function () {
+            var _this = $(this),
+                text = _this.parents("div.input-group").find("input").val();
+
+            var url = "/Products/JSON_searchHotelName";
+            var datas = { title: text };
+
+            if (text == "") {
+                alert("호텔 명을 입력해주세요.");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = '';
+
+                    for (i in data) {
+                        html += '<li data-code="' + data[i].seq + '">' + data[i].name + '</li>';
+                    }
+
+                    $(".searchHotels ul.htlLists").html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $(".searchHotels ul.htlLists").delegate("li", "click", function () {
+            var _this = $(this),
+                code = _this.attr("data-code"),
+                title = _this.text(),
+                parent = $("div.tab-content > div.active");
+
+            var html = '<div class="form-group input-group col-xs-12 col-md-12">' +
+                            '<input type="hidden" name="' + parent.attr("id") + '_chkIn" value="N">' +
+                            '<select class="form-control" name="' + parent.attr("id") + '">' +
+                                '<option>호텔을 선택해주세요.</option>' + 
+                                '<option value="' + code + '" selected="selected">' + title + '</option>' +
+                            '</select>' +
+                            '<div class="input-group-btn"><button class="btn btn-default removeHTLBtn" type="button">삭제</button></div>' +
+                        '</div>';
+
+            parent.append(html);
+
+            _this.parents(".modal").modal("hide");
+        });
+    });
+</script>

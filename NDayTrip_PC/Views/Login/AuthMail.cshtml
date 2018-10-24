@@ -1,0 +1,282 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (ViewBag.expired == null)
+    {
+<script>
+    alert("인증 메일의 유효기간이 지났습니다. 다시 인증해주세요./");
+    location.href = "/Login/Membership";
+</script>
+    }
+}
+
+<style>
+    div#wrap article#container div.pro_top {
+        height: 80px;
+        background-color: #ededed;
+    }
+
+        div#wrap article#container div.pro_top p {
+            width: 1050px;
+            margin: 0 auto;
+            font-size: 24px;
+            line-height: 80px;
+        }
+
+    div#wrap article#container div.cont {
+        width: 1060px;
+        margin: 0 auto;
+        padding: 20px 0;
+        overflow: hidden;
+    }
+
+        div#wrap article#container div.cont section {
+            padding: 10px;
+            text-align: center;
+        }
+
+            div#wrap article#container div.cont section > form > p {
+                border-bottom: 1px dotted #ddd;
+                padding-bottom: 10px;
+            }
+
+            div#wrap article#container div.cont section > form > input {
+                width: 250px;
+                height: 50px;
+                line-height: 50px;
+                padding: 10px;
+                display: block;
+                margin: 10px auto;
+                border: 1px solid #ccc;
+            }
+
+            div#wrap article#container div.cont section > form > button {
+                margin: 20px auto;
+                width: 150px;
+                height: 50px;
+                background: #a0ce54;
+                border: none;
+                color: white;
+                cursor: pointer;
+            }
+
+            div#wrap article#container div.cont section > form > div {
+                width: 250px;
+                height: 50px;
+                display: block;
+                margin: 10px auto;
+                font-size: 0;
+            }
+
+                div#wrap article#container div.cont section > form > div > input {
+                    height: 50px;
+                    line-height: 50px;
+                    border: 1px solid #ccc;
+                    font-size: 16px;
+                    padding: 10px;
+                }
+</style>
+
+<div class="pro_top">
+
+    <p><span>회원가입</span></p>
+
+</div>
+
+<div class="cont">
+    <section class="membership">
+        <form>
+            <input type="hidden" name="signup_mail" value="@ViewBag.mail">
+
+            <input type="text" placeholder="이메일" value="@ViewBag.mail" disabled="disabled" />
+
+            <input type="text" name="signup_id" placeholder="아이디" />
+            <input type="text" name="signup_name" placeholder="이름" />
+            <input type="date" name="signup_birth" placeholder="생년 월일" value="1980-12-01" />
+            <div>
+                <input type="tel" name="signup_tel1" placeholder="010" style="width: 30%;" maxlength="3" />
+                <span style="width: 5%; display: inline-block; text-align: center; font-size: 14px;">-</span>
+                <input type="tel" name="signup_tel2" placeholder="1234" style="width: 30%;" maxlength="4" />
+                <span style="width: 5%; display: inline-block; text-align: center; font-size: 14px;">-</span>
+                <input type="tel" name="signup_tel3" placeholder="5678" style="width: 30%;" maxlength="4" />
+            </div>
+            <input type="password" name="signup_pwd" placeholder="비밀 번호" />
+            <p>6~20자의 영문자, 숫자 조합으로 입력해 주세요.</p>
+            <input type="password" name="signup_chk_pwd" placeholder="비밀 번호 확인" />
+
+            <button class="membershipBtn">회원가입하기</button>
+        </form>
+    </section>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("section.membership button.membershipBtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this);
+
+            _this.attr("disabled", true);
+
+            var id = $("input[name='signup_id']");
+            var pwd = $("input[name='signup_pwd']");
+            var chk_pwd = $("input[name='signup_chk_pwd']");
+            var name = $("input[name='signup_name']");
+            var tel1 = $("input[name='signup_tel1']");
+            var tel2 = $("input[name='signup_tel2']");
+            var tel3 = $("input[name='signup_tel3']");
+            var mail = $("input[name='signup_mail']");
+            var birth = $("input[name='signup_birth']");
+
+            var regId = /^[_A-Za-z0-9]{5,12}$/;
+            var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            var regPwd = /^(?=.*[A-Za-z0-9])((?=.*\d)|(?=.*\W)).{6,20}$/;
+            var regName = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+            var regTel = /[0-9]/;
+            var regBirth = /[0-9]{4}[-\/][0-9]{2}[-\/][0-9]{2}/;
+
+            if (id.val() == "") {
+                alert("아이디를 입력해주세요.");
+                id.focus();
+                return;
+            }
+
+            if (!regId.test(id.val())) {
+                alert("아이디는 영문과 숫자로만 5~12자 이내로 입력하세요.");
+                id.focus();
+                return;
+            }
+
+            if (pwd.val() == "") {
+                alert("비밀번호를 입력해주세요.");
+                pwd.focus();
+                return;
+            }
+
+            if (!regPwd.test(pwd.val())) {
+                alert("비밀번호는 영문 + 숫자로 6~20자 이내로 입력해주세요.");
+                pwd.focus();
+                return;
+            }
+
+            if (chk_pwd.val() != pwd.val()) {
+                alert("비밀 번호가 서로 다릅니다.");
+                chk_pwd.focus();
+                return;
+            }
+
+            if (name.val() == "") {
+                alert("이름을 입력해주세요.");
+                name.focus();
+                return;
+            }
+
+            if (name.val().length < 3) {
+                alert("이름을 제대로 입력해주세요.");
+                name.focus();
+                return;
+            }
+
+            if (tel1.val() == "") {
+                alert("전화 번호를 입력해주세요.");
+                tel1.focus();
+                return;
+            }
+
+            if (tel1.val().length < 3) {
+                alert("전화 번호를 제대로 입력해주세요.");
+                tel1.focus();
+                return;
+            }
+
+            if (!regTel.test(tel1.val())) {
+                alert("전화번호는 숫자로만 입력해주세요.");
+                tel1.focus();
+                return;
+            }
+
+            if (tel2.val() == "") {
+                alert("전화 번호를 입력해주세요.");
+                tel2.focus();
+                return;
+            }
+
+            if (tel2.val().length < 3) {
+                alert("전화 번호를 제대로 입력해주세요.");
+                tel2.focus();
+                return;
+            }
+
+            if (!regTel.test(tel2.val())) {
+                alert("전화번호는 숫자로만 입력해주세요.");
+                tel2.focus();
+                return;
+            }
+
+            if (tel3.val() == "") {
+                alert("전화 번호를 입력해주세요.");
+                tel3.focus();
+                return;
+            }
+
+            if (tel3.val().length < 4) {
+                alert("전화 번호를 제대로 입력해주세요.");
+                tel3.focus();
+                return;
+            }
+
+            if (!regTel.test(tel3.val())) {
+                alert("전화번호는 숫자로만 입력해주세요.");
+                tel3.focus();
+                return;
+            }
+
+            if (mail.val() == "") {
+                alert("메일을 입력해주세요.");
+                mail.focus();
+                return;
+            }
+
+            if (!regEmail.test(mail.val())) {
+                alert("메일주소를 제대로 입력해 주세요.");
+                mail.focus();
+                return;
+            }
+
+            if (birth.val() == "") {
+                alert("생년월일을 입력해주세요.");
+                birth.focus();
+                return;
+            }
+
+            var tel = tel1.val() + "-" + tel2.val() + "-" + tel3.val();
+
+            var url = "/Login/SignUp";
+            var datas = { id: id.val(), pwd: pwd.val(), name: name.val(), tel: tel, mail: mail.val(), birth: birth.val() };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    alert(data);
+
+                    if (data.indexOf("회원가입이 완료 되었습니다.") > -1) {
+                        location.href = "/Login";
+                    }
+
+                    _this.attr("disabled", false);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

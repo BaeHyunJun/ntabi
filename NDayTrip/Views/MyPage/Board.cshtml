@@ -1,0 +1,171 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string userName = ViewBag.user_Name;
+
+    int revCnt = ViewBag.rev_Cnt,
+        bdCnt = ViewBag.bd_Cnt;
+}
+
+<style>
+    section.mypage article.cont {
+        margin-top: 20px;
+    }
+
+        section.mypage article.cont ul > li {
+            font-size: 14px;
+        }
+
+        section.mypage article.cont div.tab-pane > h3 {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #a0ce54;
+        }
+
+        section.mypage article.cont div.tab-pane > ul {
+            padding: 0 10px;
+        }
+
+            section.mypage article.cont div.tab-pane > ul > li {
+                font-size: 12px;
+                border-bottom: 1px solid #ddd;
+                line-height: 40px;
+                padding-top: 15px;
+            }
+
+                section.mypage article.cont div.tab-pane > ul > li:first-child {
+                    padding-top: 5px;
+                }
+
+                section.mypage article.cont div.tab-pane > ul > li > a > p {
+                    font-size: 12px;
+                    font-weight: bold;
+                    line-height: 24px;
+                    margin: 0;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    word-wrap: normal;
+                    overflow: hidden;
+                }
+
+        section.mypage article.cont div.tab-pane > button {
+            width: 100%;
+            margin: 20px 0;
+        }
+</style>
+
+<section class="mypage">
+
+    <h3>MY PAGE</h3>
+    <span></span>
+
+    <ul>
+        <li>
+            @userName
+        </li>
+        <li>
+            예약개수 : @revCnt 개 /  게시물수 : @bdCnt 개
+        </li>
+    </ul>
+
+    <ul class="set">
+        <li><a href="/MyPage"><img src="~/Content/Images/mypage/icon_bus.png"><br>예약정보</a></li>
+        <li><a href="/MyPage/Board" class="in"><img src="~/Content/Images/mypage/icon_news_in.png"><br>게시물관리</a></li>
+        <li><a href="/MyPage/Info"><img src="~/Content/Images/mypage/icon_set.png"><br>정보수정</a></li>
+    </ul>
+
+    <h3>게시물 목록</h3>
+    <span></span>
+
+    <article class="cont">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation"><a href="#qna" aria-controls="qna" role="tab" data-toggle="tab">질문 & 답변</a></li>
+            <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab">이용 후기</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane" id="qna">
+                <h3>문의 내역</h3>
+                <span></span>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="review">
+                <h3>이용 후기</h3>
+                <span></span>
+            </div>
+        </div>
+    </article>
+
+</section>
+
+<script>
+    $(document).ready(function () {
+        $("section.mypage > article.cont > ul > li > a").on("click", function (e) {
+            var _this = $(this),
+                type = _this.attr("href").replace('#', '');
+
+            var url = "/Community/JSON_getBoard";
+            var datas = { type: type };
+
+            var html = "<h3>" + _this.text() + "</h3><span></span>";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    html += "<ul class='" + type + "'>";
+
+                    var idx = 0;
+
+                    for (i in data) {
+                        html += "<li>" +
+                            "<a href='/Community/Views?t=" + type + "&k=" + data[i].post_ID + "'>" +
+                            "<p>" + data[i].post_title + "</p>" +
+                            "<span>등록일 : " + data[i].ist_date + " | " + data[i].name + "</span>";
+
+                        if (type == "qna") {
+
+                            var txt = "";
+
+                            switch (data[i].post_status) {
+                                case "Y":
+                                    txt = "답변 완료";
+                                    break;
+                                case "N":
+                                    txt = "답변 중";
+                                    break;
+                            }
+
+                            html += "<span style='color: blue; float: right; font-weight: bold;'>" + txt + "</span>";
+                        }
+
+                        html += "</a>" +
+                            "</li>";
+
+                        idx++;
+                    }
+
+                    if (idx == 0) {
+                        html += "<li class='noCont'>내용이 없습니다.</li>";
+                    }
+
+                    html += "</ul>";
+
+                    html += "<button class='btn btn-default moreBtn'>더보기</button>"
+
+                    $("div.tab-pane.active").html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("section.mypage > article.cont > ul > li > a").eq(0).click();
+    });
+</script>

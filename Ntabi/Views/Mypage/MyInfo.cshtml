@@ -1,0 +1,399 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    div#container > article > section.myinfo {
+        padding-top: 10px;
+    }
+
+    section.myinfo > h3 {
+        font-size: 14px;
+        color: #2a2a2a;
+        letter-spacing: -1px;
+    }
+
+    section.myinfo ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+    }
+
+        section.myinfo ul.listsHeader {
+            text-align: center;
+        }
+
+            section.myinfo ul.listsHeader > li {
+                margin: 0;
+                padding: 0 19px;
+                position: relative;
+                display: inline-block;
+            }
+
+                section.myinfo ul.listsHeader > li:before {
+                    content: '';
+                    border-right: 1px solid #777;
+                    display: block;
+                    position: absolute;
+                    top: 4px;
+                    bottom: 2px;
+                    left: 0;
+                }
+
+                section.myinfo ul.listsHeader > li:first-child:before {
+                    display: none;
+                }
+
+                section.myinfo ul.listsHeader > li > a {
+                    color: #9f9f9f;
+                    font-size: 16px;
+                }
+
+                section.myinfo ul.listsHeader > li.on > a {
+                    color: #101010;
+                }
+
+    section.myinfo > div {
+        margin-top: 50px;
+        text-align: center;
+    }
+
+        section.myinfo > div > h4 {
+            font-size: 15px;
+            color: #2a2a2a;
+        }
+
+        section.myinfo > div hr {
+            margin: 12px 0 25px;
+            background-color: #ddd;
+        }
+
+        section.myinfo > div > form > h5 {
+            margin-top: 70px;
+            display: block;
+        }
+
+        section.myinfo > div > form > div.form-group {
+            width: 500px;
+            margin: 0 auto 15px;
+        }
+
+            section.myinfo > div > form > div.form-group input.form-control {
+                border: none;
+                box-shadow: none;
+                border-bottom: 1px solid #eee;
+                border-radius: 0;
+            }
+
+            section.myinfo > div > form > div.form-group button.btn.btn-default {
+                margin-top: 60px;
+                width: 170px;
+                height: 30px;
+                line-height: 30px;
+                padding: 0;
+                font-size: 15px;
+                color: #707b5e;
+                background-color: #dfeccd;
+                border: none;
+            }
+
+        section.myinfo > div > form.leave {
+            margin-top: 70px;
+        }
+
+            section.myinfo > div > form.leave div.txt {
+                width: 1000px;
+                text-align: left;
+                font-size: 12px;
+                margin-top: 30px;
+            }
+
+                section.myinfo > div > form.leave div.txt > div > p {
+                    white-space: nowrap;
+                }
+</style>
+
+<section class="myinfo">
+    <h3>마이페이지 > 정보수정</h3>
+
+    <ul class="listsHeader">
+        <li>
+            <a href="/Mypage">예약/결제내역</a>
+        </li>
+        @*
+        <li>
+            <a href="/Mypage/LikePdt">찜한상품</a>
+        </li>*@
+        <li>
+            <a href="/Mypage/MyBoard">내가쓴글</a>
+        </li>
+        <li class="on">
+            <a href="/Mypage/MyInfo">정보수정</a>
+        </li>
+    </ul>
+
+
+    @{
+    string CU_ID = "",
+    CU_NM_KOR = "",
+    SEX = "",
+    CU_NM_ENG_FIRST = "",
+    CU_NM_ENG_LAST = "",
+    BIRTHDAY = "",
+    HANDPHONE1 = "",
+    HANDPHONE2 = "",
+    HANDPHONE3 = "",
+    EMAIL = "",
+    EMAIL_YN = "",
+    CU_HOME_ADDR = "",
+    CU_HOME_ADDR_F = "";
+
+    object aaaaa;
+
+    foreach (object item in Model)
+    {
+    CU_ID = "";
+    CU_NM_KOR = "";
+    SEX = "";
+    CU_NM_ENG_FIRST = "";
+    CU_NM_ENG_LAST = "";
+    BIRTHDAY = "";
+    HANDPHONE1 = "";
+    HANDPHONE2 = "";
+    HANDPHONE3 = "";
+    EMAIL = "";
+    EMAIL_YN = "";
+    CU_HOME_ADDR = "";
+    CU_HOME_ADDR_F = "";
+
+    try { CU_ID = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+    catch { }
+    try { CU_NM_KOR = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+    catch { }
+    try { SEX = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+    catch { }
+    try { CU_NM_ENG_FIRST = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+    catch { }
+    try { CU_NM_ENG_LAST = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+    catch { }
+    try { BIRTHDAY = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+    catch { }
+    try { HANDPHONE1 = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+    catch { }
+    try { HANDPHONE2 = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+    catch { }
+    try { HANDPHONE3 = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+    catch { }
+    try { EMAIL = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+    catch { }
+    try { EMAIL_YN = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+    catch { }
+    try { CU_HOME_ADDR = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+    catch { }
+    try { CU_HOME_ADDR_F = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+    catch { }
+    }
+    }
+
+
+    <div>
+        <h4>회원 정보 입력</h4>
+        <hr />
+        <form class="form-horizontal infoForm" method="post" action="/Mypage/updateInfo">
+            <input type="hidden" name="inputID" value="@CU_ID" />
+            <input type="hidden" name="inputEmail" value="@EMAIL" />
+
+            <h5 class="sr-only sr-only-focusable">필수 입력 사항</h5>
+
+            <div class="form-group">
+                <label for="inputID" class="col-sm-3 control-label">아이디</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" value="@CU_ID" disabled="disabled">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">이름</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="inputName" name="inputName" placeholder="이름" value="@CU_NM_KOR">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="col-sm-3 control-label">비밀번호</label>
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="비밀번호">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword2" class="col-sm-3 control-label">비밀번호 확인</label>
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" id="inputPassword2" name="inputPassword2" placeholder="비밀번호 확인">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail" class="col-sm-3 control-label">이메일</label>
+                <div class="col-sm-9">
+                    <input type="email" class="form-control" value="@EMAIL" disabled="disabled">
+                </div>
+            </div>
+
+            <h5 class="">선택 입력 사항</h5>
+            <hr />
+            <div class="form-group">
+                <label for="inputLastName" class="col-sm-3 control-label">영문 성</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="inputLastName" name="inputLastName" placeholder="영문 성" value="@CU_NM_ENG_LAST">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputFIrstName" class="col-sm-3 control-label">영문 이름</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="inputFIrstName" name="inputFIrstName" placeholder="영문 이름" value="@CU_NM_ENG_FIRST">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputTel" class="col-sm-3 control-label">핸드폰</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="inputTel" name="inputTel" placeholder="핸드폰" value="@HANDPHONE1@HANDPHONE2@HANDPHONE3">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputSex" class="col-sm-3 control-label">성별</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="inputSex" name="inputSex" placeholder="성별" value="@SEX">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputBirth" class="col-sm-3 control-label">생년월일</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="inputBirth" name="inputBirth" placeholder="생년월일" value="@BIRTHDAY">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="submit" class="btn btn-default">정보 수정</button>
+                </div>
+            </div>
+        </form>
+
+        @*<form class="form-horizontal leave">
+            <h4>회원 탈퇴</h4>
+            <hr />
+
+            <div class="form-group">
+                <label for="inputID" class="col-sm-3 control-label">아이디</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="inputID" placeholder="아이디">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="col-sm-3 control-label">비밀번호</label>
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" id="inputPassword" placeholder="비밀번호">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputTel" class="col-sm-3 control-label">핸드폰</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="inputTel" placeholder="핸드폰">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="submit" class="btn btn-default">회원 탈퇴</button>
+                </div>
+            </div>
+            <div class="form-group txt">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <p>
+                        * 회원탈퇴 시 회원님의 정보는 즉시 삭제되며 동일한 아이디로는 재가입을 하실 수 없습니다.<br />
+                        * 회원탈퇴 시 엔타비에서 제공되는 모든 서비스는 더이상 이용하실 수 없습니다.<br />
+                        단, 회원님께서 이용하신 상품의 예약 및 결제 정보는 일정기간 동안 보관할 수 있으며 자세한 사항은 [개인정보처리방침]을 참고해 주십시오.
+                    </p>
+                </div>
+            </div>
+        </form>*@
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        $(".infoForm").submit(function () {
+
+            var regPwd = /^(?=.*[A-Za-z0-9])((?=.*\d)|(?=.*\W)).{6,20}$/;
+            var pwd = $(".infoForm input[name=inputPassword]");
+
+            var reg_name = /^[가-힣]{2,5}$/;
+            var reg_name_eng = /^[a-zA-Z]{2,10}$/;
+
+            var regexp = /^[0-9]*$/;
+
+            var name_kor = $("input[name=inputName]").eq(0).val(),
+                name_last = $("input[name=inputLastName]").eq(0).val(),
+                name_first = $("input[name=inputFIrstName]").eq(0).val(),
+                birth = $("input[name=inputBirth]").eq(0).val(),
+                phone = $("input[name=inputTel]").eq(0).val()
+
+            if (!reg_name.test(name_kor)) {
+                alert("이름이 잘못 입력 되었습니다. (한글, 2 ~ 5자리)");
+                $("input[name=inputName]").eq(0).focus();
+                return false;
+            }
+
+            if (!reg_name_eng.test(name_last)) {
+                alert("영문 성이 잘못 입력 되었습니다.");
+                $("input[name=inputLastName]").eq(0).focus();
+                return false;
+            }
+
+            if (!reg_name_eng.test(name_first)) {
+                alert("영문 이름이 잘못 입력 되었습니다.");
+                $("input[name=inputFIrstName]").eq(0).focus();
+                return false;
+            }
+
+            if (birth.length < 8 || birth.length > 8) {
+                alert("생년월일이 잘못 입력 되었습니다(예: 20170101)");
+                $("input[name=inputBirth]").eq(0).focus();
+                return false;
+            }
+
+            if (!regexp.test(birth)) {
+                alert("생년월일은 숫자만 입력해주세요.");
+                $("input[name=birth]").eq(0).focus();
+                return false;
+            }
+
+            if (phone.length < 10 || birth.length > 11) {
+                alert("전화번호가 잘못 입력 되었습니다(숫자만 입력해 주세요.)");
+                $("input[name=inputTel]").eq(0).focus();
+                return false;
+            }
+
+            if (!regexp.test(phone)) {
+                alert("전화번호는 숫자만 입력해주세요.");
+                $("input[name=birth]").eq(0).focus();
+                return false;
+            }
+
+            if (pwd.val() == "") {
+                alert("비밀번호를 입력해주세요.");
+                pwd.focus();
+                return false;
+            }
+
+            if (!regPwd.test(pwd.val())) {
+                alert("비밀번호는 영문 + 숫자로 6~20자 이내로 입력해주세요.");
+                pwd.focus();
+                return false;
+            }
+
+            $(document).scrollTop(0);
+            $(".infoForm input[name=inputBirth]").val($(".infoForm input[name=inputBirth]").val().replace(/[^0-9]/g, ''));
+            $(".infoForm input[name=inputTel]").val($(".infoForm input[name=inputTel]").val().replace(/[^0-9]/g, ''));
+
+            return true;
+        });
+    });
+</script>

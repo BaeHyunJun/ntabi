@@ -1,0 +1,267 @@
+﻿@{
+    string userName = ViewBag.user_Name;
+
+    int revCnt = ViewBag.rev_Cnt,
+        bdCnt = ViewBag.bd_Cnt;
+}
+<style>
+    div#wrap article#container div.pro_top {
+        height: 80px;
+        background-color: #ededed;
+    }
+    div#wrap article#container div.pro_top p {
+        width: 1050px;
+        margin: 0 auto;
+        font-size: 24px;
+        line-height: 80px;
+    }
+    div#wrap article#container ul.set {
+        padding: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+        width: 50%;
+        margin: 50px auto 20px;
+    }
+    div#wrap article#container ul.set > li {
+        float: left;
+        font-size: 14px;
+        text-align: center;
+        border: 1px solid #ddd;
+        width: 33.333%;
+        padding: 18px 0 5px;
+        line-height: 35px;
+        border-left: 0;
+    }
+    div#wrap article#container ul.set > li:first-child {
+        border-left: 1px solid #ddd;
+    }
+    div#wrap article#container section.cont {
+        width: 58%;
+        margin: 0 auto;
+        max-width: 1100px;
+        overflow: hidden;
+    }
+    div#wrap article#container section.cont > h3 {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        font-weight: normal;
+        font-size: 24px;
+        clear: both;
+    }
+    div#wrap article#container section.cont > ul > li {
+        width: 31%;
+        float: left;
+        margin-left: 3.5%;
+        border: 1px solid #959595;
+        box-sizing: border-box;
+        margin-bottom: 50px;
+    }
+    div#wrap article#container section.cont > ul > li:nth-child(3n+1) {
+        margin-left: 0;
+    }
+    div#wrap article#container section.cont > ul > li figure {
+        position: relative;
+        left: 0;
+        top: 0;
+        height: 0;
+        padding-bottom: 50%;
+        background-size: cover;
+        margin: 0;
+    }
+    div#wrap article#container section.cont > ul > li figcaption {
+        position: relative;
+        left: 0;
+        top: 0;
+        padding: 10px;
+        text-align: left;
+        overflow: hidden;
+    }
+    div#wrap article#container section.cont > ul > li figcaption > h3 {
+        font-size: 20px;
+        line-height: 30px;
+        height: 60px;
+    }
+    div#wrap article#container section.cont > ul > li figcaption > p {
+        font-size: 15px;
+        line-height: 25px;
+        letter-spacing: -1px;
+        font-weight: 400;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    div#wrap article#container section.cont > ul > li figcaption div.chkState > h5 {
+        float: left;
+        margin-left: 10px;
+    }
+    div#wrap article#container section.cont > ul > li figcaption div.chkState > span {
+        float: right;
+        font-size: 20px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+</style>
+
+<div class="pro_top">
+
+    <p><span>예약 목록</span></p>
+
+</div>
+
+@*<ul>
+    <li>
+        @userName
+    </li>
+    <li>
+        예약개수 : @revCnt 개 /  게시물수 : @bdCnt 개
+    </li>
+</ul>*@
+
+<ul class="set">
+    <li><a href="/MyPage" class="in"><img src="~/Content/Images/mypage/icon_bus_in.png"><br>예약정보</a></li>
+    <li><a href="/MyPage/Board"><img src="~/Content/Images/mypage/icon_news.png"><br>게시물관리</a></li>
+    <li><a href="/MyPage/Info"><img src="~/Content/Images/mypage/icon_set.png"><br>정보수정</a></li>
+</ul>
+
+
+<section class="cont">
+    <h3>예약 상품</h3>
+    <ul class="revList">
+        @{
+            string revDay = "",
+                   revSeq = "",
+                   pdtTitle = "",
+                   revStartDay = "",
+                   revPCnt = "",
+                   revState = "",
+                   revPrice = "",
+                   pdtImg = "";
+
+            foreach (object item in Model)
+            {
+                revDay = "";
+                revSeq = "";
+                pdtTitle = "";
+                revStartDay = "";
+                revPCnt = "";
+                revState = "";
+                revPrice = "";
+                pdtImg = "";
+
+                try { revDay = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                try { revSeq = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                try { pdtTitle = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                try { revStartDay = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+                try { revPCnt = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+                try { revState = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { continue; }
+                try { revPrice = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { continue; }
+                try { pdtImg = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { continue; }
+
+                switch (revState)
+                {
+                    case "10":
+                        revState = "<h5 style='color: red;'>취소</h5>";
+                        break;
+                    case "20":
+                        revState = "<h5 style='color: #01790d;'>확인중</h5>";
+                        break;
+                    case "30":
+                        revState = "<h5 style='color: #960ce8;'>진행중</h5>";
+                        break;
+                    case "40":
+                        revState = "<h5 style='color: #f84a0d;'>확정</h5>";
+                        break;
+                    case "50":
+                        revState = "<h5 style='color: blue;'>완료</h5>";
+                        break;
+                }
+
+                <li>
+                    <a href="/MyPage/Views?d=@revDay&k=@revSeq">
+                        <figure style="background-image:url(@pdtImg);"></figure>
+                        <figcaption>
+                            <h3>@pdtTitle</h3>
+                            <p> 투어 출발 일 : @revStartDay <br /> 예약 인원 수 : @revPCnt 명 </p>
+                            <div class="chkState">
+                                @MvcHtmlString.Create(revState)
+                                <span>@String.Format("{0:#,##0}", int.Parse(revPrice)) 원</span>
+                            </div>
+                        </figcaption>
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+
+
+    <h3>취소 상품</h3>
+    <ul class="revList">
+        @{
+            var cancelData = ViewBag.cancelData;
+
+            foreach (object item in cancelData)
+            {
+                revDay = "";
+                revSeq = "";
+                pdtTitle = "";
+                revStartDay = "";
+                revPCnt = "";
+                revState = "";
+                revPrice = "";
+                pdtImg = "";
+
+                try { revDay = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { revSeq = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtTitle = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { revStartDay = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { revPCnt = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { revState = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { revPrice = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtImg = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+                catch { continue; }
+
+                switch (revState)
+                {
+                    case "10":
+                        revState = "<h5 style='color: red;'>취소</h5>";
+                        break;
+                    case "20":
+                        revState = "<h5 style='color: #01790d;'>확인중</h5>";
+                        break;
+                    case "30":
+                        revState = "<h5 style='color: #960ce8;'>진행중</h5>";
+                        break;
+                    case "40":
+                        revState = "<h5 style='color: #f84a0d;'>확정</h5>";
+                        break;
+                    case "50":
+                        revState = "<h5 style='color: blue;'>완료</h5>";
+                        break;
+                }
+
+                <li>
+                    <div>
+                        <figure style="background-image:url(@pdtImg);"></figure>
+                        <figcaption>
+                            <h3>@pdtTitle</h3>
+                            <p> 투어 출발 일 : @revStartDay <br /> 예약 인원 수 : @revPCnt 명 </p>
+                            <div class="chkState">
+                                @MvcHtmlString.Create(revState)
+                                <span>@String.Format("{0:#,##0}", int.Parse(revPrice)) 원</span>
+                            </div>
+                        </figcaption>
+                    </div>
+                </li>
+            }
+        }
+    </ul>
+</section>

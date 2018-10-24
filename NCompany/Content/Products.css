@@ -1,0 +1,297 @@
+﻿div.container.body-content > section article {
+    height: 100%;
+}
+
+ul.table-header,
+ul.pdtLists,
+ul.pdtLists ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 0;
+}
+
+/*ul.table-header,
+ul.pdtLists {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    bottom: 0;
+}*/
+
+ul.table-header {
+    bottom: 450px;
+    border-bottom: 1px solid #ddd;
+}
+
+ul.pdtLists {
+    max-height: 450px;
+    overflow: auto;
+}
+
+ul.table-header li {
+    display: inline-block;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+ul.pdtLists > li {
+    border-top: 1px solid #ddd;
+}
+
+ul.pdtLists ul li {
+    display: inline-block;
+    font-size: 12px;
+    text-align: center;
+    line-height: 30px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+}
+
+section.product ul.pdtLists span.sell {
+    color: red;
+}
+section.product ul.pdtLists span.prepare {
+    color: green;
+}
+section.product ul.pdtLists span.end {
+    color: blue;
+}
+
+section.product table th, 
+section.product table td {
+    text-align: center;
+    font-size: 12px;
+}
+section.product table td.title {
+    text-align: left;
+}
+section.product table td.title a {
+    max-height: 16px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    max-width: 406px;
+}
+
+section.product table span.sell {
+    color: red;
+}
+section.product table span.prepare {
+    color: green;
+}
+section.product table span.end {
+    color: blue;
+}
+section.product form {
+    border: 1px solid #ddd;
+    padding: 20px;
+    font-size: 0;
+    margin: 10px 0;
+}
+section.product form > div {
+    width: 100%;
+}
+section.product form > div label {
+    font-size: 14px;
+}
+
+section.product table.chkETC {
+    width: 100%;
+}
+
+section.product th table.chkETC td {
+    padding: 0;
+}
+
+section.product th table.chkETC td label {
+    margin: 0;
+}
+
+section.product td table.chkETC td {
+    border: none;
+    padding: 0 8px;
+}
+
+/* Base for label styling */
+section.product [type="checkbox"]:not(:checked),
+section.product [type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+}
+
+section.product [type="checkbox"]:not(:checked) + label,
+section.product [type="checkbox"]:checked + label {
+    position: relative;
+    padding-left: .96em;
+    cursor: pointer;
+    vertical-align: text-top;
+}
+
+/* checkbox aspect */
+section.product [type="checkbox"]:not(:checked) + label:before,
+section.product [type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 1.25em; height: 1.25em;
+    border: 2px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+
+/* checked mark aspect */
+section.product [type="checkbox"]:not(:checked) + label:after,
+section.product [type="checkbox"]:checked + label:after {
+    content: '✔';
+    position: absolute;
+    top: .1em; left: .3em;
+    font-size: 1.3em;
+    line-height: 0.8;
+    color: #09ad7e;
+    transition: all .2s;
+}
+
+/* checked mark aspect changes */
+section.product [type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+}
+
+section.product [type="checkbox"]:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* disabled checkbox */
+section.product [type="checkbox"]:disabled:not(:checked) + label:before,
+section.product [type="checkbox"]:disabled:checked + label:before {
+    box-shadow: none;
+    border-color: #bbb;
+    background-color: #ddd;
+}
+
+section.product [type="checkbox"]:disabled:checked + label:after {
+    color: #999;
+}
+
+section.product [type="checkbox"]:disabled + label {
+    color: #aaa;
+}
+
+
+
+/* chktraff */
+.trfForm th {
+    text-align: center;
+}
+.trfForm input {
+    max-width: 100%;
+    height: 20px;
+    padding: 3px;
+}
+.trfForm input[type="checkbox"] {
+    height: 13px;
+}
+
+.trfForm .table tbody > tr > td {
+    padding: 3px;
+}
+/* chktraff */
+
+
+/* chkprice */
+.prcForm th {
+    text-align: center;
+}
+.prcForm input {
+    max-width: 100%;
+    height: 20px;
+    padding: 3px;
+}
+.prcForm input[type="checkbox"] {
+    height: 13px;
+}
+
+.prcForm .table tbody > tr > td {
+    padding: 3px;
+}
+/* chkprice */
+
+
+
+/* chkdays */
+.daysForm .ui-datepicker {
+    width: 100%;
+}
+
+.daysForm .ui-datepicker .ui-widget-header {
+    background-color: transparent;
+    border: none;
+}
+
+.daysForm .ui-datepicker td a,
+.daysForm .ui-datepicker td span {
+    position: relative;
+    height: 74px;
+}
+    
+.daysForm .ui-widget-content .ui-state-active,
+.daysForm .ui-widget-content .ui-state-highlight {
+    border: 1px solid #c5c5c5;
+    background: #f6f6f6;
+    font-weight: normal;
+    color: #454545;
+}
+
+/*.ui-widget-content td.bg_red,*/
+.daysForm .ui-widget-content td.bg_red a {
+    background-color: red !important;
+    color: white !important;
+    /*color: red;*/
+}
+
+.daysForm .ui-widget-content td.bg_grn a {
+    background-color: green !important;
+    color: white !important;
+    /*color: green;*/
+}
+
+.daysForm .ui-widget-content td.bg_blu a {
+    background-color: blue !important;
+    color: white !important;
+    /*color: blue;*/
+}
+
+.daysForm .ui-widget-content td.bg_gry a {
+    background-color: gray !important;
+    color: white !important;
+    /*color: gray;*/
+}
+
+.daysForm .ui-widget-content td a:after {
+    /*content: '쿠루쿠루버스 - 성수기 요금';*/
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 10px;
+}
+
+.daysForm .ui-widget-content td.ui-state-highlight {
+    border: none;
+    background: none;
+}
+
+.daysForm .ui-widget-content td.ui-state-highlight a {
+    border: 1px solid blue;
+    /*background-color: white;*/
+    background-color: lemonchiffon !important;
+    color: black !important;
+}
+/* chkdays */

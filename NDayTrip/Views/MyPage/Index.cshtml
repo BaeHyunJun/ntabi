@@ -1,0 +1,121 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string userName = ViewBag.user_Name;
+
+    int revCnt = ViewBag.rev_Cnt,
+        bdCnt = ViewBag.bd_Cnt;
+}
+
+<style>
+    a.back
+    {
+        display: none;
+    }
+</style>
+
+<section class="mypage">
+
+    <h3>MY PAGE</h3>
+    <span></span>
+
+    <ul>
+        <li>
+            @userName
+        </li>
+        <li>
+            예약개수 : @revCnt 개 /  게시물수 : @bdCnt 개
+        </li>
+    </ul>
+
+    <ul class="set">
+        <li><a href="/MyPage" class="in"><img src="~/Content/Images/mypage/icon_bus_in.png"><br>예약정보</a></li>
+        <li><a href="/MyPage/Board"><img src="~/Content/Images/mypage/icon_news.png"><br>게시물관리</a></li>
+        <li><a href="/MyPage/Info"><img src="~/Content/Images/mypage/icon_set.png"><br>정보수정</a></li>
+    </ul>
+
+    <h3>예약 목록</h3>
+    <span></span>
+    
+
+    <article class="cont">
+        <ul class="revList">
+@{
+    string revDay       = "",
+           revSeq       = "",
+           pdtTitle     = "",
+           revStartDay  = "",
+           revPCnt      = "",
+           revState     = "",
+           revPrice     = "",
+           pdtImg       = "";
+
+    foreach (object item in Model)
+    {
+        revDay      = "";
+        revSeq      = "";
+        pdtTitle    = "";
+        revStartDay = "";
+        revPCnt     = "";
+        revState    = "";
+        revPrice    = "";
+        pdtImg      = "";
+        
+        try { revDay        = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+        try { revSeq        = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+        try { pdtTitle      = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+        try { revStartDay   = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+        try { revPCnt       = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+        try { revState      = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { continue; }
+        try { revPrice      = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { continue; }
+        try { pdtImg        = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { continue; }
+
+        switch (revState)
+        {
+            case "10":
+                revState = "<h5 style='color: red;'>취소</h5>";
+                break;
+            case "20":
+                revState = "<h5 style='color: #01790d;'>확인중</h5>";
+                break;
+            case "30":
+                revState = "<h5 style='color: #960ce8;'>진행중</h5>";
+                break;
+            case "40":
+                revState = "<h5 style='color: #f84a0d;'>확정</h5>";
+                break;
+            case "50":
+                revState = "<h5 style='color: blue;'>완료</h5>";
+                break;
+        }
+        
+            <li>
+                <a href="/MyPage/Views?d=@revDay&k=@revSeq">
+                    <figure style="background-image:url(@pdtImg);"></figure>
+                    <figcaption>
+                        <h3>@pdtTitle</h3>
+                        <p> 투어 출발 일 : @revStartDay <br /> 예약 인원 수 : @revPCnt 명 </p>
+                    </figcaption>
+                    <div class="chkState">
+                        @MvcHtmlString.Create(revState)
+                        <span>@String.Format("{0:#,##0}", int.Parse(revPrice)) 원</span>
+                    </div>
+                </a>
+            </li>
+    }
+}
+        </ul>
+    </article>
+
+</section>
+
+
+<div class="fMenu">
+    <ul>
+        <li><a href="/Products">@*LOCAL*@<img src="~/Content/Images/home/ICON_LOC.png" /></a></li>
+        <li><a href="https://www.booking.com/?aid=1294434" target="_blank">@*HOTEL*@<img src="~/Content/Images/home/ICON_HOTEL.png" /></a></li>
+        <li><a href="http://www.timescar-rental.kr/af/7822000010/kr/" target="_blank">@*RENTCAR*@<img src="~/Content/Images/home/ICON_CAR.png" /></a></li>
+        <li><a href="/Community">@*SOCIAL*@<img src="~/Content/Images/home/ICON_COM.png" /></a></li>
+        <li class="active"><a href="/Mypage">MYPAGE@*<img src="~/Content/Images/home/ICON_MY.png" />*@</a></li>
+    </ul>
+</div>

@@ -1,0 +1,239 @@
+﻿@using NCompany.Models;
+
+@{
+    var user = Session["user"] as User;
+
+    string PER_CODE = user.PER_CODE,
+           POS_CODE = user.POS_CODE,
+           Login = user.Login;
+}
+
+<style>
+    body {
+        min-height: auto;
+    }
+    div.container.body-content > section {
+        padding: 20px 0 0;
+    }
+    section.naverPdt table
+    {
+        width: 100%;
+        font-size: 12px;
+    }
+    section.naverPdt table tr
+    {
+        line-height: 30px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+    }
+    section.naverPdt table tr.selected
+    {
+        background-color: lemonchiffon;
+    }
+
+    /*.table-fixed{
+        width: 100%;
+        background-color: #f3f3f3;
+    }
+    .table-fixed tbody{
+        height:500px;
+        overflow-y:auto;
+        width: 100%;
+    }
+    .table-fixed thead,
+    .table-fixed tbody,
+    .table-fixed tr,
+    .table-fixed td,
+    .table-fixed th{qq
+        display:block;
+    }
+    .table-fixed tbody td{ 
+        float:left;
+    }
+    .table-fixed thead tr th {
+        float:left;
+        background-color: #f39c12;
+        border-color:#e67e22;
+    }*/
+
+
+    section.naverPdt > article {
+        height: 100%;
+    }
+
+    section.naverPdt > article table.table-fixed {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding-top: 50px;
+    }
+
+    section.naverPdt > article table.table-fixed > thead,
+    section.naverPdt > article table.table-fixed > tbody,
+    section.naverPdt > article table.table-fixed > thead > tr,
+    section.naverPdt > article table.table-fixed > tbody > tr {
+        display: block;
+        width: 100%;
+        font-size: 0;
+    }
+
+    section.naverPdt > article table.table-fixed > thead th,
+    section.naverPdt > article table.table-fixed > tbody td {
+        display: inline-block;
+        font-size: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        overflow: hidden;
+    }
+    
+    section.naverPdt > article table.table-fixed > tbody {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 83px;
+        bottom: 0;
+        overflow: auto;
+    }
+</style>
+
+<section class="naverPdt product row">
+    <article class="col-md-12">
+        <div style="height: 100%;">
+
+            <div style="position: absolute; right: 15px; top: 0; z-index: 99;">
+                @*@if (PER_CODE == "PA")
+            {
+            <a href="#" class="btn btn-default refreshPdt">새로 고침</a>
+            }*@
+                <a href="#" class="btn btn-success" data-toggle="popup" data-target="detPdt">상품 등록</a>
+            </div>
+
+            <h3 class="pull-left" style="margin: 0;">네이버 쇼핑 EP 3.0 등록하기</h3>
+
+            <table class="table-fixed">
+                <colgroup>
+                    <col style="width: 5%;" />
+                    <col style="width: 8%;" />
+                    <col style="width: 8%;" />
+                    <col style="width: 60%;" />
+                    <col style="width: 7%;" />
+                    <col style="width: 12%;" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th style="width: 5%; text-align:center;">
+                            번호
+                        </th>
+                        <th style="width: 8%;">
+                            상품 코드
+                        </th>
+                        <th style="width: 8%;">
+                            브랜드
+                        </th>
+                        <th style="width: 60%;">
+                            상품 제목
+                        </th>
+                        <th style="text-align:center; width: 7%;">
+                            요금
+                        </th>
+                        <th style="text-align:center; width: 12%;">
+                            수정일
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (naver item in Model)
+                    {
+                        <tr data-toggle="popup" data-idx="@item.index" data-code="@item.id" data-target="detPdt">
+                            <td style="width: 5%; text-align:center;">
+                                @item.index
+                            </td>
+                            <td style="width: 8%;">
+                                @item.id
+                            </td>
+                            <td style="width: 8%;">
+                                @item.brand
+                            </td>
+                            <td style="width: 60%;">
+                                @item.title
+                            </td>
+                            <td style="text-align:right; width: 7%;">
+                                @String.Format("{0:#,##0}", item.price_pc) 원
+                            </td>
+                            <td style="text-align:right; width: 12%;">
+                                @item.update_time
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </article>
+</section>
+
+<script>
+    $("a.refreshPdt").on("click", function () {
+        var url = "/naver/resetPdt";
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            success: function (data) {
+                alert(data);
+                location.reload();
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    });
+
+    $('a[data-toggle="popup"]').on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var _this = $(this),
+            code = _this.attr('data-code'),
+            rUrl = "@Request.Url.PathAndQuery",
+            target = _this.attr('data-target'),
+            url = '/naver/' + target;
+
+        var datas = { code: code };
+
+        $.get(url, datas, function (data) {
+            $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+        });
+    });
+
+    $('section.naverPdt table tbody tr').on("click", function (e) {
+        var _this = $(this);
+
+        _this.addClass("selected").siblings().removeClass("selected");
+    });
+
+    $('tr[data-toggle="popup"]').on("dblclick", function (e) {
+        var _this = $(this),
+            code = _this.attr('data-code'),
+            target = _this.attr('data-target'),
+            idx = _this.attr('data-idx'),
+            url = '/naver/' + target;
+
+        var datas = { code: code, i: idx };
+
+        $.get(url, datas, function (data) {
+            $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+        });
+    });
+
+    $(document).on('hidden.bs.modal', function (e) {
+        $(e.target).remove();
+    });
+</script>

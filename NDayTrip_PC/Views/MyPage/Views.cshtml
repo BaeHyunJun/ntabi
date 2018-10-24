@@ -1,0 +1,638 @@
+﻿@using NDayTrip_PC.Models
+@using System.Globalization;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var user = Session["user"] as User;
+
+    string userAgent = Request.UserAgent;
+    string[] browser = { "iphone", "ipod", "ipad", "android", "blackberry", "windows ce", "nokia", "webos", "opera mini", "sonyericsson", "opera mobi", "iemobile", "windows phone" };
+    bool isMobile = false;
+
+    for (int iasd = 0; iasd < browser.Length; iasd++)
+    {
+        if (userAgent.ToLower().Contains(browser[iasd]))
+        {
+            isMobile = true;
+            break;
+        }
+    }
+
+    string revDay = "",
+           revSeq = "",
+           revStartDay = "",
+           pdtTitle = "",
+           pdtContent = "",
+           empName = "",
+           empTel = "",
+           empMail = "",
+           revState = "",
+           revStateTxt = "",
+           revName = "",
+           revPCnt = "",
+           revContent = "",
+           cntTxt = "",
+           revPrice = "",
+           pdtCode = "",
+           vcImg = "mypageti.png";
+
+    foreach (object item in Model)
+    {
+        revDay = "";
+        revSeq = "";
+        revStartDay = "";
+        pdtTitle = "";
+        pdtContent = "";
+        empName = "";
+        empTel = "";
+        empMail = "";
+        revState = "";
+        revName = "";
+        revPCnt = "";
+        revContent = "";
+        revPrice = "";
+        pdtCode = "";
+        revStateTxt = "";
+
+        try { revDay        = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+        try { revSeq        = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+        try { revStartDay   = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+        try { pdtTitle      = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+        try { pdtContent    = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+        try { empName       = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { continue; }
+        try { empTel        = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { continue; }
+        try { empMail       = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { continue; }
+        try { revState      = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { continue; }
+        try { revName       = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { continue; }
+        try { revPCnt       = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); } catch { continue; }
+        try { revContent    = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); } catch { }
+        try { revPrice      = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); } catch { }
+        try { pdtCode       = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); } catch { }
+
+        DateTime dt = DateTime.ParseExact(revStartDay, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+        switch (dt.DayOfWeek)
+        {
+            case DayOfWeek.Monday:
+                revStartDay += " (월)";
+                break;
+            case DayOfWeek.Tuesday:
+                revStartDay += " (화)";
+                break;
+            case DayOfWeek.Wednesday:
+                revStartDay += " (수)";
+                break;
+            case DayOfWeek.Thursday:
+                revStartDay += " (목)";
+                break;
+            case DayOfWeek.Friday:
+                revStartDay += " (금)";
+                break;
+            case DayOfWeek.Saturday:
+                revStartDay += " (토)";
+                break;
+            case DayOfWeek.Sunday:
+                revStartDay += " (일)";
+                break;
+        }
+
+        switch (revState)
+        {
+            case "10":
+                revStateTxt = "<h5 style='color: red;'>예약 취소</h5>";
+                break;
+            case "20":
+                revStateTxt = "<h5 style='color: #01790d;'>예약 확인중</h5>";
+                break;
+            case "30":
+                revStateTxt = "<h5 style='color: #960ce8;'>예약 진행중</h5>";
+                break;
+            case "40":
+                vcImg = "mypageti_ok.png";
+                revStateTxt = "<h5 style='color: #f84a0d;'>출발 확정</h5>";
+                break;
+            case "50":
+                revStateTxt = "<h5 style='color: blue;'>완료</h5>";
+                break;
+        }
+
+        cntTxt = revName;
+
+        if (Convert.ToInt32(revPCnt) > 1)
+        {
+            cntTxt += "외 " + (Convert.ToInt32(revPCnt) - 1) + "명";
+        }
+    }
+}
+
+<style>
+    div#wrap article#container div.pro_top {
+        height: 80px;
+        background-color: #ededed;
+    }
+    div#wrap article#container div.pro_top p {
+        width: 1050px;
+        margin: 0 auto;
+        font-size: 24px;
+        line-height: 80px;
+    }
+    div#wrap article#container ul.set {
+        padding: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+        width: 50%;
+        margin: 50px auto;
+    }
+    div#wrap article#container ul.set > li {
+        float: left;
+        font-size: 14px;
+        text-align: center;
+        border: 1px solid #ddd;
+        width: 33.333%;
+        padding: 18px 0 5px;
+        line-height: 35px;
+        border-left: 0;
+    }
+    div#wrap article#container ul.set > li:first-child {
+        border-left: 1px solid #ddd;
+    }
+    div#wrap article#container section.mypage_reserve {
+        width: 850px;
+        margin: 0 auto 60px;
+        overflow: hidden;
+    }
+    div#wrap article#container section.mypage_reserve ul.ticket {
+        width: 420px;
+        float: left;
+        border: 1px solid #ddd;
+    }
+    div#wrap article#container section.mypage_reserve ul.ticket > li,
+    div#wrap article#container section.mypage_reserve ul.account > li,
+    div#wrap article#container section.mypage_reserve ul.ch > li {
+        padding: 20px;
+        border-top: 1px solid #ddd;
+        overflow: hidden;
+    }
+    div#wrap article#container section.mypage_reserve ul.ticket > li.header,
+    div#wrap article#container section.mypage_reserve ul.account > li.header,
+    div#wrap article#container section.mypage_reserve ul.ch > li.header {
+        border-top: none;
+        background-color: #a0ce54;
+    }
+    div#wrap article#container section.mypage_reserve ul.ticket > li > span {
+        display: block;
+    }
+    div#wrap article#container section.mypage_reserve ul.ticket > li > span.cont {
+        color: white;
+    }
+    div#wrap article#container section.mypage_reserve ul.ticket > li > span > h5 {
+        font-size: 14px;
+        font-weight: normal;
+    }
+    div#wrap article#container section.mypage_reserve ul.ticket > li ul.emp {
+        padding-left: 30px;
+        margin-top: 10px;
+    }
+    div#wrap article#container section.mypage_reserve ul.ticket > li ul.emp > li {
+        list-style: circle;
+    }
+    div#wrap article#container section.mypage_reserve ul.ticket li.line1 > span,
+    div#wrap article#container section.mypage_reserve ul.account li.line1 > span {
+        color: #474747;
+        float: right;
+    }
+    div#wrap article#container section.mypage_reserve ul.ticket li.line1 span.tit,
+    div#wrap article#container section.mypage_reserve ul.account li.line1 span.tit {
+        float: left;
+    }
+    div#wrap article#container section.mypage_reserve ul.account,
+    div#wrap article#container section.mypage_reserve ul.ch {
+        width: 420px;
+        float: right;
+        border: 1px solid #ddd;
+    }
+    div#wrap article#container section.mypage_reserve ul.ch {
+        margin-top: 20px;
+    }
+    div#wrap article#container section.mypage_reserve ul.ch > li > dl {
+        margin: 0;
+    }
+    div#wrap article#container section.mypage_reserve ul.ch > li > dl > dt.pull-left {
+        float: left;
+    }
+    div#wrap article#container section.mypage_reserve ul.ch > li > dl > dt.pull-right {
+        float: right;
+    }
+    div#wrap article#container section.mypage_reserve ul.ch > li > form a.btn {
+        float: right;
+        border: 1px solid #ddd;
+        line-height: 1.3;
+    }
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        color: #fff;
+        background-color: #a0ce54;
+    }
+</style>
+
+<div class="pro_top">
+    <p><span>예약 상품</span></p>
+</div>
+
+<ul class="set">
+    <li><a href="/MyPage" class="in"><img src="~/Content/Images/mypage/icon_bus_in.png"><br>예약정보</a></li>
+    <li><a href="/MyPage/Board"><img src="~/Content/Images/mypage/icon_news.png"><br>게시물관리</a></li>
+    <li><a href="/MyPage/Info"><img src="~/Content/Images/mypage/icon_set.png"><br>정보수정</a></li>
+</ul>
+
+<section class="mypage_reserve">
+    <ul class="ticket">
+        <li class="header">
+            <span class="tit">출발날짜</span>
+            <span class="cont">@revStartDay</span>
+        </li>
+        <li>
+            @if (vcImg == "mypageti.png")
+            {
+                <img src="~/Content/Images/mypage/@vcImg" style="margin-bottom: 20px;">
+            }
+            else if (vcImg == "mypageti_ok.png")
+            {
+                <a href="/MyPage/Voucher?day=@revDay&seq=@revSeq" target="_blank">
+                    <img src="~/Content/Images/mypage/@vcImg" style="margin-bottom: 20px;">
+                </a>
+            }
+            <span>@pdtTitle</span>
+            <span>@pdtContent</span>
+        </li>
+        <li>
+            <span class="tit">담당자</span>
+            <ul class="emp">
+                <li>@empName | 전화 : <a href="@empTel">@empTel</a></li>
+                <li>팩스 : 051-466-4605</li>
+                <li>이메일 : @empMail</li>
+            </ul>
+        </li>
+        <li class="line1">
+            <span class="tit">진행상태</span>
+            <span>@MvcHtmlString.Create(revStateTxt)</span>
+        </li>
+        <li class="line1">
+            <span class="tit">예약 인원</span>
+            <span>@cntTxt</span>
+        </li>
+        <li>
+            <span class="tit">추가요청사항</span>
+            <p>@revContent</p>
+        </li>
+    </ul>
+
+    @if (revState != "10")
+    {
+
+    <ul class="account">
+        <li class="header">
+            <span class="cont">결제 정보</span>
+        </li>
+
+        <li class="line1 account-cont">
+            <a href="#">
+                <span class="tit">결제 내역</span>
+                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+            </a>
+            <ul>
+
+                @{
+                    string REV_ACC_SEQ = "",
+                           REV_ACC_DATE = "",
+                           REV_ACC_REG_DATE = "",
+                           REV_ACC_IST_EMP_NO = "",
+                           REV_ACC_GB_CODE = "",
+                           REV_ACC_DET_SEQ = "",
+                           REV_ACC_PRICE = "",
+                           REV_ACC_NAME = "",
+                           REV_ACC_CONTENT = "";
+
+                    int totalPrice = 0;
+
+                    foreach (object item in ViewBag.accData)
+                    {
+
+                        try { REV_ACC_SEQ = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                        try { REV_ACC_DATE = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                        try { REV_ACC_REG_DATE = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                        try { REV_ACC_IST_EMP_NO = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+                        try { REV_ACC_GB_CODE = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+                        try { REV_ACC_DET_SEQ = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { continue; }
+                        try { REV_ACC_PRICE = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { continue; }
+                        try { REV_ACC_NAME = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { continue; }
+                        try { REV_ACC_CONTENT = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { continue; }
+
+                        totalPrice += int.Parse(REV_ACC_PRICE);
+
+                        <li>
+                            @if (!string.IsNullOrEmpty(REV_ACC_DET_SEQ))
+                            {
+                            <span>@REV_ACC_DET_SEQ</span>
+                            }
+                            <span class="tit">@REV_ACC_GB_CODE</span>
+                            <ul>
+                                <li>
+                                    <span class="tit">결제 일 : </span>
+                                    <span>@REV_ACC_DATE</span>
+                                </li>
+                                <li>
+                                    <span class="tit">입금 인 : </span>
+                                    <span>@REV_ACC_NAME</span>
+                                </li>
+                                <li>
+                                    <span class="tit">결제 금액 :</span>
+                                    <span>@{@String.Format("{0:#,##0}", int.Parse(REV_ACC_PRICE))}원</span>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                }
+            </ul>
+        </li>
+
+        @{
+            string outPrice = "";
+
+            if ( int.Parse(revPrice) - totalPrice < 0 )
+            {
+                outPrice = "과납 : " + String.Format("{0:#,##0}", totalPrice - int.Parse(revPrice)); ;
+            } else {
+                outPrice = String.Format("{0:#,##0}", int.Parse(revPrice) - totalPrice);
+            }
+        }
+
+        <li class="line1">
+            <span class="tit">미 결제 금액</span>
+            <span style="color: red;">@outPrice 원</span>
+        </li>
+
+        <li class="line1">
+            <span class="tit">판매 금액</span>
+            <span>@String.Format("{0:#,##0}", int.Parse(revPrice)) 원</span>
+        </li>
+    </ul>
+
+if ((vcImg == "mypageti_ok.png" || revState == "30" || revState == "40") && (int.Parse(revPrice) - totalPrice) > 0)
+{
+    <ul class="ch">
+        <li class="header">
+            <span class="cont">결제 방법</span>
+        </li>
+        <li style="padding: 10px;">
+
+            <ul class="nav nav-pills" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#account" role="tab" aria-controls="home" aria-selected="true">
+                        계좌이체
+                    </a>
+                </li>
+                <li class="nav-item" style="display: none;">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#tabipay" role="tab" aria-controls="contact" aria-selected="false">
+                        타비페이
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#card" role="tab" aria-controls="profile" aria-selected="false">
+                        신용카드
+                    </a>
+                </li>
+            </ul>
+
+            @*<ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+            </div>*@
+
+        </li>
+        <li class="tab-content">
+            <div id="account" class="tab-pane fade show active">
+                <dl>
+                    <dt class="pull-left">계좌이체</dt>
+                    <dt class="pull-right" style="color: red;">(주)엔데이트립</dt>
+                </dl>
+                <hr />
+                <dl>
+                    @*<dt>국민은행 947801-01-386292</dt>*@
+                    <dt>신한은행 140-010-863510</dt>
+                </dl>
+            </div>
+            @*</li>*@
+            @*<li>
+                <dl style="margin: 0; color: red;">
+                    <dt style="margin-bottom: 10px;">
+                        ※ 카드 결제 오류시 담당자에게 연락 부탁드립니다.
+                    </dt>
+                    <dt>
+                        ※카드결제를 원하시는 경우 해당 상품 담당자(직통 @empTel)으로 연락바랍니다.
+                    </dt>
+                </dl>
+            </li>*@
+            @*<li id="card" class="tab-pane fade">*@
+            @using (Html.BeginForm("approval", "Mypage", FormMethod.Post, new { @class = "pro_ok_box tab-pane fade", name = "appForm", style = "padding:0;", id = "card" }))
+            {
+                string depseq = DateTime.Now.ToString("yyyyMMddhhmmss");
+
+                string receiveUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf(Request.Url.AbsolutePath)) + "/Mypage/Allat_receive";
+
+                @Html.Hidden("allat_shop_id", "ntravels")
+                @Html.Hidden("allat_order_no", revDay + "_" + revSeq + "_" + depseq)                    @* 예약 번호 넣기 *@
+                @Html.Hidden("allat_amt", 1000)                                                         @* 승인금액 *@
+                @Html.Hidden("allat_pmember_id", @user.ID)                                              @* 회원 ID *@
+                @Html.Hidden("allat_product_cd", @pdtCode)                                              @* 상품 코드 *@
+                @Html.Hidden("allat_product_nm", @pdtTitle)                                             @* 상품 명 *@
+                @Html.Hidden("allat_buyer_nm", @user.Name)                                              @* 결제자 성명 *@
+                @Html.Hidden("allat_recp_nm", @user.Name)                                               @* 수취인 성명 *@
+                @Html.Hidden("allat_recp_addr", "인터넷 결제")                                           @* 수취인 주소 *@
+                @Html.Hidden("shop_receive_url", @receiveUrl)                                           @* 콜백 주소 *@
+                @Html.Hidden("allat_enc_data")                                                          @* 오잉? *@
+
+                @Html.Hidden("allat_card_yn", "Y")                                                      @* 카드 사용 여부 *@
+                @Html.Hidden("allat_bank_yn", "N")                                                      @* 게좌이체 사용 여부 *@
+                @Html.Hidden("allat_vbank_yn", "N")                                                     @* 무통장 결제 사용 여부 *@
+                @Html.Hidden("allat_hp_yn", "N")                                                        @* 휴대폰 결제 사용 여부 *@
+                @Html.Hidden("allat_ticket_yn", "N")                                                    @* 상품권 결제 사용 여부 *@
+
+                @Html.Hidden("allat_encode_type", "U")                                                  @* UTF-8 사용 여부 *@
+
+                @Html.Hidden("allat_test_yn", "N")                                                      @* 테스트 여부 *@
+
+                <span>
+                    <input name="dPrice" type="number" style="height: 54px; padding: 5px 10px; width: 160px; margin-right: 10px;">원<a href="javascript:ftn_approval(document.appForm);" class="btn btn-default pull-right">신용카드<br>결제하기</a>
+                </span>
+                <hr />
+                <span style="color: red;">※해외카드는 결제가 불가능합니다.</span>
+            }
+
+            @using (Html.BeginForm("payApprove", "Mypage", FormMethod.Post, new { @class = "pro_ok_box tab-pane fade", name = "tabiForm", style = "padding:0;", id = "tabipay" }))
+            {
+                string depseq = DateTime.Now.ToString("yyyyMMddhhmmss");
+
+                string receiveUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf(Request.Url.AbsolutePath)) + "/Mypage/checkpay_receive";
+
+                @Html.Hidden("orderDate", revDay)
+                @Html.Hidden("orderNo", revSeq)                                                     @* 예약 번호 넣기 *@
+                @Html.Hidden("price", 1000)                                                         @* 승인금액 *@
+                @Html.Hidden("title", @pdtTitle)                                                    @* 상품 명 *@
+                @Html.Hidden("receive_url", @receiveUrl)                                       @* 콜백 주소 *@
+
+                <span>
+                    <input name="tabiPrice" type="number" style="height: 54px; padding: 5px 10px; width: 160px; margin-right: 10px;">원<a href="javascript:tabi_approve();" class="btn btn-default pull-right">타비페이<br>결제하기</a>
+                </span>
+            }
+        </li>
+    </ul>
+}
+
+    }
+
+</section>
+
+<script>
+    $(document).ready(function () {
+        $("li.account-cont > a").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this);
+
+            _this.siblings().slideToggle();
+        });
+    });
+</script>
+
+                @if (isMobile)
+                {
+<script type="text/javascript" charset="utf-8" src="https://tx.allatpay.com/common/AllatPayM.js"></script>
+
+<script language=Javascript>
+
+    // 결제페이지 호출
+    function ftn_approval(dfm) {
+
+        if (dfm.dPrice.value < 1000) {
+            alert("1000 원 부터 결제가 가능합니다.");
+            return;
+        }
+
+        var price = "@revPrice";
+
+        if (dfm.dPrice.value > price) {
+            alert("결제 하시려는 금액을 다시 체크해주세요.");
+            return;
+        }
+
+        $(window).scrollTop(0)
+
+        dfm.allat_amt.value = dfm.dPrice.value;
+
+        Allat_Mobile_Approval(dfm, 0, 0);
+    }
+
+    // 결과값 반환( receive 페이지에서 호출 )
+    function result_submit(result_cd, result_msg, enc_data) {
+
+        Allat_Mobile_Close();
+
+        if (result_cd != '0000') {
+            alert(result_cd + " : " + result_msg);
+        } else {
+
+            var f = document.appForm;
+            f.allat_enc_data.value = enc_data;
+
+            f.action = "/Mypage/approval";
+            f.method = "post";
+            f.target = "_self";
+            f.submit();
+        }
+    }
+</script>
+                }
+                else
+                {
+<script language=JavaScript charset='euc-kr' src="https://tx.allatpay.com/common/NonAllatPayRE.js"></script>
+<script language=Javascript>
+    // 결제페이지 호출
+    function ftn_approval(dfm) {
+
+        if (dfm.dPrice.value < 1000) {
+            alert("1000 원 부터 결제가 가능합니다.");
+            return;
+        }
+
+        var price = "@revPrice";
+
+        if (dfm.dPrice.value > price) {
+            alert("결제 하시려는 금액을 다시 체크해주세요.\n(미 입금 금액보다 결제하시려는 금액이 큽니다.)");
+            return;
+        }
+
+        dfm.allat_amt.value = dfm.dPrice.value;
+
+        AllatPay_Approval(dfm);
+        // 결제창 자동종료 체크 시작
+        AllatPay_Closechk_Start();
+    }
+
+    // 결과값 반환( receive 페이지에서 호출 )
+    function result_submit(result_cd, result_msg, enc_data) {
+
+        // 결제창 자동종료 체크 종료
+        AllatPay_Closechk_End();
+
+        if (result_cd != '0000') {
+            window.setTimeout(function () { alert(result_cd + " : " + result_msg); }, 1000);
+        } else {
+            var f = document.appForm;
+            f.allat_enc_data.value = enc_data;
+
+            f.action = "/Mypage/approval";
+            f.method = "post";
+            f.target = "_self";
+            f.submit();
+        }
+    }
+
+    function tabi_approve() {
+        var f = document.tabiForm;
+
+        if (f.tabiPrice.value < 1000) {
+            alert("1000 원 부터 결제가 가능합니다.");
+            return;
+        }
+
+        var price = "@revPrice";
+
+        if (f.tabiPrice.value > price) {
+            alert("결제 하시려는 금액을 다시 체크해주세요.");
+            return;
+        }
+
+        f.price.value = f.tabiPrice.value;
+
+        f.action = "/Mypage/payApprove";
+        f.method = "post";
+        f.target = "_self";
+        f.submit();
+    }
+</script>
+                }

@@ -1,0 +1,335 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    div.modal-body .mode1,
+    div.modal-body .mode2
+    {
+        display: none;
+    }
+
+</style>
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">고객 등록</h4>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("File_Upload", "Event", FormMethod.Post, new { enctype = "multipart/form-data", name = "uploadForm", style = "overflow:hidden;" }))
+            {
+                <input type="hidden" name="type" />
+                @*<input type="hidden" name="course" />
+                <input type="hidden" name="newCourse" value="N" />*@
+                <div class="row form-group">
+                    <div class="form-group input-group col-md-6">
+                        <div class="input-group-addon">구매처</div>
+                        <select class="form-control" name="officeCode">
+                            <option value="">선택</option>
+                            <option value="TMT">티켓 몬스터</option>
+                            <option value="WMP">위메프</option>
+                            <option value="MRT">마이 리얼 트립</option>
+                            <option value="HJT">해피진투어</option>
+                            <option value="GNT">여행가는길</option>
+                            <option value="SLT">단독투어</option>
+                            <option value="ETC">기타</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group col-md-6">
+                        <div class="input-group-addon">지역</div>
+                        <select class="form-control" name="areaCode">
+                            <option value="">선택</option>
+                            <option value="HOK">홋카이도</option>
+                            <option value="OSA">오사카</option>
+                            <option value="OKI">오키나와</option>
+                            <option value="NGY">나고야</option>
+                            <option value="KYU">규슈</option>
+                            <option value="TOK">도쿄</option>
+                            <option value="TSU">대마도</option>
+                        </select>
+                    </div>
+                </div>
+                
+                @*<div class="row form-group course">
+                    <div class="form-group input-group col-md-12">
+                        <div class="input-group-addon">코스 명</div>
+                        <select class="form-control">
+                            <option>지역을 선택해 주세요.</option>
+                        </select>
+                        <input class="form-control" type="text" style="display: none;" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-success addCourseBtn" type="button">추가하기</button>
+                        </span>
+                    </div>
+                </div>*@
+                
+                <div class="row form-group mode1">
+                    <div class="form-group input-group col-md-9">
+                        <p>거래처에서 행사 자료를 받아서 업로드 해주세요.</p>
+                        <input type="file" name="file" multiple />
+                    </div>
+                    <div class="form-group input-group col-md-3">
+                        <a class="btn btn-default pull-right changeForm">직접 입력</a>
+                    </div>
+                </div>
+                <div class="row form-group mode2">
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-addon">출발일</div>
+                        <input type="text" name="sDate" class="form-control datepicker" readonly="readonly" style="background: white; cursor: pointer;" />
+                    </div>
+                    <div class="form-group input-group col-md-5">
+                        <div class="input-group-addon">고객명</div>
+                        <input type="text" name="name" class="form-control" />
+                    </div>
+                    <div class="form-group input-group col-md-3">
+                        <div class="input-group-addon">인원 수</div>
+                        <input type="text" name="cnt" class="form-control" />
+                    </div>
+                    <div class="form-group input-group col-md-7">
+                        <div class="input-group-addon">상품 명</div>
+                        @*<input type="text" name="title" class="form-control" />*@
+                        <select class="form-control" name="title">
+                            <option>지역을 선택해 주세요.</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group col-md-5">
+                        <div class="input-group-addon">요금(1 인당)</div>
+                        <input type="text" name="price" class="form-control" />
+                    </div>
+                    <div class="form-group input-group col-md-6">
+                        <div class="input-group-addon">대표 연락처</div>
+                        <input type="text" name="tel" class="form-control" />
+                    </div>
+                    <div class="form-group input-group col-md-6">
+                        <div class="input-group-addon">대표 이메일</div>
+                        <input type="text" name="mail" class="form-control" />
+                    </div>
+                    <div class="form-group input-group col-md-12">
+                        <div class="input-group-addon">특이사항</div>
+                        <input type="text" name="etc" class="form-control" />
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">등록</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("form[name='uploadForm'] select[name='areaCode']").on("change", function () {
+            var areaCode = $(this).val();
+
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/Event/JSON_getCourse",
+            //    data: { area: areaCode },
+            //    success: function (data) {
+            //        var html = "";
+
+            //        for (i in data)
+            //        {
+            //            html += "<option>" + data[i].COU_TITLE + "</option>";
+            //        }
+
+            //        $("div.course select").html(html);
+            //    }
+            //    , beforeSend: function () {
+            //        $('#loading').show();
+            //    }
+            //    , complete: function () {
+            //        $('#loading').hide();
+            //    }
+            //});
+
+            $.ajax({
+                type: "POST",
+                url: "/Reserve/Json_getProducts",
+                data: { type: "LT", nation: "JP", area: areaCode },
+                success: function (data) {
+                    var html = "";
+
+                    for (i in data) {
+                        html += "<option>" + data[i].title + "</option>";
+                    }
+
+                    $("select[name=title]").html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        var minDate = new Date();
+
+        $("input.datepicker").datepicker({
+            dateFormat: 'yymmdd',
+            prevText: '이전',
+            nextText: '이후',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            nowDate: minDate,
+        });
+
+        $("a.changeForm").on("click", function () {
+            $("input[name=type]").val("mode2");
+            $(".mode1").hide();
+            $(".mode2").show();
+        });
+
+        $("select[name=officeCode]").on("change", function () {
+            var _this = $(this),
+                type = _this.val();
+
+            switch(type)
+            {
+                case "TMT":
+                case "WMP":
+                case "MRT":
+                    $("input[name=type]").val("mode1");
+                    $(".mode2").hide();
+                    $(".mode1").show();
+                    break;
+                case "HJT":
+                case "GNT":
+                case "SLT":
+                case "ETC":
+                    $("input[name=type]").val("mode2");
+                    $(".mode1").hide();
+                    $(".mode2").show();
+                    break;
+            }
+        });
+
+        $("div.modal.Uploader").delegate("button.addCourseBtn", "click", function () {
+            $(this).removeClass("addCourseBtn").addClass("selectCourseBtn").text("기존 코스 선택");
+            $(this).parent().prev("input").css("display", "block").prev("select").css("display", "none");
+            document.uploadForm.newCourse.value = "Y";
+        });
+
+        $("div.modal.Uploader").delegate("button.selectCourseBtn", "click", function () {
+            $(this).removeClass("selectCourseBtn").addClass("addCourseBtn").text("추가하기");
+            $(this).parent().prev("input").css("display", "none").prev("select").css("display", "block");
+            document.uploadForm.newCourse.value = "N";
+        });
+
+        $("button#uptBtn").on("click", function () {
+            var f = document.uploadForm,
+                officeCode = f.officeCode,
+                areaCode = f.areaCode,
+                type = f.type;//,
+                //course = f.course,
+                //newCourse = f.newCourse;
+                //file = f.file;
+
+            if (officeCode.value == "" || officeCode.value == undefined) {
+                alert("구매처를 선택해주세요.");
+                officeCode.focus();
+                return;
+            }
+
+            if (areaCode.value == "" || areaCode.value == undefined) {
+                alert("지역을 선택해주세요.");
+                areaCode.focus();
+                return;
+            }
+
+            //if (newCourse.value == "N")
+            //{
+            //    course.value = $("div.course select option:selected").val();
+            //    if ($("div.course select option:selected").val() == "" || $("div.course select option:selected").val() === undefined) {
+            //        newCourse.value = "X";
+            //    }
+            //}
+            //else
+            //{
+            //    course.value = $("div.course input").val();
+            //    if ($("div.course input").val() == "" || $("div.course input").val() === undefined) {
+            //        newCourse.value = "X";
+            //    }
+            //}
+
+            if (type.value == "mode1") {
+                var file = f.file;
+
+                if (file.value == "" || file.value == undefined) {
+                    alert("엑셀 파일을 등록해주세요.");
+                    file.focus();
+                    return;
+                }
+            } else if (type.value == "mode2") {
+                var sDate = f.sDate,
+                    name = f.name,
+                    cnt = f.cnt,
+                    title = f.title,
+                    tel = f.tel,
+                    email = f.mail,
+                    etc = f.etc,
+                    price = f.price;
+
+                if (sDate.value == "" || sDate.value == undefined) {
+                    alert("출발일을 등록해주세요.");
+                    sDate.focus();
+                    return;
+                }
+
+                if (name.value == "" || name.value == undefined) {
+                    alert("고객명을 등록해주세요.");
+                    name.focus();
+                    return;
+                }
+
+                if (cnt.value == "" || cnt.value == undefined) {
+                    alert("인원수를 등록해주세요.");
+                    cnt.focus();
+                    return;
+                }
+
+                if (title.value == "" || title.value == undefined) {
+                    alert("상품명을 등록해주세요.");
+                    title.focus();
+                    return;
+                }
+
+                if (price.value == "" || price.value == undefined) {
+                    alert("1인당 요금을 등록해주세요.");
+                    price.focus();
+                    return;
+                }
+
+                if (tel.value == "" || tel.value == undefined) {
+                    alert("대표 연락처를 등록해주세요.");
+                    tel.focus();
+                    return;
+                }
+
+                if (email.value == "" || email.value == undefined) {
+                    alert("대표 이메일을 등록해주세요.");
+                    email.focus();
+                    return;
+                }
+            }
+
+            $(this).prop("disabled", true);
+
+            $("div#loading").show();
+
+            f.submit();
+        });
+    });
+</script>

@@ -1,0 +1,266 @@
+﻿@{
+    ViewBag.Title = "회계";
+}
+
+<style>
+    section.account article {
+        height: 100%;
+        position: relative;
+    }
+
+    section.account ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+    }
+
+    section.account ul.lists-header {
+        border-bottom: 1px solid #ddd;
+    }
+
+    section.account ul.lists-body {
+        position: absolute;
+        left: 15px;
+        right: 15px;
+        top: 75px;
+        bottom: 0;
+        overflow: auto;
+    }
+
+    section.account ul li {
+        font-size: 12px;
+        padding: 10px 5px;
+        text-align: center;
+        display: inline-block;
+    }
+
+    section.account ul.lists-header li {
+        font-weight: bold;
+    }
+
+    section.account ul.lists-body > li {
+        width: 100%;
+        padding: 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    section.account ul.lists-body > li li {
+        border-left: 1px solid #f6f6f6;
+    }
+
+    section.account ul.lists-body > li li:first-child {
+        border: none;
+    }
+
+
+
+    
+
+/* Base for label styling */
+section.account [type="checkbox"]:not(:checked),
+section.account [type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+}
+
+section.account [type="checkbox"]:not(:checked) + label,
+section.account [type="checkbox"]:checked + label {
+    position: relative;
+    padding-left: .96em;
+    cursor: pointer;
+    vertical-align: text-top;
+}
+
+/* checkbox aspect */
+section.account [type="checkbox"]:not(:checked) + label:before,
+section.account [type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 1.25em; height: 1.25em;
+    border: 2px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+
+/* checked mark aspect */
+section.account [type="checkbox"]:not(:checked) + label:after,
+section.account [type="checkbox"]:checked + label:after {
+    content: '✔';
+    position: absolute;
+    top: .1em; left: .3em;
+    font-size: 1.3em;
+    line-height: 0.8;
+    color: #09ad7e;
+    transition: all .2s;
+}
+
+/* checked mark aspect changes */
+section.account [type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+}
+
+section.account [type="checkbox"]:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* disabled checkbox */
+section.account [type="checkbox"]:disabled:not(:checked) + label:before,
+section.account [type="checkbox"]:disabled:checked + label:before {
+    box-shadow: none;
+    border-color: #bbb;
+    background-color: #ddd;
+}
+
+section.account [type="checkbox"]:disabled:checked + label:after {
+    color: #999;
+}
+
+section.account [type="checkbox"]:disabled + label {
+    color: #aaa;
+}
+</style>
+
+<section class="account row">
+    <article class="col-md-12">
+        <div class="row pull-right" style="margin-right: 0;">
+            <button type="button" class="btn btn-default">조회</button>
+            <button type="button" class="btn btn-danger">삭제</button>
+            <a class="btn btn-success" data-toggle="popup" href="/Account/Uploader" data-target="Uploader">등록</a>
+        </div>
+
+        <h3>@ViewBag.Title 관리</h3>
+
+        <div class="accArea">
+            <ul class="accLists lists-header">
+                <li style="width: 4%">선택</li>
+                <li style="width: 7%">입금일</li>
+                <li style="width: 4%">번호</li>
+                @*<li style="width: 4%">나누기 번호</li>*@
+                <li style="width: 7%">은행 명</li>
+                <li style="width: 10%">계좌 번호</li>
+                <li style="width: 8%">최초 입금액</li>
+                <li style="width: 8%">입금액</li>
+                <li style="width: 15%">입금인</li>
+                <li style="width: 7%">등록일</li>
+                <li style="width: 7%">등록자</li>
+                <li style="width: 7%">처리자</li>
+                <li style="width: 16%">비고</li>
+            </ul>
+
+            <ul class="accLists lists-body">
+                @{
+                    string ACC_DAY,
+                           ACC_SEQ,
+                           ACC_SUB_SEQ,
+                           ACC_BANK_CODE,
+                           ACC_NUMBER,
+                           ACC_FIRST_PRICE,
+                           ACC_PRICE,
+                           ACC_NAME,
+                           ACC_IST_DAY,
+                           ACC_IST_EMP_NO,
+                           ACC_EMP_NO,
+                           ACC_CONTENT,
+                           strChk = "checked='checked'";
+                           
+                    string chkCode = "";
+
+                    foreach (object item in Model)
+                    {
+                        ACC_DAY = "";
+                        ACC_SEQ = "";
+                        ACC_SUB_SEQ = "";
+                        ACC_BANK_CODE = "";
+                        ACC_NUMBER = "";
+                        ACC_FIRST_PRICE = "";
+                        ACC_PRICE = "";
+                        ACC_NAME = "";
+                        ACC_IST_DAY = "";
+                        ACC_IST_EMP_NO = "";
+                        ACC_EMP_NO = "";
+                        ACC_CONTENT = "";
+
+                        chkCode = "";
+
+                        try { ACC_DAY = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { ACC_SEQ = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { ACC_SUB_SEQ = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { ACC_BANK_CODE = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { ACC_NUMBER = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { ACC_FIRST_PRICE = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { ACC_PRICE = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { ACC_NAME = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { ACC_IST_DAY = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { ACC_IST_EMP_NO = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { ACC_EMP_NO = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { ACC_CONTENT = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+                        catch { }
+
+                        chkCode = ACC_DAY + "_" + ACC_SEQ + "_" + ACC_SUB_SEQ;
+                        
+                        <li>
+                            <ul>
+                                <li style="width: 4%">
+                                    <input type="checkbox" id="@chkCode" class="chkTraff" /><label for="@chkCode"></label>
+                                </li>
+                                <li style="width: 7%">@ACC_DAY</li>
+                                <li style="width: 4%">@ACC_SEQ</li>
+                                <li style="width: 7%">@Html.Action("getBank", new { code = ACC_BANK_CODE })</li>
+                                <li style="width: 10%">@ACC_NUMBER</li>
+                                <li style="width: 8%">@String.Format("{0:#,##0}", int.Parse(ACC_FIRST_PRICE))</li>
+                                <li style="width: 8%">@String.Format("{0:#,##0}", int.Parse(ACC_PRICE))</li>
+                                <li style="width: 15%">@ACC_NAME</li>
+                                <li style="width: 7%">@ACC_IST_DAY</li>
+                                <li style="width: 7%">@Html.Action("getName", new { emp = Convert.ToInt32(ACC_IST_EMP_NO) })</li>
+                                <li style="width: 7%">@ACC_EMP_NO</li>
+                                <li style="width: 16%">@ACC_CONTENT</li>
+                            </ul>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </article>
+</section>
+
+<script>
+    $(document).ready(function () {
+
+        $('[data-toggle="popup"]').on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this),
+                url = _this.attr('href'),
+                target = _this.attr('data-target');
+
+            var datas = { };
+
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+
+            location.reload();
+        });
+    });
+</script>

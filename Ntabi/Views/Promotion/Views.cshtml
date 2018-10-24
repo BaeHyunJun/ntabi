@@ -1,0 +1,8 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    string fileName = Request["f"];
+    string path = "/Promotion/" + fileName + ".html";
+    
+}
+@{this.GetOutputWriter().Write(File.ReadAllText(Server.MapPath(path)));}

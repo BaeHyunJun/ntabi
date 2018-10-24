@@ -1,0 +1,536 @@
+﻿@using NCompany.Models
+@using System.Globalization;
+
+@{
+    Layout = null;
+
+    var reData = ViewBag.reData;
+
+    string KEY = "",
+           REV_CNT = "",
+           REV_STATE = "20",
+           CHG_EMP_NO = "",
+           IST_EMP_NO = "",
+           SEL_EMP_NO = "",
+           UDT_EMP_NO = "",
+           IST_DATE = "",
+           SEL_DATE = "",
+           UDT_DATE = "",
+           REV_STARTDAY = "",
+           PDT_TITLE = "",
+           PDT_DAYS_CODE = "",
+           cuCode = "",
+           pdtCode = "",
+           pdtKey = "",
+           REV_ENDDAY = "",
+           cuName = "",
+           cuFirst = "",
+           cuLast = "",
+           cuMail = "",
+           cuTel = "",
+           aCnt = "",
+           cCnt = "",
+           bCnt = "",
+           strCHK = "selected='selected'";
+
+    int addDays = 0;
+
+    if (reData != null)
+    {
+        foreach (object item in reData)
+        {
+            KEY = "";
+            REV_CNT = "";
+            REV_STATE = "";
+            CHG_EMP_NO = "";
+            IST_EMP_NO = "";
+            SEL_EMP_NO = "";
+            UDT_EMP_NO = "";
+            IST_DATE = "";
+            SEL_DATE = "";
+            UDT_DATE = "";
+            REV_STARTDAY = "";
+            PDT_TITLE = "";
+            PDT_DAYS_CODE = "";
+            pdtCode = "";
+            pdtKey = "";
+            cuCode = "";
+            aCnt = "";
+            cCnt = "";
+            bCnt = "";
+
+            try { KEY = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+            catch { }
+            try { REV_CNT = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+            catch { }
+            try { REV_STATE = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { }
+            try { CHG_EMP_NO = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+            catch { }
+            try { IST_EMP_NO = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+            catch { }
+            try { SEL_EMP_NO = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+            catch { }
+            try { UDT_EMP_NO = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+            catch { }
+            try { IST_DATE = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+            catch { }
+            try { SEL_DATE = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+            catch { }
+            try { UDT_DATE = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+            catch { }
+            try { REV_STARTDAY = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+            catch { }
+            try { PDT_TITLE = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+            catch { }
+            try { PDT_DAYS_CODE = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+            catch { }
+            try { cuCode = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtCode = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtKey = item.GetType().GetProperties()[15].GetValue(item, null).ToString(); }
+            catch { }
+            try { aCnt = item.GetType().GetProperties()[16].GetValue(item, null).ToString(); }
+            catch { }
+            try { cCnt = item.GetType().GetProperties()[17].GetValue(item, null).ToString(); }
+            catch { }
+            try { bCnt = item.GetType().GetProperties()[18].GetValue(item, null).ToString(); }
+            catch { }
+        }
+
+        addDays = Convert.ToInt32(PDT_DAYS_CODE.Substring(0, 2));
+
+        REV_ENDDAY = DateTime.ParseExact(REV_STARTDAY, "yyyy-MM-dd", CultureInfo.InvariantCulture).AddDays(addDays).ToString("yyyy-MM-dd");
+
+        foreach (object item in ViewBag.cuData)
+        {
+            cuName = "";
+            cuFirst = "";
+            cuLast = "";
+            cuMail = "";
+            cuTel = "";
+
+            try { cuName = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+            catch { }
+            try { cuFirst = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+            catch { }
+            try { cuLast = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { }
+            try { cuMail = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+            catch { }
+            try { cuTel = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+            catch { }
+        }
+    }
+}
+
+<style>
+    form[name=revForm] div.pdt,
+    form[name=revForm] div.rev,
+    form[name=revForm] div.cst
+    {
+        margin: 0;
+    }
+
+    form[name=revForm] hr
+    {
+        margin-top: 0;
+    }
+
+    form[name=revForm] div.pdt > div,
+    form[name=revForm] div.cst > div,
+    form[name=revForm] div.rev > div
+    {
+        float: left;
+    }
+
+    form[name=revForm] div.pdt div.title
+    {
+        width: 582px;
+        width: 100%;
+    }
+
+    form[name=revForm] div.pdt div.days
+    {
+        width: 168px;
+    }
+
+    form[name=revForm] div.rev div.days
+    {
+        width: 174px;
+    }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 840px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">예약 정보</h4>
+        </div>
+        <div class="modal-body">
+            <form name="revForm" method="post">
+                <input type="hidden" name="code" value="@pdtCode" />
+                <input type="hidden" name="key" value="@pdtKey" />
+                <input type="hidden" name="user" value="@cuCode" />
+
+                <div class="row pdt">
+                    <div class="form-group input-group title">
+                        <div class="input-group-addon">상품 명</div>
+                        <input type="text" class="form-control" maxlength="50" name="pdtTitle" value="@PDT_TITLE">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" data-toggle="popup" data-target="getProduct">찾기</button>
+                        </span>
+                    </div>
+                    <div class="form-group input-group days">
+                        <div class="input-group-addon">출발 일</div>
+                        <input type="text" class="form-control startDay datepicker" maxlength="10" name="sDay" value="@REV_STARTDAY">
+                    </div>
+                    <div class="form-group input-group" style="width: 190px; margin-left: 10px;">
+                        <div class="input-group-addon">여행 일수</div>
+                        <select class="form-control dayCode" name="dayCode">
+                            @*<option value="0001" @if (REV_STARTDAY.Equals("0001")) { @strCHK }>당일치기</option>
+                            <option value="0002" @if (REV_STARTDAY.Equals("0002")) { @strCHK }>무박2일</option>
+                            <option value="0102" @if (REV_STARTDAY.Equals("0102")) { @strCHK }>1박2일</option>*@
+                            <option value="0001" @{ if (REV_STARTDAY.Equals("0001")) { @strCHK } }>당일치기</option>
+                            <option value="0002" @{ if (REV_STARTDAY.Equals("0002")) { @strCHK } }>0박 2일</option>
+                            <option value="0003" @{ if (REV_STARTDAY.Equals("0003")) { @strCHK } }>0박 3일</option>
+                            <option value="0102" @{ if (REV_STARTDAY.Equals("0102")) { @strCHK } }>1박 2일</option>
+                            <option value="0103" @{ if (REV_STARTDAY.Equals("0103")) { @strCHK } }>1박 3일</option>
+                            <option value="0104" @{ if (REV_STARTDAY.Equals("0104")) { @strCHK } }>1박 4일</option>
+                            <option value="0203" @{ if (REV_STARTDAY.Equals("0203")) { @strCHK } }>2박 3일</option>
+                            <option value="0204" @{ if (REV_STARTDAY.Equals("0204")) { @strCHK } }>2박 4일</option>
+                            <option value="0205" @{ if (REV_STARTDAY.Equals("0205")) { @strCHK } }>2박 5일</option>
+                            <option value="0304" @{ if (REV_STARTDAY.Equals("0304")) { @strCHK } }>3박 4일</option>
+                            <option value="0305" @{ if (REV_STARTDAY.Equals("0305")) { @strCHK } }>3박 5일</option>
+                            <option value="0306" @{ if (REV_STARTDAY.Equals("0306")) { @strCHK } }>3박 6일</option>
+                            <option value="0405" @{ if (REV_STARTDAY.Equals("0405")) { @strCHK } }>4박 5일</option>
+                            <option value="0406" @{ if (REV_STARTDAY.Equals("0406")) { @strCHK } }>4박 6일</option>
+                            <option value="0506" @{ if (REV_STARTDAY.Equals("0506")) { @strCHK } }>5박 6일</option>
+                            <option value="0507" @{ if (REV_STARTDAY.Equals("0507")) { @strCHK } }>5박 7일</option>
+                            <option value="0607" @{ if (REV_STARTDAY.Equals("0607")) { @strCHK } }>6박 7일</option>
+                            <option value="0608" @{ if (REV_STARTDAY.Equals("0608")) { @strCHK } }>6박 8일</option>
+                            <option value="0708" @{ if (REV_STARTDAY.Equals("0708")) { @strCHK } }>7박 8일</option>
+                            <option value="0709" @{ if (REV_STARTDAY.Equals("0709")) { @strCHK } }>7박 9일</option>
+                            <option value="0809" @{ if (REV_STARTDAY.Equals("0809")) { @strCHK } }>8박 9일</option>
+                            <option value="0810" @{ if (REV_STARTDAY.Equals("0810")) { @strCHK } }>8박 10일</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group days" style="margin-left: 10px;">
+                        <div class="input-group-addon">도착 일</div>
+                        <input type="text" class="form-control endDay datepicker" maxlength="10" name="eDay" value="@REV_ENDDAY" disabled="disabled">
+                    </div>
+                </div>
+                <hr />
+                <div class="row cst">
+                    <div class="form-group input-group cuName" style="width: 278px;">
+                        <div class="input-group-addon">예약자 명</div>
+                        <input type="text" class="form-control" maxlength="5" name="cuName" value="@cuName">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" data-toggle="popup" data-target="getCustomer">찾기</button>
+                        </span>
+                    </div>
+
+                    <div class="form-group input-group cuLast" style="width: 240px; margin-left: 10px;">
+                        <div class="input-group-addon">영문 성</div>
+                        <input type="text" class="form-control" maxlength="20" name="cuLast" value="@cuLast">
+                    </div>
+
+                    <div class="form-group input-group cuFirst" style="width: 240px; margin-left: 10px;">
+                        <div class="input-group-addon">영문 명</div>
+                        <input type="text" class="form-control" maxlength="20" name="cuFirst" value="@cuFirst">
+                    </div>
+
+                    <div class="form-group input-group cuMail" style="width: 528px;">
+                        <div class="input-group-addon">메일 주소</div>
+                        <input type="text" class="form-control" maxlength="50" name="cuMail" value="@cuMail">
+                    </div>
+
+                    <div class="form-group input-group cuTel" style="width: 240px; margin-left: 10px;">
+                        <div class="input-group-addon">전화 번호</div>
+                        <input type="text" class="form-control" maxlength="50" name="cuTel" value="@cuTel">
+                    </div>
+                </div>
+                <hr />
+                <div class="row rev">
+                    <div class="form-group input-group" style="width: 200px;">
+                        <div class="input-group-addon">예약 번호</div>
+                        <input type="text" class="form-control" maxlength="10" value="@KEY" name="revCode" readonly="readonly">
+                    </div>
+
+                    <div class="form-group input-group adultCnt" style="width: 120px; margin-left: 10px;">
+                        <div class="input-group-addon">성인</div>
+                        <input type="text" class="form-control" maxlength="2" name="adultCnt" value="@aCnt">
+                    </div>
+
+                    <div class="form-group input-group childCnt" style="width: 120px; margin-left: 10px;">
+                        <div class="input-group-addon">소아</div>
+                        <input type="text" class="form-control" maxlength="2" name="childCnt" value="@cCnt">
+                    </div>
+
+                    <div class="form-group input-group babyCnt" style="width: 120px; margin-left: 10px;">
+                        <div class="input-group-addon">유아</div>
+                        <input type="text" class="form-control" maxlength="2" name="babyCnt" value="@bCnt">
+                    </div>
+
+                    <hr style="margin-top: 50px;" />
+
+                    <div class="form-group input-group days">
+                        <div class="input-group-addon">예약 상태</div>
+                        <select class="form-control" name="revState">
+                            <option value="10" @if (REV_STATE.Equals("10")) { @strCHK  }>취소</option>
+                            <option value="20" @if (REV_STATE.Equals("20")) { @strCHK  }>확인중</option>
+                            <option value="30" @if (REV_STATE.Equals("30")) { @strCHK  }>진행중</option>
+                            <option value="40" @if (REV_STATE.Equals("40")) { @strCHK  }>확정</option>
+                            <option value="50" @if (REV_STATE.Equals("50")) { @strCHK  }>완료</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group" style="width: 200px; margin-left: 10px;">
+                        <div class="input-group-addon">담당 사원</div>
+                        <input type="text" class="form-control" maxlength="10" value="@{if(!string.IsNullOrEmpty(CHG_EMP_NO)){@Html.Action("getName", new { emp = Convert.ToInt32(CHG_EMP_NO)})}}" readonly="readonly">
+                    </div>
+
+                    <div class="form-group input-group days" style="margin-left: 10px;">
+                        <div class="input-group-addon">판매 일</div>
+                        <input type="text" class="form-control" maxlength="10" value="@SEL_DATE" readonly="readonly">
+                    </div>
+
+                    <div class="form-group input-group" style="width: 200px; margin-left: 10px;">
+                        <div class="input-group-addon">판매 사원</div>
+                        <input type="text" class="form-control" maxlength="10" value="@{if(!string.IsNullOrEmpty(SEL_EMP_NO)){@Html.Action("getName", new { emp = Convert.ToInt32(SEL_EMP_NO)})}}" readonly="readonly">
+                    </div>
+
+                    <div class="form-group input-group days">
+                        <div class="input-group-addon">등록 일</div>
+                        <input type="text" class="form-control" maxlength="10" value="@IST_DATE" readonly="readonly">
+                    </div>
+
+                    <div class="form-group input-group" style="width: 200px; margin-left: 10px;">
+                        <div class="input-group-addon">등록 사원</div>
+                        <input type="text" class="form-control" maxlength="10" value="@{if(!string.IsNullOrEmpty(IST_EMP_NO)){@Html.Action("getName", new { emp = Convert.ToInt32(IST_EMP_NO)})}}" readonly="readonly">
+                    </div>
+
+                    <div class="form-group input-group days" style="margin-left: 10px;">
+                        <div class="input-group-addon">수정 일</div>
+                        <input type="text" class="form-control" maxlength="10" value="@UDT_DATE" readonly="readonly">
+                    </div>
+
+                    <div class="form-group input-group" style="width: 200px; margin-left: 10px;">
+                        <div class="input-group-addon">수정 사원</div>
+                        <input type="text" class="form-control" maxlength="10" value="@{if(!string.IsNullOrEmpty(UDT_EMP_NO)){@Html.Action("getName", new { emp = Convert.ToInt32(UDT_EMP_NO)})}}" readonly="readonly">
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <textarea placeholder="고객한마디"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">등록</button>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+
+                $("select.dayCode").on("change", function () {
+                    var _this = $(this);
+
+                    var addDay = _this.val().substring(2, 4) * 1 - 1;
+
+                    var txtDate = $("input.startDay").val().replace(/-/g, "/");
+
+                    var dt = new Date(txtDate);
+
+                    dt.setDate(dt.getDate() + parseInt(addDay));
+
+                    var endDay2 = zeroNum(dt.getFullYear().toString()) + "-" + zeroNum((dt.getMonth() + 1).toString()) + "-" + zeroNum(dt.getDate().toString());
+
+                    $("input.endDay").val(endDay2);
+                });
+
+                $('button[data-toggle="popup"]').on("click", function (e) {
+                    e.preventDefault();
+
+                    var _this = $(this),
+                        rUrl = "@Request.Url.PathAndQuery",
+                        target = _this.attr('data-target'),
+                        url = '/Reserve/' + target;
+
+                    var datas = {};
+
+                    $.get(url, datas, function (data) {
+                        $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+                    });
+                });
+
+                var minDate = new Date();
+
+                $("input.startDay").datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    prevText: '이전',
+                    nextText: '이후',
+                    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+                    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+                    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                    showMonthAfterYear: true,
+                    yearSuffix: '년',
+                    minDate: minDate,
+                    onSelect: function (dateText, inst) {
+                        var addDay = ($("select.dayCode").val()).substring(2, 4) * 1 - 1;
+
+                        var dt = new Date(inst.selectedYear.toString() + '/' + zeroNum((inst.selectedMonth + 1).toString()) + '/' + zeroNum(inst.selectedDay.toString()));
+
+                        dt.setDate(dt.getDate() + parseInt(addDay));
+
+                        var endDay2 = zeroNum(dt.getFullYear().toString()) + "-" + zeroNum((dt.getMonth() + 1).toString()) + "-" + zeroNum(dt.getDate().toString());
+
+                        $("input.endDay").val(endDay2);
+                    }
+                });
+
+                $("input.endDay").datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    prevText: '이전',
+                    nextText: '이후',
+                    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+                    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+                    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                    showMonthAfterYear: true,
+                    yearSuffix: '년',
+                    minDate: minDate
+                });
+
+                function zeroNum(num) {
+                    var rNum = num;
+
+                    if (rNum.length < 2) {
+                        rNum = "0" + rNum
+                    }
+
+                    return rNum;
+                }
+
+                $("button#uptBtn").on("click", function () {
+                    var f = document.revForm;
+
+                    if ($(".title input").val() == "") {
+                        alert("상품 명을 입력해 주세요.");
+                        $(".title input").focus();
+                        return;
+                    }
+                    else if ($(".startDay").val() == "") {
+                        alert("출발 일을 입력해 주세요.");
+                        $(".startDay").focus();
+                        return;
+                    }
+                    else if ($(".dayCode").val() == "") {
+                        alert("여행 일수를 선택해 주세요.");
+                        $(".dayCode").focus();
+                        return;
+                    }
+                    else if ($(".cuName input").val() == "") {
+                        alert("예약자를 입력해 주세요.");
+                        $(".cuName input").focus();
+                        return;
+                    }
+                    //else if ($(".cuFirst input").val() == "") {
+                    //    alert("영문 성을 입력해 주세요.");
+                    //    $(".cuFirst input").focus();
+                    //    return;
+                    //}
+                    //else if ($(".cuLast input").val() == "") {
+                    //    alert("영문 명을 입력해 주세요.");
+                    //    $(".cuLast input").focus();
+                    //    return;
+                    //}
+                    else if ($(".cuMail input").val() == "") {
+                        alert("메일을 입력해 주세요.");
+                        $(".cuMail input").focus();
+                        return;
+                    }
+                    else if ($(".cuTel input").val() == "") {
+                        alert("예약자 전화번호를 입력해 주세요.");
+                        $(".cuTel input").focus();
+                        return;
+                    }
+                    else if ($(".adultCnt input").val() == "") {
+                        alert("예약 인원 수를 입력해 주세요.");
+                        $(".adultCnt input").focus();
+                        return;
+                    }
+                    //else if ($(".childCnt input").val() == "") {
+                    //    alert("예약 인원 수를 입력해 주세요.");
+                    //    $(".childCnt input").focus();
+                    //    return;
+                    //}
+                    //else if ($(".babyCnt input").val() == "") {
+                    //    alert("예약 인원 수를 입력해 주세요.");
+                    //    $(".babyCnt input").focus();
+                    //    return;
+                    //}
+
+                    var state = f.revState.value;
+
+                    if (state == "40")
+                    {
+                        var url = "/Reserve/JSON_chkVoucher";
+                        var revCode = f.revCode.value;
+
+                        //$.post(url, { code: revCode }, function (data) {
+
+                        //    if (data == "Y")
+                        //    {
+                        //        f.method = "post";
+                        //        f.action = "/Reserve/updateRev";
+                        //        f.submit();
+                        //    }
+                        //    else
+                        //    {
+                        //        alert("바우처를 등록후 확정해주세요.");
+                        //    }
+                        //});
+
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: { code: revCode },
+                            success: function (data) {
+                                //if (data == "Y") {
+                                //    f.method = "post";
+                                //    f.action = "/Reserve/updateRev";
+                                //    f.submit();
+                                //}
+                                //else {
+                                //    alert("바우처를 등록후 확정해주세요.");
+                                //}
+
+                                f.method = "post";
+                                f.action = "/Reserve/updateRev";
+                                f.submit();
+                            }
+                            , beforeSend: function () {
+                                $('#loading').show();
+                            }
+                            , complete: function () {
+                                $('#loading').hide();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        f.method = "post";
+                        f.action = "/Reserve/updateRev";
+                        f.submit();
+                    }
+                });
+            });
+        </script>
+    </div>
+</div>

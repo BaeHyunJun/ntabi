@@ -1,0 +1,940 @@
+﻿@using System.Globalization;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //string dateTxt = "";
+
+    //dateTxt = DateTime.Now.ToString("yyyy년 MM월 dd일");
+
+    //string DATE = ViewBag.date;
+
+    //string SEQ          = "",
+    //       NAME         = "",
+    //       REG_NUM      = "",
+    //       TYPE_CODE    = "",
+    //       AREA_CODE    = "",
+    //       NOTE         = "",
+    //       RENT_CORP    = "",
+    //       FEATURE      = "",
+    //       COURSE       = "",
+    //       selected     = "selected='selected'",
+    //       csSeq        = "",
+    //       csGuide      = "",
+    //       csDriver     = "",
+    //       csTitle      = "",
+    //       csNote       = "";
+
+    //var courseData = ViewBag.course;
+    //var customerData = ViewBag.customer;
+    //var customerData2 = ViewBag.customer2;
+
+    //try
+    //{
+    //    foreach(object item in Model)
+    //    {
+    //        SEQ         = "";
+    //        NAME        = "";
+    //        REG_NUM     = "";
+    //        TYPE_CODE   = "";
+    //        AREA_CODE   = "";
+    //        NOTE        = "";
+    //        RENT_CORP   = "";
+    //        FEATURE     = "";
+                    
+    //        try { SEQ       = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+    //        try { NAME      = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+    //        try { REG_NUM   = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+    //        try { TYPE_CODE = item.GetType().GetProperties()[3].GetValue(item, null).ToString().Trim(); } catch { }
+    //        try { AREA_CODE = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+    //        try { NOTE      = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+    //        try { RENT_CORP = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+    //        try { FEATURE   = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+    //        try { COURSE    = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+    //    }
+
+    //    dateTxt = DateTime.ParseExact(DATE, "yyyyMMdd", CultureInfo.InvariantCulture).ToString("yyyy년 MM월 dd일");
+    //}
+    //catch (Exception e)
+    //{
+        
+    //}
+
+    //string out1 = "",
+    //       out2 = "",
+    //       out3 = "",
+    //       out4 = "";
+
+    //var guideData = ViewBag.guide;
+
+    string CAR_SEQ = "",
+           CAR_NAME = "",
+           CAR_REG_NUM = "",
+           CAR_TYPE_CODE = "",
+           CAR_AREA_CODE = "",
+           CAR_NOTE = "",
+           CAR_RENT_CORP = "",
+           CAR_FEATURE = "";
+}
+
+<style>
+    ul.carLists
+    {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        overflow: auto;
+        height: 100%;
+    }
+    
+    ul.carLists > li
+    {
+        overflow: hidden;
+        cursor: pointer;
+        margin: 10px 0;
+    }
+    
+    ul.carLists > li > div
+    {
+        float: left;
+        width: 78%;
+        margin-left: 2%;
+        height: 100px;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    ul.carLists > li > div:first-child
+    {
+        width: 20%;
+        margin: 0;
+        border: 1px solid #ddd;
+    }
+    
+    ul.carLists > li > div > img
+    {
+        width: 100%;
+        height: 100%;
+    }
+    
+    ul.carLists > li > div h5
+    {
+        font-weight: bold;
+    }
+    
+    ul.carLists > li > div span
+    {
+        margin-right: 10%;
+    }
+</style>
+
+<section class="car row">
+    <article class="col-md-12" style="border-bottom: 1px solid #ddd;">
+
+        <h3>차량 관리</h3>
+
+    </article>
+
+    <article class="col-md-5">
+            @using (Html.BeginForm("CarUpload", "Car", FormMethod.Post, new { enctype = "multipart/form-data", name = "schForm", @class = "schForm" }))
+            {
+                <input type="hidden" name="seq" value="" />
+
+                <a class="uploadImg" href="#">
+                    <img src="~/Content/images/defaultCar.jpg" />
+                    <div id="featureImg" style="position: absolute; left: 0; top: 0;">
+                        @*@if (!string.IsNullOrEmpty(FEATURE))
+                        {
+                            <img src="@FEATURE" alt="대표이미지" width="100%" height="100%" style="position: static" />
+                        }*@
+                    </div>
+                    <input type="hidden" name="feature" value="" />
+                </a>
+                
+                <div class="form-group input-group col-md-12">
+                    <div class="input-group-addon">차량 이름</div>
+                    <input type="text" name="name" class="form-control" value="" />
+                </div>
+                
+                <div class="form-group input-group col-md-12">
+                    <div class="input-group-addon">차량 번호</div>
+                    <input type="text" name="num" class="form-control" value="" />
+                </div>
+
+                <div>
+                    <select name="type" class="form-control pull-left">
+                        <option value="LBS">대형 버스</option>
+                        <option value="MBS">중형 버스</option>
+                        <option value="SBS">소형 버스</option>
+                        <option value="14">14 인승</option>
+                        <option value="10">10 인승</option>
+                        <option value="8">8 인승</option>
+                        <option value="6">6 인승</option>
+                    </select>
+
+                    <select name="area" class="form-control pull-right">
+                        <option value="HOK">홋카이도</option>
+                        <option value="OSA">오사카</option>
+                        <option value="TOK">도쿄</option>
+                        <option value="KYU">규슈</option>
+                        <option value="TSU">대마도</option>
+                        <option value="OKI">오키나와</option>
+                    </select>
+                </div>
+
+                <div class="form-group input-group col-md-12">
+                    <div class="input-group-addon">특이 사항</div>
+                    <input type="text" name="note" class="form-control" value="" />
+                </div>
+
+                @*<div class="form-group input-group col-md-12">
+                    <div class="input-group-addon">임대처</div>
+                    <input type="text" name="rent" class="form-control" value="" />
+                </div>*@
+
+                <div class="form-group input-group col-md-12">
+                    <button id="uptBtn" class="btn btn-primary" type="button">등록하기</button>
+                </div>
+                
+                <p style="color: red; margin-top: 10px;">
+                    ※ 사진은 400 x 300 사이즈로 등록해주세요.<br/>
+                </p>
+            }
+
+
+
+        @*
+        <div class="pull-right" style="margin-right: 0;">
+            <a class="btn btn-success" data-toggle="popup" href="/Car/Uploader">차량 등록</a>
+        </div>
+        *@
+
+        @*
+        <form action="/Car" method="post" name="srcForm" class="srcForm boxline" style="margin-top: 15px;">
+            <div class="row form-group">
+                <div class="form-group input-group col-md-1" style="width: 245px;">
+                    <div class="input-group-addon">출발 일</div>
+                    <input type="text" class="form-control date datepicker" maxlength="10" name="sDay" value="@dateTxt" readonly="readonly" />
+                </div>
+                <div class="form-group input-group col-md-1" style="width: 220px;">
+                    <div class="input-group-addon">지역 선택</div>
+                    <select name="area" class="form-control">
+                        <option value="">선택</option>
+                        <option value="HOK" @if (AREA_CODE == "HOK") { @selected }>홋카이도</option>
+                        <option value="OSA" @if (AREA_CODE == "OSA") { @selected }>오사카</option>
+                        <option value="TOK" @if (AREA_CODE == "TOK") { @selected }>도쿄</option>
+                        <option value="KYU" @if (AREA_CODE == "KYU") { @selected }>규슈</option>
+                        <option value="TSU" @if (AREA_CODE == "TSU") { @selected }>대마도</option>
+                        <option value="OKI" @if (AREA_CODE == "OKI") { @selected }>오키나와</option>
+                    </select>
+                </div>
+                <div class="form-group input-group col-md-1" style="width: 225px;">
+                    <div class="input-group-addon">차량 종류</div>
+                    <select name="type" class="form-control">
+                        <option value="">선택</option>
+                        <option value="LBS">대형 버스</option>
+                        <option value="MBS">중형 버스</option>
+                        <option value="SBS">소형 버스</option>
+                        <option value="14">14 인승</option>
+                        <option value="10">10 인승</option>
+                        <option value="8">8 인승</option>
+                        <option value="6">6 인승</option>
+                    </select>
+                </div>
+                <div class="form-group input-group col-md-1" style="width: 374px;">
+                    <div class="input-group-addon">차량 선택</div>
+                    <select name="name" class="form-control">
+                        <option value="">선택</option>
+                    </select>
+                </div>
+                <div class="form-group input-group col-md-1" style="width: 84px;">
+                    <button class="btn btn-default">조회</button>
+                </div>
+            </div>
+        </form>
+    </article>
+
+    <article class="col-md-12" style="height: 85%;">
+        <div class="boxline" style="height: 98%;">
+            
+            @if (string.IsNullOrEmpty(SEQ))
+            {
+            <div class="layerBG">
+                <p>
+                    차량을 먼저 조회해 주세요.
+                </p>
+            </div>
+            }
+
+            @using (Html.BeginForm("CarUpload", "Car", FormMethod.Post, new { enctype = "multipart/form-data", name = "schForm", @class = "schForm" }))
+            {
+                <input type="hidden" name="seq" value="@SEQ" />
+
+                <a class="uploadImg" href="#">
+                    <img src="~/Content/images/defaultCar.jpg" />
+                    <div id="featureImg" style="position: absolute; left: 0; top: 0;">
+                        @if (!string.IsNullOrEmpty(FEATURE))
+                        {
+                            <img src="@FEATURE" alt="대표이미지" width="100%" height="100%" style="position: static" />
+                        }
+                    </div>
+                    <input type="hidden" name="feature" value="@FEATURE" />
+                </a>
+                
+                <div class="form-group input-group col-md-12">
+                    <div class="input-group-addon">차량 이름</div>
+                    <input type="text" name="name" class="form-control" value="@NAME" />
+                </div>
+                
+                <div class="form-group input-group col-md-12">
+                    <div class="input-group-addon">차량 번호</div>
+                    <input type="text" name="num" class="form-control" value="@REG_NUM" />
+                </div>
+
+                <div>
+                    <select name="type" class="form-control pull-left">
+                        <option value="LBS" @if(TYPE_CODE == "LBS") { @selected }>대형 버스</option>
+                        <option value="MBS" @if(TYPE_CODE == "MBS") { @selected }>중형 버스</option>
+                        <option value="14" @if(TYPE_CODE == "14") { @selected }>14 인승</option>
+                        <option value="10" @if(TYPE_CODE == "10") { @selected }>10 인승</option>
+                        <option value="8" @if(TYPE_CODE == "8") { @selected }>8 인승</option>
+                        <option value="6" @if(TYPE_CODE == "6") { @selected }>6 인승</option>
+                    </select>
+
+                    <select name="area" class="form-control pull-right">
+                        <option value="HOK" @if(AREA_CODE == "HOK") { @selected }>홋카이도</option>
+                        <option value="OSA" @if(AREA_CODE == "OSA") { @selected }>오사카</option>
+                        <option value="TOK" @if(AREA_CODE == "TOK") { @selected }>도쿄</option>
+                        <option value="KYU" @if(AREA_CODE == "KYU") { @selected }>규슈</option>
+                        <option value="TSU" @if(AREA_CODE == "TSU") { @selected }>대마도</option>
+                        <option value="OKI" @if(AREA_CODE == "OKI") { @selected }>오키나와</option>
+                    </select>
+                </div>
+
+                <div class="form-group input-group col-md-12">
+                    <div class="input-group-addon">특이 사항</div>
+                    <input type="text" name="note" class="form-control" value="@NOTE" />
+                </div>
+
+                <div class="form-group input-group col-md-12">
+                    <div class="input-group-addon">임대처</div>
+                    <input type="text" name="rent" class="form-control" value="@RENT_CORP" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button">변경하기</button>
+                    </span>
+                </div>
+            }
+
+            <div class="row" style="float: right; height: 100%; width: 618px; position: relative">
+
+                <div class="col-md-12 row" style="height: 10%;">
+                    <h4 style="border-bottom: 1px solid #ddd; padding-bottom: 10px;">코스 선택</h4>
+                </div>
+                <div class="row col-md-12" style="height: 40%;">
+
+                    <div class="form-group input-group col-md-12">
+                        <div class="input-group-addon">코스 제목</div>
+                        <input type="hidden" name="csSeq" value="@csSeq" />
+                        <select name="course" class="form-control">
+                            @try
+                            {
+                                
+                                <option value="0">코스를 선택해 주세요.</option>
+                                
+                                foreach (object item in courseData)
+                                {
+                                    csSeq        = "";
+                                    csGuide      = "";
+                                    csDriver     = "";
+                                    csTitle      = "";
+                                    csNote       = "";
+                    
+                                    try { csSeq     = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                                    try { csGuide   = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                                    try { csDriver  = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                                    try { csTitle   = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+                                    try { csNote    = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+
+                                    <option value="@csSeq">@csTitle</option>
+                                }
+                            }
+                            catch
+                            {
+                                <option>해당날짜에 코스가 존재하지 않습니다.</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-md-6">
+                        <div class="input-group-addon">담당자</div>
+                        <select name="guide" class="form-control">
+                            @try
+                            {
+                                foreach (object item in guideData)
+                                {
+                                    out1 = "";
+                                    out2 = "";
+
+                                    try { out1 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                                    catch { continue; }
+                                    try { out2 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                                    catch { continue; }
+                                    
+                                    if (csDriver == out2)
+                                    {
+                                        csDriver = "";
+                                    }
+
+                                    <option value="@out1" @if (csGuide == out1) { @selected }>@out2</option>
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-md-6">
+                        <div class="input-group-addon">운전 기사</div>
+                        <input type="text" name="driver" class="form-control" value="@csDriver" />
+                    </div>
+
+                    <div class="form-group input-group col-md-12">
+                        <div class="input-group-addon">특이 사항</div>
+                        <textarea name="note" class="form-control" value="@csNote" rows="3"></textarea>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary schUdtBtn" type="button" style="padding: 26px 12px;">차량 등록</button>
+                        </span>
+                    </div>
+
+                    <p style="color: red; text-align: center">
+                        ※ 가이드가 직접 운전 하는 경우 운전 기사를 입력하지 않아도 됩니다.
+                    </p>
+                </div>
+
+                <div class="col-md-12 row" style="height: 10%;">
+                    <span class="pull-right" style="margin-top: 10px;">@dateTxt</span>
+                    <h4 style="border-bottom: 1px solid #ddd; padding-bottom: 10px;">고객 체크</h4>
+                </div>
+
+
+                <div class="row col-md-12" style="height: 40%;">
+                    <div class="col-md-6" style="overflow: auto; height: 100%;">
+                        <span class="pull-right revCnt" style="margin-top: 10px;">0 명</span>
+                        <h5 style="font-weight: bold;">
+                            탑승자
+                        </h5>
+                        <ul class="finCustomerLists" style="padding: 0; margin: 0;font-size: 0; list-style: none; text-align: center; font-weight: bold;">
+                            <li>
+                                <span style="width: 50%; display: inline-block; padding: 5px; border: 1px solid #ccc; font-size: 14px;">대표자 이름</span>
+                                <span style="width: 25%; padding: 5px; display: inline-block; border: 1px solid #ccc; margin-left: -1px; font-size: 14px;">총원</span>
+                                <span style="width: 25%; padding: 5px; display: inline-block; border: 1px solid #ccc; margin-left: -1px; font-size: 14px;">취소</span>
+                            </li>
+
+                            @try{  
+                                foreach (object item in customerData2)
+                                {
+                                    out1 = "";
+                                    out2 = "";
+                                    out3 = "";
+                                    out4 = "";
+
+                                    try { out1 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                                    try { out2 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                                    try { out3 = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                                    try { out4 = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+
+                                    <li style="font-weight: normal; margin-top: -1px;">
+                                        <span style="width: 50%; display: inline-block; padding: 5px; border: 1px solid #ccc; font-size: 14px;">@out3</span>
+                                        <span style="width: 25%; padding: 5px; display: inline-block; border: 1px solid #ccc; margin-left: -1px; font-size: 14px;">@out4 명</span>
+                                        <span class="setCustomerBtn" data-seq="@out2" style="width: 25%; padding: 5px; display: inline-block; border: 1px solid #ccc; margin-left: -1px; font-size: 14px; cursor: pointer;">취소</span>
+                                    </li>
+                                }
+                            }
+                            catch
+                            {
+                                <li>
+                                    예약자가 없습니다.
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="col-md-6" style="overflow: auto; height: 100%;">
+                        <h5>예약자</h5>
+                        <ul class="revCustomerLists" style="padding: 0; margin: 0;font-size: 0; list-style: none; text-align: center; font-weight: bold;">
+                            <li>
+                                <span style="width: 50%; display: inline-block; padding: 5px; border: 1px solid #ccc; font-size: 14px;">대표자 이름</span>
+                                <span style="width: 25%; padding: 5px; display: inline-block; border: 1px solid #ccc; margin-left: -1px; font-size: 14px;">총원</span>
+                                <span style="width: 25%; padding: 5px; display: inline-block; border: 1px solid #ccc; margin-left: -1px; font-size: 14px;">확정</span>
+                            </li>
+
+                            @try{  
+                                foreach (object item in customerData)
+                                {
+                                    out1 = "";
+                                    out2 = "";
+                                    out3 = "";
+                                    out4 = "";
+
+                                    try { out1 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                                    try { out2 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                                    try { out3 = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                                    try { out4 = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+
+                                    <li style="font-weight: normal; margin-top: -1px;">
+                                        <span style="width: 50%; display: inline-block; padding: 5px; border: 1px solid #ccc; font-size: 14px;">@out3</span>
+                                        <span style="width: 25%; padding: 5px; display: inline-block; border: 1px solid #ccc; margin-left: -1px; font-size: 14px;">@out4 명</span>
+                                        <span class="setCustomerBtn" data-seq="@out2" style="width: 25%; padding: 5px; display: inline-block; border: 1px solid #ccc; margin-left: -1px; font-size: 14px; cursor: pointer;">확정</span>
+                                    </li>
+                                }
+                            }
+                            catch
+                            {
+                                <li>
+                                    예약자가 없습니다.
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            
+            @if (!string.IsNullOrEmpty(SEQ) && string.IsNullOrEmpty(csSeq))
+            {
+                <div class="layerBG">
+                    <p>
+                        코스가 존재하지 않습니다. <br />코스를 먼저 등록해 주세요.
+                    </p>
+                </div>
+            }
+
+            </div>
+        </div>
+        *@
+    </article>
+    <article class="col-md-7" style="border-right: 1px solid #ddd; height: 95%;">
+
+        <ul class="carLists">
+            @foreach (object item in Model)
+            {
+                CAR_SEQ = "";
+                CAR_NAME = "";
+                CAR_REG_NUM = "";
+                CAR_TYPE_CODE = "";
+                CAR_AREA_CODE = "";
+                CAR_NOTE = "";
+                CAR_RENT_CORP = "";
+                CAR_FEATURE = "";
+                
+                try { CAR_SEQ = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+                try { CAR_NAME = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+                try { CAR_REG_NUM = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+                try { CAR_TYPE_CODE = item.GetType().GetProperties()[3].GetValue(item, null).ToString().Trim(); } catch { }
+                try { CAR_AREA_CODE = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+                try { CAR_NOTE = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+                try { CAR_RENT_CORP = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+                try { CAR_FEATURE = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+
+                @*<li>
+                    @CAR_NAME ( @CAR_REG_NUM )
+                </li>*@
+
+                if (string.IsNullOrEmpty(CAR_FEATURE))
+                {
+                    CAR_FEATURE = "/Content/images/defaultCar.jpg";
+                }
+
+                <li data-seq="@CAR_SEQ" data-area="@CAR_AREA_CODE" data-type="@CAR_TYPE_CODE">
+
+                    @{
+                        switch (CAR_AREA_CODE)
+                        {
+                            case "HOK":
+                                CAR_AREA_CODE = "홋카이도";
+                                break;
+                            case "OSA":
+                                CAR_AREA_CODE = "오사카";
+                                break;
+                            case "TOK":
+                                CAR_AREA_CODE = "도쿄";
+                                break;
+                            case "KYU":
+                                CAR_AREA_CODE = "규슈";
+                                break;
+                            case "TSU":
+                                CAR_AREA_CODE = "대마도";
+                                break;
+                            case "OKI":
+                                CAR_AREA_CODE = "오키나와";
+                                break;
+                        }
+
+                        switch (CAR_TYPE_CODE)
+                        {
+                            case "LBS":
+                                CAR_TYPE_CODE = "대형 버스";
+                                break;
+                            case "MBS":
+                                CAR_TYPE_CODE = "중형 버스";
+                                break;
+                            case "SBS":
+                                CAR_TYPE_CODE = "소형 버스";
+                                break;
+                            case "14":
+                                CAR_TYPE_CODE = "14 인승";
+                                break;
+                            case "10":
+                                CAR_TYPE_CODE = "10 인승";
+                                break;
+                            case "8":
+                                CAR_TYPE_CODE = "8 인승";
+                                break;
+                            case "6":
+                                CAR_TYPE_CODE = "6 인승";
+                                break;
+                        }
+
+                        if (string.IsNullOrEmpty(CAR_NOTE))
+                        {
+                            CAR_NOTE = "x";
+                        }
+                    }
+
+                    <div>
+                        <img src="@CAR_FEATURE">
+                    </div>
+                    <div>
+                        <button class="btn btn-default pull-right rmBtn" style="margin-top: 10px; margin-right: 10px;">삭제</button>
+                        <h5>@CAR_NAME ( @CAR_REG_NUM )</h5>
+                        <p><span>지역 : @CAR_AREA_CODE</span><span>타입 : @CAR_TYPE_CODE</span></p>
+                        <span>특이사항 : @CAR_NOTE</span>
+                    </div>
+                </li>
+            }
+
+            @*<li>
+                <div>
+                    <img src="/Content/images/defaultCar.jpg">
+                </div>
+                <div>
+                    <h5>차량이름 ( 차량 번호 )</h5>
+                    <p><span>지역 : 홋카이도</span><span>타입 : 대형 버스</span></p>
+                    <span>특이사항 : x</span>
+                </div>
+            </li>*@
+        </ul>
+
+    </article>  
+</section>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('.uploadImg').on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var opt = "left=0,top=0,width=403,height=359,scrollbars=yes,location=no,status=0,resizable=no";
+            window.open("/Editor/Photo_uploader?isFeature=true", "대표 이미지", opt);
+        });
+
+        $("button#uptBtn").on("click", function () {
+            var f = document.schForm,
+                car_num = f.num;
+
+            //if (car_num.value == "" || car_num.value == undefined) {
+            //    alert("차량 번호는 필수 입력입니다.");
+            //    car_num.focus();
+            //    return;
+            //}
+
+            f.submit();
+        });
+
+        $("button.rmBtn").on("click", function () {
+            var _this = $(this),
+                seq = _this.parents("li").attr("data-seq");
+
+            var url = "/Car/removeCar";
+            var datas = { seq: seq };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    location.reload();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("ul.carLists").delegate("li", "click", function () {
+            var _this = $(this),
+                area = _this.attr("data-area"),
+                type = _this.attr("data-type"),
+                car = _this.attr("data-seq"),
+                f = document.schForm;
+
+            if (area == "" || type == "" || car == "") {
+                return;
+            }
+
+            var url = "/Car/JSON_getCar";
+            var datas = { type: type, seq: car };
+            //var datas = { area: area, type: type, seq: car };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    f.seq.value = data[0].CAR_SEQ;
+                    f.name.value = data[0].CAR_NAME;
+                    f.num.value = data[0].CAR_REG_NUM;
+                    f.note.value = data[0].CAR_NOTE;
+                    f.type.value = data[0].CAR_TYPE_CODE.trim();
+                    f.area.value = data[0].CAR_AREA_CODE;
+
+                    if (data[0].CAR_FEATURE == "")
+                    {
+                        $("#featureImg").html("");
+                    }
+                    else
+                    {
+                        var img = '<img src="' + data[0].CAR_FEATURE + '">';
+
+                        $("#featureImg").html(img);
+                    }
+
+                    f.feature.value = data[0].CAR_FEATURE;
+
+                    $("#uptBtn").text("수정하기");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        @*$('[data-toggle="popup"]').on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this),
+                url = _this.attr('href'),
+                target = _this.attr('data-target');
+
+            var datas = {};
+
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade ' + target + '">' + data + '</div>').modal();
+            });
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+
+            location.reload();
+        });
+
+        var minDate = new Date();
+
+        $("input.datepicker").datepicker({
+            dateFormat: 'yy년 mm월 dd일',
+            prevText: '이전',
+            nextText: '이후',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            nowDate: minDate,
+        });
+
+        $("select[name='course']").on("change", function () {
+            var _this = $(this),
+                value = _this.val(),
+                date = $("input[name=sDay]").val();
+
+            if (value == 0)
+            {
+                return;
+            }
+
+            var url = "/Car/JSON_getCourse",
+                datas = { date: date, seq: value };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+
+                    console.log(data);
+
+                    //$("select[name='guide']").val(data[0].COU_EMP_NO);
+
+                    //var guide = $("select[name='guide'] option:selected").text();
+
+                    //if (data[0].COU_DRIVER != guide)
+                    //{
+                    //    $("input[name='driver']").val(data[0].COU_DRIVER);
+                    //}
+
+                    //$("textarea[name='note']").val(data[0].COU_NOTE);
+
+                    //$(".revCnt").text(data[0].COU_CNT + " 명");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("select[name='area'], select[name='type']").on("change", function () {
+            var f = document.srcForm,
+                area = f.area,
+                type = f.type,
+                car = "@SEQ";
+
+            if (area.value == "" || type.value == "")
+            {
+                return;
+            }
+
+            var url = "/Car/JSON_getCar";
+            var datas = { area: area.value, type: type.value };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data)
+                    {
+                        html += '<option value="' + data[i].CAR_SEQ + '"';
+
+                        if (car == data[i].CAR_SEQ)
+                        {
+                            html += "selected='selected'";
+                        }
+
+                        html += '>' + data[i].CAR_NAME + ' (' + data[i].CAR_REG_NUM + ')</option>';
+                    }
+
+                    $("select[name='name']").html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $(".schUdtBtn").on("click", function () {
+            var url = "/Car/JSON_updateCourse",
+                csSeq = $("select[name=course]").val(),
+                guide = $("select[name=guide]").val(),
+                driver = $("input[name=driver]").val(),
+                //title = $("input[name=course]").val(),
+                date = $("input[name=sDay]").val(),
+                car = $("input[name=seq]").val(),
+                note = $("textarea[name=note]").val();
+
+            var datas = { seq: csSeq, guide: guide, driver: driver, date: date, car: car, note: note };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    //var html = '<option value="">선택</option>';
+
+                    //for (i in data) {
+                    //    html += '<option value="' + data[i].CAR_SEQ + '">' + data[i].CAR_NAME + ' (' + data[i].CAR_REG_NUM + ')</option>';
+                    //}
+
+                    //$("select[name='name']").html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("span.setCustomerBtn").on("click", function () {
+            var _this = $(this),
+                csSeq = $("select[name=course]").val(),
+                evSeq = _this.attr("data-seq"),
+                date = $("input[name=sDay]").val(),
+                url = "/Car/updateCustomer",
+                type = "+";
+
+            if (_this.text() == "취소") {
+                type = "-";
+            }
+
+            if (csSeq == 0)
+            {
+                alert("코스를 선택해 주세요.");
+                return;
+            }
+
+            var datas = { date: date, csSeq: csSeq, evSeq: evSeq, type: type };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var parent = _this.parents("li"),
+                        finLists = $("ul.finCustomerLists"),
+                        revLists = $("ul.revCustomerLists");
+
+                    if (type == "+")
+                    {
+                        parent.appendTo(finLists);
+                        _this.text("취소");
+                    }
+                    else
+                    {
+                        parent.appendTo(revLists);
+                        _this.text("확정");
+                    }
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("select[name='type']").val("@TYPE_CODE").change();
+        $("select[name='course']").val("@COURSE").change();
+        *@
+    });
+</script>

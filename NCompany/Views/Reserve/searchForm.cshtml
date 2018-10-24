@@ -1,0 +1,120 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    div.modal-dialog table.priceTable th {
+        text-align: center;
+    }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 710px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">예약자 검색</h4>
+        </div>
+        <div class="modal-body">
+            <form method="get" action="/Reserve" name="srcForm">
+                <input type="hidden" name="code" />
+                <input type="hidden" name="key" />
+                <div class="row form-group">
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-addon">상태</div>
+                        <select class="form-control" name="state">
+                            <option value="">전체</option>
+                            <option value="10">취소</option>
+                            <option value="20">확인중</option>
+                            <option value="30">진행중</option>
+                            <option value="40">확정</option>
+                            <option value="50">완료</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group col-md-8">
+                        <div class="input-group-addon">출발일</div>
+                        <input type="text" class="form-control startDay datepicker" maxlength="10" name="sDay1" value="" readonly="readonly" style="background-color: white; cursor: pointer; width: 35%;">
+                        <span style="padding: 0 20px;">~</span>
+                        <input type="text" class="form-control startDay datepicker" maxlength="10" name="sDay2" value="" readonly="readonly" style="background-color: white; cursor: pointer; width: 35%;">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-addon">담당자</div>
+                        <select class="form-control" name="emp">
+                            <option value="all">전체</option>
+                            <option value="7">@Html.Action("getName", new { emp = 7 })</option>
+                            <option value="6">@Html.Action("getName", new { emp = 6 })</option>
+                            <option value="24">@Html.Action("getName", new { emp = 24 })</option>
+                            <option value="11">@Html.Action("getName", new { emp = 11 })</option>
+                            <option value="13">@Html.Action("getName", new { emp = 13 })</option>
+                            <option value="20">@Html.Action("getName", new { emp = 20 })</option>
+                            <option value="3">@Html.Action("getName", new { emp = 3 })</option>
+                            <option value="21">@Html.Action("getName", new { emp = 21 })</option>
+                            <option value="4">@Html.Action("getName", new { emp = 4 })</option>
+                            <option value="22">@Html.Action("getName", new { emp = 22 })</option>
+                            <option value="23">@Html.Action("getName", new { emp = 23 })</option>
+                            <option value="28">@Html.Action("getName", new { emp = 28 })</option>
+                            <option value="29">@Html.Action("getName", new { emp = 29 })</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-addon">예약일</div>
+                        <input type="text" class="form-control revDay datepicker" maxlength="10" name="rDay" value="" readonly="readonly" style="background-color: white; cursor: pointer;">
+                    </div>
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-addon">예약자</div>
+                        <input type="text" class="form-control" maxlength="10" name="name" value="">
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="form-group input-group col-md-12 title">
+                        <div class="input-group-addon">상품 명</div>
+                        <input type="text" class="form-control" maxlength="50" name="pdtTitle" value="" readonly="readonly">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" data-toggle="popup" data-target="getProduct">찾기</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div style="text-align: right;">
+                    <button class="btn btn-primary">검색</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("input.datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전',
+            nextText: '이후',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+        });
+
+        $('button[data-toggle="popup"]').on("click", function (e) {
+            e.preventDefault();
+
+            var _this = $(this),
+                rUrl = "@Request.Url.PathAndQuery",
+                target = _this.attr('data-target'),
+                url = '/Reserve/' + target;
+
+            var datas = {};
+
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        });
+    });
+</script>

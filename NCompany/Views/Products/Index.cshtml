@@ -1,0 +1,622 @@
+﻿@using NCompany.Models
+@{
+    ViewBag.Title = "상품";
+
+    string chktype      = Request["type"];
+    string chknation    = Request["nation"];
+    string chkarea      = Request["area"];
+    string chkcity      = Request["city"];
+    string chkemp       = Request["emp"];
+    string chkcode      = Request["code"];
+    string chkoptions   = Request["options"];
+    string chkstate     = Request["state"];
+
+    string chkd         = "selected='selected'";
+
+    var user = Session["user"] as User;
+
+    if (string.IsNullOrEmpty(chkemp))
+    {
+        chkemp = user.Login.ToString();
+    }
+    
+}
+
+<section class="product row">
+    <article class="col-md-12">
+        <div class="row pull-right" style="margin-right: 0;">
+            <button type="button" class="btn btn-default searchPdtBtn">상품 조회</button>
+            <a class="btn btn-success" id="PdtIst" data-toggle="popup" href="/Products/defPdt" data-target="instPdt">상품 등록</a>
+        </div>
+
+        <h3>@ViewBag.Title 관리</h3>
+
+        <div class="revArea">
+            <form class="form-inline" action="/Products" method="get" name="srcForm">
+                <div class="form-group row">
+                    <label class="col-md-3">
+                        상품 구분
+                        <select class="form-control" name="type">
+                            <option value="">전체</option>
+                            <option value="FT" @{ if (chktype == "FT") { @chkd } }>자유여행</option>
+                            <option value="PT" @{ if (chktype == "PT") { @chkd } }>패키지여행</option>
+                            <option value="VP" @{ if (chktype == "VP") { @chkd } }>버라이어티팩</option>
+                            <option value="LT" @{ if (chktype == "LT") { @chkd } }>현지투어</option>
+                            <option value="PS" @{ if (chktype == "PS") { @chkd } }>패스/티켓</option>
+                            <option value="HT" @{ if (chktype == "HT") { @chkd } }>호텔</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-2">
+                        국가
+                        <select class="form-control" name="nation">
+                            <option value="">전체</option>
+                            @*<option value="JP" @if (chknation == "JP") { @chkd }>일본</option>*@
+                        </select>
+                    </label>
+
+                    <label class="col-md-2">
+                        지역
+                        <select class="form-control" name="area">
+                            <option value="">전체</option>
+                            @*<option value="KYU" @if (chkarea == "KYU") { @chkd }>규슈</option>
+                            <option value="TOK" @if (chkarea == "TOK") { @chkd }>도쿄</option>
+                            <option value="OSA" @if (chkarea == "OSA") { @chkd }>오사카</option>
+                            <option value="HOK" @if (chkarea == "HOK") { @chkd }>홋카이도</option>
+                            <option value="TSU" @if (chkarea == "TSU") { @chkd }>대마도</option>
+                            <option value="OKI" @if (chkarea == "OKI") { @chkd }>오키나와</option>
+                            <option value="NGY" @if (chkarea == "NGY") { @chkd }>나고야</option>*@
+                        </select>
+                    </label>
+
+                    <label class="col-md-2">
+                        도시
+                        <select class="form-control" name="city">
+                            <option value="">전체</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-3">
+                        담당자
+                        <select class="form-control" name="emp">
+                            <option value="all">전체</option>
+                            <option value="7" @if (chkemp == "7") { @chkd }>@Html.Action("getName", new { emp = 7 })</option>
+                            <option value="6" @if (chkemp == "6") { @chkd }>@Html.Action("getName", new { emp = 6 })</option>
+                            <option value="24" @if (chkemp == "24") { @chkd }>@Html.Action("getName", new { emp = 24 })</option>
+                            <option value="11" @if (chkemp == "11") { @chkd }>@Html.Action("getName", new { emp = 11 })</option>
+                            <option value="13" @if (chkemp == "13") { @chkd }>@Html.Action("getName", new { emp = 13 })</option>
+                            <option value="20" @if (chkemp == "20") { @chkd }>@Html.Action("getName", new { emp = 20 })</option>
+                            <option value="3" @if (chkemp == "3") { @chkd }>@Html.Action("getName", new { emp = 3 })</option>
+                            <option value="21" @if (chkemp == "21") { @chkd }>@Html.Action("getName", new { emp = 21 })</option>
+                            <option value="4" @if (chkemp == "4") { @chkd }>@Html.Action("getName", new { emp = 4 })</option>
+                            <option value="22" @if (chkemp == "22") { @chkd }>@Html.Action("getName", new { emp = 22 })</option>
+                            <option value="23" @if (chkemp == "23") { @chkd }>@Html.Action("getName", new { emp = 23 })</option>
+                            <option value="28" @if (chkemp == "28") { @chkd }>@Html.Action("getName", new { emp = 28 })</option>
+                            <option value="29" @if (chkemp == "29") { @chkd }>@Html.Action("getName", new { emp = 29 })</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-3">
+                        출발 지역
+                        <select class="form-control" disabled="disabled">
+                            <option>전체</option>
+                            <option>하카타</option>
+                            <option>도쿄</option>
+                            <option>오사카</option>
+                            <option>삿포로</option>
+                            <option>대마도</option>
+                            <option>나하</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-3">
+                        행사 일수
+                        <select class="form-control" name="code">
+                            <option value="">전체</option>
+                            <option value="0001" @{ if (chkcode == "0001") { @chkd } }>당일치기</option>
+                            <option value="0002" @{ if (chkcode == "0002") { @chkd } }>0박 2일</option>
+                            <option value="0003" @{ if (chkcode == "0003") { @chkd } }>0박 3일</option>
+                            <option value="0102" @{ if (chkcode == "0102") { @chkd } }>1박 2일</option>
+                            <option value="0103" @{ if (chkcode == "0103") { @chkd } }>1박 3일</option>
+                            <option value="0203" @{ if (chkcode == "0203") { @chkd } }>2박 3일</option>
+                            <option value="0204" @{ if (chkcode == "0204") { @chkd } }>2박 4일</option>
+                            <option value="0304" @{ if (chkcode == "0304") { @chkd } }>3박 4일</option>
+                            <option value="0305" @{ if (chkcode == "0305") { @chkd } }>3박 5일</option>
+                            <option value="0405" @{ if (chkcode == "0405") { @chkd } }>4박 5일</option>
+                            <option value="0406" @{ if (chkcode == "0406") { @chkd } }>4박 6일</option>
+                            <option value="0506" @{ if (chkcode == "0506") { @chkd } }>5박 6일</option>
+                            <option value="0507" @{ if (chkcode == "0507") { @chkd } }>5박 7일</option>
+                            <option value="0607" @{ if (chkcode == "0607") { @chkd } }>6박 7일</option>
+                            <option value="0608" @{ if (chkcode == "0608") { @chkd } }>6박 8일</option>
+                            <option value="0708" @{ if (chkcode == "0708") { @chkd } }>7박 8일</option>
+                            <option value="0709" @{ if (chkcode == "0709") { @chkd } }>7박 9일</option>
+                            <option value="0809" @{ if (chkcode == "0809") { @chkd } }>8박 9일</option>
+                            <option value="0810" @{ if (chkcode == "0810") { @chkd } }>8박 10일</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-3">
+                        옵션
+                        <select class="form-control" name="options">
+                            <option value="">전체</option>
+                            <option value="best" @if (chkoptions == "best") { @chkd }>베스트 상품</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-3">
+                        진행 구분
+                        <select class="form-control" name="state">
+                            <option value="">전체</option>
+                            <option value="01" @if (chkstate == "01") { @chkd }>준비중</option>
+                            <option value="02" @if (chkstate == "02") { @chkd }>판매중</option>
+                            <option value="03" @if (chkstate == "03") { @chkd }>마감</option>
+                        </select>
+                    </label>
+                </div>
+            </form>
+
+            <ul class="table-header">
+                <li style="width: 4%">순서</li>
+                <li style="width: 9%">상품 코드</li>
+                <li style="width: 12%">국가 / 지역</li>
+                <li style="width: 36%">상품 명</li>
+                <li style="width: 8%">옵션</li>
+                <li style="width: 7%">진행 구분</li>
+                <li style="width: 4%">교통</li>
+                <li style="width: 4%">판매가</li>
+                <li style="width: 4%">판매일</li>
+                <li style="width: 4%">컨텐츠</li>
+                <li style="width: 4%">이미지</li>
+                <li style="width: 4%"></li>
+            </ul>
+
+            <ul class="pdtLists">
+                @{
+                    string no = "",
+                           proc = "",
+                           proc_Class = "",
+                           nation = "",
+                           area = "",
+                           title = "",
+                           options = "",
+                           key = "",
+                           o1 = "",
+                           o2 = "",
+                           o3 = "",
+                           o4 = "",
+                           o5 = "",
+                           o6 = "",
+                           code = "",
+                           strChk = "checked='checked'";
+
+                    foreach (object item in Model)
+                    {
+                        no = "";
+                        proc = "";
+                        nation = "";
+                        area = "";
+                        title = "";
+                        options = "";
+                        code = "";
+                        proc_Class = "";
+                        o1 = "";
+                        o2 = "";
+                        o3 = "";
+                        o4 = "";
+                        o5 = "";
+                        o6 = "";
+                        key = "";
+
+                        try { code = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { no = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { proc = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { nation = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { area = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { title = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { options = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                        catch { continue; }
+
+                        try { o1 = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { o2 = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { o3 = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { o4 = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { o5 = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { o6 = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+                        catch { }
+
+                        try { key = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); }
+                        catch { }
+
+                        switch (proc)
+                        {
+                            case "준비중":
+                                proc_Class = "prepare";
+                                break;
+                            case "판매중":
+                                proc_Class = "sell";
+                                break;
+                            case "마감":
+                                proc_Class = "end";
+                                break;
+                        }
+
+                        switch (options)
+                        {
+                            case "best":
+                                options = "베스트 상품";
+                                break;
+                            default:
+                                options = "없음";
+                                break;
+                        }
+
+                        <li data-key="@key">
+                            <ul>
+                                <li style="width: 4%">@no</li>
+                                <li class="pdtKey" style="width: 9%">@code</li>
+                                <li style="width: 12%">@nation / @area</li>
+                                <li style="width: 36%">
+                                    <a data-toggle="popup" href="/Products/defPdt" data-code="@code" data-target="instPdt">@title</a>
+                                </li>
+                                <li style="width: 8%">@options</li>
+                                <li style="width: 7%"><span class="@proc_Class">@proc</span></li>
+                                <li style="width: 4%"><input type="checkbox" id="chkTraff_@code" class="chkTraff" @if (o1 == "Y") { @strChk } data-toggle="popup" data-target="chkTraff" /><label for="chkTraff_@code"></label></li>
+                                <li style="width: 4%"><input type="checkbox" id="chkPrice_@code" class="chkPrice" @if (o2 == "Y") { @strChk } data-toggle="popup" data-target="chkPrice" /><label for="chkPrice_@code"></label></li>
+                                <li style="width: 4%"><input type="checkbox" id="chkDays_@code" class="chkDays" @if (o3 == "Y") { @strChk } data-toggle="popup" data-target="chkDays" /><label for="chkDays_@code"></label></li>
+                                <li style="width: 4%"><input type="checkbox" id="chkSched_@code" class="chkSched" @if (o4 == "Y") { @strChk } data-toggle="popup" data-target="chkSched" data-type="mobile" /><label for="chkSched_@code"></label></li>
+                                <li style="width: 4%"><input type="checkbox" id="setImage_@code" class="setImage" @if (o5 == "Y") { @strChk } data-toggle="popup" data-target="setImage" /><label for="setImage_@code"></label></li>
+                                <li style="width: 4%"><input type="checkbox" id="chkTourA_@code" class="chkTourA" @if (o6 == "Y") { @strChk } data-toggle="popup" data-target="chkTourA" disabled="disabled" /><label for="chkTourA_@code"></label></li>
+                            </ul>
+                        </li>
+
+                        @*<tr data-key="@key">
+                            <td>@no</td>
+                            <td class="pdtKey">@code</td>
+                            <td>@nation / @area</td>
+                            <td class="title">
+                                <a data-toggle="popup" href="/Products/defPdt" data-code="@code" data-target="instPdt">@title</a>
+                            </td>
+                            <td>@options</td>
+                            <td><span class="@proc_Class">@proc</span></td>
+                            <td>
+                                <table class="chkETC">
+                                    <colgroup>
+                                        <col style="width: 16.666%" />
+                                        <col style="width: 16.666%" />
+                                        <col style="width: 16.666%" />
+                                        <col style="width: 16.666%" />
+                                        <col style="width: 16.666%" />
+                                        <col style="width: 16.666%" />
+                                    </colgroup>
+                                    <tr>
+                                        <td><input type="checkbox" id="chkTraff_@code" class="chkTraff" @if (o1 == "Y") { @strChk  } data-toggle="popup" data-target="chkTraff" /><label for="chkTraff_@code"></label></td>
+                                        <td><input type="checkbox" id="chkPrice_@code" class="chkPrice" @if (o2 == "Y") { @strChk  } data-toggle="popup" data-target="chkPrice" /><label for="chkPrice_@code"></label></td>
+                                        <td><input type="checkbox" id="chkDays_@code" class="chkDays" @if (o3 == "Y") { @strChk  } data-toggle="popup" data-target="chkDays" /><label for="chkDays_@code"></label></td>
+                                        <td><input type="checkbox" id="chkSched_@code" class="chkSched" @if (o4 == "Y") { @strChk  } data-toggle="popup" data-target="chkSched" data-type="mobile" /><label for="chkSched_@code"></label></td>
+                                        <td><input type="checkbox" id="chkHotel_@code" class="chkHotel" @if (o5 == "Y") { @strChk  } data-toggle="popup" data-target="chkHotel" disabled="disabled" /><label for="chkHotel_@code"></label></td>
+                                        <td><input type="checkbox" id="chkTourA_@code" class="chkTourA" @if (o6 == "Y") { @strChk  } data-toggle="popup" data-target="chkTourA" disabled="disabled" /><label for="chkTourA_@code"></label></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>*@
+                    }
+                }
+            </ul>
+
+            @*<table class="table table-hover">
+                <colgroup>
+                    <col style="width: 4%" />
+                    <col style="width: 9%" />
+                    <col style="width: 12%" />
+                    <col style="width: 37%" />
+                    <col style="width: 8%" />
+                    <col style="width: 7%" />
+                    <col style="width: 23%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>순서</th>
+                        <th>상품 코드</th>
+                        <th>국가 / 지역</th>
+                        <th>상품 명</th>
+                        <th>옵션</th>
+                        <th>진행 구분</th>
+                        <th>
+                            <table class="chkETC">
+                                <colgroup>
+                                    <col style="width: 16.666%" />
+                                    <col style="width: 16.666%" />
+                                    <col style="width: 16.666%" />
+                                    <col style="width: 16.666%" />
+                                    <col style="width: 16.666%" />
+                                    <col style="width: 16.666%" />
+                                </colgroup>
+                                <tr>
+                                    <td><label>교통</label></td>
+                                    <td><label>판매가</label></td>
+                                    <td><label>판매일</label></td>
+                                    <td><label>컨텐츠</label></td>
+                                    <td><label></label></td>
+                                    <td><label></label></td>
+                                </tr>
+                            </table>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @{
+                        string no = "",
+                               proc = "",
+                               proc_Class = "",
+                               nation = "",
+                               area = "",
+                               title = "",
+                               options = "",
+                               key = "",
+                               o1 = "",
+                               o2 = "",
+                               o3 = "",
+                               o4 = "",
+                               o5 = "",
+                               o6 = "",
+                               code = "",
+                               strChk = "checked='checked'";
+
+                        foreach (object item in Model)
+                        {
+                            no = "";
+                            proc = "";
+                            nation = "";
+                            area = "";
+                            title = "";
+                            options = "";
+                            code = "";
+                            proc_Class = "";
+                            o1 = "";
+                            o2 = "";
+                            o3 = "";
+                            o4 = "";
+                            o5 = "";
+                            o6 = "";
+                            key = "";
+
+                            try { code = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                            try { no = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                            try { proc = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                            try { nation = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+                            try { area = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+                            try { title = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { continue; }
+                            try { options = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { continue; }
+
+                            try { o1 = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+                            try { o2 = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+                            try { o3 = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { }
+                            try { o4 = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); } catch { }
+                            try { o5 = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); } catch { }
+                            try { o6 = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); } catch { }
+
+                            try { key = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); } catch { }
+
+                            switch(proc)
+                            {
+                                case "준비중":
+                                    proc_Class = "prepare";
+                                    break;
+                                case "판매중":
+                                    proc_Class = "sell";
+                                    break;
+                                case "마감":
+                                    proc_Class = "end";
+                                    break;
+                            }
+
+                            switch(options)
+                            {
+                                case "best":
+                                    options = "베스트 상품";
+                                    break;
+                                default:
+                                    options = "없음";
+                                    break;
+                            }
+
+                            <tr data-key="@key">
+                                <td>@no</td>
+                                <td class="pdtKey">@code</td>
+                                <td>@nation / @area</td>
+                                <td class="title">
+                                    <a data-toggle="popup" href="/Products/defPdt" data-code="@code" data-target="instPdt">@title</a>
+                                </td>
+                                <td>@options</td>
+                                <td><span class="@proc_Class">@proc</span></td>
+                                <td>
+                                    <table class="chkETC">
+                                        <colgroup>
+                                            <col style="width: 16.666%" />
+                                            <col style="width: 16.666%" />
+                                            <col style="width: 16.666%" />
+                                            <col style="width: 16.666%" />
+                                            <col style="width: 16.666%" />
+                                            <col style="width: 16.666%" />
+                                        </colgroup>
+                                        <tr>
+                                            <td><input type="checkbox" id="chkTraff_@code" class="chkTraff" @if(o1 == "Y"){ @strChk } data-toggle="popup" data-target="chkTraff" /><label for="chkTraff_@code"></label></td>
+                                            <td><input type="checkbox" id="chkPrice_@code" class="chkPrice" @if(o2 == "Y"){ @strChk } data-toggle="popup" data-target="chkPrice" /><label for="chkPrice_@code"></label></td>
+                                            <td><input type="checkbox" id="chkDays_@code"  class="chkDays"  @if(o3 == "Y"){ @strChk } data-toggle="popup" data-target="chkDays" /><label for="chkDays_@code"></label></td>
+                                            <td><input type="checkbox" id="chkSched_@code" class="chkSched" @if(o4 == "Y"){ @strChk } data-toggle="popup" data-target="chkSched" data-type="mobile" /><label for="chkSched_@code"></label></td>
+                                            <td><input type="checkbox" id="chkHotel_@code" class="chkHotel" @if(o5 == "Y"){ @strChk } data-toggle="popup" data-target="chkHotel" disabled="disabled" /><label for="chkHotel_@code"></label></td>
+                                            <td><input type="checkbox" id="chkTourA_@code" class="chkTourA" @if(o6 == "Y"){ @strChk } data-toggle="popup" data-target="chkTourA" disabled="disabled" /><label for="chkTourA_@code"></label></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>*@
+        </div>
+    </article>
+</section>
+
+<script>
+    $(document).ready(function () {
+        function getNations() {
+            var url = "/Products/JSON_getCode";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { category: 'NAT' },
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].AlterCode + '" data-code3="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                    }
+
+                    $("select[name='nation']").html(html);
+                    $("select[name='nation']").val("@chknation");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                    getAreas();
+                }
+            });
+        }
+
+        getNations();
+
+        function getAreas() {
+            var _this = $("select[name=nation]");
+
+            var url = "/Products/JSON_getCode";
+            var datas = { category: 'ARE', nation: _this.find("option:selected").attr("data-code3") };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                        //html += '<option value="' + i + '">' + data[i] + '</option>';
+                    }
+
+                    $("select[name='area']").html(html);
+                    $("select[name='area']").val("@chkarea");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                    getCity()
+                }
+            });
+        }
+
+        function getCity() {
+            var _this = $("select[name=area]");
+
+            var url = "/Products/JSON_getCode";
+            var datas = { category: 'CTY', area: _this.find("option:selected").val() };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                    }
+
+                    $("select[name='city']").html(html);
+                    $("select[name='city']").val("@chkcity");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        $("select[name=area]").on("change", function () {
+            getCity();
+        });
+
+        $("select[name=nation]").on("change", function () {
+            getAreas();
+        });
+
+        $("button.searchPdtBtn").on("click", function () {
+            var f = document.srcForm;
+
+            f.submit();
+        });
+
+        $('[data-toggle="popup"]').on("click", function (e) {
+            e.preventDefault();
+            var _this = $(this),
+                url = _this.attr('href'),
+                code = _this.attr('data-code'),
+                rUrl = encodeURIComponent("@Request.Url.PathAndQuery".replace(/&amp;/g, '&')),
+                addClass = _this.attr('data-target'),
+                key = _this.parents("ul.pdtLists > li").attr('data-key');
+
+            if (url == undefined) {
+                url = '/Products/' + _this.attr("class").trim();
+                code = _this.parent().siblings("li.pdtKey").text();
+
+                key = _this.parent().parents("li").attr('data-key');
+            }
+
+            var datas = { code: code, key: key, url: rUrl };
+
+            var type = _this.attr("data-type");
+
+            if (type != "")
+                datas = { code: code, key: key, type: type, url: rUrl };
+
+            if (url.indexOf('#') == 0) {
+                $(url).modal('show');
+            } else {
+                $.get(url, datas, function (data) {
+                    $('<div class="modal fade ' + addClass + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+                });
+            }
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+
+            if (!$(e.target).is(".setOptions") && !$(e.target).is(".searchHotels")) {
+                location.reload();
+            }
+        });
+    });
+</script>

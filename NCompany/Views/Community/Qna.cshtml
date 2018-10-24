@@ -1,0 +1,405 @@
+﻿@using NCompany.Models;
+@using System.Text.RegularExpressions;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string type = "",
+           key = "",
+           title = "",
+           date = "",
+           user = "",
+           state = "",
+           content = "",
+           corp = "";
+
+    string out0 = "",
+           out1 = "",
+           out2 = "",
+           out3 = "",
+           out4 = "",
+           out5 = "",
+           out6 = "",
+           out7 = "",
+           out8 = "",
+           out9 = "";
+
+    int index = 0;
+}
+
+<section class="qna row community">
+    <article class="col-md-8">
+        <h4>질문과 답변</h4>
+        <div class="Lists">
+            <ul>
+                @{
+                    foreach (object item in Model)
+                    {
+                        type = "";
+                        key = "";
+                        title = "";
+                        date = "";
+                        user = "";
+                        state = "";
+                        content = "";
+                        corp = "";
+
+                        try { type = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { key = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { date = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { state = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { user = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { content = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { corp = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+                        catch { continue; }
+
+                        <li data-key="@key" data-corp="@corp">
+                            <div class="board-header">
+                                <span>@user | @date</span>
+                                <h4>@title</h4>
+                            </div>
+                            <div class="board-body">
+                                @{
+                        string cont = content;
+
+                        try
+                        {
+                            cont = Regex.Replace(cont, @"\r\n|\n|\r", "<br/>");
+                        }
+                        catch { }
+
+                        @MvcHtmlString.Create(cont)
+                                }
+                                <ul class="comment">
+                                    @{
+                        try
+                        {
+                            var aa = item.GetType().GetProperties()[7].GetValue(item, null);
+
+                            string rid = "",
+                                   rcont = "",
+                                   rdate = "",
+                                   rname = "";
+
+                            foreach (object ab in aa as List<review>)
+                            {
+                                rid = "";
+                                rcont = "";
+                                rdate = "";
+                                rname = "";
+
+                                try { rid = ab.GetType().GetProperties()[0].GetValue(ab, null).ToString(); }
+                                catch { }
+                                try { rcont = ab.GetType().GetProperties()[4].GetValue(ab, null).ToString(); }
+                                catch { }
+                                try { rdate = ab.GetType().GetProperties()[6].GetValue(ab, null).ToString(); }
+                                catch { }
+                                try { rname = ab.GetType().GetProperties()[3].GetValue(ab, null).ToString(); }
+                                catch { }
+
+                                if (rcont == "")
+                                {
+                                    continue;
+                                }
+
+                                <li data-key="@rid">
+                                    @{
+                                cont = rcont;
+
+                                try
+                                {
+                                    cont = Regex.Replace(cont, @"\r\n|\n|\r", "<br/>");
+                                }
+                                catch { }
+
+                                @MvcHtmlString.Create(cont)
+                                    }
+
+                                    <span>@rname | @rdate</span>
+                                </li>
+
+                            }
+
+
+                        }
+                        catch { }
+                                    }
+                                    @*
+                                        <li>
+                                            안녕하세요. 북해도 버스투어 담당자 입니다~
+                                            9월2일은 현재 26명 모객이 되어있으며, 대형버스로 출발할 예정입니다.
+                                            중식은 비에이역 또는 후라노역에서 예정되어있으며, 추천 식당 중 원하시는 곳에서 드실 수 있습니다.
+                                            교통상황에 따라 점심식사 지역이 당일에 지정되므로 양해부탁드립니다. 감사합니다.
+                                            <span>정원정 | 2017-08-23</span>
+                                        </li>
+                                    *@
+                                </ul>
+                            </div>
+                            <div class="board-footer">
+                                <textarea placeholder="답변을 입력해주세요"></textarea>
+                                <a class="btn btn-default cmdBtn">등록</a>
+                            </div>
+                        </li>
+
+                    }
+                }
+
+                @*
+                <li>
+                    <div class="board-header">
+                        <span>2017-08-22</span>
+                        <h4>카드결제 문의드립니다.</h4>
+                    </div>
+                    <div class="board-body">
+                        10월 16일에 가족 2명과 함께 가는데 카드결제를 하고 싶어서 문의글 남깁니다^^;
+                        79,000원과 158,000원 2건에 대한 카드결제를 하고 싶습니다.(무이자 가능한지요?)
+                        그리고 같이 앉을 수 있는 건지도 같이 문의드립니다'ㅁ'
+                    </div>
+                    <div class="board-footer">
+                        <textarea placeholder="답변을 입력해주세요"></textarea>
+                    </div>
+                </li>
+                *@
+
+            </ul>
+        </div>
+    </article>
+    <div class="col-md-4">
+
+        <article>
+            <a href="/community/notice" class="btn btn-default pull-right">자세히 보기</a>
+            <h4>자유게시판</h4>
+
+            <ul class="table-header">
+                <li style="width: 80%">제목</li>
+                <li style="width: 20%">날짜</li>
+            </ul>
+
+            <ul class="table-body">
+                @{
+                    index = 0;
+
+                    foreach (object item in ViewBag.notice)
+                    {
+                        out0 = "";
+                        out1 = "";
+                        out2 = "";
+                        out3 = "";
+                        out4 = "";
+                        out5 = "";
+                        out6 = "";
+                        out7 = "";
+                        out8 = "";
+                        out9 = "";
+
+                        try { out0 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { out1 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                        catch { continue; }
+
+                        index++;
+
+                        out1 = Html.Action("convertDate8To10", new { date = out1 }).ToString();
+
+                        <li>
+                            <ul>
+                                <li style="width: 80%;">@out0</li>
+                                <li style="width: 20%;">@out1</li>
+                            </ul>
+                        </li>
+                    }
+
+                    if (index < 1)
+                    {
+                        <li style="height: 100%; border: 1px solid #ccc;">
+                            <p style="margin-top: 100px;">
+                                질문 글이 없습니다.
+                            </p>
+                        </li>
+
+                    }
+                }
+
+                @*<li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>*@
+            </ul>
+        </article>
+
+        <article>
+            <a href="/community/review" class="btn btn-default pull-right">자세히 보기</a>
+            <h4>상품 후기</h4>
+
+            <ul class="table-header">
+                <li style="width: 80%">제목</li>
+                <li style="width: 20%">별점</li>
+            </ul>
+
+            <ul class="table-body">
+                @{
+                    index = 0;
+
+                    foreach (object item in ViewBag.review)
+                    {
+                        out0 = "";
+                        out1 = "";
+                        out2 = "";
+                        out3 = "";
+                        out4 = "";
+                        out5 = "";
+                        out6 = "";
+                        out7 = "";
+                        out8 = "";
+                        out9 = "";
+
+                        try { out0 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { out1 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                        catch { continue; }
+
+                        switch (out1)
+                        {
+                            case "5":
+                                out1 = "★★★★★";
+                                break;
+                            case "4":
+                                out1 = "★★★★";
+                                break;
+                            case "3":
+                                out1 = "★★★";
+                                break;
+                            case "2":
+                                out1 = "★★";
+                                break;
+                            case "1":
+                                out1 = "★";
+                                break;
+                        }
+
+                        index++;
+
+                        <li>
+                            <ul>
+                                <li style="width: 80%;">@out0</li>
+                                <li style="width: 20%;">@out1</li>
+                            </ul>
+                        </li>
+                    }
+
+                    if (index < 1)
+                    {
+                        <li style="height: 100%; border: 1px solid #ccc;">
+                            <p style="margin-top: 100px;">
+                                후기 글이 없습니다.
+                            </p>
+                        </li>
+
+                    }
+                }
+
+                @*<li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>*@
+            </ul>
+        </article>
+    </div>
+</section>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("a.cmdBtn").on("click", function () {
+            var _this = $(this),
+                parent = _this.parents("li"),
+                corp = parent.attr("data-corp"),
+                key = parent.attr("data-key"),
+                cont = _this.siblings("textarea");
+
+            var url = "/Community/JSON_Update";
+            var datas = { corp: corp, type: "qna", key: key, content: cont.val() };
+
+            if (cont.val() == "")
+            {
+                alert("내용을 입력해 주세요.");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var cmdHtml = "";
+
+                    cmdHtml = "<li data-key='" + data.post_ID + "'>" + data.post_content + "<span>" + data.name + " | " + data.ist_date.substring(0, 4) + "-" + data.ist_date.substring(4, 6) + "-" + data.ist_date.substring(6, 8) + "</span></li>";
+
+                    parent.find(".comment").append(cmdHtml);
+                    cont.val("");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

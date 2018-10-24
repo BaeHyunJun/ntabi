@@ -1,0 +1,509 @@
+﻿@using Ntabi.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var user = Session["user"] as User;
+}
+
+<style>
+    div#container > article > section.passViews {
+        position: relative;
+        padding-top: 10px;
+    }
+
+    section.passViews > h3 {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    section.passViews > div.dataInfo {
+        margin-top: 30px;
+        overflow: hidden;
+        width: 840px;
+    }
+
+        section.passViews > div.dataInfo > div.feature {
+            width: 450px;
+            height: 350px;
+            float: left;
+            border: 1px solid #ddd;
+            margin-right: 30px;
+            text-align: center;
+            line-height: 350px;
+        }
+
+        section.passViews > div.dataInfo > h4.title {
+            font-size: 27px;
+            color: #1b1b1b;
+        }
+
+        section.passViews > div.dataInfo > p.remark {
+            font-size: 20px;
+            margin: 10px 0 0;
+            color: #2a2a2a;
+        }
+
+    section.passViews > div.detailArea {
+        margin-top: 50px;
+        width: 840px;
+    }
+
+        section.passViews > div.detailArea > ul > li {
+            width: 170px;
+            text-align: center;
+            font-size: 15px;
+            color: #4e4e4e;
+        }
+
+            section.passViews > div.detailArea > ul > li.active {
+                font-size: 17px;
+                color: #121212;
+            }
+
+                section.passViews > div.detailArea > ul > li.active > a {
+                    border-bottom: 1px solid white;
+                }
+
+        section.passViews > div.detailArea > div.tab-content {
+            padding: 9px;
+            border: 1px solid #cacaca;
+            border-top: none;
+        }
+
+    section.passViews > aside {
+        position: absolute;
+        width: 350px;
+        right: 0;
+        top: 70px;
+        border: 1px solid #cacaca;
+    }
+
+        section.passViews > aside div.totalPrice {
+            height: 70px;
+            background: #e7f1d7;
+            padding: 22px;
+        }
+
+            section.passViews > aside div.totalPrice > p {
+                font-size: 15px;
+                color: #2a2a2a;
+                line-height: 48px;
+            }
+
+                section.passViews > aside div.totalPrice > p > span {
+                    float: right;
+                    font-size: 30px;
+                    color: #ff3f0c;
+                    line-height: 30px;
+                }
+
+        section.passViews > aside div.options {
+            width: 100%;
+            border-top: 1px solid #ececec;
+        }
+
+            section.passViews > aside div.options > select {
+                width: 100%;
+                padding: 15px 22px;
+                border: none;
+                background-color: #ececec;
+            }
+
+        section.passViews > aside div.peoples {
+            padding: 22px;
+            border-bottom: 2px solid #cacaca;
+        }
+
+            section.passViews > aside div.peoples p:first-child {
+                margin-bottom: 20px;
+            }
+
+            section.passViews > aside div.peoples p:nth-child(2) {
+                height: 28px;
+            }
+
+        section.passViews > aside div p select {
+            float: right;
+            width: 15%;
+        }
+
+        section.passViews > aside div.revBtn {
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background-color: #a0ce54;
+            color: white;
+            cursor: pointer;
+        }
+</style>
+
+<section class="passViews">
+    <h3>패스</h3>
+
+    @{
+    string corp_code = "",
+    pdt_type_code = "",
+    pdt_ist_emp = "",
+    pdt_yy = "",
+    pdt_seq = "",
+    pdt_title = "",
+    pdt_content = "",
+    pdt_img_path = "",
+    code = "",
+    sch0 = "",
+    sch1 = "",
+    sch2 = "",
+    sch3 = "",
+    sch4 = "",
+    sch5 = "",
+    sch6 = "",
+    sch7 = "";
+
+    foreach (object item in Model)
+    {
+    corp_code = "";
+    pdt_type_code = "";
+    pdt_ist_emp = "";
+    pdt_yy = "";
+    pdt_seq = "";
+    pdt_title = "";
+    pdt_content = "";
+    pdt_img_path = "";
+    code = "";
+    sch0 = "";
+    sch1 = "";
+    sch2 = "";
+    sch3 = "";
+    sch4 = "";
+    sch5 = "";
+    sch6 = "";
+    sch7 = "";
+
+    corp_code = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+    pdt_type_code = item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+    pdt_ist_emp = item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+    pdt_yy = item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+    pdt_seq = item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+    pdt_title = item.GetType().GetProperties()[5].GetValue(item, null).ToString();
+    pdt_content = item.GetType().GetProperties()[6].GetValue(item, null).ToString();
+    pdt_img_path = item.GetType().GetProperties()[8].GetValue(item, null).ToString();
+    sch0 = item.GetType().GetProperties()[9].GetValue(item, null).ToString();
+    sch1 = item.GetType().GetProperties()[10].GetValue(item, null).ToString();
+    sch2 = item.GetType().GetProperties()[11].GetValue(item, null).ToString();
+    sch3 = item.GetType().GetProperties()[12].GetValue(item, null).ToString();
+    sch4 = item.GetType().GetProperties()[13].GetValue(item, null).ToString();
+    sch5 = item.GetType().GetProperties()[14].GetValue(item, null).ToString();
+    sch6 = item.GetType().GetProperties()[15].GetValue(item, null).ToString();
+    //sch7            = item.GetType().GetProperties()[16].GetValue(item, null).ToString();
+
+    code = corp_code + pdt_type_code + pdt_ist_emp + pdt_yy + pdt_seq;
+    }
+    }
+
+    <div class="dataInfo">
+        <div class="feature">
+            <img src="@pdt_img_path" />
+        </div>
+        <h4 class="title">@pdt_title</h4>
+        <p class="remark">
+            @pdt_content
+        </p>
+    </div>
+
+    <div class="detailArea" style="border: 1px solid #ddd; padding: 10px;">
+        <h5 class="sr-only sr-only-focusable">상세 정보</h5>
+
+        @MvcHtmlString.Create(sch0)
+        @MvcHtmlString.Create(sch1)
+        @MvcHtmlString.Create(sch2)
+        @MvcHtmlString.Create(sch3)
+        @MvcHtmlString.Create(sch4)
+        @MvcHtmlString.Create(sch5)
+        @MvcHtmlString.Create(sch6)
+        @*@MvcHtmlString.Create(sch7)*@
+    </div>
+
+    <aside>
+        @using (Html.BeginForm("Reserve", "Pass", FormMethod.Post, new { @class = "form-horizontal", name = "reserveForm", onsubmit = "return false" }))
+        {
+        @Html.Hidden("pdtCode", code)
+        @Html.Hidden("pdtKey", pdt_ist_emp)
+        @Html.Hidden("APrice")
+        @Html.Hidden("CPrice")
+        @Html.Hidden("BPrice")
+        @Html.Hidden("currency")
+
+        <h5 class="sr-only sr-only-focusable">예약 정보</h5>
+
+        <div class="totalPrice">
+            <p>
+                총 금액
+                <span>0 엔</span>
+            </p>
+        </div>
+        <div class="options">
+            <select name="prcCD" class="select_option">
+                <option>옵션</option>
+
+                @{
+                string prcSeq = "",
+                currency_code = "",
+                adult = "",
+                title = "",
+                child = "",
+                baby = "";
+
+                foreach (object item in ViewBag.prcData)
+                {
+                prcSeq = "";
+                currency_code = "";
+                adult = "";
+                title = "";
+                child = "";
+                baby = "";
+
+                prcSeq = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+                currency_code = item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+                adult = item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+                title = item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+                child = item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+                baby = item.GetType().GetProperties()[5].GetValue(item, null).ToString();
+
+                switch (currency_code)
+                {
+                case "JYP":
+                currency_code = "엔";
+                break;
+                case "KWN":
+                currency_code = "원";
+                break;
+                case "USD":
+                currency_code = "달러";
+                break;
+                }
+
+                <option value="@prcSeq" data-currency="@currency_code" data-adult="@adult" data-child="@child" data-baby="@baby">@title</option>
+                }
+                }
+            </select>
+        </div>
+        <div class="peoples">
+            <p>
+                옵션을 선택해 주세요.
+            </p>
+
+            @{
+            string text1 = "성인",
+            text2 = "소아",
+            text3 = "유아";
+
+            switch (pdt_seq)
+            {
+            case "10":
+            case "20":
+            text1 = "일반";
+            text2 = "청소년 (만 12세 ~ 만 17세)";
+            text3 = "아동 (만 4세 ~ 만 11세)";
+            break;
+            }
+            }
+
+            <p style="display: none;">
+                @text1
+                <span>799,000</span>
+                <select name="adultCnt">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                </select>
+            </p>
+            <p style="display: none;">
+                @text2
+                <span>799,000</span>
+                <select name="childCnt">
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                </select>
+            </p>
+            <p style="display: none;">
+                @text3
+                <span>799,000</span>
+                <select name="babyCnt">
+                    <option>0</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                </select>
+            </p>
+        </div>
+        <div class="revBtn">
+            <p>예약하기</p>
+        </div>
+        }
+    </aside>
+</section>
+
+<script>
+
+    $(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > $('section.passViews').offset().top - 75) {
+                $("section.passViews > aside").css({ "position": "fixed", "margin-right": 350, "top": 75 });
+
+                if ($('section.passViews').offset().top + $('section.passViews').height() < $("section.passViews > aside").offset().top + $("section.passViews > aside").height()) {
+                    $("section.passViews > aside").css({ "position": "absolute", "margin-right": 0, "top": $('section.passViews').offset().top + $('section.passViews').height() - $("section.passViews > aside").height() });
+                }
+            }
+            else {
+                $("section.passViews > aside").css({ "position": "absolute", "margin-right": 0 });
+            }
+        });
+
+        $("select.select_option").on("change", function () {
+            var _this = $(this),
+                options = _this.find("option:selected");
+
+            var adult = options.attr("data-adult"),
+                crncy = options.attr("data-currency"),
+                child = options.attr("data-child"),
+                baby = options.attr("data-baby");
+
+            var f = document.reserveForm,
+                aPrice = f.APrice,
+                cPrice = f.CPrice,
+                bPrice = f.BPrice,
+                currency = f.currency;
+
+            aPrice.value = adult;
+            cPrice.value = child;
+            bPrice.value = baby;
+            currency.value = crncy;
+
+
+            if (adult > 0) {
+                $("select[name='adultCnt']").prev("span").text(adult + " " + getCurrency(crncy)).parents("p").show();
+            }
+            else {
+                $("select[name='adultCnt']").parents("p").hide();
+            }
+
+            if (child > 0) {
+                $("select[name='childCnt']").prev("span").text(child + " " + getCurrency(crncy)).parents("p").show();
+            }
+            else {
+                $("select[name='childCnt']").parents("p").hide();
+            }
+
+            if (baby > 0) {
+                $("select[name='babyCnt']").prev("span").text(baby + " " + getCurrency(crncy)).parents("p").show();
+            }
+            else {
+                $("select[name='babyCnt']").parents("p").hide();
+            }
+
+            setCntPrice();
+
+        });
+
+        function getCurrency(code) {
+            var currency_Txt = "";
+
+            switch (code) {
+                case "JPY":
+                    currency_Txt = "엔";
+                    break;
+                case "KRW":
+                    currency_Txt = "원";
+                    break;
+                case "USD":
+                    currency_Txt = "달러";
+                    break;
+            }
+
+            return currency_Txt;
+        }
+
+        $("div.peoples").delegate("select", "change", function () {
+            setCntPrice();
+        });
+
+        function setCntPrice() {
+            var aCnt = $("select[name=adultCnt]").val(),
+                cCnt = $("select[name=childCnt]").val(),
+                bCnt = $("select[name=babyCnt]").val();
+
+            var f = document.reserveForm,
+                aPrice = f.APrice,
+                cPrice = f.CPrice,
+                bPrice = f.BPrice,
+                currency = f.currency;
+
+            var aPrice = (aCnt * 1) * (aPrice.value * 1),
+                cPrice = (cCnt * 1) * (cPrice.value * 1),
+                bPrice = (bCnt * 1) * (bPrice.value * 1),
+                totalPrice = aPrice;// + bPrice + cPrice;
+
+            if ($("input#CPrice").val() == "0") {
+                $("select[name=childCnt]").parent().hide();
+
+                totalPrice += cPrice;
+            }
+
+            if ($("input#BPrice").val() == "0") {
+                $("select[name=babyCnt]").parent().hide();
+
+                totalPrice += bPrice;
+            }
+
+            $("div.totalPrice span").text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + getCurrency(currency.value));
+        }
+
+        $("div.revBtn").on("click", function () {
+            var url = window.location.pathname + window.location.search;
+            url = encodeURIComponent(url);
+
+            if ("@user" == "") {
+                alert("로그인을 하셔야 예약이 진행됩니다.");
+                $("a.loginBtn").click();
+                return;
+            }
+
+            var f = document.reserveForm,
+                aPrice = f.APrice,
+                cPrice = f.CPrice,
+                bPrice = f.BPrice,
+                currency = f.currency;
+
+            if (aPrice.value == "") {
+                alert("옵션과 인원을 선택해주세요.");
+                return;
+            }
+
+            $(this).attr("disabeld", true);
+
+            f.method = "post";
+            f.submit();
+        });
+    });
+
+</script>

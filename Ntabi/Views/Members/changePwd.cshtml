@@ -1,0 +1,212 @@
+﻿@{
+    string key = Request["passkey"];
+}
+
+<style>
+    * {
+        font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    a, a:hover, a:focus, a:active {
+        color: black;
+        background-color: transparent !important;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        margin: 0;
+        padding: 0;
+        display: inline;
+        color: black;
+    }
+
+    h3 {
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        color: #555555;
+    }
+
+    h4 {
+        font-size: 17px;
+    }
+
+    ul {
+        padding: 0;
+        list-style: none;
+    }
+
+    html, body, div#container {
+        width: 100%;
+        height: 100%;
+        min-width: 1200px;
+    }
+
+
+    div#container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+        div#container section.resetnotice {
+            margin-top: 80px;
+            margin-bottom: 120px;
+            text-align: center;
+        }
+
+            div#container section.resetnotice h2 {
+                margin-bottom: 20px;
+                font-size: 16px;
+                font-weight: normal;
+            }
+
+            div#container section.resetnotice p.notice {
+                margin: 0;
+                margin-top: 20px;
+                margin-bottom: 30px;
+                font-size: 13px;
+                color: #555;
+            }
+
+            div#container section.resetnotice div.reset {
+                width: 25%;
+                margin: 0 auto 30px auto;
+            }
+
+                div#container section.resetnotice div.reset p {
+                }
+
+                    div#container section.resetnotice div.reset p.id {
+                    }
+
+                    div#container section.resetnotice div.reset p.password {
+                    }
+
+                    div#container section.resetnotice div.reset p.password2 {
+                    }
+
+                    div#container section.resetnotice div.reset p input {
+                        width: 100%;
+                        padding: 5px 10px;
+                        border: 0;
+                        border-radius: 0;
+                        border-bottom: 1px solid #ddd;
+                        box-sizing: border-box;
+                    }
+
+            div#container section.resetnotice div.btn {
+                width: 30%;
+                margin: 0 auto;
+            }
+
+                div#container section.resetnotice div.btn:after {
+                    content: "";
+                    display: block;
+                    clear: both;
+                }
+
+                div#container section.resetnotice div.btn p {
+                    width: 48%;
+                    margin: 0;
+                }
+
+                    div#container section.resetnotice div.btn p.reset {
+                        float: left;
+                        background-color: #dfeccd;
+                    }
+
+                    div#container section.resetnotice div.btn p.main {
+                        float: right;
+                        background-color: #e0e0e0;
+                    }
+
+                    div#container section.resetnotice div.btn p a {
+                        display: block;
+                        width: 100%;
+                        font-size: 13px;
+                        line-height: 28px;
+                    }
+</style>
+<div id="container" style="padding-top: 50px;">
+    <section class="resetnotice">
+        <h2>비밀번호 재설정</h2>
+        <p class="notice">
+            새로 사용할 비밀번호를 입력해주세요
+        </p>
+        <div class="reset">
+            <p class="id"><input type="text" name="id" placeholder="아이디"></p>
+            <p class="password"><input type="password" name="pwd" placeholder="비밀번호(6~20자 이내/영문+숫자 조합)"></p>
+            <p class="password2"><input type="password" name="chkPwd" placeholder="비밀번호 확인"></p>
+        </div> <!--.reset-->
+        <div class="btn">
+            <p class="reset"><a href="#" class="changePwdBtn">비밀번호 변경</a></p>
+            <p class="main"><a href="/">메인으로</a></p>
+        </div> <!--.btn-->
+    </section> <!--.resetnotice-->
+</div> <!--#container-->
+
+<script>
+    $(document).ready(function () {
+        $("a.changePwdBtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            $(this).attr("disabled", true);
+
+            var id = $("input[name='id']");
+            var pwd = $("input[name='pwd']");
+            var chkPwd = $("input[name='chkPwd']");
+            var regPwd = /^(?=.*[A-Za-z0-9])((?=.*\d)|(?=.*\W)).{6,20}$/;
+
+            if (id.val() == "") {
+                alert("아이디를 입력해주세요.");
+                id.focus();
+                return;
+            }
+
+            if (pwd.val() == "") {
+                alert("비밀 번호를 입력해주세요.");
+                pwd.focus();
+                return;
+            }
+
+            if (!regPwd.test(pwd.val())) {
+                alert("비밀 번호는 영문 + 숫자로 6~20자 이내로 입력해주세요.");
+                pwd.focus();
+                return;
+            }
+
+            if (chkPwd.val() != pwd.val()) {
+                alert("비밀 번호가 서로 다릅니다.");
+                chkPwd.focus();
+                return;
+            }
+
+            var url = "/Members/changePW";
+            var data = { id: id.val(), pwd: pwd.val(), key: "@key" };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (rData) {
+                    alert(rData);
+
+                    $(this).attr("disabled", false);
+
+                    if (rData.indexOf("비밀 번호가 정상적으로 변경 되었습니다.") > -1) {
+                        location.href = "/";
+                    }
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

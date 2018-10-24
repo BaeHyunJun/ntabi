@@ -1,0 +1,381 @@
+﻿@using NCompany.Models
+
+@{
+    Layout = null;
+
+    var user = Session["user"] as User;
+
+    string no = "",
+           title = "",
+           content = "";
+}
+
+<style>
+/* chkdays */
+.daysForm .ui-datepicker {
+    width: 100%;
+}
+
+.daysForm .ui-datepicker .ui-widget-header {
+    background-color: transparent;
+    border: none;
+}
+
+.daysForm .ui-datepicker td a,
+.daysForm .ui-datepicker td span {
+    position: relative;
+    height: 74px;
+}
+    
+.daysForm .ui-widget-content .ui-state-active,
+.daysForm .ui-widget-content .ui-state-highlight {
+    border: 1px solid #c5c5c5;
+    background: #f6f6f6;
+    font-weight: normal;
+    color: #454545;
+}
+
+/*.ui-widget-content td.bg_red,*/
+.daysForm .ui-widget-content td.bg_red a {
+    /*background-color: red !important;
+    color: white !important;*/
+    color: red;
+}
+
+.daysForm .ui-widget-content td.bg_grn a {
+    /*background-color: green !important;
+    color: white !important;*/
+    color: green;
+}
+
+.daysForm .ui-widget-content td.bg_blu a {
+    /*background-color: black !important;
+    color: white !important;*/
+    color: blue;
+}
+
+.daysForm .ui-widget-content td.bg_gry a {
+    /*background-color: gray !important;
+    color: white !important;*/
+    color: gray;
+}
+
+.daysForm .ui-widget-content td a:after {
+    /*content: '쿠루쿠루버스 - 성수기 요금';*/
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 10px;
+}
+
+.daysForm .ui-widget-content td.ui-state-highlight {
+    border: none;
+    background: none;
+}
+
+.daysForm .ui-widget-content td.ui-state-highlight a {
+    border: 1px solid blue;
+    background-color: white;
+}
+/* chkdays */
+</style>
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">판매 일 생성</h4>
+        </div>
+        <div class="modal-body" style="padding-bottom: 0;">
+            <form name="dayForm" method="post" action="" class="daysForm form-horizontal">
+                <input type="hidden" name="redirect" value="/Products" />
+                <input type="hidden" name="seq" value="@Request["seq"]" />
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">판매가</label>
+                    <div class="col-sm-9">
+                        <select name="prcCD" class="form-control">
+                            <option value="" selected="selected">판매가를 선택해주세요.</option>
+                            @foreach (var item in Model)
+                            {
+                                no = "";
+                                title = "";
+                                content = "";
+                                
+                                try { no = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+                                
+                                try 
+                                {
+                                    content = item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+                                }
+                                catch { }
+
+                                try
+                                {
+                                    int price = Convert.ToInt32(item.GetType().GetProperties()[2].GetValue(item, null).ToString()),
+                                        profit = Convert.ToInt32(item.GetType().GetProperties()[3].GetValue(item, null).ToString()),
+                                        sum = price + profit;
+
+
+                                    content += " " + sum;
+                                }
+                                catch { }
+                                
+                                try 
+                                { 
+                                    title += "[룸타입 : " + item.GetType().GetProperties()[4].GetValue(item, null).ToString() + "]";
+                                }
+                                catch { }
+
+                                try
+                                {
+                                    title += " [" + item.GetType().GetProperties()[5].GetValue(item, null).ToString() + "]";
+                                }
+                                catch { }
+
+                                <option value="@no">@content - @title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group text-center">
+                    <div class="btn-group selectDate" role="group">
+                        <button type="button" class="btn btn-default" data-days="all">전체</button>
+                        <button type="button" class="btn btn-default" data-days="0">일요일</button>
+                        <button type="button" class="btn btn-default" data-days="1">월요일</button>
+                        <button type="button" class="btn btn-default" data-days="2">화요일</button>
+                        <button type="button" class="btn btn-default" data-days="3">수요일</button>
+                        <button type="button" class="btn btn-default" data-days="4">목요일</button>
+                        <button type="button" class="btn btn-default" data-days="5">금요일</button>
+                        <button type="button" class="btn btn-default" data-days="6">토요일</button>
+                    </div>
+                </div>
+
+                <div id="datepicker" style="width: 100%;"></div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">닫기</button>
+            <button type="button" class="btn btn-danger uptBtn" data-state="05">날짜 제거</button>
+            <button type="button" class="btn btn-success uptBtn" data-state="01">예약 가능</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+<script>
+    var day = 0;
+    var dates;
+
+    $('select').on('change', function () {
+        var f = document.dayForm,
+            prcCode = f.prcCD.value;
+
+        if (prcCode != '')
+        {
+            getDate();
+        }
+    });
+
+    function getDate() {
+        var url = "/Hotel/getDays";
+
+        var f = document.dayForm,
+            seq = f.seq.value,
+            prcCode = f.prcCD.value;
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { seq: seq, prcCode: prcCode },
+            success: function (data) {
+                dates = data;
+
+                var minDate = new Date();
+
+                $("#datepicker").multiDatesPicker({
+                    dateFormat: 'yy-mm-dd',
+                    prevText: '이전',
+                    nextText: '이후',
+                    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+                    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+                    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                    showMonthAfterYear: true,
+                    yearSuffix: '년',
+                    minDate: minDate,
+                    defaultDate: minDate,
+                    beforeShowDay: selectableDays,
+                });
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    }
+
+    $(".selectDate button").on("click", function () {
+        var _this = $(this);
+
+        day = _this.attr("data-days");
+
+        var str = "";
+
+        switch(day)
+        {
+            case "all":
+                str = "n";
+                break;
+            case "0":
+                str = "7n + 1";
+                break;
+            case "1":
+                str = "7n + 2";
+                break;
+            case "2":
+                str = "7n + 3";
+                break;
+            case "3":
+                str = "7n + 4";
+                break;
+            case "4":
+                str = "7n + 5";
+                break;
+            case "5":
+                str = "7n + 6";
+                break;
+            case "6":
+                str = "7n + 7";
+                break;
+        }
+
+        $("#datepicker table td:nth-child(" + str + ")").find("a").each(function () {
+            var date = new Date();
+            var day = $(this).text();
+
+            var month = $(this).parent().attr("data-month");
+
+            date.setMonth(month);
+
+            //$('#datepicker').multiDatesPicker({
+            //    addDates: [date.setDate(day)]
+            //});
+
+            $('#datepicker').multiDatesPicker('addDates', [date.setDate(day)]);
+        });
+    });
+
+    function zeroNum(num) {
+        var rNum = num;
+
+        if (rNum.length < 2) {
+            rNum = "0" + rNum
+        }
+
+        return rNum;
+    }
+
+    function selectableDays(date) {
+
+        var dayOfMonth = date.getDate();
+
+        var dummy = zeroNum(date.getFullYear().toString()) + "-" + zeroNum((date.getMonth() + 1).toString()) + "-" + zeroNum(date.getDate().toString());
+
+        var state = $.map(dates, function (obj) { return obj.state });
+        var arrayDays = $.map(dates, function (obj) { return obj.day });
+
+        var trfCode = $.map(dates, function (obj) { return obj.TRF_SEQ });
+        var prcCode = $.map(dates, function (obj) { return obj.PRC_SEQ });
+
+        var idx;
+
+        if ($.inArray(dummy, arrayDays) > -1) {
+            var className = "";
+
+            idx = arrayDays.indexOf(dummy);
+
+            switch (state[idx]) {
+                case "01":
+                    className += "bg_grn";
+                    break;
+                case "02":
+                    className += "bg_gry";
+                    break;
+                case "03":
+                    className += "bg_blu";
+                    break;
+                case "04":
+                    className += "bg_red";
+                    break;
+                default:
+                    className = "";
+                    break;
+            }
+
+            return [true, className];
+        }
+
+        return [true, ""];
+    }
+
+    $(".uptBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.dayForm,
+            ErMsg = "",
+            focusEl,
+            isSub = true,
+            url = "/Hotel/udtDays";
+
+        var seq = f.seq.value,
+            prcCD = f.prcCD.value;
+
+        var state = $(this).attr('data-state');
+
+        if (prcCD == null || prcCD == undefined || prcCD == "") {
+            alert("판매가를 선택해 주세요.");
+            f.prcCD.focus();
+            return;
+        }
+
+        var dates = $("#datepicker").multiDatesPicker('getDates');
+
+        if (dates == null || dates == undefined || dates == "") {
+            alert("판매일을 선택해 주세요.");
+            return;
+        }
+
+        $(".uptBtn").attr("disabled", true);
+
+        var datas = { seq: seq, prcCode: prcCD, type: state, days: dates };
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datas,
+            success: function (data) {
+                $(".uptBtn").attr("disabled", false);
+
+                $("#datepicker").datepicker("destroy");
+                getDate();
+
+                $("#datepicker").multiDatesPicker('resetDates');
+
+                $("#chkDays_" + code).prop("checked", true);
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+
+    });
+</script>

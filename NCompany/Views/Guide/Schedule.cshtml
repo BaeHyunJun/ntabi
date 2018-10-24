@@ -1,0 +1,317 @@
+﻿@{
+    Layout = null;
+
+    DateTime now = DateTime.Now;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="Viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <title>엔데이트립 가이드 스케쥴러</title>
+
+    @Styles.Render("~/Content/css")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.css" />
+
+    <script src="~/Scripts/lib/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/locale-all.js"></script>
+
+    <style>
+        html, body {
+            padding: 0;
+            background: white;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            max-width: 450px;
+            position: relative;
+            min-width: auto;
+            min-height: auto;
+            margin: 0 auto;
+        }
+
+        section.Gcontainer
+        /*section.Gcontainer > article*/
+        /*section.Gcontainer > article > ul*/
+        {
+            height: 100%;
+        }
+        
+        section.Gcontainer > article
+        {
+            position: relative;
+            padding-bottom: 60px;
+        }
+
+        section.Gcontainer > div.navbar-header
+        {
+            margin: 0;
+        }
+        
+        section.Gcontainer > article > ul
+        {
+            padding: 0;
+            margin: 0;
+            padding-top: 50px;
+            list-style: none;
+            font-size: 0;
+            position: relative;
+        }
+        
+        section.Gcontainer > article > ul > li
+        {
+            height: 12.5%;
+            height: 60px;
+            padding: 2%;
+            position: relative;
+            font-size: 14px;
+            border-bottom: 1px solid #777;
+        }
+        
+        section.Gcontainer > article > ul > li.today
+        {
+            background-color: #fcf8e3;
+        }
+        
+        section.Gcontainer > article > ul > li h4
+        {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            margin-top: -13px;
+            left: 0;
+            margin-left: 2%;
+            width: 20%;
+        }
+        
+        section.Gcontainer > article > ul > li p
+        {
+            position: absolute;
+            left: 25%;
+            bottom: 10%;
+            margin: 0;
+            padding: 0;
+            right: 2%;
+        }
+        
+        section.Gcontainer > article > ul > li p.title
+        {
+            top: 10%;
+            bottom: initial;
+        }
+        
+        section.Gcontainer > article > ul > li.noCourse p.title
+        {
+            top: 50%;
+            margin-top: -8px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        section.Gcontainer > article > ul > li p > span
+        {
+            width: 65%;
+            float: left;
+        }
+        
+        section.Gcontainer > article > ul > li p > span.cnt
+        {
+            width: 35%;
+        }
+        
+        section.Gcontainer > article > button
+        {
+            position: absolute;
+            bottom: 1%;
+            left: 2%;
+            right: 2%;
+            width: 96%;
+            height: 6%;
+            height: 45px;
+        }
+    </style>
+</head>
+<body>
+    <section class="Gcontainer">
+        <div class="navbar-header navbar navbar-default navbar-fixed-top">
+            <button type="button" class="btn btn-default pull-right" style="background-color: transparent; border: 1px solid black; margin: 8px;">
+                <i class="glyphicon glyphicon-cog"></i>
+            </button>
+
+            <a class="navbar-brand" href="/Guide">Guide</a>
+        </div>
+        <article>
+            <ul>
+                @{
+                    string key = "",
+                           date = "",
+                           title = "",
+                           cnt = "",
+                           car = "",
+                           fDate = "";
+                    
+                    foreach (object item in Model)
+                    {
+                        key = "";
+                        date = "";
+                        title = "";
+                        cnt = "";
+                        car = "";
+                        fDate = "";
+                        
+                        try { key = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                        try { date = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                        try { title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                        try { cnt = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+                        try { car = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+                        try { fDate = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { continue; }
+                        
+                        <li>
+                            <a href="/Guide/Views?date=@fDate&key=@key">
+                                <h4>@date</h4>
+                                <p class="title">@title</p>
+                                <p>
+                                    <span class="cnt">인원 : @cnt 명</span>
+                                    <span class="car">차량 : @car</span>
+                                </p>
+                            </a>
+                        </li>
+                    }
+                }
+                <li>
+                    <a href="/Guide/Views">
+                        <h4>10/25</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="today">
+                    <a href="/Guide/Views">
+                        <h4>10/26</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Guide/Views">
+                        <h4>10/27</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Guide/Views">
+                        <h4>10/28</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="noCourse">
+                    <h4>10/29</h4>
+                    <p class="title">해당 날짜에 일정이 존재하지 않습니다.</p>
+                </li>
+                <li>
+                    <a href="/Guide/Views">
+                        <h4>10/30</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Guide/Views">
+                        <h4>10/31</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Guide/Views">
+                        <h4>10/31</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Guide/Views">
+                        <h4>10/31</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Guide/Views">
+                        <h4>10/31</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Guide/Views">
+                        <h4>10/31</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Guide/Views">
+                        <h4>10/31</h4>
+                        <p class="title">코스명</p>
+                        <p>
+                            <span class="cnt">인원 : 00명</span>
+                            <span class="car">차량 : 엔데이트립 봉고</span>
+                        </p>
+                    </a>
+                </li>
+            </ul>
+            <button class="btn btn-default">더보기</button>
+        </article>
+    </section>
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+
+</body>
+</html>
+

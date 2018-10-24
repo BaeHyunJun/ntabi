@@ -1,0 +1,172 @@
+﻿@{
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+
+    string userAgent = Request.UserAgent;
+    string[] browser = { "iphone", "ipod", "ipad", "android", "blackberry", "windows ce", "nokia", "webos", "opera mini", "sonyericsson", "opera mobi", "iemobile", "windows phone" };
+    bool isMobile = false;
+
+    for (int iasd = 0; iasd < browser.Length; iasd++)
+    {
+        if (userAgent.ToLower().Contains(browser[iasd]))
+        {
+            isMobile = true;
+            break;
+        }
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <title>엔데이트립 가이드 웹</title>
+
+    @Styles.Render("~/Content/css")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/earlyaccess/nanumbrushscript.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/earlyaccess/nanumpenscript.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
+    <style>
+        * {
+            font-family: "Noto Sans KR" !important;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            max-width: 450px;
+            position: relative;
+            min-width: auto;
+            min-height: auto;
+            margin: 0 auto;
+        }
+
+        a {
+            color: black;
+        }
+
+        p,
+        h5 {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+            overflow: hidden;
+            width: 90%;
+        }
+
+        .bx-wrapper
+        {
+            border: 0;
+        }
+
+        #loginForm
+        {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            text-align: right;
+        }
+
+        #loginForm h4
+        {
+            line-height: 30px;    
+            padding-right: 5%;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            $('.slider').bxSlider({
+                mode: 'fade',
+                randomStart: true,
+                touchEnabled: false,
+                pager: false,
+                controls: false,
+                auto: true,
+                speed: 5000,
+                pause: 30000,
+            });
+        });
+    </script>
+</head>
+<body>
+    <div style="position: absolute; left: 0; right: 0; top: 0; z-index: 9;">
+        <div>
+            <div style="text-align: center; margin: 30px;">
+                <a href="/Guide">
+                    <img class="logo" src="~/Content/images/guide/guide_logo.png" alt="엔데이트립 가이드" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <section style="position: absolute; left: 0; right: 0; top: 0; bottom: 0;">
+        <article style="position: relative; height: 100%;">
+            <div class="slider">
+                <div><img src="~/Content/Images/guide/layer1.jpg" alt="배경이미지" style="width: 100%;" /></div>
+                <div><img src="~/Content/Images/guide/layer2.jpg" alt="배경이미지" style="width: 100%;" /></div>
+                <div><img src="~/Content/Images/guide/layer3.jpg" alt="배경이미지" style="width: 100%;" /></div>
+            </div>
+
+            @*<img src="/Content/Images/home/main_20170825.jpg" alt="배경이미지" style="width: 100%;" />
+            <div style="position: absolute; left: 0; bottom: 0; right: 20px; margin-top: -30px; text-align: right;">
+                <p style="color: white; font-size: 20px; border-bottom: 1px solid white; display: inline;">"N" Company 관리자 페이지 입니다.</p>
+                <h4 style="font-size: 26px; color: white; font-weight: bold;">엔데이트립</h4>
+            </div>*@
+        </article>
+    </section>
+
+
+    <section id="loginForm">
+        @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.Hidden("redirect", "/Guide/Schedule")
+            @Html.AntiForgeryToken()
+            <h4>"N" Company 가이드 페이지 입니다. <br/>가이드 아이디로 로그인 해주세요.</h4>
+            <hr />
+    
+            <div class="form-group input-group" style="max-width: 300px; color: black; float: right; padding-right: 5%;">
+                <div class="input-group-addon">아 이 디</div>
+                <input type="text" name="loginID" class="form-control" />
+            </div>
+            <div class="form-group input-group" style="max-width: 300px; color: black; float: right; padding-right: 5%;">
+                <div class="input-group-addon">비밀 번호</div>
+                <input type="password" name="loginPWD" class="form-control" />
+            </div>
+            <div class="form-group input-group" style="width: 100%; color: black; text-align: right; padding-right: 5%;">
+                <button class="btn btn-primary">로그인</button>
+            </div>
+        }
+    </section>
+
+
+
+    @*@if (!isMobile)
+    {
+        <article class="pop-al" style="position: fixed; left: 0; right: 0; top: 0; bottom: 0; max-width: 450px; margin: 0 auto; background: rgba(0,0,0,.5); z-index: 9999; text-align: center;">
+            <div style="color: white; font-size: 16px; padding: 20px; border: 2px solid white; display: inline-block; text-align: center; margin-top: 200px;">
+                모바일 최적화 홈페이지입니다.<br />
+                모바일로 접근해주세요.<br /><br />
+            </div>
+        </article>
+    }*@
+</body>
+</html>

@@ -1,0 +1,208 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    ul.pdtLists2 > li,
+    ul.pdtLists > li {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+        ul.pdtLists2 > li > a {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+            width: 85%;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        ul.pdtLists2 > li > span.rmBtn {
+            cursor: pointer;
+        }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 500px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">상품홍보?</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="select_hotels">
+                <div class="tab-content">
+                    <ul class="pdtLists2" style="border-bottom: 1px solid #ddd;">
+
+                        @{
+                            string code = "",
+                                   text = "",
+                                   pdtcode = "",
+                                   pdtkey = "";
+
+                            foreach (object item in Model)
+                            {
+                                code = "";
+                                text = "";
+                                pdtcode = "";
+                                pdtkey = "";
+
+                                try { code = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                                catch { continue; }
+                                try { text = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                                catch { continue; }
+                                try { pdtcode = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                                catch { continue; }
+                                try { pdtkey = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                                catch { continue; }
+
+                                <li>
+                                    <a href="#" data-idx="@code" data-code="@pdtcode" data-key="@pdtkey">
+                                        @text
+                                    </a>
+                                    <span class="pull-right rmBtn">
+                                        삭제
+                                    </span>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+            </div>
+            <input type="hidden" name="code" value="" />
+            <input type="hidden" name="key" value="" />
+            <div class="input-group istTxt title" style="width: 100%; margin-top: 20px;">
+                <input type="text" class="form-control">
+                <span class="input-group-btn">
+                    <button class="btn btn-default istTxtBtn" type="button">등록</button>
+                </span>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-toggle="popup" data-target="getProduct">검색</button>
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('button[data-toggle="popup"]').on("click", function (e) {
+            e.preventDefault();
+
+            var _this = $(this),
+                rUrl = "@Request.Url.PathAndQuery",
+                target = _this.attr('data-target'),
+                url = '/Reserve/' + target;
+
+            var datas = {};
+
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        });
+
+        $("ul.pdtLists2").delegate("a", "click", function (e) {
+            e.preventDefault();
+
+            var _this = $(this),
+                text = _this.text(),
+                code = _this.attr("data-code"),
+                key = _this.attr("data-key");
+
+            $.ajax({
+                type: "POST",
+                url: "/Products/JSON_getImage",
+                data: { code: code, key: key },
+                success: function (data) {
+                    $("#message_area").val("");
+
+                    var message = '<div style="width: 300px; border: 1px solid #ddd; background-color: white; text-align: center;">' +
+                                    '<div>' +
+                                        '<img src="' + data + '" alt="' + text.trim() + '" style="width: 100%;">' +
+                                    '</div>' +
+                                    '<span style="display: inline-block; width: 100%; padding: 5px; font-size: 16px; font-weight: bold;">' + text.trim() + '</span>' +
+                                    '<a href="http://ntabi.kr/Products/Views?C=' + code + '&K=' + key + '" target="_blank" style="display: inline-block; padding: 5px 50px; border: 1px solid #ddd; background-color: #cde2d2; margin: 10px 0;">바로가기</a>' +
+                                '</div>';
+
+                    $("#message_area").val(message);
+                    $(".sendMSG").click();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                    $("button[data-dismiss=modal]").click();
+                }
+            });
+        });
+
+        $(".istTxtBtn").on("click", function () {
+            var _this = $(this),
+                txt = _this.parents(".istTxt").find("input"),
+                url = "/Community/JSON_updateTxt",
+                ul = $("ul.pdtLists2"),
+                code = $("input[name=code]").val(),
+                key = $("input[name=key]").val();
+
+            if (code == "" || code == undefined)
+            {
+                alert("상품을 먼저 검색해주세요.");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { txt: txt.val(), code: code, key: key },
+                success: function (data) {
+                    html = "<li><a href='#' data-idx='" + data + "' data-code='" + code + "' data-key='" + key + "'>" + txt.val() + "</a><span class='pull-right rmBtn'>삭제</span></li>";
+
+                    ul.append(html);
+
+                    txt.val("");
+                    $("input[name=code]").val(""),
+                    $("input[name=key]").val("");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $(".rmBtn").on("click", function () {
+            var _this = $(this),
+                idx = _this.prev().attr("data-idx"),
+                url = "/Community/JSON_rmTxt",
+                li = _this.parents("li");
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { idx: idx },
+                success: function () {
+                    li.remove();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+        });
+    });
+</script>

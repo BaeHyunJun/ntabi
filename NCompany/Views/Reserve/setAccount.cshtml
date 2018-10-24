@@ -1,0 +1,184 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="modal-dialog" role="document" style="width: 800px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">입금/환불 처리</h4>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("setACC", "Reserve", FormMethod.Post, new { enctype = "multipart/form-data", name = "uploadForm", style = "overflow:hidden;" }))
+            {
+                <input type="hidden" name="REV_DAY" value="@Request["revDay"]" />
+                <input type="hidden" name="REV_SEQ" value="@Request["revSeq"]" />
+
+                <div class="row form-group">
+                    <div class="form-group input-group col-md-3">
+                        <div class="input-group-addon">타입</div>
+                        <select class="form-control" name="type">
+                            <option value="">선택</option>
+                            <option value="BANK">은행 입금</option>
+                            <option value="CARD">카드 결제</option>
+                            <option value="CASH">현금 결제</option>
+                            <option value="REFD">환불</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group col-md-3">
+                        <div class="input-group-addon">세부</div>
+                        <select class="form-control" name="detail">
+                            <option value="">선택</option>
+                        </select>
+                    </div>
+                    @*<div class="form-group input-group col-md-3">
+                        <div class="input-group-addon">화폐</div>
+                        <select class="form-control" name="currency">
+                            <option value="">선택</option>
+                            <option value="KRW" selected="selected">₩</option>
+                            <option value="JPY">¥</option>
+                            <option value="USD">$</option>
+                        </select>
+                    </div>*@
+                    <div class="form-group input-group col-md-3">
+                        <div class="input-group-addon">금액</div>
+                        <input type="text" class="form-control" maxlength="10" name="price" />
+                    </div>
+
+
+                    <div class="form-group input-group col-md-3">
+                        <div class="input-group-addon">입금일</div>
+                        <input type="text" class="form-control datepicker" maxlength="8" name="date" readonly="readonly" style="background-color: white; cursor: pointer;" />
+                    </div>
+                    <div class="form-group input-group col-md-3">
+                        <div class="input-group-addon">입금자</div>
+                        <input type="text" class="form-control" maxlength="10" name="name" />
+                    </div>
+                    @*<div class="form-group input-group col-md-3">
+                        <div class="input-group-addon">등록일</div>
+                        <input type="text" class="form-control" maxlength="8" readonly="readonly" /> 
+                    </div>
+                    <div class="form-group input-group col-md-3">
+                        <div class="input-group-addon">등록자</div>
+                        <input type="text" class="form-control" maxlength="10" readonly="readonly" />
+                    </div>*@
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">등록</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //var minDate = new Date();
+
+        $("input[name='date']").datepicker({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전',
+            nextText: '이후',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            //minDate: minDate,
+        });
+
+        $("button#uptBtn").on("click", function () {
+            var f = document.uploadForm,
+                type = f.type,
+                detail = f.detail,
+                //currency = f.currency,
+                price = f.price,
+                date = f.date,
+                name = f.name;
+
+            if (type.value == "" || type.value == undefined) {
+                alert("타입을 선택해주세요.");
+                type.focus();
+                return;
+            }
+
+            if (detail.value == "" || detail.value == undefined) {
+                alert("세부를 선택해주세요.");
+                detail.focus();
+                return;
+            }
+
+            //if (currency.value == "" || currency.value == undefined) {
+            //    alert("화폐를 선택해주세요.");
+            //    currency.focus();
+            //    return;
+            //}
+
+            if (price.value == "" || price.value == undefined) {
+                alert("금액을 입력해주세요.");
+                price.focus();
+                return;
+            }
+
+            if (date.value == "" || date.value == undefined) {
+                alert("입금일을 선택해주세요.");
+                date.focus();
+                return;
+            }
+
+            if (name.value == "" || name.value == undefined) {
+                alert("입금자를 입력해주세요.");
+                name.focus();
+                return;
+            }
+
+            f.submit();
+        });
+
+        $("select[name='type']").on("change", function () {
+            var _this = $(this),
+                code = _this.val(),
+                options = "<option value='CASH'>현금</option>";
+
+            if (code == "CARD")
+            {
+                var url = "/Reserve/JSON_getDetail";
+                var datas = { code: code };
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: datas,
+                    success: function (data) {
+                        options = "";
+
+                        for (i in data)
+                        {
+                            options += "<option value='" + data[i].DET_SEQ + "'>" + data[i].DET_NAME + "</option>";
+                        }
+
+                        $("select[name='detail']").html(options);
+                    }
+                    , beforeSend: function () {
+                        $('#loading').show();
+                    }
+                    , complete: function () {
+                        $('#loading').hide();
+                    }
+                });
+            } else if (code == "REFD") {
+                options += "<option value='BANK'>은행 입금</option><option value='CARD'>카드 취소</option>";
+
+                $("input[name=date]").prev().text("환불 일");
+                $("input[name=name]").prev().text("환불고객");
+
+                $("select[name='detail']").html(options);
+            } else {
+                $("select[name='detail']").html(options);
+            }
+        });
+    });
+</script>

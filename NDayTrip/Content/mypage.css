@@ -1,0 +1,332 @@
+﻿
+a,
+a:hover,
+a:focus
+{
+    color: black;
+    text-decoration: none;
+}
+
+h5
+{
+    display: inline;
+}
+
+ul
+{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 0;
+}
+
+section.mypage
+{
+    padding: 50px 0 60px;
+}
+    
+section.mypage > h3
+{
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+    
+section.mypage > span
+{
+    width: 10%;
+    margin-left: 45%;
+    height: 3px;
+    display: block;
+    background-color: #a0ce54;
+}
+    
+section.mypage > ul
+{
+    padding: 0;
+    list-style: none;
+    font-size: 0;
+    margin: 6px;
+    overflow: hidden;
+}
+    
+section.mypage > ul li
+{
+    font-size: 16px;
+    line-height: 30px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-top: none;
+}
+    
+section.mypage > ul.set li
+{
+    float: left;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #ddd;
+    width: 33.333%;
+    padding: 18px 0 5px;
+    line-height: 35px;
+    border-left: 0; 
+}
+    
+section.mypage > ul li:first-child
+{
+    border-top: 1px solid #ddd;
+}
+    
+section.mypage > ul.set li:first-child
+{
+    border-left: 1px solid #ddd;
+}
+    
+section.mypage > ul.set li a.in
+{
+    color: #a0ce54;
+}
+    
+section.mypage article.cont ul.revList
+{
+    padding: 0;
+}
+    
+section.mypage article.cont ul.revList li
+{
+    overflow: hidden;
+    padding: 5px;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+}
+
+section.mypage article.cont ul.revList li figure
+{
+    width: 35%;
+    padding-bottom: 35%;
+    background-size: cover;
+    margin: 0;
+    float: left;
+}
+
+section.mypage article.cont ul.revList li figcaption
+{
+    width: 65%;
+    padding: 0 0 0 10px;
+    text-align: left;
+    float: left;
+    box-sizing: border-box;
+    padding-bottom: 35%;
+    position: relative;
+}
+
+section.mypage article.cont ul.revList li figcaption > h3
+{
+    font-size: 14px;
+    font-weight: bolder;
+    color: #222;
+    margin: 0;
+    line-height: 18px;
+    position: absolute;
+    right: 5px;
+    top: 0;
+    width: 95%;
+}
+
+section.mypage article.cont ul.revList li figcaption > p
+{
+    font-size: 14px;
+    line-height: 18px;
+    color: #222;
+    font-weight: bold;
+    letter-spacing: -1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 5px 0;
+    text-align: right;
+    position: absolute;
+    right: 5px;
+    bottom: 0;
+}
+
+section.mypage article.cont ul.revList li div.chkState
+{
+    width: 100%;
+    float: left;
+    border-top: 1px solid #ddd;
+    margin-top: 9px;
+    padding-top: 5px;
+    color: #01790d;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+section.mypage article.cont ul.revList li div.chkState span
+{
+    float: right;
+}
+
+
+section.mypage_reserve
+{
+    margin-top: 70px;
+}
+    
+section.mypage_reserve ul.ticket,
+section.mypage_reserve ul.account,
+section.mypage_reserve ul.ch
+{
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+section.mypage_reserve ul.ticket > li,
+section.mypage_reserve ul.account > li,
+section.mypage_reserve ul.ch > li.header
+{
+    color: #474747;
+    padding: 20px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
+
+section.mypage_reserve ul.ch > li
+{
+    font-size: 14px;
+    padding: 5px 10px;
+}
+    
+section.mypage_reserve ul.ticket li.header,
+section.mypage_reserve ul.account li.header,
+section.mypage_reserve ul.ch > li.header
+{
+    background-color: #a0ce54;
+    text-align: left;
+    border-top: none;
+}
+    
+section.mypage_reserve ul.ticket li.line1,
+section.mypage_reserve ul.account li.line1
+{
+    overflow: hidden;
+}
+
+section.mypage_reserve ul.ticket li span
+{
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+}
+
+section.mypage_reserve ul.ticket li p
+{
+    margin: 0;
+}
+
+section.mypage_reserve ul.ticket li span.cont,
+section.mypage_reserve ul.account li span.cont
+{
+    font-size: 16px; 
+}
+
+section.mypage_reserve ul.ticket li.header span.cont,
+section.mypage_reserve ul.account li.header span.cont,
+section.mypage_reserve ul.ch li.header span.cont
+{
+    color: white;
+}
+
+section.mypage_reserve ul.ticket li span.tit {
+    text-align: left;
+}
+    
+section.mypage_reserve ul.ticket li.line1 span,
+section.mypage_reserve ul.account li.line1 span
+{
+    color: #474747;
+    float: right;
+}
+
+section.mypage_reserve ul.ticket li.line1 span.tit,
+section.mypage_reserve ul.account li.line1 span.tit
+{
+    float: left;
+}
+
+section.mypage_reserve ul.ticket ul.emp
+{
+    padding-left: 20px;
+    list-style: circle;
+    margin: 10px 10px 0;
+}
+
+section.mypage_reserve ul.ticket ul.emp li
+{
+    font-size: 14px;
+    text-align: left;
+}
+
+section.mypage_reserve ul.account li.account-cont span.glyphicon
+{
+    font-size: 16px;
+}
+
+section.mypage_reserve ul.account li.account-cont > ul
+{
+    display: none;
+    clear: both;
+    border-left: 10px solid #ccc;
+    margin-top: 40px;
+}
+
+section.mypage_reserve ul.account li.account-cont > ul > li
+{
+    border: 1px solid #ccc;
+    font-size: 14px;
+    padding: 5px 8px;
+    margin-top: 30px;
+    overflow: hidden;
+    border-left: 0;
+    position: relative;
+}
+
+section.mypage_reserve ul.account li.account-cont > ul > li:first-child
+{
+    margin: 0;
+}
+
+section.mypage_reserve ul.account li.account-cont > ul > li > span
+{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+section.mypage_reserve ul.account li.account-cont > ul > li > span.tit
+{
+    position: static;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+section.mypage_reserve ul.account li.account-cont > ul > li > ul
+{
+    text-align: left;
+    clear: both;
+}
+
+section.mypage_reserve ul.account li.account-cont > ul > li > ul > li
+{
+    font-size: 14px;
+    overflow: hidden;
+}

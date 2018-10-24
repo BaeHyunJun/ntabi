@@ -1,0 +1,184 @@
+﻿@using NDayTrip.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string type = Request["type"];
+
+    var user = Session["user"] as User;
+}
+
+<style>
+    section.community {
+        margin: 0;
+        padding: 55px 0 50px;
+    }
+
+        section.community form ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-size: 0;
+            line-height: 40px;
+            font-weight: bold;
+        }
+
+            section.community form ul li {
+                font-size: 14px;
+            }
+
+                section.community form ul li > div.userName {
+                    display: inline;
+                }
+
+                section.community form ul li > div > select,
+                section.community form ul li > div > input {
+                    width: 30%;
+                    height: 40px;
+                    padding: 10px;
+                }
+
+                section.community form ul li > div > span {
+                    width: 5%;
+                }
+
+                section.community form ul li > input {
+                    width: 100%;
+                    height: 40px;
+                    padding: 10px;
+                }
+
+                section.community form ul li > div.pdt > select {
+                    width: 49%;
+                    height: 40px;
+                    padding: 10px;
+                }
+
+                section.community form ul li > textarea {
+                    width: 100%;
+                    height: 200px;
+                    padding: 5px;
+                    line-height: 24px;
+                }
+
+        section.community form div.btnGroup {
+            margin: 10px 0 20px;
+            font-size: 0;
+        }
+
+            section.community form div.btnGroup > a {
+                width: 49%;
+                border-radius: 0;
+                background: #434343;
+                color: white;
+                border: none;
+            }
+
+            section.community form div.btnGroup a.listBtn {
+                background: #ccc;
+                float: right;
+            }
+</style>
+
+
+<section class="community">
+    <article>
+        <form name="writeForm">
+            <input type="hidden" name="type" value="@type" />
+            @*<input type="hidden" name="key" value="" />*@
+            <ul>
+                <li>
+                    <span class="tit">작성자 : </span>
+                    <div class="userName">@user.Name</div>
+                </li>
+                @*
+                <li>
+                    <span class="tit">연락처</span>
+                    <div>
+                        <select name="phone1">
+                            <option value="010">010</option>
+                            <option value="011">011</option>
+                            <option value="016">016</option>
+                            <option value="017">017</option>
+                            <option value="018">018</option>
+                        </select>
+                        <span>-</span>
+                        <input type="number" maxlength="4" name="phone2" />
+                        <span>-</span>
+                        <input type="number" maxlength="4" name="phone3" />
+                    </div>
+                </li>
+                <li>
+                    <span class="tit">이메일</span>
+                    <input type="text" name="email" />
+                </li>
+                *@
+                <li>
+                    <span class="tit">제목</span>
+                    <input type="text" name="title" />
+                </li>
+                @*
+                <li>
+                    <span class="tit">구분</span>
+                    <div class="pdt">
+                        <select name="area">
+                            <option>지역</option>
+                        </select>
+                        <select name="pdt">
+                            <option>상품</option>
+                        </select>
+                    </div>
+                </li>
+                *@
+                <li>
+                    <span class="tit">내용</span>
+                    <textarea name="content" placeholder="내용을 입력해주세요."></textarea>
+                </li>
+            </ul>
+
+            <div class="btnGroup">
+                <a href="#" class="btn btn-default updateBtn">확인</a>
+                <a href="/Community" class="btn btn-default listBtn">취소</a>
+            </div>
+        </form>
+    </article>
+</section>
+
+<div class="fMenu">
+    <ul>
+        <li><a href="/Products">@*LOCAL*@<img src="~/Content/Images/home/ICON_LOC.png" /></a></li>
+        <li><a href="https://www.booking.com/?aid=1294434" target="_blank">@*HOTEL*@<img src="~/Content/Images/home/ICON_HOTEL.png" /></a></li>
+        <li><a href="http://www.timescar-rental.kr/af/7822000010/kr/" target="_blank">@*RENTCAR*@<img src="~/Content/Images/home/ICON_CAR.png" /></a></li>
+        <li class="active"><a href="/Community">SOCIAL@*<img src="~/Content/Images/home/ICON_COM.png" />*@</a></li>
+        <li><a href="/Mypage">@*MYPAGE*@<img src="~/Content/Images/home/ICON_MY.png" /></a></li>
+    </ul>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $(".updateBtn").on("click", function () {
+            var f = document.writeForm;
+
+            if (f.title.value == "") {
+                alert("제목을 입력해 주세요.");
+                return false;
+            }
+
+            if (f.content.value == "") {
+                alert("내용을 입력해 주세요.");
+                return false;
+            }
+
+            if ("@user" == "") {
+                alert("로그인을 하셔야 글 등록이 진행됩니다.");
+                location.href = "/Home/NDTLogin?r=" + url;
+                return false;
+            }
+
+            f.action = "/Community/Update";
+            f.method = "post";
+            f.submit();
+        });
+    });
+
+</script>

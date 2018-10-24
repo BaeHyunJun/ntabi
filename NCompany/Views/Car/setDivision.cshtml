@@ -1,0 +1,168 @@
+﻿@{    
+    Layout = null;
+
+    var seq = ViewBag.seq;
+    var subnum = ViewBag.subnum;
+    var title = ViewBag.title;
+    var date = ViewBag.date;
+    var area = ViewBag.area;
+
+    var guideData = ViewBag.guide;
+
+    string out1 = "",
+           out2 = "";
+
+    string COU_EMP_NO = "";
+    
+    string selected = "selected='selected'";
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">행사 나누기</h4>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("updateCourse", "Car", FormMethod.Get, new { enctype = "multipart/form-data", name = "dvForm", @class = "dvForm" }))
+            {
+            <input type="hidden" name="seq" value="@seq" />
+            <input type="hidden" name="area" value="@area" />
+            <input type="hidden" name="sub_num" value="@subnum">
+            <input type="hidden" name="mode" value="u" />
+
+            <div class="form-group input-group col-md-12">
+                <div class="input-group-addon">투어 날짜</div>
+                <input type="text" name="date" class="form-control" value="@date" readonly="readonly" style="background: white;" />
+            </div>
+
+            <div class="form-group input-group col-md-12">
+                <div class="input-group-addon">투어 지역</div>
+                <select class="form-control" style="background: white;" disabled="disabled">
+                    <option value="HOK">홋카이도</option>
+                    <option value="OSA">오사카</option>
+                    <option value="TOK">도쿄</option>
+                    <option value="KYU">규슈</option>
+                    <option value="TSU">대마도</option>
+                    <option value="OKI">오키나와</option>
+                </select>
+            </div>
+
+            <div class="form-group input-group col-md-12" style="width: 100%;">
+                <div class="input-group-addon">행사 이름</div>
+                <input type="text" name="title" class="form-control" value="@title" />
+            </div>
+
+            <div class="form-group input-group col-md-12">
+                <div class="input-group-addon">차량 종류</div>
+                <select name="type" class="form-control pull-left">
+                    <option value="">선택</option>
+                    <option value="LBS">대형 버스</option>
+                    <option value="MBS">중형 버스</option>
+                    <option value="SBS">소형 버스</option>
+                    <option value="14">14 인승</option>
+                    <option value="10">10 인승</option>
+                    <option value="8">8 인승</option>
+                    <option value="6">6 인승</option>
+                </select>
+            </div>
+
+            <div class="form-group input-group col-md-12">
+                <div class="input-group-addon">차량 선택</div>
+                <select name="car" class="form-control">
+                    <option value="">선택</option>
+                </select>
+            </div>
+
+            <div class="form-group input-group col-md-12">
+                <div class="input-group-addon">가 이 드</div>
+                <select name="guide" class="form-control">
+                    <option value="">선택</option>
+                        @try
+                        {
+                            foreach (object item in guideData)
+                            {
+                                out1 = "";
+                                out2 = "";
+
+                                try { out1 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                                try { out2 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+
+                                //if (COU_DRIVER == out2)
+                                //{
+                                //    COU_DRIVER = "";
+                                //}
+
+                                <option value="@out1" @if (COU_EMP_NO == out1) { @selected }>@out2</option>
+
+                                @*<option value="@out1">@out2</option>*@
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                        }
+                </select>
+
+            </div>
+
+            <div class="form-group input-group col-md-12">
+                <div class="input-group-addon">운전 기사</div>
+                <input type="text" name="driver" class="form-control" value="" />
+            </div>
+
+            <div class="form-group input-group col-md-12">
+                <div class="input-group-addon">특이 사항</div>
+                <textarea name="note" class="form-control"></textarea>
+            </div>
+
+    <button class="btn btn-primary dvBtn" type="button" style="margin-top: 10px;">나누기</button>
+            }
+        </div>
+        <div class="modal-footer" style="margin-top: 0;">
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("button.dvBtn").on("click", function () {
+            var f = document.dvForm;
+
+            f.submit();
+        });
+
+        $(".dvForm select[name='type']").on("change", function () {
+            var f = document.dvForm,
+                area = f.area,
+                type = f.type;
+
+            if (type.value == "") {
+                return;
+            }
+
+            var url = "/Car/JSON_getCar";
+            var datas = { type: type.value };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].CAR_SEQ + '">' + data[i].CAR_NAME + ' (' + data[i].CAR_REG_NUM + ')</option>';
+                    }
+
+                    $(".dvForm select[name='car']").html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

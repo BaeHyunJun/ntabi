@@ -1,0 +1,272 @@
+﻿@using NCompany.Models;
+
+@{
+    Layout = null;
+    
+    string idx = "",
+           id = "",
+           title = "",
+           brand = "",
+           price_pc = "",
+           price_mobile = "",
+           link = "",
+           mobile_link = "",
+           image_link = "",
+           category_name1 = "",
+           category_name2 = "",
+           category_name3 = "",
+           category_name4 = "",
+           search_tag = "",
+           event_words = "",
+           attribute = "",
+           mode = "i",
+           selected = "selected='selected'",
+           btnTxt = "등록";
+
+    if (Model != null)
+    {
+        foreach (naver item in Model)
+        {
+            idx = item.index.ToString();
+            id = item.id.ToString();
+            title = item.title.ToString();
+            brand = item.brand.ToString();
+            price_pc = item.price_pc.ToString();
+            price_mobile = item.price_mobile.ToString();
+            link = item.link.ToString();
+            mobile_link = item.mobile_link.ToString();
+            image_link = item.image_link.ToString();
+            category_name1 = item.category_name1.ToString();
+            category_name2 = item.category_name2.ToString();
+            category_name3 = item.category_name3.ToString();
+            category_name4 = item.category_name4.ToString();
+            search_tag = item.search_tag.ToString();
+            event_words = item.event_words.ToString();
+            attribute = item.attribute.ToString();
+        }
+
+        mode = "u";
+        btnTxt = "수정";
+    }
+}
+
+<link rel="stylesheet" href="~/Content/bootstrap-tagsinput.css">
+
+<style>
+    .label-info {
+        background-color: #a0ce54;
+    }
+
+    .bootstrap-tagsinput {
+        width: 100%;
+    }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<script src="~/Scripts/bootstrap-tagsinput.min.js"></script>
+
+<div class="modal-dialog" role="document" style="width: 840px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">상품 등록</h4>
+        </div>
+        <div class="modal-body">
+            <form name="pdtForm" method="post" action="/naver/updatePdt">
+                <input type="hidden" name="mode" value="@mode" />
+                <input type="hidden" name="idx" value="@idx" />
+                @*<input type="hidden" name="redirect" value="/Products" />*@
+                <input type="hidden" name="key" value="" />
+
+                @* 필수 입력 *@
+                <input type="hidden" name="id" value="@id" />
+                <input type="hidden" name="price_pc" value="@price_pc" />
+                <input type="hidden" name="link" value="@link" />
+                <input type="hidden" name="image_link" value="@image_link" />
+                <input type="hidden" name="category_name1" value="@category_name1" />
+                @*<input type="hidden" name="shipping" value="" />*@
+                @*<input type="hidden" name="classs" value="" />*@
+                @*<input type="hidden" name="update_time" value="" />*@
+                @* 필수 입력 *@
+                
+                @* 권장 입력 *@
+                <input type="hidden" name="price_mobile" value="@price_mobile" />
+                @*<input type="hidden" name="normal_price" value="" />*@
+                <input type="hidden" name="mobile_link" value="@mobile_link" />
+                @*<input type="hidden" name="add_image_link" value="" />*@
+                <input type="hidden" name="category_name2" value="@category_name2" />
+                <input type="hidden" name="category_name3" value="@category_name3" />
+                <input type="hidden" name="category_name4" value="@category_name4" />
+                @*<input type="hidden" name="naver_category" value="" />*@
+                @*<input type="hidden" name="naver_product_id" value="" />*@
+                @*<input type="hidden" name="goods_type" value="" />*@
+                @*<input type="hidden" name="barcode" value="" />*@
+                @*<input type="hidden" name="manufacture_define_number" value="" />*@
+                @*<input type="hidden" name="model_number" value="" />*@
+                @*<input type="hidden" name="maker" value="" />*@
+                @*<input type="hidden" name="origin" value="" />*@
+                @*<input type="hidden" name="card_event" value="" />*@
+                @*<input type="hidden" name="coupon" value="" />*@
+                @*<input type="hidden" name="interest_free_event" value="" />*@
+                @*<input type="hidden" name="point" value="" />*@
+                @*<input type="hidden" name="group_id" value="" />*@
+                @*<input type="hidden" name="vendor_id" value="" />*@
+                @*<input type="hidden" name="coordi_id" value="" />*@
+                @*<input type="hidden" name="review_count" value="0" />*@
+                @*<input type="hidden" name="attribute" value="" />*@
+                @*<input type="hidden" name="option_detail" value="" />*@
+                @*<input type="hidden" name="seller_id" value="" />*@
+                @*<input type="hidden" name="age_group" value="" />*@
+                @*<input type="hidden" name="gender" value="" />*@
+                @* 권장 입력 *@
+
+                <div class="row">
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">브랜드</div>
+                        <select class="form-control" name="brand">
+                            <option value="엔데이트립" @{ if (brand == "엔데이트립") { @selected } }>엔데이트립</option>
+                            <option value="엔타비" @{ if (brand == "엔타비") { @selected } }>엔타비</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-xs-12 col-md-8 title">
+                        <div class="input-group-addon">상품 코드</div>
+                        <input type="text" class="form-control" maxlength="50" name="pdtTitle" value="@id" disabled="disabled">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default getProduct" type="button">찾기</button>
+                        </span>
+                    </div>
+
+                    <div class="form-group input-group col-xs-12 col-md-12">
+                        <div class="input-group-addon">상품 제목</div>
+                        <input type="text" class="form-control" maxlength="100" name="title" value="@title">
+                    </div>
+
+                    <div class="form-group input-group col-xs-12 col-md-12">
+                        <div class="input-group-addon">간단 설명</div>
+                        <textarea class="form-control" rows="2" name="event_words" maxlength="100">@event_words</textarea>
+                    </div>
+                    <p class="col-xs-12 col-md-12">※ 여행지, 패키지정보, 여행형태, 최저가가격에 해당하는 출발일자, 항공권 포함여부, tax및 유류할증료 변경 가능 문구, 가격 책정 기준(성인/유아/1인/2인)등 가격 산정에 영향을 미치는 요소</p>
+
+                    <div class="form-group input-group col-xs-12 col-md-12">
+                        <div class="input-group-addon">키워드</div>
+                        @*<textarea class="form-control" rows="2" name="search_tag" maxlength="100" data-role="tagsinput">@search_tag</textarea>*@
+                        <input type="text" class="form-control" maxlength="100" name="search_tag" data-role="tagsinput" value="@search_tag">
+                    </div>
+
+                    <div class="form-group input-group col-xs-12 col-md-12">
+                        <div class="input-group-addon">상품 특전</div>
+                        <input type="text" class="form-control" name="attribute" maxlength="500" data-role="tagsinput" value="@attribute" />
+                    </div>
+                    <p class="col-xs-12 col-md-12" style="color: red;">
+                        ※ 키워드와 특전은 , 로 구분해서 입력<br />
+                        ※ 키워드는 최대 10개만 적용 됩니다.
+                    </p>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            @if (mode == "u")
+            {
+                <button type="button" class="btn btn-danger" id="removeBtn">삭제</button>
+            }
+            <button type="button" class="btn btn-primary" id="uptBtn">@btnTxt</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("button#removeBtn").on("click", function (e) {
+            e.preventDefault();
+
+            var brand = $("select[name=brand] option:selected").val();
+
+            if (brand != "엔데이트립") {
+                alert("현재 베타 버전으로 엔데이트립 상품만 서비스중입니다.");
+                return;
+            }
+
+            var f = document.pdtForm;
+
+            if (confirm("한번 삭제하면 되돌릴 수 없습니다.\n정말 삭제하시겠습니까?"))
+            {
+                f.mode.value = "d";
+
+                f.submit();
+            }
+        });
+
+        $(document).keypress(function (e) {
+            if (e.keyCode == 13)
+            {
+                e.preventDefault();
+                alert("엔터키 쓰지마!");
+            }
+        });
+
+        $('button#uptBtn').on("click", function (e) {
+            e.preventDefault();
+
+            var id = $("input[name=id]"),
+                pdtTitle = $("input[name=pdtTitle]"),
+                title = $("input[name=title]"),
+                keywords = $("textarea[name=search_tag]"),
+                content = $("textarea[name=event_words]"),
+                attribute = $("textarea[name=attribute]");
+
+            if (id.val() == "") {
+                alert("상품을 선택해주세요.");
+                pdtTitle.focus();
+                return;
+            }
+
+            if (title.val() == "") {
+                alert("상품명을 입력해주세요.");
+                title.focus();
+                return;
+            }
+
+            if (keywords.val() == "") {
+                alert("키워드를 입력해주세요.");
+                keywords.focus();
+                return;
+            }
+
+            if (content.val() == "") {
+                alert("상품 설명을 입력해주세요.");
+                content.focus();
+                return;
+            }
+
+            if (attribute.val() == "") {
+                alert("상품 특전을 입력해주세요.");
+                attribute.focus();
+                return;
+            }
+
+            var f = document.pdtForm;
+
+            f.submit();
+        });
+
+        $('button.getProduct').on("click", function (e) {
+            e.preventDefault();
+
+            var url = '/Naver/getProduct';
+            var brand = $("select[name=brand] option:selected").val();
+
+            var datas = { brand: brand };
+
+            if (brand != "엔데이트립") {
+                alert("현재 베타 버전으로 엔데이트립 상품만 서비스중입니다.");
+                return;
+            }
+
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        });
+    });
+</script>

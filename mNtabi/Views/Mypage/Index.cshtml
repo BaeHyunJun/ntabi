@@ -1,0 +1,201 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<section class="menu">
+    <ul>
+        <li class="on">
+            <a href="/Mypage/">예약/결제내역</a>
+        </li>
+        <li>
+            <a href="/Mypage/MyBoard">내가쓴글</a>
+        </li>
+        <li>
+            <a href="/Mypage/Myinfo">정보수정</a>
+        </li>
+    </ul>
+</section> <!--.menu-->
+<section class="mybooking">
+    <div class="bookinglist">
+        <ul>            @{
+            string revDay = "",
+                   revSeq = "",
+                   pdtTitle = "",
+                   revStartDay = "",
+                   revPCnt = "",
+                   revState = "",
+                   revPrice = "",
+                   pdtImg = "";
+
+            foreach (object item in Model)
+            {
+                revDay = "";
+                revSeq = "";
+                pdtTitle = "";
+                revStartDay = "";
+                revPCnt = "";
+                revState = "";
+                revPrice = "";
+                pdtImg = "";
+
+                try { revDay = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { revSeq = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtTitle = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { revStartDay = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { revPCnt = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { revState = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { revPrice = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                catch { continue; }
+                try { pdtImg = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+                catch { continue; }
+
+                switch (revState)
+                {
+                    case "10":
+                        revState = "<h5 style='color: red;'>취소</h5>";
+                        break;
+                    case "20":
+                        revState = "<h5 style='color: #01790d;'>확인중</h5>";
+                        break;
+                    case "30":
+                        revState = "<h5 style='color: #960ce8;'>진행중</h5>";
+                        break;
+                    case "40":
+                        revState = "<h5 style='color: #f84a0d;'>확정</h5>";
+                        break;
+                    case "50":
+                        revState = "<h5 style='color: blue;'>완료</h5>";
+                        break;
+                }
+
+                string revDayTxt = revDay.Substring(0, 4) + "-" + revDay.Substring(4, 2) + "-" + revDay.Substring(6, 2);
+            
+            <li>
+                <a href="/Mypage/revPdt?d=@revDay&k=@revSeq">
+                    <h5>@pdtTitle</h5>
+                    <div class="dateinfo">
+                        <dl>
+                            <dt>예약일</dt>
+                            <dd>@revDayTxt</dd>
+                        </dl>
+                        <dl>
+                            <dt>출발일</dt>
+                            <dd>@revStartDay</dd>
+                        </dl>
+                    </div> <!--.dateinfo-->
+                    <div class="pdinfo">
+                        <p class="status">@MvcHtmlString.Create(revState)</p>
+                        <p class="price">@String.Format("{0:#,##0}", int.Parse(revPrice)) 원</p>
+                    </div> <!--.pdinfo-->
+                </a>
+            </li>
+            }
+        }
+
+            @*<li>
+                <a href="#">
+                    <h5>[여기로와☆오키나와!]우리가족 여름휴가 세트팩 3일</h5>
+                    <div class="dateinfo">
+                        <dl>
+                            <dt>예약일</dt>
+                            <dd>2018-07-16</dd>
+                        </dl>
+                        <dl>
+                            <dt>출발일</dt>
+                            <dd>2018-09-16</dd>
+                        </dl>
+                    </div> <!--.dateinfo-->
+                    <div class="pdinfo">
+                        <p class="status">확인중</p>
+                        <p class="price">297,800 원</p>
+                    </div> <!--.pdinfo-->
+                </a>
+            </li> <!--상품 1-->
+            <li>
+                <a href="#">
+                    <h5>[LJ진에어]오사카/나라/고베 롯코산 케이블카/교토 아라시야마 & or USJ 3일</h5>
+                    <div class="dateinfo">
+                        <dl>
+                            <dt>예약일</dt>
+                            <dd>2018-07-16</dd>
+                        </dl>
+                        <dl>
+                            <dt>출발일</dt>
+                            <dd>2018-09-16</dd>
+                        </dl>
+                    </div> <!--.dateinfo-->
+                    <div class="pdinfo">
+                        <p class="status">확인중</p>
+                        <p class="price">1,397,800 원</p>
+                    </div> <!--.pdinfo-->
+                </a>
+            </li> <!--상품 2-->*@
+        </ul>
+    </div> <!--.bookinglist-->
+</section> <!--.mybooking-->
+@*
+    <div class="paging">
+        <ul>
+            @{
+
+                int count = 0,
+                    pageNum = 1,
+                    maxPage = 1,
+                    boardNum = 0;
+
+                try { count = ViewBag.Cnt; }
+                catch { }
+                try { pageNum = ViewBag.pageNum; }
+                catch { }
+
+                decimal a = count / 10;
+
+                maxPage = count / 10;
+
+                boardNum = count - ((pageNum - 1) * 10);
+
+                int curBlock = 1,
+                    maxBlock = 10;
+
+                string className = "";
+
+                if (count % 10 > 0)
+                {
+                    maxPage++;
+                }
+
+                if (pageNum > 1)
+                {
+                    <li class="prev_btn"><a href="?&idx=@(pageNum-1)"><span><</span></a></li>
+                }
+
+                for (var i = 0 * curBlock; i < maxBlock * curBlock; i++)
+                {
+                    if (i + 1 == pageNum)
+                    {
+                        className = "class=on";
+                    }
+                    else
+                    {
+                        className = "";
+                    }
+
+                    <li><a href="?&idx=@(i+1)" @className><span>@(i + 1)</span></a></li>
+                }
+
+                if (pageNum < maxPage)
+                {
+                    <li class="next_btn"><a href="?&idx=@(pageNum+1)"><span>></span></a></li>
+                }
+            }
+        </ul>
+    </div> <!--.paging-->
+*@

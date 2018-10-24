@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null;
+
+    string userAgent = Request.UserAgent;
+    string[] browser = { "iphone", "ipod", "ipad", "android", "blackberry", "windows ce", "nokia", "webos", "opera mini", "sonyericsson", "opera mobi", "iemobile", "windows phone" };
+    bool isMobile = false;
+
+    for (int iasd = 0; iasd < browser.Length; iasd++)
+    {
+        if (userAgent.ToLower().Contains(browser[iasd]))
+        {
+            isMobile = true;
+            break;
+        }
+    }
+
+    if (isMobile)
+    {
+<script>
+    location.href = "/Home/";
+</script>
+    }
+}
+<div style="margin: 0 auto;">
+    <img src="~/Content/Images/home/maintenance.png" alt="준비중입니다. 모바일로 접속해 주세요" />
+</div>

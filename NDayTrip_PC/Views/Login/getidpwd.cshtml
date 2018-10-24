@@ -1,0 +1,244 @@
+﻿
+<style>
+    div#wrap article#container div.pro_top {
+        height: 80px;
+        background-color: #ededed;
+    }
+
+        div#wrap article#container div.pro_top p {
+            width: 1050px;
+            margin: 0 auto;
+            font-size: 24px;
+            line-height: 80px;
+        }
+
+    div#wrap article#container div.cont {
+        width: 1060px;
+        margin: 0 auto;
+        padding: 60px 0;
+        overflow: hidden;
+    }
+
+        div#wrap article#container div.cont section.getUid {
+            width: 50%;
+            float: left;
+            padding: 10px;
+            text-align: center;
+        }
+
+        div#wrap article#container div.cont section.getPwd {
+            width: 50%;
+            float: right;
+            padding: 10px;
+            border-left: 1px solid #ddd;
+            text-align: center;
+        }
+
+        div#wrap article#container div.cont section > h4 {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        div#wrap article#container div.cont section > p {
+            border-bottom: 1px dotted #ddd;
+            padding-bottom: 40px;
+        }
+
+        div#wrap article#container div.cont section > input {
+            width: 250px;
+            height: 50px;
+            line-height: 50px;
+            padding: 10px;
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #ccc;
+        }
+
+        div#wrap article#container div.cont section > button {
+            margin: 20px auto;
+            width: 150px;
+            height: 50px;
+            background: #a0ce54;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        div#wrap article#container div.cont section.viewID {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(0,0,0,.1);
+        }
+
+            div#wrap article#container div.cont section.viewID div.userID {
+                width: 200px;
+                height: 50px;
+                line-height: 50px;
+                border: 1px solid black;
+                background: white;
+                margin: 280px auto;
+                text-align: center;
+            }
+</style>
+
+<div class="pro_top">
+
+    <p><span>아이디/비밀번호 찾기</span></p>
+
+</div>
+
+<div class="cont">
+    <section class="getUid">
+        <h4>아이디 찾기</h4>
+
+        <p>※ 등록한 정보로 아이디를 찾을 수 있습니다.</p>
+
+        <input type="text" name="Uname" placeholder="이름" />
+        <input type="date" name="Ubirth" value="1980-12-01" />
+        <input type="text" name="Uemail" placeholder="이메일" />
+
+        <button class="getIDBtn">아이디 찾기</button>
+    </section>
+    <section class="getPwd">
+        <h4>비밀번호 찾기</h4>
+
+        <p>※ 등록한 정보로 비밀번호를 찾을 수 있습니다.</p>
+
+        <input type="text" name="Pid" placeholder="아이디" />
+        <input type="text" name="Pname" placeholder="이름" />
+        <input type="date" name="Pbirth" value="1980-12-01" />
+        <input type="text" name="Pemail" placeholder="이메일" />
+
+        <button class="getPwdBtn">비밀번호 찾기</button>
+    </section>
+
+    <section class="viewID">
+        <div class="userID"></div>
+    </section>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("section.getPwd button.getPwdBtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var id = $("input[name='Pid']");
+            var name = $("input[name='Pname']");
+            var birth = $("input[name='Pbirth']");
+            var email = $("input[name='Pemail']");
+
+            if (id.val() == "") {
+                alert("아이디를 입력해주세요.");
+                id.focus();
+                return;
+            }
+
+            if (name.val() == "") {
+                alert("이름을 입력해주세요.");
+                name.focus();
+                return;
+            }
+
+            if (birth.val() == "") {
+                alert("생년월일을 입력해주세요.");
+                birth.focus();
+                return;
+            }
+
+            if (email.val() == "") {
+                alert("이메일을 입력해주세요.");
+                email.focus();
+                return;
+            }
+
+            $(this).attr("disabled", true);
+
+            var url = "/Login/getPW";
+            var data = { id: id.val(), name: name.val(), birth: birth.val(), mail: email.val() };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (rData) {
+                    alert(rData);
+
+                    $(this).attr("disabled", false);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("section.viewID").on("click", function () {
+            $(this).hide();
+        });
+
+        $("section.getUid > button.getIDBtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var name = $("input[name='Uname']");
+            var birth = $("input[name='Ubirth']");
+            var email = $("input[name='Uemail']");
+
+            if (name.val() == "") {
+                alert("이름을 입력해주세요.");
+                name.focus();
+                return;
+            }
+
+            if (birth.val() == "") {
+                alert("생년월일을 입력해주세요.");
+                birth.focus();
+                return;
+            }
+
+            if (email.val() == "") {
+                alert("이메일을 입력해주세요.");
+                email.focus();
+                return;
+            }
+
+            var url = "/Login/getID";
+            var data = { name: name.val(), birth: birth.val(), email: email.val() };
+
+            var regId = /^[_A-Za-z0-9]{5,12}$/;
+
+            $(this).attr("disabled", true);
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (rData) {
+                    if (!regId.test(rData)) {
+                        alert(rData);
+                    } else {
+                        $("section.viewID").show();
+                        $("div.userID").text(rData);
+                    }
+
+                    $(this).attr("disabled", false);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

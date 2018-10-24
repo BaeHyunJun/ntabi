@@ -1,0 +1,765 @@
+﻿@using NCompany.Models;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    var user = Session["user"] as User;
+}
+
+<style>
+    div.container.body-content > section.product.row
+    {
+        padding: 0;
+    }
+
+    section.product.row > article
+    {
+        border-right: 1px solid #000;
+        padding: 0;
+    }
+
+    section.product.row > article > ul
+    {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 0;
+        margin: 0 -10px;
+    }
+
+    section.product.row > article > ul > li
+    {
+        padding: 10px 20px;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+    }
+
+    section.product.row > article > ul > li *
+    {
+        cursor: pointer;
+    }
+
+    section.product.row > article > ul > li > label
+    {
+        font-size: 16px;
+        display: block;
+        margin: 0;
+        line-height: 24px;
+    }
+
+    section.product.row > article > ul > li > span
+    {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    section.product.row > article > div.inquery_View
+    {
+        position: relative;
+        height: 100%;
+        margin-top: -20px;
+    }
+
+    section.product.row > article > div.inquery_View div.message_List
+    {
+        background: #E8EDF3; 
+        padding: 20px;
+        overflow: auto;
+        padding-bottom: 120px;
+        height: 100%;
+    }
+
+    div.message_List > hr 
+    {
+        border-color: #aaa;
+    }
+
+    div.message_List div.notice 
+    {
+        text-align: left;
+    }
+
+    div.message_List div.notice > ul
+    {
+        border-bottom: 1px solid #aaa;
+        padding: 0 0 10px;
+        font-size: 0;
+        list-style: none;
+    }
+
+    div.message_List div.notice > ul > li
+    {
+        font-size: 12px;
+    }
+
+    div.message_List div.message_Box 
+    {
+        overflow: hidden;
+    }
+
+    div.message_List div.message_Box div.imgBox
+    {
+        width: 6%;
+        float: left;
+        visibility: hidden;
+    }
+
+    div.message_List div.message_Box.first div.imgBox
+    {
+        visibility: visible;
+    }
+
+    div.message_List div.message_Box div.imgBox > img
+    {
+        width: 100%;
+    }
+
+    div.message_List div.message_Box span.user_Name
+    {
+        float: left;
+        margin-left: 2%;
+        font-size: 13px;
+        width: 92%;
+        text-align: left;
+        display: none;
+    }
+
+    div.message_List div.message_Box.last
+    {
+        margin-bottom: 20px;
+    }
+
+    div.message_List div.message_Box.first span.user_Name
+    {
+        display: block;
+    }
+
+    div.message_List div.message_Box div.message_Text
+    {
+        background: white;
+        padding: 10px;
+        text-align: left;
+        max-width: 450px;
+        float: left;
+        margin-top: 5px;
+        border-radius: 10px;
+        position: relative;
+        margin-left: 2%;
+    }
+
+    div.message_List div.message_Box.first div.message_Text span.arrow
+    {
+        width: 15px;
+        height: 10px;
+        display: block;
+        position: absolute;
+        left: -5px;
+        top: 0;
+        background: white;
+        border-radius: 2px 0 0 8px;
+    }
+
+    div.message_List div.message_Box div.message_Text p
+    {
+        margin: 0;
+    }
+
+    div.message_List div.message_Box div.message_Text div.message_Date
+    {
+        position: absolute;
+        bottom: 0;
+        right: -95px;
+        font-size: 12px;
+        color: #777;
+        display: none;
+    }
+
+    div.message_List div.message_Box.last div.message_Text div.message_Date
+    {
+        display: block;
+    }
+            
+    div.message_List div.message_Box.user div.imgBox,
+    div.message_List div.message_Box.user span.user_Name
+    {
+        display: none;
+    }
+            
+    div.message_List div.message_Box.user div.message_Text
+    {
+        float: right;
+        background: #cde2d2;
+        margin-right: 5px;
+    }
+            
+    div.message_List div.message_Box.user div.message_Text span.arrow
+    {
+        left: auto;
+        right: -5px;
+        border-radius: 0 2px 8px 0;
+        background: #cde2d2;
+    }
+
+    div.message_List div.message_Box.user div.message_Text div.message_Date
+    {
+        right: auto;
+        left: -95px;
+    }
+</style>
+
+
+<section class="product row">.
+    <article class="col-md-4">
+        <ul class="chatRoom" style="overflow-y: scroll; height: 100%; width: 100%;">
+            @{
+                string userName = "",
+                       roomNum = "",
+                       roomTxt = "",
+                       isNew = "";
+                
+                foreach(object item in Model)
+                {
+                    userName = "";
+                    roomNum = "";
+                    roomTxt = "";
+                    isNew = "";
+                    
+                    try { roomNum = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                    try { roomTxt = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                    try { userName = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                    try { isNew = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+                    
+
+                    <li data-roomNo="@roomNum">
+                        <label>
+                            @userName
+                            @if (isNew == "Y")
+                            {
+                                <img src="~/Content/images/community/icon_new.png" alt="새로운 글" />
+                            }
+                        </label>
+                        <span>
+                            @roomTxt
+                        </span>
+                    </li>
+                }
+            }
+        </ul>
+    </article>
+    <article class="col-md-8">
+        <div class="inquery_View">
+            <div class="message_List" style="background-image: url(/Content/images/bg_chat_logo.png); background-repeat: no-repeat; background-position: 50% 40%; background-size: 20%;">
+               
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                 @*<div class="notice">
+                    <ul>
+                        <li>
+                            - 여행문의는 줌줌투어 내의 1:1문의창을 통하여 진행부탁드립니다.
+                        </li>
+                        <li>
+                            - 1:1문의창으로 진행된 문의, 답변 내용은 여행 계약의 일부로 간주됩니다.
+                        </li>
+                        <li>
+                            - 1:1문의창 외 개인연락처 및 타 매체로 진행된 내용은 줌줌투어에서 책임을 지지않습니다.
+                        </li>
+                        <li>
+                            - 지역별 시차 또는 투어진행중일경우 여행도우미 답변이 지연될 수 있는점 양해부탁드립니다.
+                        </li>
+                        <li>
+                            - 예약전 여행자 약관을 확인 부탁드립니다.
+                        </li>
+                    </ul>
+                </div>*@
+
+                @*<div class="message_Box first last">
+                    <div class="imgBox">
+                        <img src="#" />
+                    </div>
+                    <span class="user_Name">엔타비</span>
+                    <div class="message_Text">
+                        <span class="arrow"></span>
+                        <p>
+                            [Ndaytrip]<br>
+                            안녕하세요? 엔데이트립니다.<br>
+                            1:1 문의는 평일(월~금) 09시~17시까지 가능합니다 (한국시간 기준)<br>
+                            현재 문의주신 내용은 확인 후 빠르게 답변해드리도록 하겠습니다.<br>
+                            <br>
+                            문의주셔서 감사합니다.
+                        </p>
+                        <div class="message_Date">
+                            <span>05월 25일 13:06</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message_Box first user">
+                    <div class="imgBox">
+                        <img src="#" />
+                    </div>
+                    <span class="user_Name">엔타비</span>
+                    <div class="message_Text">
+                        <span class="arrow"></span>
+                        <p>
+                            6/9 비에이후라노코스 예약 되나요?
+                        </p>
+                        <div class="message_Date">
+                            <span>05월 25일 13:06</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message_Box last user">
+                    <div class="imgBox">
+                        <img src="#" />
+                    </div>
+                    <span class="user_Name">엔타비</span>
+                    <div class="message_Text">
+                        <span class="arrow"></span>
+                        <p>
+                            ㅎㅎ
+                        </p>
+                        <div class="message_Date">
+                            <span>05월 25일 13:06</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message_Box first last">
+                    <div class="imgBox">
+                        <img src="#" />
+                    </div>
+                    <span class="user_Name">엔타비</span>
+                    <div class="message_Text">
+                        <span class="arrow"></span>
+                        <p>
+                            안녕하세요~ 6/9 비에이후라노코스 예약 가능합니다!
+                        </p>
+                        <div class="message_Date">
+                            <span>05월 25일 13:32</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="message_Box first last user">
+                    <div class="imgBox">
+                        <img src="#" />
+                    </div>
+                    <span class="user_Name">엔타비</span>
+                    <div class="message_Text">
+                        <span class="arrow"></span>
+                        <p>
+                            예약 진행해 주세요.
+                        </p>
+                        <div class="message_Date">
+                            <span>05월 25일 14:07</span>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+
+            <div id="mForm" style="margin: -11px auto 0; font-size: 0; position: absolute; left: 0; bottom: 0; right: 0;">
+                <div class="iconsArea" style="padding: 10px; background: rgba(202,207,203,.2);">
+                    <a class="sText" href="/Community/SaveText" style="width: 30px; height: 30px; display: inline-block;" data-toggle="popup" data-target="SaveText">
+                        <img src="~/Content/images/community/icon_text2.png" style="width: 100%;" />
+                    </a>
+                    <a class="sText" href="/Community/SaveText2" style="width: 30px; height: 30px; display: inline-block; margin-left: 10px;" data-toggle="popup" data-target="SaveText2">
+                        <img src="~/Content/images/community/icon_pdsave7.png" style="width: 100%;" />
+                    </a>
+                    <a class="empSign" href="#" style="width: 30px; height: 30px; display: inline-block; margin-left: 10px;">
+                        <img src="~/Content/images/community/icon_pdsave.png" style="width: 100%;" />
+                    </a>
+                </div>
+                <textarea id="message_area" style="width: 100%; height: 110px; font-size: 10pt; padding: 10px 14% 10px 20px; resize: none; border-color: #ddd;"></textarea>
+                <a class="btn btn-default sendMSG" style="border: 0; position: absolute; top: 60px; right: 15px; background-color: #a0ce54 !important; color: white; width: 80px; height: 90px; line-height: 78px;">전송</a>
+            </div>
+        </div>
+    </article>
+</section>
+
+<script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+<script src="~/signalr/hubs"></script>
+
+<script>
+
+    $(function () {
+        var Viewer = $("div.message_List");
+        Viewer.scrollTop(Viewer[0].scrollHeight);
+
+        //$.connection.hub.url = "/signalr";
+
+        var chat = $.connection.chat;
+
+        //$.connection.hub.start()
+        //.done(function () {
+
+        //    chat.server.joinRoom(roomNo);
+        //})
+        //.fail(function () {
+        //    console.log("연결 실패!");
+        //});
+
+        chat.client.addNewmessage = function (roomNo, name, message) {
+            var parentEl = $("section.product.row > article > ul"),
+                roomEl = parentEl.find("li[data-roomno=" + roomNo + "]");
+
+            if (roomEl.length > 0) {
+                if (roomEl.find("img").length == 0) {
+                    roomEl.find("label").append('<img src="/Content/images/community/icon_new.png" alt="새로운 글" />');
+                }
+
+                roomEl.find("span").text(message);
+
+                roomEl.prependTo($("article.col-md-4").find("ul"));
+            }
+            else {
+                var html = "<li data-roomno='" + roomNo + "'>" +
+                               "<label>" +
+                                    name +
+                                    '<img src="/Content/images/community/icon_new.png" alt="새로운 글" />' +
+                               "</label>" +
+                               "<span>" + message + "</span>" +
+                           "</li>";
+
+                parentEl.append(html);
+            }
+
+            $("a.community").prepend('<img src="/Content/images/community/icon_new.png" alt="새로운 글">')
+        }
+
+        chat.client.addNewMessageToPage = function (roomNo, name, message, date, type) {
+            var html = "";
+            var setClass = "first last";
+
+            if (message == "") {
+                alert("메시지를 입력해 주세요.");
+                return;
+            }
+
+            if (isLast(date)) {
+                $("div.message_List").find(".message_Box").last().removeClass("last");
+                setClass = "last";
+            }
+
+            if (type == "@user.Login") {
+                setClass += " user";
+            }
+
+            html = "<div class='message_Box " + setClass + "'>" +
+                       "<div class='imgBox'>" +
+                           "<img src='/Content/images/community/icon_chat_guest.png' />" +
+                       "</div>" +
+                       "<span class='user_Name'>" + htmlEncode(name) + "</span>" +
+                       "<div class='message_Text'>" +
+                           "<span class='arrow'></span>" +
+                           "<p>" + message + "</p>" +
+                           "<div class='message_Date'>" +
+                               "<span>" + htmlEncode(date) + "</span>" +
+                           "</div>" +
+                       "</div>" +
+                   "</div>";
+
+            Viewer.append(html);
+            Viewer.scrollTop(Viewer[0].scrollHeight);
+
+            $.ajax({
+                type: "POST",
+                url: "/Products/JSON_chkNewMessage",
+                data: { chatID: roomNo },
+                success: function (data) {
+                    $("li[data-roomno=" + roomNo + "]").find('img').remove();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        var roomNo = '0';
+
+        $("section.product.row > article > ul > li").on("click", function () {
+            var _this = $(this);
+
+            if (roomNo != 0) {
+                chat.server.leaveRoom(roomNo.toString());
+            }
+
+            roomNo = _this.attr("data-roomno");
+
+            _this.find('img').remove();
+
+            if ($("ul.chatRoom").find("img").length == 0) {
+                $("a.community").find("img").remove();
+            }
+
+            chat.server.joinRoom(roomNo);
+
+            getChatList(roomNo);
+
+            $.ajax({
+                type: "POST",
+                url: "/Products/JSON_chkNewMessage",
+                data: { chatID: roomNo },
+                success: function (data) {
+
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("a.sendMSG").on("click", function () {
+            var user = "@user.Login";
+
+            if (roomNo == "0") {
+                alert("채팅 방을 선택해 주세요.");
+                return;
+            }
+
+            chat.server.send(roomNo, user, $("#message_area").val(), "엔타비");
+
+            $("#message_area").val('').focus();
+        });
+
+        function getChatList(roomNo) {
+            $.ajax({
+                type: "POST",
+                url: "/Products/JSON_getChatList",
+                data: { no: roomNo },
+                success: function (data) {
+                    var html = "",
+                        addClass = "",
+                        Date = "",
+                        user = "";
+
+                    for (idx in data) {
+                        addClass = "";
+                        user = data[idx].user;
+
+                        if (data[idx].isAdmin == "ADMN") {
+                            addClass = "user";
+                            user = "엔타비";
+                        }
+
+                        if (Date != data[idx].Date || data[idx].user != user) {
+                            addClass += " first";
+
+                            Date = data[idx].Date;
+                            user = data[idx].user;
+                        }
+
+                        html += "<div class='message_Box " + addClass + "'>" +
+                                    "<div class='imgBox'>" +
+                                        "<img src='/Content/images/community/icon_chat_guest.png' />" +
+                                    "</div>" +
+                                    "<span class='user_Name'>" + user + "</span>" +
+                                    "<div class='message_Text'>" +
+                                        "<span class='arrow'></span>" +
+                                        "<p>" +
+                                            data[idx].message +
+                                        "</p>" +
+                                        "<div class='message_Date'>" +
+                                            "<span>" + data[idx].Date + "</span>" +
+                                        "</div>" +
+                                    "</div>" +
+                                "</div>";
+                    }
+
+                    $("div.message_List").html(html);
+                    Viewer.scrollTop(Viewer[0].scrollHeight);
+
+                    setLast();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        function setLast() {
+            $("div.message_Box").each(function () {
+                if ($(this).next().hasClass("first") || $(this).next().length == 0) {
+                    $(this).addClass("last");
+                }
+            })
+        }
+
+        @*function joinChatRoom(roomNo) {
+            chat.server.joinRoom(roomNo);
+
+            $("a.sendMSG").on("click", function () {
+                var user = "@user.Login";
+
+                chat.server.send(user, $("#message_area").val(), "엔타비");
+
+                $("#message_area").val('').focus();
+            });
+        }*@
+
+        $("textarea#message_area").keyup(function (e) {
+            if (e.keyCode == 13)
+                $("a.sendMSG").click();
+        });
+
+        $.connection.hub.start()
+        .done(function () {
+        })
+        .fail(function () {
+            console.log("연결 실패!");
+        });
+
+        function isLast(date) {
+            if ($("div.message_List").find(".message_Date").last().text() == date) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+
+        $("a.empSign").on("click", function () {
+
+            var url = "/Manage/JSON_getUser";
+            var user = "@user.Login";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { seq: user },
+                success: function (data) {
+
+                    var pos = "",
+                        gro = "",
+                        gtxt = "";
+
+                    switch(data[0].pos)
+                    {
+                        case "PA":
+                            pos = "사장";
+                            break;
+                        case "PB":
+                            pos = "이사";
+                            break;
+                        case "PC":
+                            pos = "팀장";
+                            break;
+                        case "PD":
+                            pos = "실장";
+                            break;
+                        case "PE":
+                            pos = "대리";
+                            break;
+                        case "PF":
+                            pos = "주임";
+                            break;
+                        case "PG":
+                            pos = "사원";
+                            break;
+                    }
+
+                    switch (data[0].gro) {
+                        case "GE":
+                            gro = "http://ntabi.kr/Content/Images/Shared/ndtLogo.png";
+                            gtxt = "엔데이트립";
+                            break;
+                        default:
+                            gro = "http://ntabi.kr/Content/Images/Shared/logo.png";
+                            gtxt = "엔타비";
+                            break;
+                    }
+
+                    var html = '<div style="width: 200px;padding: 10px 0;border: 1px solid #ddd;background-color: white;text-align: center;">' +
+                                    '<div>' +
+                                        '<img src="http://admin.ntabi.kr/Content/Images/emp/' + data[0].no + '.png" alt="' + data[0].name + '" style="width: 100%;width:  90px;height:  90px;">' +
+                                    '</div>' +
+                                    '<img src="' + gro + '" alt="' + gtxt + '" style="width: 50px;margin: 10px 0;">' +
+                                    '<ol style="list-style: none;padding:  0;margin: 0 0 10px;border-bottom: 1px solid #ddd;">' +
+                                        '<li style="border-top: 1px solid #ddd;padding:  5px;">' + data[0].name + ' ' + pos + '</li>' +
+                                        '<li style="border-top: 1px solid #ddd;padding: 5px;">' + (data[0].tel).substr(0, 3) + '-' + (data[0].tel).substring(3, (data[0].tel).length - 4) + '-' + (data[0].tel).substr((data[0].tel).length - 4) + '</li>' +
+                                        '<li style="border-top: 1px solid #ddd;padding: 5px;">' + data[0].mail + '</li>' +
+                                    '</ol>' +
+                                    '<span class="sns kakao" style="margin-left: 10px">' +
+                                        '<a href="https://pf.kakao.com/_xnmVhu" target="_blank">' +
+                                            '<img src="http://www.ntabi.kr/Content/Images/Shared/btn_kakao.png" style="width:  25px;">' +
+                                        '</a>' +
+                                    '</span>' +
+                                    '<span class="sns insta" style="margin-left: 10px">' +
+                                        '<a href="https://www.instagram.com/ntabi_insta/" target="_blank">' +
+                                            '<img src="http://www.ntabi.kr/Content/Images/Shared/btn_insta.png" style="width: 25px;">' +
+                                        '</a>' +
+                                    '</span>' +
+                                    '<span class="sns facebook" style="margin-left: 10px">' +
+                                        '<a href="https://www.facebook.com/ntabi.co.kr/" target="_blank">' +
+                                            '<img src="http://www.ntabi.kr/Content/Images/Shared/btn_facebook.png" style="width: 25px;">' +
+                                        '</a>' +
+                                    '</span>' +
+                                '</div>';
+
+                    $("#message_area").val("");
+                    $("#message_area").val(html);
+                    $(".sendMSG").click();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+
+        });
+
+        $('[data-toggle="popup"]').on("click", function (e) {
+            e.preventDefault();
+
+            var _this = $(this),
+                url = _this.attr('href'),
+                code = _this.attr('data-code'),
+                rUrl = encodeURIComponent("@Request.Url.PathAndQuery".replace(/&amp;/g, '&')),
+                addClass = _this.attr('data-target'),
+                key = _this.parents("ul.pdtLists > li").attr('data-key');
+
+            if (url == undefined) {
+                url = '/Products/' + _this.attr("class").trim();
+                code = _this.parent().siblings("li.pdtKey").text();
+
+                key = _this.parent().parents("li").attr('data-key');
+            }
+
+            var datas = { code: code, key: key, url: rUrl };
+
+            var type = _this.attr("data-type");
+
+            if (type != "")
+                datas = { code: code, key: key, type: type, url: rUrl };
+
+            if (url.indexOf('#') == 0) {
+                $(url).modal('show');
+            } else {
+                $.get(url, datas, function (data) {
+                    $('<div class="modal fade ' + addClass + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+                });
+            }
+        });
+    });
+</script>

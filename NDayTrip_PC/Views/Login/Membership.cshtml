@@ -1,0 +1,118 @@
+﻿@{
+    string key = Request["passkey"];
+}
+<style>
+    div#wrap article#container div.pro_top {
+        height: 80px;
+        background-color: #ededed;
+    }
+
+        div#wrap article#container div.pro_top p {
+            width: 1050px;
+            margin: 0 auto;
+            font-size: 24px;
+            line-height: 80px;
+        }
+
+    div#wrap article#container div.cont {
+        width: 1060px;
+        margin: 0 auto;
+        padding: 60px 0;
+        overflow: hidden;
+    }
+
+        div#wrap article#container div.cont section {
+            padding: 10px;
+            text-align: center;
+        }
+
+            div#wrap article#container div.cont section > p {
+                border-bottom: 1px dotted #ddd;
+                padding-bottom: 40px;
+            }
+
+            div#wrap article#container div.cont section > input {
+                width: 250px;
+                height: 50px;
+                line-height: 50px;
+                padding: 10px;
+                display: block;
+                margin: 10px auto;
+                border: 1px solid #ccc;
+            }
+
+            div#wrap article#container div.cont section > button {
+                margin: 20px auto;
+                width: 150px;
+                height: 50px;
+                background: #a0ce54;
+                border: none;
+                color: white;
+                cursor: pointer;
+            }
+</style>
+
+<div class="pro_top">
+
+    <p><span>회원가입</span></p>
+
+</div>
+
+<div class="cont">
+    <section>
+        @*<input type="text" name="signup_id" placeholder="아이디" />
+        <input type="text" name="signup_name" placeholder="이름" />
+        <input type="date" name="signup_birth" placeholder="생년 월일" value="1980-12-01" />*@
+        <input type="text" name="signup_mail" placeholder="이메일" />
+        <p>메일 인증 이후 회원가입이 진행됩니다.</p>
+        @*<div>
+            <input type="tel" name="signup_tel1" placeholder="010" style="width: 30%;" />
+            <span style="width: 5%; display: inline-block; text-align: center; font-size: 14px;">-</span>
+            <input type="tel" name="signup_tel2" placeholder="1234" style="width: 30%;" />
+            <span style="width: 5%; display: inline-block; text-align: center; font-size: 14px;">-</span>
+            <input type="tel" name="signup_tel3" placeholder="5678" style="width: 30%;" />
+        </div>
+        <input type="password" name="signup_pwd" placeholder="비밀 번호" />
+        <p>6~20자의 영문자, 숫자 조합으로 입력해 주세요.</p>
+        <input type="password" name="signup_chk_pwd" placeholder="비밀 번호 확인" />*@
+
+        <button class="chkMailBtn">인증 메일 받기</button>
+    </section>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("button.chkMailBtn").on("click", function (e) {
+            var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            var mail = $("input[name=signup_mail]");
+            var _this = $(this);
+
+            if (!regEmail.test(mail.val())) {
+                alert("메일을 입력해주세요.");
+                return;
+            }
+
+            _this.attr("disabled", true);
+
+            var url = "/Login/senderMail";
+            var data = { email: mail.val() };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (txt) {
+                    alert(txt);
+
+                    _this.attr("disabled", false);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

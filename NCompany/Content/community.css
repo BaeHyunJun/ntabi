@@ -1,0 +1,151 @@
+﻿div.container.body-content > section.community {
+    background-color: transparent;
+}
+
+section.community ul {
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+    list-style: none; 
+}
+
+section.community > article {
+    background: white;
+    height: 100%;
+}
+
+section.community > article > h4 {
+    height: 5%;
+    line-height: 40px;
+    margin: 1% 0;
+    border-bottom: 1px solid black;
+}
+
+section.community > article > div.Lists {
+    overflow: auto;
+    height: 93%;
+}
+
+section.community > article > div.Lists > ul {
+    overflow: hidden;
+}
+    
+section.community > article > div.Lists > ul > li {
+    font-size: 14px;
+    border: 1px solid #ddd;
+    margin: 10px;
+    padding: 10px;
+    padding-bottom: 0;
+}
+    
+section.community > article > div.Lists > ul > li div.board-header > h4 {
+    border-bottom: 1px solid;
+    padding-bottom: 10px;
+}
+    
+section.community > article > div.Lists > ul > li div.board-header > span {
+    float: right;
+}
+    
+section.community > article > div.Lists > ul > li div.board-body {
+    padding: 10px;
+    line-height: 24px;
+}
+    
+/*section.community > article > div.Lists > ul > li div.board-body ul.comment {
+    border-top: 1px solid #ddd;
+    margin: 10px -20px 0;
+    padding: 20px 20px 0 50px;
+}*/
+    
+section.community > article > div.Lists > ul > li div.board-body ul.comment > li {
+    font-size: 14px;
+    overflow: hidden;
+    border-top: 2px dashed #ddd;
+    margin: 10px -20px 0;
+    padding: 20px 20px 0 50px;
+}
+    
+section.community > article > div.Lists > ul > li div.board-body ul.comment > li > span {
+    float: right;
+}
+    
+section.community > article > div.Lists > ul > li div.board-footer {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    margin: 10px -10px 0;
+}
+    
+section.community > article > div.Lists > ul > li div.board-footer > textarea {
+    width: 80%;
+    height: 100px;
+    padding: 10px;
+}
+    
+section.community > article > div.Lists > ul > li div.board-footer > a.cmdBtn {
+    width: 18%;
+    float: right;
+    height: 100px;
+    line-height: 85px;
+    background-color: #a0ce54;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+section.community > div {
+    padding: 0 10px;
+    height: 100%;
+    margin: 0;
+}
+
+section.community > div > article {
+    height: 49%;
+    margin-bottom: 4%;
+    background: #fafafa;
+    padding: 10px;
+}
+
+section.community > div > article > h4 {
+    height: 10%;
+    margin: 0;
+    line-height: 45px;
+}
+
+section.community > div > article > a.btn {
+    padding: 6px 6px 3px;
+    font-size: 12px;
+}
+
+section.community > div > article > ul,
+section.community > div > article > ul ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 0;
+    overflow: hidden;
+    text-align: center;
+    line-height: 26px;
+}
+
+section.community > div > article > ul.table-header {
+    height: 10%;
+    line-height: 40px;
+    border-bottom: 2px solid #ccc;
+}
+
+section.community > div > article > ul.table-body {
+    height: 80%;
+    overflow: auto;
+}
+
+section.community > div > article > ul li {
+    width: 100%;
+    font-size: 12px;
+    float: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+}

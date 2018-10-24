@@ -1,0 +1,68 @@
+﻿@using mNtabi.Models;
+
+@{
+    var user = Session["user"] as User;
+}
+
+@if (user != null)
+{
+    using (Html.BeginForm("LogOff", "Members", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+<ul>
+    <li>
+        @Html.ActionLink("마이페이지", "Index", "Mypage")
+    </li>
+    <li>
+        <a href="javascript:document.getElementById('logoutForm').submit()">로그아웃</a>
+    </li>
+    <li>
+        <a href="/Community/Lists">고객센터</a>
+    </li>
+    <li>
+        <a href="/Event/?t=promotion">기획전</a>
+    </li>
+    <li>
+        <a href="/Event/?t=event">이벤트/쿠폰</a>
+    </li>
+</ul>
+    }
+}
+else
+{
+<ul>
+    <li>
+        <a href="#" class="loginBtn">로그인</a>
+    </li>
+    <li>
+        <a href="/Members/Join1">회원가입</a>
+    </li>
+    <li>
+        <a href="/Community/Lists">고객센터</a>
+    </li>
+    <li>
+        <a href="/Event/?t=promotion">기획전</a>
+    </li>
+    <li>
+        <a href="/Event/?t=event">이벤트/쿠폰</a>
+    </li>
+</ul>
+
+    @*<ul>
+    <li>
+        <a href="#" class="loginBtn">로그인</a>
+    </li>
+    <li>
+        <a href="/Members/Join1">회원가입</a>
+    </li>
+    <li>
+        <a href="/Community/Lists">고객센터</a>
+    </li>
+    <li>
+        <a href="/Event">이벤트/기획전</a>
+    </li>
+</ul>*@
+    @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+<li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+}

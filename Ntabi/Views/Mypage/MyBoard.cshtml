@@ -1,0 +1,395 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string userName = ViewBag.user_Name;
+
+    int revCnt = ViewBag.rev_Cnt,
+        bdCnt = ViewBag.bd_Cnt;
+}
+
+<style>
+    div#container > article > section.myboard {
+        padding-top: 10px;
+    }
+
+    section.myboard > h3 {
+        font-size: 14px;
+        color: #2a2a2a;
+        letter-spacing: -1px;
+    }
+
+    section.myboard ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+    }
+
+        section.myboard ul.listsHeader {
+            text-align: center;
+        }
+
+            section.myboard ul.listsHeader > li {
+                margin: 0;
+                padding: 0 19px;
+                position: relative;
+                display: inline-block;
+            }
+
+                section.myboard ul.listsHeader > li:before {
+                    content: '';
+                    border-right: 1px solid #777;
+                    display: block;
+                    position: absolute;
+                    top: 4px;
+                    bottom: 2px;
+                    left: 0;
+                }
+
+                section.myboard ul.listsHeader > li:first-child:before {
+                    display: none;
+                }
+
+                section.myboard ul.listsHeader > li > a {
+                    color: #9f9f9f;
+                    font-size: 16px;
+                }
+
+                section.myboard ul.listsHeader > li.on > a {
+                    color: #101010;
+                }
+
+    section.myboard table.listsBody {
+        width: 100%;
+        margin-top: 30px;
+    }
+
+        section.myboard table.listsBody > thead {
+            border-bottom: 1px solid #ddd;
+        }
+
+            section.myboard table.listsBody > thead > tr {
+                line-height: 42px;
+            }
+
+                section.myboard table.listsBody > thead > tr > th {
+                    text-align: center;
+                    font-size: 15px;
+                    color: #424242;
+                    width: 10%;
+                }
+
+        section.myboard table.listsBody > tbody > tr {
+            line-height: 40px;
+            text-align: center;
+            font-size: 15px;
+            color: #2a2a2a;
+        }
+
+            section.myboard table.listsBody > tbody > tr td.title {
+                text-align: left;
+            }
+
+                section.myboard table.listsBody > tbody > tr td.title > a {
+                    display: block;
+                }
+
+                    section.myboard table.listsBody > tbody > tr td.title > a > h4 {
+                        font-size: 14px;
+                        font-weight: normal;
+                    }
+
+    section.myboard div.paging {
+        position: relative;
+        height: 120px;
+        margion-top: 5px;
+        text-align: center;
+        border-top: 1px solid #999;
+    }
+
+        section.myboard div.paging > ul {
+            line-height: 120px;
+        }
+
+            section.myboard div.paging > ul > li {
+                display: inline-block;
+                padding: 5px 10px;
+            }
+
+                section.myboard div.paging > ul > li > a {
+                    font-size: 13px;
+                    color: #9f9f9f;
+                }
+
+                section.myboard div.paging > ul > li.on > a {
+                    color: black;
+                }
+
+        section.myboard div.paging form.searchForm {
+            position: absolute;
+            right: 50px;
+            bottom: 70px;
+        }
+
+            section.myboard div.paging form.searchForm > select {
+                height: 20px;
+                border: none;
+                border-bottom: 1px solid #b7bfaa;
+                font-size: 11px;
+                color: #424242;
+                background-color: transparent;
+            }
+
+            section.myboard div.paging form.searchForm > input {
+                height: 20px;
+                width: 170px;
+                font-size: 11px;
+                border: none;
+                border-bottom: 1px solid #b7bfaa;
+                background-color: transparent;
+            }
+</style>
+
+<section class="myboard">
+    <h3>마이페이지 > 내가쓴글</h3>
+
+    <ul class="listsHeader">
+        <li>
+            <a href="/Mypage">예약/결제내역</a>
+        </li>
+        @*
+        <li>
+            <a href="/Mypage/LikePdt">찜한상품</a>
+        </li>*@
+        <li class="on">
+            <a href="/Mypage/MyBoard">내가쓴글</a>
+        </li>
+        <li>
+            <a href="/Mypage/MyInfo">정보수정</a>
+        </li>
+    </ul>
+
+    <table class="listsBody">
+        <colgroup>
+            <col style="width: 15%;" />
+            <col style="width: 70%;" />
+            <col style="width: 15%;" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>구분</th>
+                @*
+                <th>국가</th>*@
+                <th>제목</th>
+                <th>등록일</th>
+                @*
+                <th>진행상황</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @{
+            string GB   = "",
+            key  = "",
+            tit  = "",
+            date = "",
+            link = "";
+
+            foreach(object item in Model)
+            {
+            GB   = "";
+            key  = "";
+            tit  = "";
+            date = "";
+            link = "";
+
+            try { GB    = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+            try { key   = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+            try { tit   = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+            try { date  = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+
+            link = "/Community/Views?type=" + GB + "&key=" + key;
+
+            switch(GB)
+            {
+            case "review":
+            GB = "고객 리뷰";
+            break;
+            case "qna":
+            GB = "질문과 답변";
+            break;
+            case "customer":
+            GB = "맞춤 여행 문의";
+            break;
+            }
+
+            <tr>
+                <td>@GB</td>
+                <td class="title">
+                    <a href="@link">
+                        <h4>@tit</h4>
+                    </a>
+                </td>
+                <td>@date</td>
+            </tr>
+            }
+            }
+
+            @*
+            <tr>
+                <td>질문과 답변</td>
+                <td>일본</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>이시카와현 카나자와 가족여행 문의</h4>
+                    </a>
+                </td>
+                <td>2018-02-28</td>
+                <td>확인중</td>
+            </tr>
+            <tr>
+                <td>질문과 답변</td>
+                <td>일본</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>이시카와현 카나자와 가족여행 문의</h4>
+                    </a>
+                </td>
+                <td>2018-02-28</td>
+                <td>확인중</td>
+            </tr>
+            <tr>
+                <td>질문과 답변</td>
+                <td>일본</td>
+                <td class="title">
+                    <a href="#">
+                        <img src="~/Content/Images/Board/icon_lock.png" alt="비밀글" />
+                        <h4>이시카와현 카나자와 가족여행 문의</h4>
+                        <img src="~/Content/Images/Board/icon_new.png" alt="새글" />
+                    </a>
+                </td>
+                <td>2018-02-28</td>
+                <td>확인중</td>
+            </tr>
+            <tr>
+                <td>질문과 답변</td>
+                <td>일본</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>이시카와현 카나자와 가족여행 문의</h4>
+                    </a>
+                </td>
+                <td>2018-02-28</td>
+                <td>확인중</td>
+            </tr>
+            <tr>
+                <td>질문과 답변</td>
+                <td>일본</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>이시카와현 카나자와 가족여행 문의</h4>
+                    </a>
+                </td>
+                <td>2018-02-28</td>
+                <td>확인중</td>
+            </tr>
+            <tr>
+                <td>질문과 답변</td>
+                <td>일본</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>이시카와현 카나자와 가족여행 문의</h4>
+                    </a>
+                </td>
+                <td>2018-02-28</td>
+                <td>확인중</td>
+            </tr>*@
+        </tbody>
+    </table>
+    <div class="paging">
+        <ul>
+            @{
+            int count = 0,
+            pageNum = 1,
+            maxPage = 1,
+            boardNum = 0;
+
+            try { count = ViewBag.Cnt; }
+            catch { }
+            try { pageNum = ViewBag.pageNum; }
+            catch { }
+
+            decimal a = count / 10;
+
+            maxPage = count / 10;
+
+            boardNum = count - ((pageNum - 1) * 10);
+
+            string className = "";
+
+            if (count % 10 > 0)
+            {
+            maxPage++;
+            }
+
+            if (pageNum > 1)
+            {
+            <li class="prev_btn"><a href="?idx=@(pageNum-1)"><span><</span></a></li>
+            }
+
+            for (var i = 0; i < maxPage; i++)
+            {
+            if (i + 1 == pageNum)
+            {
+            className = "class=on";
+            }
+            else
+            {
+            className = "";
+            }
+
+            <li><a href="?idx=@(i+1)" @className><span>@(i + 1)</span></a></li>
+            }
+
+            if (pageNum < maxPage)
+            {
+            <li class="next_btn"><a href="?&idx=@(pageNum+1)"><span>></span></a></li>
+            }
+            }
+        </ul>
+
+        @*<ul>
+            <li class="on">
+                <a href="#">
+                    <span>1</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span>2</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span>3</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span>4</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span>5</span>
+                </a>
+            </li>
+        </ul>
+        <form class="searchForm">
+            <select>
+                <option>제목</option>
+                <option>글쓴이</option>
+            </select>
+            <input type="text" placeholder="검색어" />
+        </form>*@
+    </div>
+</section>

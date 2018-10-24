@@ -1,0 +1,150 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    ul.pdtLists > li
+    {
+        font-size: 16px; 
+        padding: 10px;
+    }
+
+    ul.pdtLists > li > a
+    {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        width: 85%;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    ul.pdtLists > li > span.rmBtn
+    {
+        cursor: pointer;
+    }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 500px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">자주쓰는 말말말</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="select_hotels">
+                <div class="tab-content">
+                    <ul class="pdtLists" style="border-bottom: 1px solid #ddd;">
+
+                        @{
+                            string code = "",
+                                   text = "";
+                            
+                            foreach (object item in Model)
+                            {
+                                code = "";
+                                text = "";
+                                
+                                try { code = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                                try { text = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+
+                                <li>
+                                    <a href="#" data-idx="@code">
+                                        @text
+                                    </a>
+                                    <span class="pull-right rmBtn">
+                                        삭제
+                                    </span>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <div class="input-group istTxt" style="width: 80%; float: left;">
+                <input type="text" class="form-control">
+                <span class="input-group-btn">
+                    <button class="btn btn-default istTxtBtn" type="button">등록</button>
+                </span>
+            </div>
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("ul.pdtLists").delegate("a", "click", function (e) {
+            e.preventDefault();
+
+            var _this = $(this),
+                text = _this.text();
+
+            $("#message_area").val("");
+            $("#message_area").val(text.trim());
+            $(".sendMSG").click();
+
+            $("button[data-dismiss=modal]").click();
+        });
+
+        $(".istTxtBtn").on("click", function () {
+            var _this = $(this),
+                txt = _this.parents(".istTxt").find("input"),
+                url = "/Community/JSON_updateTxt",
+                ul = $("ul.pdtLists");
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { txt: txt.val() },
+                success: function (data) {
+                    html = "<li><a href='#' data-idx='" + data + "'>" + txt.val() + "</a><span class='pull-right rmBtn'>삭제</span></li>";
+
+                    ul.append(html);
+
+                    txt.val("");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $(".rmBtn").on("click", function () {
+            var _this = $(this),
+                idx = _this.prev().attr("data-idx"),
+                url = "/Community/JSON_rmTxt",
+                li = _this.parents("li");
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { idx: idx },
+                success: function () {
+                    li.remove();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+        });
+    });
+</script>

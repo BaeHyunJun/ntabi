@@ -1,0 +1,218 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var type = Request["t"];
+
+    string onClass = "class=on";
+
+    if (string.IsNullOrEmpty(type))
+    {
+        type = "";
+    }
+}
+
+<style>
+    div#container > article > section.passLists {
+        padding-top: 10px;
+    }
+
+    section.passLists > h3 {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    section.passLists > ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+    }
+
+    section.passLists ul.listsHeader {
+        text-align: center;
+    }
+
+        section.passLists ul.listsHeader > li {
+            margin: 0;
+            padding: 0 19px;
+            position: relative;
+            display: inline-block;
+        }
+
+            section.passLists ul.listsHeader > li:before {
+                content: '';
+                border-right: 1px solid #777;
+                display: block;
+                position: absolute;
+                top: 4px;
+                bottom: 2px;
+                left: 0;
+            }
+
+            section.passLists ul.listsHeader > li:first-child:before {
+                display: none;
+            }
+
+            section.passLists ul.listsHeader > li > a {
+                color: #9f9f9f;
+                font-size: 16px;
+            }
+
+            section.passLists ul.listsHeader > li.on > a {
+                color: #101010;
+            }
+
+    section.passLists ul.listsBody {
+        margin-top: 31px;
+    }
+
+        section.passLists ul.listsBody > li {
+            background-image: url(/Content/Images/Pass/pass_box.png);
+            background-size: 100%;
+            float: left;
+            position: relative;
+            width: 23%;
+            padding: 0%;
+            height: 326px;
+            margin: 1%;
+        }
+
+            section.passLists ul.listsBody > li > a {
+                display: block;
+            }
+
+                section.passLists ul.listsBody > li > a div.passInfo {
+                    position: static;
+                    text-align: center;
+                    padding: 0;
+                }
+
+                    section.passLists ul.listsBody > li > a div.passInfo h4.title {
+                        font-size: 20px;
+                        font-weight: normal;
+                        padding-top: 25px;
+                        display: block;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        word-wrap: normal;
+                        overflow: hidden;
+                    }
+
+                    section.passLists ul.listsBody > li > a div.passInfo > p {
+                        margin: 8px 0 12px;
+                        font-size: 18px;
+                        font-weight: 100;
+                    }
+
+                        section.passLists ul.listsBody > li > a div.passInfo > p > span {
+                            font-size: 22px;
+                        }
+
+                    section.passLists ul.listsBody > li > a div.passInfo > div.remark {
+                        padding: 30px 10px 10px;
+                        height: 228px;
+                    }
+
+                        section.passLists ul.listsBody > li > a div.passInfo > div.remark > p {
+                            font-size: 18px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            word-wrap: break-word;
+                            line-height: 1.4em;
+                            height: 2.8em;
+                        }
+
+                        section.passLists ul.listsBody > li > a div.passInfo > div.remark > img {
+                            max-height: 128px;
+                        }
+</style>
+
+<section class="passLists">
+    <h3>패스</h3>
+
+    <ul class="listsHeader">
+        <li @if (type =="" ) { @onClass }>
+            <a href="./Lists">전체보기</a>
+        </li>
+        <li @if (type=="KYU" ) { @onClass }>
+            <a href="./Lists?t=KYU">규슈</a>
+        </li>
+        <li @if (type=="OSA" ) { @onClass }>
+            <a href="./Lists?t=OSA">오사카/교토/고베</a>
+        </li>
+        <li @if (type=="TOK" ) { @onClass }>
+            <a href="./Lists?t=TOK">동경/긴토</a>
+        </li>
+        <li @if (type=="HOK" ) { @onClass }>
+            <a href="./Lists?t=HOK">홋카이도</a>
+        </li>
+        <li @if (type=="ETC" ) { @onClass }>
+            <a href="./Lists?t=ETC">기타</a>
+        </li>
+    </ul>
+
+    <ul class="listsBody">
+
+        @{
+        string corp_code = "",
+        pdt_type_code = "",
+        pdt_ist_emp = "",
+        pdt_yy = "",
+        pdt_seq = "",
+        pdt_title = "",
+        pdt_content = "",
+        pdt_img_path = "",
+        code = "",
+        currency_code = "",
+        minPrice = "";
+
+        foreach (object item in Model)
+        {
+        corp_code = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+        pdt_type_code = item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+        pdt_ist_emp = item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+        pdt_yy = item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+        pdt_seq = item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+        pdt_title = item.GetType().GetProperties()[5].GetValue(item, null).ToString();
+        pdt_content = item.GetType().GetProperties()[6].GetValue(item, null).ToString();
+        pdt_img_path = item.GetType().GetProperties()[8].GetValue(item, null).ToString();
+        currency_code = item.GetType().GetProperties()[9].GetValue(item, null).ToString();
+        minPrice = item.GetType().GetProperties()[10].GetValue(item, null).ToString();
+
+        code = corp_code + pdt_type_code + pdt_ist_emp + pdt_yy + pdt_seq;
+
+        switch (currency_code)
+        {
+        case "JYP":
+        currency_code = "엔";
+        break;
+        case "KWN":
+        currency_code = "원";
+        break;
+        case "USD":
+        currency_code = "달러";
+        break;
+        }
+
+        <li>
+            <a href="./Views?C=@{@code}&K=@{@pdt_ist_emp}">
+                <div class="passInfo">
+                    <h4 class="title">@pdt_title</h4>
+                    <p><span class="price">@{@String.Format("{0:#,##0}", int.Parse(minPrice))}</span> 엔 ~</p>
+                    <div class="remark">
+                        <p>
+                            @pdt_content
+                        </p>
+                        <img src="@pdt_img_path" alt="산큐패스" />
+                    </div>
+                </div>
+            </a>
+        </li>
+        }
+        }
+    </ul>
+</section>

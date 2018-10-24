@@ -1,0 +1,202 @@
+﻿@{
+    Layout = null;
+
+    string url = Request["r"];
+}
+
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">login</h4>
+            <div>
+                <a href="/Members/Join1">회원가입</a>
+                <span>|</span>
+                <a href="/Members/find1">아이디/비밀번호 찾기</a>
+            </div>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-inline", name = "loginForm", onsubmit = "return false" }))
+            {
+            <div class="form-group">
+                <label for="inputID" class="col-sm-3 control-label">ID - </label>
+                <div class="col-sm-9">
+                    @Html.TextBox("inputID", "", new { @class = "form-control", @placeholder = "아이디" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputID" class="col-sm-3 control-label">PW - </label>
+                <div class="col-sm-9">
+                    @Html.Password("inputPassword", "", new { @class = "form-control", @placeholder = "비밀번호" })
+                </div>
+            </div>
+
+            <button class="btn btn-default login">로그인</button>
+            }
+        </div>
+        <div class="modal-footer">
+            <div class="otherlogin">
+                <ul>
+                    <li class="naver">
+                        <a href="#">네이버 로그인</a>
+                    </li>
+                    <li class="facebook">
+                        <a href="#">페이스북 로그인</a>
+                    </li>
+                </ul>
+            </div> <!--.otherlogin-->
+            <label>
+                <input type="checkbox" name="setid" id="setid" /> 아이디 저장
+            </label>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.cookie.js"></script>
+
+<script>
+    function statusChangeCallback(response) {
+        if (response.status === 'connected') {
+            testAPI();
+        } else if (response.status === 'not_authorized') {
+            console.log("not_authorized");
+        } else {
+            alert("페이스북 로그인을 취소 하셨습니다.");
+        }
+    }
+
+    function testAPI() {
+        FB.api('/me', { fields: 'name, email, gender' }, function (response) {
+            var url = "/Members/snsLogin";
+
+            response.type = "facebook";
+            response.redirect = (window.location.pathname + window.location.search);
+
+            $.post(url, response, function (data) {
+                location.href = data;
+            });
+        });
+    }
+
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '1419630901383769',
+            cookie: true,  // enable cookies to allow the server to access
+            // the session
+            xfbml: true,  // parse social plugins on this page
+            version: 'v2.5' // use graph api version 2.5
+        });
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/ko_KR/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    $(document).ready(function () {
+
+        $("#setid").on("click", function () {
+            var _this = $(this);
+            var id = $("input[name='inputID']").val();
+
+            if (_this.is(":checked") == true) {
+                $.cookie('userID', id);
+            } else {
+                $.removeCookie('userID');
+            }
+        });
+
+        var ckID = $.cookie('userID');
+
+        if (ckID != "" && ckID != undefined) {
+            $("#setid").attr("checked", true);
+            $("input[name='ndtId']").val(ckID);
+        }
+
+        $("li.facebook a").on("click", function () {
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    statusChangeCallback(response);
+                }
+            }, { scope: 'email' });
+        });
+
+        $("li.naver a").on("click", function () {
+            var url = "/Members/naverLogin";
+
+            window.open(url, 'naverlogin');
+        });
+
+        $("input#setid").on("click", function () {
+            var _this = $(this);
+            var id = $("input#inputID").val();
+
+            if (_this.is(":checked") == true) {
+                $.cookie('userID', id);
+            } else {
+                $.removeCookie('userID');
+            }
+        });
+
+        var ckID = $.cookie('userID');
+
+        if (ckID != "" && ckID != undefined) {
+            $("#setid").attr("checked", true);
+            $("input#inputID").val(ckID);
+        }
+
+        $("form[name=loginForm] button.login").on("click", function (e) {
+            var rUrl = "/",
+                _this = $(this);
+
+            if ("@url" != "") {
+                rUrl = decodeURIComponent("@url").replace("&amp;", "&"); //decodeURIComponent(window.location.search).substring(3);
+            }
+
+            var id = $("input#inputID");
+            var pwd = $("input#inputPassword");
+
+            if (id.val() == "") {
+                alert("아이디를 입력해주세요.");
+                id.focus();
+                return;
+            }
+
+            if (pwd.val() == "") {
+                alert("비밀번호를 입력해주세요.");
+                pwd.focus();
+                return;
+            }
+
+            _this.attr("disabled", true);
+
+            var url = "/Members/getLogin";
+            var data = { id: id.val(), pwd: pwd.val() };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (rData) {
+                    alert(rData);
+
+                    _this.attr("disabled", false);
+
+                    if (rData.indexOf("반갑습니다.") > -1) {
+                        location.href = rUrl;
+                    }
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

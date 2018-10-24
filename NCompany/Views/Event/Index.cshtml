@@ -1,0 +1,594 @@
+﻿@using NCompany.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string date = "",
+           key = "",
+           area = "",//string.IsNullOrEmpty(Request["area"].ToString()) ? "" : "",
+           title = "",
+           name = "",//string.IsNullOrEmpty(Request["name"].ToString()) ? "" : "",
+           cnt = "",
+           tel = "",//string.IsNullOrEmpty(Request["tel"].ToString()) ? "" : "",
+           mail = "",
+           office = "",
+           etc = "",
+           regDate = "",
+           price = "",
+           sDate = "",
+           eDate = "",
+           chkMail = "",
+           chkemp = "",
+           target = "",
+           chkVou = "";// Request["emp"]; ;
+
+    int index = 0;
+
+    string chkd = "selected='selected'";
+
+    string chkd2 = "checked='checked'";
+
+    if (Request["sDate"] != null)
+    {
+        sDate = Request["sDate"].ToString();
+    }
+
+    if (Request["eDate"] != null)
+    {
+        eDate = Request["eDate"].ToString();
+    }
+
+    if (Request["area"] != null)
+    {
+        area = Request["area"].ToString();
+    }
+
+    if (Request["name"] != null)
+    {
+        name = Request["name"].ToString();
+    }
+
+    if (Request["tel"] != null)
+    {
+        tel = Request["tel"].ToString();
+    }
+
+    if (Request["emp"] != null)
+    {
+        chkemp = Request["emp"].ToString();
+    }
+
+    if (Request["target"] != null)
+    {
+        target = Request["target"].ToString();
+    }
+
+    var user = Session["user"] as User;
+
+    if (string.IsNullOrEmpty(chkemp))
+    {
+        chkemp = user.Login.ToString();
+    }
+
+    if (Request["chkVou"] != null)
+    {
+        chkVou = Request["chkVou"].ToString();
+    }
+}
+
+<style>
+    form.srcForm > div
+    {
+        font-size: 0;
+    }
+
+    form.srcForm > div > label
+    {
+        width: 190px;
+        font-size: 14px;
+        margin: 0;
+        margin-left: 10px;
+        margin-left: 5px;
+    }
+
+    form.srcForm > div > label.date
+    {
+        width: 270px;
+        margin-left: 0;
+    }
+
+    form.srcForm > div > label.area
+    {
+        width: 140px;
+    }
+
+    form.srcForm > div > label.name
+    {
+        width: 135px;
+    }
+
+    form.srcForm > div > label.tel
+    {
+        width: 160px;
+    }
+
+    form.srcForm > div > label input
+    {
+        width: 100px;
+    }
+
+    form.srcForm > div > label.area select
+    {
+        width: 105px;
+    }
+
+    form.srcForm > div > a
+    {
+        margin-left: 10px;
+    }
+    
+</style>
+
+<section class="event row">
+    <article class="col-md-12" style="height: 100%; overflow: auto; position: relative;">
+        <div class="col-md-12" style="position: absolute; left: 0; top: 0; background-color: white;">
+            <div class="pull-right" style="margin-right: 0;">
+                <a class="btn btn-success senderMailBtn" href="#">바우처 전송</a>
+                <button class="btn btn-default searchBtn" href="#">고객 조회</button>
+                <a class="btn btn-danger deleteBtn" href="#">고객 삭제</a>
+                <a class="btn btn-primary updateBtn" href="#">고객 저장</a>
+                <a class="btn btn-success" data-toggle="popup" href="/Event/Uploader" data-target="Uploader">고객 등록</a>
+            </div>
+
+            <h3 style="margin: 0;">고객 관리</h3>
+
+            <form action="/Event" method="get" name="srcForm" class="form-inline srcForm" style="border: 1px solid #ddd; padding: 10px; margin-top: 15px;">
+                <div>
+                    <label class="date">
+                        <span>출발 일</span>
+                        <input type="text" value="@sDate" name="sDate" class="form-control datepicker" readonly="readonly" style="background: white; cursor: pointer;">
+                        <span>~</span>
+                        <input type="text" value="@eDate" name="eDate" class="form-control datepicker" readonly="readonly" style="background: white; cursor: pointer;">
+                    </label>
+                    <label class="area">
+                        <span>지역</span>
+                        <select name="area" class="form-control">
+                            <option value="">전체</option>
+                            <option value="KYU" @if (area == "KYU") { @chkd   }>규슈</option>
+                            <option value="TOK" @if (area == "TOK") { @chkd   }>도쿄</option>
+                            <option value="OSA" @if (area == "OSA") { @chkd   }>오사카</option>
+                            <option value="HOK" @if (area == "HOK") { @chkd   }>홋카이도</option>
+                            <option value="TSU" @if (area == "TSU") { @chkd   }>대마도</option>
+                            <option value="OKI" @if (area == "OKI") { @chkd   }>오키나와</option>
+                            <option value="NGY" @if (area == "NGY") { @chkd   }>나고야</option>
+                        </select>
+                    </label>
+                    <label style="width: 280px;">
+                        <span>상품 명</span>
+                        <input type="text" value="@title" name="title" class="form-control" style="width: 227px;">
+                    </label>
+                    <label class="name">
+                        <span>이름</span>
+                        <input type="text" value="@name" name="name" class="form-control">
+                    </label>
+                    <label class="tel">
+                        <span>전화번호</span>
+                        <input type="text" value="@tel" name="tel" class="form-control">
+                    </label>
+                    <label style="width: 186px;">
+                        <span>거래처</span>
+                        <select class="form-control" name="target" style="width: 140px;">
+                            <option value="">선택</option>
+                            <option value="HOM" @if (target == "HOM") { @chkd }>홈페이지</option>
+                            <option value="TMT" @if (target == "TMT") { @chkd }>티켓 몬스터</option>
+                            <option value="WMP" @if (target == "WMP") { @chkd }>위메프</option>
+                            <option value="MRT" @if (target == "MRT") { @chkd }>마이 리얼 트립</option>
+                            <option value="HJT" @if (target == "HJT") { @chkd }>해피진투어</option>
+                            <option value="GNT" @if (target == "GNT") { @chkd }>여행가는길</option>
+                            <option value="SLT" @if (target == "SLT") { @chkd }>단독투어</option>
+                            <option value="ETC" @if (target == "ETC") { @chkd }>기타</option>
+                        </select>
+                    </label>
+
+                    <label style="width: 170px;">
+                        담당자
+                        <select class="form-control" name="emp" style="width: 120px;">
+                            <option value="all">전체</option>                            
+                            <option value="7" @if (chkemp == "7") { @chkd }>@Html.Action("getName", new { emp = 7 })</option>
+                            <option value="6" @if (chkemp == "6") { @chkd }>@Html.Action("getName", new { emp = 6 })</option>
+                            <option value="24" @if (chkemp == "24") { @chkd }>@Html.Action("getName", new { emp = 24 })</option>
+                            <option value="11" @if (chkemp == "11") { @chkd }>@Html.Action("getName", new { emp = 11 })</option>
+                            <option value="20" @if (chkemp == "20") { @chkd }>@Html.Action("getName", new { emp = 20 })</option>
+                            <option value="3" @if (chkemp == "3") { @chkd }>@Html.Action("getName", new { emp = 3 })</option>
+                            <option value="21" @if (chkemp == "21") { @chkd }>@Html.Action("getName", new { emp = 21 })</option>
+                            <option value="4" @if (chkemp == "4") { @chkd }>@Html.Action("getName", new { emp = 4 })</option>
+                            <option value="22" @if (chkemp == "22") { @chkd }>@Html.Action("getName", new { emp = 22 })</option>
+                            <option value="23" @if (chkemp == "23") { @chkd }>@Html.Action("getName", new { emp = 23 })</option>
+                            <option value="28" @if (chkemp == "28") { @chkd }>@Html.Action("getName", new { emp = 28 })</option>
+                            <option value="29" @if (chkemp == "29") { @chkd }>@Html.Action("getName", new { emp = 29 })</option>
+                        </select>
+                    </label>
+                    <label style="width: 72px;">
+                        바우처
+                        <input type="checkbox" name="chkVou" value="O" style="width: auto;" @if (chkVou == "O") { @chkd2  } />
+                    </label>
+                </div>
+            </form>
+
+            <ul class="table-header" style="margin: 10px 15px 0 0;">
+                <li style="width: 2%;"><input type="checkbox" name="allChk" value="" class="allChk" /></li>
+                <li style="width: 2%;">번호</li>
+                <li style="width: 5%;">예약일</li>
+                <li style="width: 5%;">출발일</li>
+                <li style="width: 6%;">지역</li>
+                <li style="width: 26%;">상품 명</li>
+                <li style="width: 4%;">고객 명</li>
+                <li style="width: 3%;">인원</li>
+                <li style="width: 8%;">대표 연락처</li>
+                <li style="width: 12%;">대표 이메일</li>
+                <li style="width: 3%;">구매처</li>
+                <li style="width: 3%;">바우처</li>
+                <li style="width: 15%;">특이사항</li>
+                <li style="width: 6%;">요금</li>
+            </ul>
+        </div>
+        <ul style="overflow: auto; padding-top: 133px; height: 100%;">
+            @{
+                int totalCnt = 0,
+                    totalPrice = 0;
+                
+                foreach(object item in Model)
+                {
+                    date = "";
+                    key = "";
+                    area = "";
+                    title = "";
+                    name = "";
+                    cnt = "";
+                    tel = "";
+                    mail = "";
+                    office = "";
+                    etc = "";
+                    regDate = "";
+                    price = "";
+                    chkMail = "";
+                    
+                    try { date = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                    try { key = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                    try { area = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                    try { title = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+                    try { name = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+                    try { cnt = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { continue; }
+                    try { tel = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { continue; }
+                    try { mail = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { continue; }
+                    try { office = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { continue; }
+                    try { etc = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { }
+                    try { regDate = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); } catch { continue; }
+                    try { price = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); } catch { continue; }
+                    try { chkMail = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); } catch { }
+                    
+                    //switch(area)
+                    //{
+                    //    case "HOK":
+                    //        area = "홋카이도";
+                    //        break;
+                    //}
+
+                    switch (office)
+                    {
+                        case "HOM":
+                            office = "홈";//"홈페이지";
+                            break;
+                        case "TMT":
+                            office = "티";//"티켓 몬스터";
+                            break;
+                        case "WMP":
+                            office = "위";//"위메프";
+                            break;
+                        case "MRT":
+                            office = "마";//"마이 리얼 트립";
+                            break;
+                        case "HJT":
+                            office = "해";//"해피진 투어";
+                            break;
+                        case "GNT":
+                            office = "여";//"여행가는 길";
+                            break;
+                        case "SLT":
+                            office = "단";//"단독 투어";
+                            break;
+                        case "ETC":
+                            office = "기";//"기타";
+                            break;
+                    }
+
+                    if (string.IsNullOrEmpty(mail))
+                    {
+                        mail = "-";
+                    }
+
+                    if (string.IsNullOrEmpty(etc))
+                    {
+                        etc = "-";
+                    }
+
+                    index++;
+
+                    if (index > 999)
+                    {
+                        break;
+                    }
+
+                    totalCnt += Convert.ToInt32(cnt);
+                    totalPrice += Convert.ToInt32(price);
+
+                    string voucher = "X";
+
+                    if (!string.IsNullOrEmpty(chkMail) && chkMail == "Y")
+                    {
+                        voucher = "O";
+                    }
+                    
+                    <li class="rowLine">
+                        <ul>
+                            <li style="width: 2%;"><input type="checkbox" name="" value="@key" data-date="@regDate" data-voucher="@voucher" class="chkBox" /></li>
+                            <li style="width: 2%;">@index</li>
+                            <li style="width: 5%;">@regDate</li>
+                            <li style="width: 5%;"><input type="text" value="@date" name="sDate" class="datepicker" readonly="readonly" style="background: white; cursor: pointer;" /></li>
+                            <li style="width: 6%;">
+                                <select name="area" class="form-control">
+                                    <option value="KYU" @if (area == "KYU") { @chkd  }>규슈</option>
+                                    <option value="TOK" @if (area == "TOK") { @chkd  }>도쿄</option>
+                                    <option value="OSA" @if (area == "OSA") { @chkd  }>오사카</option>
+                                    <option value="HOK" @if (area == "HOK") { @chkd  }>홋카이도</option>
+                                    <option value="TSU" @if (area == "TSU") { @chkd  }>대마도</option>
+                                    <option value="OKI" @if (area == "OKI") { @chkd  }>오키나와</option>
+                                    <option value="NGY" @if (area == "NGY") { @chkd  }>나고야</option>
+                                </select>
+                            </li>
+                            <li style="width: 26%;"><input type="text" name="title" value="@title" /></li>
+                            <li style="width: 4%;">@name</li>
+                            <li style="width: 3%;"><input type="text" name="cnt" value="@cnt" /></li>
+                            <li style="width: 8%;"><input type="text" name="tel" value="@tel" /></li>
+                            <li style="width: 12%;"><input type="text" name="mail" value="@mail" /></li>
+                            <li style="width: 3%;">@office</li>
+                            <li style="width: 3%;">@voucher</li>
+                            <li style="width: 15%;"><input type="text" name="etc" value="@etc" /></li>
+                            <li style="width: 6%;">@string.Format("{0:#,##0}", Convert.ToInt32(price)) 원</li>
+                        </ul>
+                    </li>
+                    
+                }
+            }
+
+            @*
+            <li>
+                <ul>
+                    <li style="width: 6%;">09/10(월)</li>
+                    <li style="width: 6%;">홋카이도</li>
+                    <li style="width: 25%;">B2. [B코스] 후라노+비에이 1일 코스</li>
+                    <li style="width: 5%;">김연희</li>
+                    <li style="width: 5%;">2 명</li>
+                    <li style="width: 8%;">010-9113-4874</li>
+                    <li style="width: 15%;">younhee0422@hanmail.com</li>
+                    <li style="width: 8%;">티켓 몬스터</li>
+                    <li style="width: 22%;">크로스호텔 삿포로08:00-08:10사이</li>
+                </ul>
+            </li>
+            *@
+        </ul>
+    </article>
+
+    <div class="col-md-12" style="left: 0; position: absolute; overflow: auto; right: 0; bottom: 0;">
+        <ul class="table-footer" style="margin-right: 10px;">
+            <li style="width: 2%;">합계</li>
+            <li style="width: 2%;">@index</li>
+            <li style="width: 5%;"> </li>
+            <li style="width: 5%;"> </li>
+            <li style="width: 6%;"> </li>
+            <li style="width: 26%;"> </li>
+            <li style="width: 4%;"> </li>
+            <li style="width: 3%;">@totalCnt</li>
+            <li style="width: 8%;"> </li>
+            <li style="width: 12%;"> </li>
+            <li style="width: 3%;"> </li>
+            <li style="width: 3%;"> </li>
+            <li style="width: 15%;"> </li>
+            <li style="width: 6%;">@string.Format("{0:#,##0}", totalPrice) 원</li>
+        </ul>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $('input[type=checkbox].chkBox').on("click", function () {
+            var _this = $(this);
+            if (_this.prop("checked")) {
+                _this.parents("li.rowLine").find("*").css("background-color", "lemonchiffon");
+            }
+            else {
+                _this.parents("li.rowLine").find("*").css("background-color", "white");
+            }
+        });
+
+        $("input.allChk").click(function () {
+            var _this = $(this);
+            if (_this.prop("checked")) {
+                $("input.chkBox").prop("checked", true).parents("li.rowLine").find("*").css("background-color", "lemonchiffon");
+            } else {
+                $("input.chkBox").prop("checked", false).parents("li.rowLine").find("*").css("background-color", "white");
+            }
+        })
+
+        $("a.senderMailBtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var keyDatas = "",
+                count = 0;
+
+            $('input[type=checkbox].chkBox:checked').each(function () {
+                keyDatas += $(this).attr("data-date") +
+                            "," + $(this).val() + ";";
+                //+
+                //            "," + $(this).parents("li.rowLine ul").find("input[name='sDate']").val() +
+                //            "," + $(this).parents("li.rowLine ul").find("select[name='area']").val() +
+                //            "," + $(this).parents("li.rowLine ul").find("input[name='title']").val() +
+                //            "," + $(this).parents("li.rowLine ul").find("input[name='cnt']").val() +
+                //            "," + $(this).parents("li.rowLine ul").find("input[name='tel']").val() +
+                //            "," + $(this).parents("li.rowLine ul").find("input[name='mail']").val() +
+                //            "," + $(this).parents("li.rowLine ul").find("input[name='etc']").val() + ";";
+
+                count++;
+            })
+
+            var target = "senderMail",
+                url = "/Event/" + target;
+
+            var datas = { data: keyDatas };
+
+            if (keyDatas == "") {
+                alert("고객을 최소 한명은 선택해야 합니다.");
+                return;
+            }
+
+            if (count > 50) {
+                alert("바우처는 최대 50명에게만 전송이 가능합니다.");
+                return;
+            }
+
+            if (confirm("총 " + count + "명 대표자에게 바우처를 보냅니다")) {
+                $.get(url, datas, function (data) {
+                    $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+                });
+            }
+
+        });
+
+        $("input.chkBox").on("click", function () {
+            //console.log($(this).parents("li.rowLine").find(":input"));
+        });
+
+        $("a.updateBtn").on("click", function () {
+            var keyDatas = "";
+
+            $('input[type=checkbox].chkBox:checked').each(function () {
+                keyDatas += $(this).attr("data-date") +
+                            "," + $(this).val() +
+                            "," + $(this).parents("li.rowLine ul").find("input[name='sDate']").val() +
+                            "," + $(this).parents("li.rowLine ul").find("select[name='area']").val() +
+                            "," + $(this).parents("li.rowLine ul").find("input[name='title']").val() +
+                            "," + $(this).parents("li.rowLine ul").find("input[name='cnt']").val() +
+                            "," + $(this).parents("li.rowLine ul").find("input[name='tel']").val() +
+                            "," + $(this).parents("li.rowLine ul").find("input[name='mail']").val() +
+                            "," + $(this).parents("li.rowLine ul").find("input[name='etc']").val() + ";";
+            })
+
+            if (keyDatas == "") {
+                alert("고객을 최소 한명은 선택해야 합니다.");
+                return;
+            }
+
+            var url = "/Event/JSON_updateEvent";
+            var datas = { data: keyDatas };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    alert(data);
+                    location.reload();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $('[data-toggle="popup"]').on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this),
+                url = _this.attr('href'),
+                target = _this.attr('data-target');
+
+            var datas = {};
+
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+
+            location.reload();
+        });
+
+        $("button.searchBtn").on("click", function () {
+            var f = document.srcForm;
+
+            f.submit();
+        });
+
+        $("a.deleteBtn").on("click", function () {
+            var keyDatas = "";
+            var chkVoucher = "X";
+
+            if (confirm("정말로?? 정말로!!! 삭제하시겠습니까?")) {
+                $('input[type=checkbox].chkBox:checked').each(function () {
+                    keyDatas += "," + $(this).attr('data-date') + "_" + $(this).val();
+
+                    if ($(this).attr('data-voucher') == "O")
+                    {
+                        chkVoucher = $(this).attr('data-voucher');
+                    }
+                })
+
+                if (chkVoucher == "O") {
+                    alert("선택된 고객 중 탑승자가 있으면 삭제가 불가능합니다.");
+                    return;
+                }
+
+                var url = "/Event/JSON_deleteEvent";
+                var datas = { data: keyDatas };
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: datas,
+                    success: function (data) {
+                        alert(data);
+                        location.reload();
+                    }
+                    , beforeSend: function () {
+                        $('#loading').show();
+                    }
+                    , complete: function () {
+                        $('#loading').hide();
+                    }
+                });
+            }
+        });
+
+        var minDate = new Date();
+
+        $("input.datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',
+            prevText: '이전',
+            nextText: '이후',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            nowDate: minDate,
+        });
+    });
+</script>

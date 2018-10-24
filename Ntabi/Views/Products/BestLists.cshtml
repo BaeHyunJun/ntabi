@@ -1,0 +1,388 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    div#container > article > section.bestLists {
+        padding-top: 20px;
+    }
+
+    section.bestLists > h3 {
+        font-size: 18px;
+        color: #2a2a2a;
+    }
+
+    section.bestLists > div {
+        position: relative;
+        margin-top: 50px;
+    }
+
+        section.bestLists > div.pack {
+            margin-top: 30px;
+        }
+
+        section.bestLists > div > h4 {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            text-align: center;
+            line-height: 648px;
+            font-size: 18px;
+        }
+
+        section.bestLists > div > ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            font-size: 0;
+            overflow: hidden;
+        }
+
+            section.bestLists > div > ul > li {
+                position: relative;
+                float: left;
+                margin: 2px;
+            }
+
+                section.bestLists > div > ul > li:nth-child(4n) {
+                    margin-right: 0;
+                }
+
+                section.bestLists > div > ul > li:nth-child(4n + 1) {
+                    margin-left: 0;
+                }
+
+                section.bestLists > div > ul > li:nth-child(6),
+                section.bestLists > div > ul > li:nth-child(7) {
+                    margin-top: 32px;
+                }
+
+                section.bestLists > div > ul > li div.pdtInfo {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    background-color: rgba(0,0,0,.5);
+                    text-align: center;
+                    padding: 75px 10px;
+                }
+
+                section.bestLists > div > ul > li:nth-child(4n) div.pdtInfo {
+                    margin-right: 0;
+                    padding: 90px 10px;
+                }
+
+                section.bestLists > div > ul > li:nth-child(4n + 1) div.pdtInfo {
+                    margin-left: 0;
+                    padding: 90px 10px;
+                }
+
+                section.bestLists > div > ul > li div.pdtInfo h5.title {
+                    color: white;
+                    font-size: 16px;
+                    line-height: 24px;
+                    font-weight: normal;
+                }
+
+                section.bestLists > div > ul > li div.pdtInfo > p {
+                    margin: 0;
+                    font-size: 20px;
+                    color: white;
+                    margin-top: 50px;
+                }
+
+                    section.bestLists > div > ul > li div.pdtInfo > p span.price {
+                        font-size: 22px;
+                    }
+</style>
+
+<section class="bestLists">
+    <h3>BEST</h3>
+
+    <div class="pack">
+        <h4>BEST 패키지 여행 상품</h4>
+        <ul>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_01.jpg" alt="[동경] 알 꽉찬 동경패키지" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[도쿄]<br />알 꽉찬 동경패키지</h5>
+                        <p>
+                            <span class="price">899,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_02.jpg" alt="[규슈] 야마구치 온천 3일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[규슈]<br />야마구치 온천 3일</h5>
+                        <p>
+                            <span class="price">529,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_03.jpg" alt="[오사카] 다도/온천체험 or USJ 3일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[오사카]<br />다도/온천체험 or USJ 3일</h5>
+                        <p>
+                            <span class="price">599,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_04.jpg" alt="[오사카] 오사카/나라/교토/아라시야마 or USJ 2박3일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[오사카]<br />오사카/나라/교토/아라시야마 or USJ 2박3일</h5>
+                        <p>
+                            <span class="price">649,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_05.jpg" alt="[오키나와] 동양의 하와이 오키나와 실속 3일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[오키나와]<br />동양의 하와이 오키나와 실속 3일</h5>
+                        <p>
+                            <span class="price">649,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_06.jpg" alt="[대마도] 대마도 당일 아리아케 트레킹 투어" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[대마도]<br />대마도 당일 아리아케 트레킹 투어</h5>
+                        <p>
+                            <span class="price">89,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_07.jpg" alt="[동경] 동경/알펜루트/하코네 4일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[동경]<br />동경/알펜루트/하코네 4일</h5>
+                        <p>
+                            <span class="price">799,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_08.jpg" alt="[규슈] 카멜리아 실속 북규슈 온천특가!" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[규슈]<br />카멜리아 실속 북규슈 온천특가!</h5>
+                        <p>
+                            <span class="price">169,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="free">
+        <h4>BEST 자유 여행 상품</h4>
+        <ul>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_09.jpg" alt="[규슈] 부관훼리 3박4일 왕복승선" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[규슈]<br />부관훼리 3박4일 왕복승선</h5>
+                        <p>
+                            <span class="price">88,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_10.jpg" alt="[규슈] 뉴카멜리아로 떠나는 후쿠오카" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[규슈]<br />뉴카멜리아로 떠나는 후쿠오카</h5>
+                        <p>
+                            <span class="price">88,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_11.jpg" alt="[오사카] 팬스타 왕복승선권+호텔+료칸" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[오사카]<br />팬스타 왕복승선권+호텔+료칸</h5>
+                        <p>
+                            <span class="price">264,600</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_12.jpg" alt="[규슈] 벳부 지옥온천을 한번에 비틀 2박3일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[규슈]<br />벳부 지옥온천을 한번에 비틀 2박3일</h5>
+                        <p>
+                            <span class="price">88,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_13.jpg" alt="[홋카이도] 눈의도시 북해도 항공권 3박4일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[홋카이도]<br />눈의도시 북해도 항공권 3박4일</h5>
+                        <p>
+                            <span class="price">88,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_14.jpg" alt="[오사카] 오사카 중심을 걸어서!" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[오사카]<br />오사카 중심을 걸어서!</h5>
+                        <p>
+                            <span class="price">89,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_15.jpg" alt="[대마도] 니나 X 미우다펜션" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[대마도]<br />니나 X 미우다펜션</h5>
+                        <p>
+                            <span class="price">799,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_16.jpg" alt="[규슈] 오전-오후 비틀 2박3일 왕복승선권!" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[규슈]<br />오전-오후 비틀 2박3일 왕복승선권!</h5>
+                        <p>
+                            <span class="price">169,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="local">
+        <h4>BEST 현지투어 상품</h4>
+        <ul>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_17.jpg" alt="[동경] 알 꽉찬 동경패키지" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[도쿄]<br />알 꽉찬 동경패키지</h5>
+                        <p>
+                            <span class="price">899,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_18.jpg" alt="[규슈] 야마구치 온천 3일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[규슈]<br />야마구치 온천 3일</h5>
+                        <p>
+                            <span class="price">529,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_19.jpg" alt="[오사카] 다도/온천체험 or USJ 3일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[오사카]<br />다도/온천체험 or USJ 3일</h5>
+                        <p>
+                            <span class="price">599,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_20.jpg" alt="[오사카] 오사카/나라/교토/아라시야마 or USJ 2박3일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[오사카]<br />오사카/나라/교토/아라시야마 or USJ 2박3일</h5>
+                        <p>
+                            <span class="price">649,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_21.jpg" alt="[오키나와] 동양의 하와이 오키나와 실속 3일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[오키나와]<br />동양의 하와이 오키나와 실속 3일</h5>
+                        <p>
+                            <span class="price">649,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_22.jpg" alt="[대마도] 대마도 당일 아리아케 트레킹 투어" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[대마도]<br />대마도 당일 아리아케 트레킹 투어</h5>
+                        <p>
+                            <span class="price">89,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_23.jpg" alt="[동경] 동경/알펜루트/하코네 4일" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[동경]<br />동경/알펜루트/하코네 4일</h5>
+                        <p>
+                            <span class="price">799,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a>
+                    <img src="~/Content/Images/Products/bestlists/29_24.jpg" alt="[규슈] 카멜리아 실속 북규슈 온천특가!" />
+                    <div class="pdtInfo">
+                        <h5 class="title">[규슈]<br />카멜리아 실속 북규슈 온천특가!</h5>
+                        <p>
+                            <span class="price">169,000</span> ~
+                        </p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</section>

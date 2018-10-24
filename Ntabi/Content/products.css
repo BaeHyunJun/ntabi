@@ -1,0 +1,560 @@
+﻿
+section.sideMenu
+{
+overflow: hidden;
+max-width: none !important;
+}
+section.sideMenu div.pdtImg
+{
+float: right;
+width: 100%;
+height: 300px;
+background-position: center;
+}
+section.sideMenu > aside
+{
+float: left;
+width: 300px;
+padding: 20px 0;
+}
+section.sideMenu > aside > ul
+{
+/*
+margin: 0;
+padding: 0;
+font-size: 0;
+line-height: 50px;
+text-align: center;
+*/
+    
+margin: 0;
+padding: 0;
+font-size: 0;
+line-height: 45px;
+text-align: center;
+}
+section.sideMenu > aside > ul > li
+{
+font-size: 15px;
+border-bottom: 1px solid #2a2a2a;
+}
+div#container > article > section.bestPdt
+{
+margin-top: 100px;
+text-align: center;
+}
+section.bestPdt > div
+{ 
+margin-top: 30px;
+overflow: hidden;
+}
+section.bestPdt > div div.bestitem
+{ 
+width: 30%;
+float: left;
+HEIGHT: 400px;
+margin-left: 5%;
+position: relative;
+background-size: cover;
+background-position: 50% 50%;
+background-repeat: no-repeat;
+}
+section.bestPdt > div div.bestitem:first-child
+{ 
+margin-left: 0;
+}
+section.bestPdt > div div.bestitem > a
+{ 
+display: block;
+width: 100%;
+height: 100%;
+}
+section.bestPdt > div div.bestitem > a > h4
+{ 
+height: 27px;
+display: block;
+font-size: 16px;
+line-height: 27px;
+font-weight: 500;
+letter-spacing: -1px;
+color: black;
+}
+section.bestPdt > div div.bestitem > a > h4:before
+{
+display: block;
+content: "";
+position: absolute;
+top: 12px;
+left: 0;
+width: 117px;
+height: 5px;
+background-image: url('/Content/Images/Products/best/besttitDeco.png');
+background-repeat: no-repeat;
+background-size: 80% auto;
+}
+section.bestPdt > div div.bestitem > a > h4:after
+{
+display: block;
+content: "";
+position: absolute;
+top: 12px;
+right: -24px;
+width: 117px;
+height: 5px;
+background-image: url('/Content/Images/Products/best/besttitDeco.png');
+background-repeat: no-repeat;
+background-size: 80% auto;
+}
+section.bestPdt > div div.bestitem > a > img
+{ 
+width: 100%;
+margin-top: 20px;
+border-radius: 20px;
+}
+section.bestPdt > div div.bestitem > a > p
+{ 
+position: absolute;
+left: 5%;
+right: 5%;
+bottom: 0;
+margin: 0;
+color: black;
+font-size: 18px;
+}
+section.bestPdt > div div.bestitem > a > p > span
+{ 
+display: block;
+font-size: 15px;
+margin: 0px 0px 5px;
+text-overflow: ellipsis;
+white-space: nowrap;
+word-wrap: normal;
+overflow: hidden;
+width: 100%;
+}
+
+/*
+* 상품 목록
+*/
+div#container > article > section.pdtLists
+{
+max-width: none;
+margin-top: 10px;
+}
+section.pdtLists > h3
+{
+height: 30px;
+display: block;
+line-height: 40px;
+max-width: 1200px;
+margin: 0 auto;
+font-size: 14px;
+font-weight: 500;
+letter-spacing: -1px;
+}
+section.pdtLists > ul
+{
+padding: 0;
+margin: 0;
+margin-top: 10px;
+font-size: 0;
+}
+section.pdtLists > ul > li:nth-child(2n + 1)
+{
+background-color: rgba(248,248,248,.7);
+}
+section.pdtLists > ul > li > a
+{
+max-width: 1200px;
+display: block;
+margin: 0 auto;
+height: 200px;
+padding: 10px 0;
+}
+section.pdtLists > ul > li > a > div.pdt
+{
+display: block;
+height: 100%;
+}
+section.pdtLists > ul > li > a > div.pdt > img
+{
+float: left;
+height: 180px;
+}
+section.pdtLists > ul > li > a > div.pdt > div
+{
+float: left;
+margin-left: 30px;
+padding: 20px 0;
+font-size: 15px;
+position: relative;
+height: 100%;
+}
+section.pdtLists > ul > li > a > div.pdt > div div.pdtInfo
+{
+float: left;
+width: 640px;
+position: relative;
+height: 100%;
+border-right: 1px solid #d1d1d1;
+}
+section.pdtLists > ul > li > a > div.pdt > div div.pdtInfo > *
+{
+display: block;
+margin-bottom: 5px;
+}
+section.pdtLists > ul > li > a > div.pdt > div div.pdtInfo > span.code
+{
+color: #fa892d;
+}
+section.pdtLists > ul > li > a > div.pdt > div div.pdtInfo > h4.title
+{
+color: #0b0b0b;
+font-size: 18px;
+}
+section.pdtLists > ul > li > a > div.pdt > div div.pdtInfo > span.remark
+{
+color: #525252;
+font-size: 14px;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
+section.pdtLists > ul > li > a > div.pdt > div div.pdtInfo > p
+{
+position: absolute;
+left: 0;
+bottom: 0;
+margin-bottom: 0;
+color: #303030;
+line-height: 18px;
+}
+section.pdtLists > ul > li > a > div.pdt > div div.priceInfo
+{
+width: 280px;
+height: 100%;
+float: right;
+text-align: center;
+font-size: 25px;
+line-height: 140px;
+color: #df2a17;
+}
+/*
+* 상품 목록
+*/
+
+
+/*
+* 상품 뷰
+*/
+span.nav.pdtView
+{
+display: block;
+max-width: 1200px;
+margin: 0 auto;
+padding: 10px 0
+}
+
+div#container > article > section.pdtInfo
+{
+background-color: #f4f4f4;
+max-width: none;
+padding-top: 20px;
+overflow: hidden;
+}
+
+section.pdtInfo > div
+{
+max-width: 1200px;
+margin: 10px auto;
+}
+
+section.pdtInfo > div h4.title
+{
+margin: 0 0 5px;
+display: block;
+font-size: 20px;
+}
+
+section.pdtInfo > div p.remark
+{
+margin-bottom: 15px;
+font-size: 15px;
+}
+    
+section.pdtInfo .bx-wrapper,
+section.pdtInfo ul.pdtImgs
+{
+margin: 0;
+padding: 0;
+}
+    
+section.pdtInfo .bx-wrapper .bx-viewport
+{
+background-color: transparent;
+box-shadow: none;
+border: none;
+padding: 0;
+margin: 0;
+left: 0;
+top: 0;
+}
+
+section.pdtInfo ul.pdtImgs > li
+{
+opacity: .3;
+}
+
+section.pdtInfo ul.pdtImgs > li.on
+{
+opacity: 1;
+}
+
+section.pdtInfo ul.pdtImgs > li > img
+{
+height: 400px;
+}
+
+div#container > article > section.pdtDetail
+{
+overflow: hidden;
+margin-top: 20px;
+}
+
+section.pdtDetail > div
+{
+float: left; 
+width: 840px;
+}
+
+section.pdtDetail > div div.dateArea
+{
+width: 100%; 
+}
+
+section.pdtDetail > div div.dateArea div.ui-datepicker
+{
+width: 100% !important;
+padding: 0;
+border: none;
+}
+    
+section.pdtDetail > div div.dateArea div.ui-datepicker .ui-datepicker-group {
+width: 276px;
+margin-left: 6px;
+}
+
+section.pdtDetail > div div.dateArea div.ui-datepicker .ui-datepicker-group:first-child {
+margin: 0;
+}
+
+section.pdtDetail > div div.dateArea > table
+{
+margin-top: 20px;
+width: 100%;
+text-align: center;
+border-bottom: 1px solid #ddd;
+}
+
+section.pdtDetail > div div.dateArea > table > thead
+{
+background-color: #eee;
+}
+
+section.pdtDetail > div div.dateArea > table > thead th
+{
+text-align: center;
+font-weight: normal;
+}
+
+section.pdtDetail > div div.dateArea > table > tbody tr
+{
+height: 28px;
+line-height: 28px;
+}
+
+section.pdtDetail > div div.infoArea
+{
+margin-bottom: 20px;
+}
+    
+section.pdtDetail > div div.infoArea > table
+{
+width: 100%;
+border-bottom: 1px solid #ddd;
+}
+
+section.pdtDetail > div div.infoArea > table > tbody > tr
+{
+height: 50px;
+border-top: 1px solid #ddd;
+}
+
+section.pdtDetail > div div.infoArea > table > tbody > tr:first-child
+{
+height: 30px;
+}
+
+section.pdtDetail > div div.infoArea > table > tbody > tr > th
+{
+font-weight: normal;
+background-color: #eee;
+text-align: center;
+width: 120px;
+}
+
+section.pdtDetail > div div.infoArea > table > tbody > tr > td
+{
+padding: 5px 20px;
+width: 300px;
+}
+
+section.pdtDetail > div div.infoArea > table > tbody > tr > td > img
+{
+width: 40px;
+float: left;
+margin-right: 15px;
+}
+
+section.pdtDetail > div div.detailArea
+{
+margin-top: 50px;
+}
+
+section.pdtDetail > div div.detailArea ul.nav > li
+{
+width: 20%;
+text-align: center;
+}
+
+section.pdtDetail > div div.detailArea ul.nav > li > a
+{
+margin: 0;
+height: 45px;
+border-radius: 0;
+background-color: #cacaca !important; 
+}
+
+section.pdtDetail > div div.detailArea ul.nav > li.active > a
+{
+border-bottom-color: white;
+background-color: white !important;
+}
+
+section.pdtDetail > div div.detailArea div.tab-content
+{
+min-height: 100px;
+border: 1px solid #ddd;
+border-top: none;
+padding: 20px 10px 10px;
+}
+
+section.pdtDetail > div div.detailArea div.tab-content img
+{
+max-width: 100%;
+}
+
+section.pdtDetail > div div.detailArea div.tab-content *
+{
+font-size: 14px !important;
+line-height: 20px !important;
+font-family: 'Nanum Gothic', '나눔고딕', 'Nanum Gothic Web', '맑은 고딕', 'Malgun Gothic', Dotum !important;
+}
+
+section.pdtDetail > div div.detailArea div.tab-content h6.conTit
+{
+width: 200px;
+display: block;
+font-size: 20px;
+margin-top: 20px;
+text-align: right;
+margin-left: -10px;
+margin-bottom: 20px;
+padding-bottom: 5px;
+border-bottom: 1px solid #ddd;
+}
+
+section.pdtDetail > aside
+{
+float: right; 
+width: 350px;
+border: 1px solid #ddd;
+}
+    
+section.pdtDetail > aside div.totalPrice,
+section.pdtDetail > aside div.traffic,
+section.pdtDetail > aside div.peoples,
+section.pdtDetail > aside div.options
+{
+padding: 17px 20px;
+/*border-bottom: 1px dotted #ddd;*/
+}
+
+section.pdtDetail > aside div.peoples
+{
+border-top: 1px dotted #ddd;
+}
+
+section.pdtDetail > aside div.totalPrice
+{
+height: 70px;
+line-height: 55px;
+background-color: #e7f1d7;
+}
+
+section.pdtDetail > aside div.totalPrice > p,
+section.pdtDetail > aside div.traffic > p,
+section.pdtDetail > aside div.options > p
+{
+margin: 0;
+}
+
+section.pdtDetail > aside div.totalPrice > p > span
+{
+float: right;
+font-size: 24px;
+font-weight: bold;
+margin-right: 20px;
+color: #df2a17;
+}
+
+section.pdtDetail > aside div.peoples > p
+{
+display: none;
+}
+    
+section.pdtDetail > aside div.peoples > p > span
+{
+margin-left: 60px;
+}
+section.pdtDetail > aside div.peoples > p > span.ageInfo{
+display: block;
+margin: 0;
+margin-left: 5px;
+font-size: 13px;
+color: #777;
+}
+    
+section.pdtDetail > aside div.peoples > p > select
+{
+float: right;
+width: 50px;
+}
+section.pdtDetail > aside div.options
+{
+background-color: #ececec;
+border-bottom: 1px solid #ddd;
+}
+section.pdtDetail > aside div.revBtn
+{
+height: 50px;
+color: white;
+margin-top: 2px;
+line-height: 50px;
+text-align: center;
+background-color: #a0ce54;
+cursor: pointer;
+}
+/*
+* 상품 뷰
+*/

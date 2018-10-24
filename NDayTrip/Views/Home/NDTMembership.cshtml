@@ -1,0 +1,290 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    section.content {
+        padding: 52px 0;
+        margin: 0 -15px;
+    }
+
+    section > article.membership {
+        padding: 20px;
+        font-size: 0;
+    }
+
+        section > article.membership > div > input,
+        section > article.membership > div > div > input,
+        section > article.membership > button,
+        section > article.membership > div > a {
+            width: 100%;
+            height: 45px;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            line-height: 45px;
+            border: 1px solid #ddd;
+        }
+
+        section > article.membership > div > p {
+            font-size: 10px;
+        }
+
+        section > article.membership > button.membershipBtn {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: 10px 0 0;
+            color: white;
+            background: #ccc;
+            border: #ccc;
+            font-weight: bold;
+            padding: 0;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        section > article.membership > a {
+            margin: 10px 0 0;
+            display: block;
+            text-align: center;
+            color: black;
+            border: 2px solid #a0ce54;
+            font-weight: bold;
+            padding: 0;
+        }
+
+        section > article.membership > div {
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+            section > article.membership > div > label {
+                margin: 0;
+                color: #777;
+            }
+
+                section > article.membership > div > label > input {
+                    margin: 0;
+                    margin-right: 5px;
+                }
+
+                section > article.membership > div > label > a,
+                section > article.membership > div > label > span {
+                    color: #777;
+                }
+
+                section > article.membership > div > label > span {
+                    margin: 0 10px;
+                }
+</style>
+
+<section class="content">
+    <article class="membership">
+        <div>
+            <input type="text" name="signup_id" placeholder="아이디" />
+
+            @*
+            <div style="position: absolute; left: 0; top: 0; right: 94px;">
+                <input type="text" name="signup_id" placeholder="아이디" />
+            </div>
+            <a class="pull-right" style="width: 84px; line-height: 35px; color: white; background-color: #ccc; font-size: 12px; text-align: center; font-weight: bold;">중복확인</a>
+            *@
+
+        </div>
+        <div>
+            <input type="text" name="signup_name" placeholder="이름" />
+        </div>
+        <div>
+            <input type="date" name="signup_birth" placeholder="생년 월일" value="1980-12-01" />
+            <p>생년월일은 아이디 찾기 시 사용됩니다. 정확하게 입력해주세요.</p>
+        </div>
+        <div>
+            <input type="text" name="signup_mail" placeholder="이메일" />
+            <p>메일주소는 비밀번호찾기 시 사용됩니다. 정확하게 입력해 주세요.</p>
+        </div>
+        <div>
+            <input type="tel" name="signup_tel1" placeholder="010" style="width: 30%;" />
+            <span style="width: 5%; display: inline-block; text-align: center; font-size: 14px;">-</span>
+            <input type="tel" name="signup_tel2" placeholder="1234" style="width: 30%;" />
+            <span style="width: 5%; display: inline-block; text-align: center; font-size: 14px;">-</span>
+            <input type="tel" name="signup_tel3" placeholder="5678" style="width: 30%;" />
+        </div>
+        <div>
+            <input type="password" name="signup_pwd" placeholder="비밀 번호" />
+            <p>6~20자의 영문자, 숫자 조합으로 입력해 주세요.</p>
+        </div>
+        <div>
+            <input type="password" name="signup_chk_pwd" placeholder="비밀 번호 확인" />
+        </div>
+
+        <button class="membershipBtn">회원 가입</button>
+    </article>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $("article.membership button.membershipBtn").on("click", function () {
+
+            var id = $("input[name='signup_id']");
+            var pwd = $("input[name='signup_pwd']");
+            var chk_pwd = $("input[name='signup_chk_pwd']");
+            var name = $("input[name='signup_name']");
+            var tel1 = $("input[name='signup_tel1']");
+            var tel2 = $("input[name='signup_tel2']");
+            var tel3 = $("input[name='signup_tel3']");
+            var mail = $("input[name='signup_mail']");
+            var birth = $("input[name='signup_birth']");
+
+            var regId = /^[_A-Za-z0-9]{5,12}$/;
+            var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            var regPwd = /^(?=.*[A-Za-z0-9])((?=.*\d)|(?=.*\W)).{6,20}$/;
+            var regName = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+            var regTel = /[0-9]/;
+            var regBirth = /[0-9]{4}[-\/][0-9]{2}[-\/][0-9]{2}/;
+
+            if (id.val() == "") {
+                alert("아이디를 입력해주세요.");
+                id.focus();
+                return;
+            }
+
+            if (!regId.test(id.val())) {
+                alert("아이디는 영문과 숫자로만 5~12자 이내로 입력하세요.");
+                id.focus();
+                return;
+            }
+
+            if (pwd.val() == "") {
+                alert("비밀번호를 입력해주세요.");
+                pwd.focus();
+                return;
+            }
+
+            if (!regPwd.test(pwd.val())) {
+                alert("비밀번호는 영문 + 숫자로 6~20자 이내로 입력해주세요.");
+                pwd.focus();
+                return;
+            }
+
+            if (chk_pwd.val() != pwd.val()) {
+                alert("비밀 번호가 서로 다릅니다.");
+                chk_pwd.focus();
+                return;
+            }
+
+            if (name.val() == "") {
+                alert("이름을 입력해주세요.");
+                name.focus();
+                return;
+            }
+
+            if (name.val().length < 3) {
+                alert("이름을 제대로 입력해주세요.");
+                name.focus();
+                return;
+            }
+
+            if (tel1.val() == "") {
+                alert("전화 번호를 입력해주세요.");
+                tel1.focus();
+                return;
+            }
+
+            if (tel1.val().length < 3) {
+                alert("전화 번호를 제대로 입력해주세요.");
+                tel1.focus();
+                return;
+            }
+
+            if (!regTel.test(tel1.val())) {
+                alert("전화번호는 숫자로만 입력해주세요.");
+                tel1.focus();
+                return;
+            }
+
+            if (tel2.val() == "") {
+                alert("전화 번호를 입력해주세요.");
+                tel2.focus();
+                return;
+            }
+
+            if (tel2.val().length < 3) {
+                alert("전화 번호를 제대로 입력해주세요.");
+                tel2.focus();
+                return;
+            }
+
+            if (!regTel.test(tel2.val())) {
+                alert("전화번호는 숫자로만 입력해주세요.");
+                tel2.focus();
+                return;
+            }
+
+            if (tel3.val() == "") {
+                alert("전화 번호를 입력해주세요.");
+                tel3.focus();
+                return;
+            }
+
+            if (tel3.val().length < 4) {
+                alert("전화 번호를 제대로 입력해주세요.");
+                tel3.focus();
+                return;
+            }
+
+            if (!regTel.test(tel3.val())) {
+                alert("전화번호는 숫자로만 입력해주세요.");
+                tel3.focus();
+                return;
+            }
+
+            if (mail.val() == "") {
+                alert("메일을 입력해주세요.");
+                mail.focus();
+                return;
+            }
+
+            if (!regEmail.test(mail.val())) {
+                alert("메일주소를 제대로 입력해 주세요.");
+                mail.focus();
+                return;
+            }
+
+            if (birth.val() == "") {
+                alert("생년월일을 입력해주세요.");
+                birth.focus();
+                return;
+            }
+
+            //if (!regTel.test(birth.val()) || birth.val().length < 8) {
+            //    alert("생년월일은 19801010의 형식으로 입력해주세요.");
+            //    birth.focus();
+            //    return;
+            //}
+
+            var tel = tel1.val() + "-" + tel2.val() + "-" + tel3.val();
+
+            var url = "/Home/SignUp";
+            var datas = { id: id.val(), pwd: pwd.val(), name: name.val(), tel: tel, mail: mail.val(), birth: birth.val() };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    alert(data);
+                    location.href = "/Home/NDTLogin";
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

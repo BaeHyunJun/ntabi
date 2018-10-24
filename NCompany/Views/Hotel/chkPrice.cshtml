@@ -1,0 +1,286 @@
+﻿@using NCompany.Models
+
+@{
+    Layout = null;
+
+    var user = Session["user"] as User;
+
+    string type = ViewBag.hotelType;
+
+    string prcTxt1 = "싱글",
+           prcTxt2 = "더블",
+           prcTxt3 = "트윈",
+           prcTxt4 = "트리플";
+        
+
+    switch(type)
+    {
+        case "01":
+        case "04":
+            prcTxt1 = "싱글";
+            prcTxt2 = "더블";
+            prcTxt3 = "트윈";
+            prcTxt4 = "트리플";
+            break;
+        case "02":
+            prcTxt1 = "2인실";
+            prcTxt2 = "3인실";
+            prcTxt3 = "4인실";
+            prcTxt4 = "사용안함";
+            break;
+        case "03":
+            prcTxt1 = "도미토리";
+            prcTxt2 = "2인실";
+            prcTxt3 = "3인실";
+            prcTxt4 = "4인실";
+            break;
+        //case "04":
+        //    prcTxt1 = "싱글";
+        //    prcTxt2 = "더블";
+        //    prcTxt3 = "트윈";
+        //    prcTxt4 = "트리플";
+        //    break;
+    }
+}
+
+<style>
+    .prcForm input {
+        max-width: 100%;
+        height: 20px;
+        padding: 3px;
+    }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 710px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">판매가</h4>
+        </div>
+        <div class="modal-body">
+            <form name="prcForm" method="post" action="/Hotel/updatePrc" class="prcForm">
+                <input type="hidden" name="redirect" value="/Hotel" />
+                <input type="hidden" name="seq" value="@Request["seq"]" />
+                <table class="table text-center priceTable">
+                    <colgroup>
+                        <col style="width: 7%" />
+                        <col style="width: 10%" />
+                        <col style="width: 12%" />
+                        <col style="width: 12%" />
+                        <col style="width: 12%" />
+                        <col style="width: 12%" />
+                        <col style="width: 12%" />
+                        <col style="width: 16%" />
+                        <col style="width: 7%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>화폐</th>
+
+                            <th>@prcTxt1</th>
+                            <th>@prcTxt2</th>
+                            <th>@prcTxt3</th>
+                            <th>@prcTxt4</th>
+
+                            <th>수익</th>
+                            <th>간단 설명</th>
+                            <th>제거</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            string txtSel = "selected='selected'",
+                                   no = "",
+                                   cu = "",
+                                   pc = "",
+                                   pf = "",
+                                   rm = "",
+                                   ct = "",
+                                   pc2 = "",
+                                   pc3 = "",
+                                   pc4 = "";
+
+                            foreach (var item in Model)
+                            {
+                                try { no = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+                                try { cu = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+                                try { pc = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+                                try { pf = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+                                try { rm = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+                                try { ct = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+                                try { pc2 = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+                                try { pc3 = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+                                try { pc4 = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+
+                                <tr>
+                                    <td>
+                                        @no
+                                        <input type="hidden" name="prc_seq[]" value="@no" />
+                                    </td>
+                                    <td>
+                                        <select name="currency[]">
+                                            <option value="KRW" @if (cu == "KWR") { @txtSel }>KRW</option>
+                                            <option value="JPY" @if (cu == "JPY") { @txtSel }>JPY</option>
+                                            <option value="USD" @if (cu == "USD") { @txtSel }>USD</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="@prcTxt1" maxlength="7" value="@pc" name="price1[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="@prcTxt2" maxlength="7" value="@pc2" name="price2[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="@prcTxt3" maxlength="7" value="@pc3" name="price3[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="@prcTxt4" maxlength="7" value="@pc4" name="price4[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="수익 금" maxlength="7" value="@pf" name="profit[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="설 명" maxlength="10" value="@ct" name="content[]">
+                                    </td>
+                                    <td>
+                                        <a href="#" class="removePrc"><span aria-hidden="true">&times;</span></a>
+                                    </td>
+                                </tr>
+                            }
+}
+
+                        @if (string.IsNullOrEmpty(no))
+                        {
+                            <tr>
+                                <td>
+                                    -
+                                    <input type="hidden" name="prc_seq[]" value="" />
+                                </td>
+                                <td>
+                                    <select name="currency[]">
+                                        <option value="KRW" selected="selected">KRW</option>
+                                        <option value="JPY">JPY</option>
+                                        <option value="USD">USD</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="@prcTxt1" maxlength="7" value="" name="price1[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="@prcTxt2" maxlength="7" value="" name="price2[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="@prcTxt3" maxlength="7" value="" name="price3[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="@prcTxt4" maxlength="7" value="" name="price4[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="수익" maxlength="7" value="" name="profit[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="간단 설명" maxlength="10" value="" name="content[]">
+                                </td>
+                                <td>
+                                    <a href="#" class="removePrc"><span aria-hidden="true">&times;</span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-default" id="addPrice">추가</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">저장</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#addPrice").on("click", function () {
+        var html = '<tr>' +
+                        '<td>-<input type="hidden" name="prc_seq[]" value=""/></td>' +
+                        '<td>' +
+                            '<select name="currency[]">' +
+                                '<option value="KRW" selected="selected">KRW</option>' +
+                                '<option value="JPY">JPY</option>' +
+                                '<option value="USD">USD</option>' +
+                            '</select>' +
+                        '</td>' +
+                        '<td><input type="text" class="form-control" placeholder="@prcTxt1" maxlength="7" value="" name="price1[]"></td>' +
+                        '<td><input type="text" class="form-control" placeholder="@prcTxt2" maxlength="7" value="" name="price2[]"></td>' +
+                        '<td><input type="text" class="form-control" placeholder="@prcTxt3" maxlength="7" value="" name="price3[]"></td>' +
+                        '<td><input type="text" class="form-control" placeholder="@prcTxt4" maxlength="7" value="" name="price4[]"></td>' +
+                        '<td><input type="text" class="form-control" placeholder="수익" maxlength="7" value="" name="profit[]"></td>' +
+                        '<td><input type="text" class="form-control" placeholder="간단 설명" maxlength="10" value="" name="content[]"></td>' +
+                        '<td><a href="#" class="removePrc"><span aria-hidden="true">&times;</span></a></td>' +
+                    '</tr>';
+
+        if ($("table.priceTable tbody tr").length >= 20) {
+            alert("판매가는 20개까지만 생성할 수 있습니다.");
+            return;
+        }
+
+        $("table.priceTable").find("tbody").append(html);
+    });
+
+    $("table.priceTable tbody").delegate("a.removePrc", "click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var _this = $(this),
+            parent = _this.parents('tr');
+
+        if (parent.siblings().length < 1) {
+            //return;
+            $("#addPrice").click();
+        }
+
+        parent.remove();
+    });
+
+    $("#uptBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.prcForm,
+            ErMsg = "",
+            focusEl,
+            isSub = true;
+
+        for (var i = 0; $('select[name="currency[]"]').length > i; i++) {
+            if ($('select[name="currency[]"]')[i].value == "") {
+                alert("화폐 종류를 꼭 선택해주세요.");
+                $('select[name="currency[]"]')[i].focus();
+                isSub = false
+                break;
+            } else if ($('input[name="price1[]"]')[i].value == "") {
+                alert("요금은 꼭 입력해주세요.");
+                $('input[name="price[]"]')[i].focus();
+                isSub = false
+                break;
+            } else if ($('input[name="profit[]"]')[i].value == "") {
+                alert("수익금은 꼭 입력해주세요.");
+                $('input[name="profit[]"]')[i].focus();
+                isSub = false
+                break;
+                //} else if ($('input[name="room[]"]')[i].value == "") {
+                //    alert("룸타입은 꼭 입력해주세요.");
+                //    $('input[name="room[]"]')[i].focus();
+                //    isSub = false
+                //    break;
+            }
+        }
+
+        if (isSub) {
+            $(this).attr("disabled", true);
+
+            f.submit();
+        } else {
+            return;
+        }
+    });
+</script>

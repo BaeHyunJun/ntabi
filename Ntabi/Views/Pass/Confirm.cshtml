@@ -1,0 +1,263 @@
+﻿@using System.Globalization;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string name = Model[0],
+           sDate = "",
+           eDate = "",
+           title = Model[1],
+           inCnt = Model[3],
+           empData = "";
+
+
+    int inCnt2 = Convert.ToInt32(inCnt.Substring(2)) - 1;
+
+    sDate = DateTime.ParseExact(Model[2], "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd") + " (" + DateTime.ParseExact(Model[2], "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("ddd") + ")";
+    eDate = DateTime.ParseExact(Model[2], "yyyy-MM-dd", CultureInfo.InvariantCulture).AddDays(inCnt2).ToString("yyyy-MM-dd") + " (" + DateTime.ParseExact(Model[2], "yyyy-MM-dd", CultureInfo.InvariantCulture).AddDays(inCnt2).ToString("ddd") + ")";
+
+    @*foreach(string item in Model)
+        {
+            @item
+        }*@
+
+    foreach (object item in ViewBag.empData)
+    {
+        empData = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+    }
+
+}
+
+<style>
+    div#container > article > section.confirm {
+        padding-top: 10px;
+    }
+
+    section.confirm > h3 {
+        font-size: 14px;
+        font-weight: normal;
+        color: #2a2a2a;
+    }
+
+    section.confirm ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+    }
+
+    section.confirm div.revData {
+        margin-top: 30px;
+        padding: 45px 0;
+        background-color: #fcfefa;
+        text-align: center;
+    }
+
+        section.confirm div.revData > p {
+            margin-bottom: 50px;
+            font-size: 16px;
+            color: #5d5d5d;
+        }
+
+            section.confirm div.revData > p.title {
+                font-size: 30px;
+                color: #181818;
+            }
+
+            section.confirm div.revData > p > span {
+                display: block;
+                font-size: 13px;
+                color: #909090;
+            }
+
+        section.confirm div.revData > hr {
+            margin: 40px 50px;
+            ;
+        }
+
+        section.confirm div.revData > ul {
+            border-bottom: 1px solid #ddd;
+        }
+
+            section.confirm div.revData > ul > li {
+                display: inline-block;
+                border-top: 1px solid #ddd;
+            }
+
+    section.confirm li.leftBorder {
+        border-left: 1px solid #ddd;
+    }
+
+    section.confirm div.revData > ul > li > p {
+        margin: 0;
+        font-size: 15px;
+        color: #6d6d6d;
+        text-align: center;
+        line-height: 50px;
+    }
+
+        section.confirm div.revData > ul > li > p > span {
+            float: right;
+            border-left: 1px solid #ddd;
+            padding-left: 20px;
+            text-align: left;
+            color: #1f1f1f;
+        }
+
+    section.confirm div.revData > ul > li.revName > p {
+        width: 600px;
+    }
+
+    section.confirm div.revData > ul > li.sDate > p,
+    section.confirm div.revData > ul > li.eDate > p {
+        width: 299px;
+    }
+
+    section.confirm div.revData > ul > li.pdtName > p,
+    section.confirm div.revData > ul > li.emp > p {
+        width: 1200px;
+    }
+
+    section.confirm div.revData > ul > li.revName > p > span {
+        width: 500px;
+    }
+
+    section.confirm div.revData > ul > li.sDate > p > span,
+    section.confirm div.revData > ul > li.eDate > p > span {
+        width: 199px;
+    }
+
+    section.confirm div.revData > ul > li.pdtName > p > span,
+    section.confirm div.revData > ul > li.emp > p > span {
+        width: 1100px;
+    }
+
+    section.confirm div.btnArea {
+        text-align: center;
+        padding: 20px;
+    }
+
+        section.confirm div.btnArea > a {
+            width: 200px;
+            height: 35px;
+        }
+
+            section.confirm div.btnArea > a.chkReserve {
+                background-color: #a0ce54 !important;
+                color: white;
+                border: 0;
+            }
+
+            section.confirm div.btnArea > a.linkMain {
+                background-color: #e3e3e3 !important;
+                color: #171717;
+                border: 0;
+            }
+
+    section.tourTip {
+        overflow: hidden;
+    }
+
+        section.tourTip > div {
+            width: 390px;
+            height: 200px;
+            border: 1px solid #ccc;
+            margin-left: 12px;
+            float: left;
+        }
+
+            section.tourTip > div.pass {
+                margin: 0;
+            }
+</style>
+
+<section class="confirm">
+    <h3>예약하기 > 예약접수완료</h3>
+
+    <div class="revData">
+        <p class="title">예약이 정상적으로 접수되었습니다.</p>
+        <hr />
+        <p>
+            예약은 확정이 아니라 담당자의 예약내역 확인 후 해피콜을 드립니다.
+            <span>(주말 및 공휴일은 담당자의 확인이 늦어질 수도 있으므로 양해부탁드립니다.)</span>
+            결제는 예약 확정 후 진행 부탁드립니다.
+        </p>
+
+        <ul>
+            <li class="revName">
+                <p>
+                    예약자
+                    <span>
+                        @name
+                    </span>
+                </p>
+            </li>
+            <li class="sDate leftBorder">
+                <p>
+                    구매일
+                    <span>
+                        @sDate
+                    </span>
+                </p>
+            </li>
+            <li class="eDate">
+                <p>
+
+                    <span>
+
+                    </span>
+                </p>
+            </li>
+            <li class="pdtName">
+                <p>
+                    상품명
+                    <span>
+                        @title
+                    </span>
+                </p>
+            </li>
+            <li class="emp">
+                <p>
+                    담당자
+                    <span>
+                        @empData
+                    </span>
+                </p>
+            </li>
+        </ul>
+    </div>
+    <div class="btnArea">
+        <a href="/Mypage/revPdt?d=@Model[4]&k=@Model[5]" class="btn btn-default chkReserve">예약확인</a>
+        <a href="/" class="btn btn-default linkMain">메인으로</a>
+    </div>
+</section>
+
+<section class="tourTip">
+    <h3 class="sr-only sr-only-focusable">여행 필수 팁</h3>
+
+    <div class="pass">
+        <h4 class="sr-only sr-only-focusable">패스권</h4>
+        <a href="/Pass/Lists">
+            <img src="~/Content/Images/Products/confirm/passgo.jpg" alt="패스권" style="width: 100%;" />
+        </a>
+    </div>
+    <div class="wifi">
+        <h4 class="sr-only sr-only-focusable">포켓 와이파이</h4>
+        <a href="https://ap.wifidosirak.com/?ntabi">
+            <img src="~/Content/Images/Products/confirm/wifigo.jpg" alt="포켓 와이파이" style="width: 100%;" />
+        </a>
+    </div>
+    <div class="rent">
+        <h4 class="sr-only sr-only-focusable">렌트카</h4>
+        <a href="https://www.web-rentacar.com/kr/index.asp">
+            <img src="~/Content/Images/Products/confirm/rentcargo.jpg" alt="렌트카" style="width: 100%;" />
+        </a>
+    </div>
+</section>
+
+<script>
+    history.pushState(null, null, location.href);
+    window.onpopstate = function (event) {
+        history.go(1);
+    };
+</script>

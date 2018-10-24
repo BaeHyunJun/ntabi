@@ -1,0 +1,276 @@
+﻿@{
+    Layout = null;
+    
+    string chked = "checked='checked'",
+           selected = "selected='selected'",
+           disabled = "disabled='disabled'";
+
+    var hotelData = ViewBag.hotelData;
+
+    string seq = "",
+           nation = "",
+           area = "",
+           proc = "",
+           title = "",
+           istDate = "",
+           istEmp = "",
+           udtDate = "",
+           udtEmp = "",
+           options1 = "",
+           options2 = "",
+           options3 = "",
+           type = "";
+
+
+    if (hotelData != null)
+    {
+        foreach (object item in hotelData)
+        {
+            try { seq       = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+            try { nation    = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+            try { area      = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+            try { proc      = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+            try { title     = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+            try { istDate   = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+            try { istEmp    = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+            try { udtDate   = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+            try { udtEmp    = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+            
+            try { options1  = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { }
+            try { options2  = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); } catch { }
+            try { options3  = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); } catch { }
+            try { type  = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); } catch { }
+        }
+        
+        if (options1 != "Y" || options2 != "Y")// || options3 != "Y")
+        {
+            proc = "";
+        }
+    }
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">호텔 등록</h4>
+        </div>
+        <div class="modal-body">
+
+            <form name="hotelForm" method="post" action="/Hotel/updateHotel">
+                <input type="hidden" name="redirect" value="/Hotel" />
+                <input type="hidden" name="seq" value="@seq"  />
+                <div class="row">
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">국가</div>
+                        <select class="form-control" name="nation" @{ if (!string.IsNullOrEmpty(seq)) { @disabled } }>
+                            <option value="">선택</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">지역</div>
+                        <select class="form-control" name="area" @{ if (!string.IsNullOrEmpty(seq)) { @disabled } }>
+                            <option value="">선택</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">진행 구분</div>
+                        <select class="form-control" name="proc" @{ if (proc == "") { @disabled } }>
+                            <option value="01" @{ if (proc == "01") { @selected  } }>준비중</option>
+                            <option value="02" @{ if (proc == "02") { @selected  } }>판매중</option>
+                            <option value="03" @{ if (proc == "03") { @selected  } }>마감</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="form-group input-group col-xs-12 col-md-4">
+                        <div class="input-group-addon">타입</div>
+                        <select class="form-control" name="type" >
+                            <option value="01" @{ if (type == "01") { @selected  } }>호텔</option>
+                            <option value="02" @{ if (type == "02") { @selected  } }>료칸</option>
+                            <option value="03" @{ if (type == "03") { @selected  } }>민박</option>
+                            <option value="04" @{ if (type == "04") { @selected  } }>리조트</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-xs-12 col-md-8">
+                        <input type="text" class="form-control" placeholder="상품 명" maxlength="50" name="title" value="@{ if(title != ""){ @title } }">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group input-group col-xs-12 col-md-12" style="margin-bottom: 0;">
+                        <table class="table table-bordered" style="margin-bottom: 0;">
+                            <colgroup>
+                                <col style="width: 20%" />
+                                <col style="width: 30%" />
+                                <col style="width: 20%" />
+                                <col style="width: 30%" />
+                            </colgroup>
+                            <tr>
+                                <th>등록 일</th>
+                                <td> 
+                                    @{ 
+                                        string txt = ""; 
+                                        
+                                        if (istDate == "") { 
+                                            txt = "-"; 
+                                        } else { 
+                                            txt = istDate.Split('.')[0] + "년 " + istDate.Split('.')[1] + "월 " + istDate.Split('.')[2] + "일";
+                                        } 
+                                        
+                                        @txt
+                                    }
+                                </td>
+                                <th>수정 일</th>
+                                <td>
+                                    @{
+                                        if (udtDate == "") { 
+                                            txt = "-"; 
+                                        } else {
+                                            txt = udtDate.Split('.')[0] + "년 " + udtDate.Split('.')[1] + "월 " + udtDate.Split('.')[2] + "일";
+                                        } 
+                                        
+                                        @txt
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>등록 사원</th>
+                                <td>
+                                    @{
+                                        if (istEmp == "") { 
+                                            txt = "-"; 
+                                        } else {
+                                            txt = Html.Action("getName", new { emp = int.Parse(istEmp) }).ToString();
+                                        }
+
+                                        @txt
+                                    }
+                                </td>
+                                <th>수정 사원</th>
+                                <td>
+                                    @{
+                                        if (udtEmp == "") { 
+                                            txt = "-"; 
+                                        } else {
+                                            txt = Html.Action("getName", new { emp = int.Parse(istEmp) }).ToString();
+                                        } 
+                                        
+                                        @txt
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">등록</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+
+<script>
+    $(document).ready(function () {
+        $("form[name='hotelForm'] select[name=nation]").on("change", function () {
+            getAreas();
+        });
+
+        function getAreas() {
+            var _this = $("form[name='hotelForm'] select[name=nation]");
+
+            var url = "/Products/JSON_getCode";
+            //var datas = { nation: _this.val() };
+            var datas = { category: 'ARE', nation: _this.find("option:selected").attr("data-code3") };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                        //html += '<option value="' + i + '">' + data[i] + '</option>';
+                    }
+
+                    $("form[name='hotelForm'] select[name='area']").html(html);
+                    $("form[name='hotelForm'] select[name='area']").val("@area");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        function getNations() {
+            var url = "/Products/JSON_getCode";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { category: 'NAT' },
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].AlterCode + '" data-code3="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                        //html += '<option value="' + i + '">' + data[i] + '</option>';
+                    }
+
+                    $("form[name='hotelForm'] select[name='nation']").html(html);
+                    $("form[name='hotelForm'] select[name='nation']").val("@nation");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                    getAreas();
+                }
+            });
+        }
+
+        getNations();
+
+        $("#uptBtn").on("click", function () {
+            var f = document.hotelForm,
+                ErMsg = "",
+                focusEl;
+
+            if (f.nation.value == "") {
+                ErMsg = "국가를 선택해주세요.";
+                focusEl = f.nation;
+            } else if (f.area.value == "") {
+                ErMsg = "지역을 선택해주세요.";
+                focusEl = f.area;
+            } else if (f.title.value == "") {
+                ErMsg = "호텔 명을 입력해주세요.";
+                focusEl = f.title;
+            }
+
+            if (ErMsg != "") {
+                alert(ErMsg);
+                focusEl.focus();
+                return;
+            }
+
+            $(this).attr("disabled", true)
+
+            f.submit();
+        });
+    });
+</script>

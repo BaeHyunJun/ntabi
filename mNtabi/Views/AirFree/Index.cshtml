@@ -1,0 +1,145 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="banner">
+    <p><img src="~/Content/Images/AirFree/banner_afp.jpg"></p>
+</section> <!--.banner-->
+<section class="pd">
+    <ul>
+        @try
+        {
+        string date = "",
+        pdtKey = "",
+        pdtCode = "",
+        pdtTitle = "",
+        pdtContent = "",
+        pdtFeature = "",
+        pdtPrice = "",
+        pdtDasys = "",
+        pdtOptions = "",
+        pdtTraff = "",
+        pdtSCity = "",
+        pdtSTime = "",
+        pdtECity = "",
+        pdtETime = "",
+        pdtDasysTxt = "";
+
+        foreach (object item in Model)
+        {
+        pdtKey = "";
+        pdtCode = "";
+        pdtTitle = "";
+        pdtContent = "";
+        pdtFeature = "";
+        pdtPrice = "";
+        pdtDasys = "";
+        pdtOptions = "";
+        pdtTraff = "";
+        pdtSCity = "";
+        pdtSTime = "";
+        pdtECity = "";
+        pdtETime = "";
+        pdtDasysTxt = "";
+        date = "";
+
+        try { pdtKey = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+        try
+        {
+        pdtCode = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+        }
+        catch { }
+        try { pdtTitle = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+        try { pdtContent = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+        try { pdtDasys = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+        try { pdtOptions = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+        try { pdtTraff = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { }
+        try { pdtSCity = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); } catch { }
+        try { pdtSTime = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); } catch { }
+        try { pdtECity = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); } catch { }
+        try { pdtETime = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); } catch { }
+        try { pdtFeature = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); } catch { }
+        try { pdtPrice = item.GetType().GetProperties()[15].GetValue(item, null).ToString(); } catch { }
+        try { date = item.GetType().GetProperties()[16].GetValue(item, null).ToString(); } catch { }
+
+        if (pdtPrice == "0")
+        {
+        continue;
+        }
+
+        switch (pdtDasys.Substring(2, 2))
+        {
+        case "01":
+        pdtDasysTxt = "당일치기";
+        break;
+        case "02":
+        pdtDasysTxt = "1박 2일";
+        break;
+        case "03":
+        pdtDasysTxt = "2박 3일";
+        break;
+        case "04":
+        pdtDasysTxt = "3박 4일";
+        break;
+        case "05":
+        pdtDasysTxt = "4박 5일";
+        break;
+        case "06":
+        pdtDasysTxt = "5박 6일";
+        break;
+        case "07":
+        pdtDasysTxt = "6박 7일";
+        break;
+        case "08":
+        pdtDasysTxt = "7박 8일";
+        break;
+        case "09":
+        pdtDasysTxt = "8박 9일";
+        break;
+        case "10":
+        pdtDasysTxt = "9박 10일";
+        break;
+        }
+
+        int inCnt = Convert.ToInt32(pdtDasys.Substring(2, 2)) - (Convert.ToInt32(pdtDasys.Substring(0, 2)) + 1);
+
+        switch (pdtOptions)
+        {
+        case "best":
+        pdtOptions = "베스트 상품";
+        break;
+        case "vari":
+        pdtOptions = "버라이어티 팩";
+        break;
+        case "airf":
+        pdtOptions = "에어 프리 팩";
+        break;
+        default:
+        pdtOptions = "";
+        break;
+        }
+
+        <li>
+            <a href="/Products/Views?C=@pdtCode&K=@pdtKey">
+                <img src="@pdtFeature" alt="@pdtTitle" />
+                <div class="box">
+                    <p class="cord">@pdtTraff</p>
+                    <p class="start">출발지 : @pdtSCity</p>
+                </div> <!--.box-->
+                <div class="text">
+                    <p class="tit">@pdtTitle</p>
+                    <p class="subtit">
+                        @pdtContent
+                    </p>
+                </div> <!--.text-->
+            </a>
+        </li> <!--1번li-->
+        }
+        }
+        catch { }
+    </ul>
+</section> <!--.pd-->

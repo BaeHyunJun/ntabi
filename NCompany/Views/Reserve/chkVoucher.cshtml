@@ -1,0 +1,659 @@
+﻿@using NCompany.Models
+
+@{
+    Layout = null;
+
+    var user = Session["user"] as User;
+
+    var code = Request["code"].Split('_');
+        
+    string CORP_CODE = "",
+           REV_DAY = code[0],
+           REV_SEQ = code[1],
+           VOU_SEQ = "",
+           VOU_CONT1 = "",
+           VOU_CONT2 = "",
+           VOU_CONT3 = "",
+           VOU_CONT4 = "",
+           VOU_LATITUDE = "",
+           VOU_LONGITUDE = "",
+           VOU_PHOTO1 = "",
+           VOU_PHOTO2 = "",
+           VOU_PHOTO3 = "";
+
+    foreach (var item in Model)
+    {
+        CORP_CODE = "";
+        REV_DAY = "";
+        REV_SEQ = "";
+        VOU_SEQ = "";
+        VOU_CONT1 = "";
+        VOU_CONT2 = "";
+        VOU_CONT3 = "";
+        VOU_CONT4 = "";
+        VOU_LATITUDE = "";
+        VOU_LONGITUDE = "";
+        VOU_PHOTO1 = "";
+        VOU_PHOTO2 = "";
+        VOU_PHOTO3 = "";
+
+        try { CORP_CODE = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+        try { REV_DAY = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+        try { REV_SEQ = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+        try { VOU_SEQ = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+        try { VOU_CONT1 = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+        try { VOU_CONT2 = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+        try { VOU_CONT3 = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+        try { VOU_CONT4 = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+        try { VOU_LATITUDE = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+        try { VOU_LONGITUDE = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { }
+        try { VOU_PHOTO1 = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); } catch { }
+        try { VOU_PHOTO2 = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); } catch { }
+        try { VOU_PHOTO3 = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); } catch { }
+    }
+    
+    if ( string.IsNullOrEmpty(VOU_SEQ) )
+    {
+        VOU_SEQ = "1";
+    }
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/smart_editor2_in.css" />
+
+<style>
+    .modal-body {
+        min-height: 604px;
+    }
+
+    .schForm div.tab-content {
+        margin-top: 20px;
+    }
+
+        .schForm div.tab-content .sch {
+            position: relative;
+        }
+
+            .schForm div.tab-content .sch textarea {
+                min-height: 430px;
+                padding: 15px;
+            }
+
+            .schForm div.tab-content .sch .chkBtn {
+                position: absolute;
+                left: 50%;
+                top: 0;
+                margin-left: 10px;
+                margin-top: 230px;
+            }
+
+            .schForm div.tab-content .sch img {
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            .schForm div.tab-content .sch .prvContent {
+                position: absolute;
+                margin: 0;
+                left: 478px;
+                left: 504px;
+                top: 76px;
+                right: 40px;
+                min-height: 383px;
+                max-height: 383px;
+                overflow-y: auto;
+            }
+
+                .schForm div.tab-content .sch .prvContent img {
+                    position: static;
+                    width: 100%;
+                }
+
+
+
+
+
+
+
+
+    /*.schForm div.tab-content .sch .prvContent {
+        position: static;
+        padding: 0 15px;
+    }*/
+
+    .photos {
+        border: 1px solid #ddd;
+        width: 33%;
+        cursor: pointer;
+        float: left;
+        padding: 45px;
+        position: relative;
+        min-height: 212px;
+    }
+
+    .photos a.uploadImg {
+        position: absolute;
+        left: 45px;
+        top: 45px;
+        width: 130px;
+    }
+
+    .photos a.uploadImg.on {
+        opacity: .05;
+    }
+</style>
+
+@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOCavluEV5R78T2xJ1YoyVu91zdN8DCAE" async defer></script>*@
+
+<div class="modal-dialog" role="document" style="width: 790px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">바우처 등록</h4>
+        </div>
+        <div class="modal-body">
+            <form name="schForm" method="post" action="" class="schForm">
+                <input type="hidden" name="REV_DAY" value="@REV_DAY" />
+                <input type="hidden" name="REV_SEQ" value="@REV_SEQ" />
+                <input type="hidden" name="VOU_SEQ" value="@VOU_SEQ" />
+
+                @*<a class="btn btn-default pull-right sendmail">메일 보내기</a>*@
+
+                <ul class="nav nav-tabs" id="schTabs">
+                    <li role="presentation" class="active"><a href="#sch0" aria-controls="sch0" role="tab" data-toggle="tab">포함 사항</a></li>
+                    <li role="presentation"><a href="#sch1" aria-controls="sch1" role="tab" data-toggle="tab">불포함 사항</a></li>
+                    <li role="presentation"><a href="#sch2" aria-controls="sch2" role="tab" data-toggle="tab">주의사항</a></li>
+                    <li role="presentation"><a href="#sch3" aria-controls="sch3" role="tab" data-toggle="tab">취소수수료</a></li>
+                    <li role="presentation"><a href="#sch4" aria-controls="sch4" role="tab" data-toggle="tab">미팅장소</a></li>
+                    <li role="presentation"><a href="#sch5" aria-controls="sch5" role="tab" data-toggle="tab">미리보기</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane row sch active" id="sch0">
+                        <textarea class="col-sm-6 content" name="content0" id="content0">@VOU_CONT1</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@MvcHtmlString.Create(VOU_CONT1)</div>
+                        <a href="#" class="btn btn-default" data-action="getData" data-type="include">가져오기</a>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch1">
+                        <textarea class="col-sm-6 content" name="content1" id="content1">@VOU_CONT2</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" /> 
+                        <div class="se2_inputarea prvContent">@MvcHtmlString.Create(VOU_CONT2)</div>
+                        <a href="#" class="btn btn-default" data-action="getData" data-type="notincluded">가져오기</a>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch2">
+                        <textarea class="col-sm-6 content" name="content2" id="content2">@VOU_CONT3</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@MvcHtmlString.Create(VOU_CONT3)</div>
+                        @*<a href="#" class="btn btn-default" data-action="getData" data-type="careful">가져오기</a>*@
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch3">
+                        <textarea class="col-sm-6 content" name="content3" id="content3">@VOU_CONT4</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@MvcHtmlString.Create(VOU_CONT4)</div>
+                        <a href="#" class="btn btn-default" data-action="getData" data-type="cancellation">가져오기</a>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch4">
+                        @*<a class="col-sm-7 uploadImg" href="#">
+                            <img src="~/Content/images/upload.jpg" style="margin-top: 95px;" />
+                        </a>*@
+                        <div class="form-group input-group" style="padding: 0 15px;">
+                            <h4 style="margin: 0;">미팅 장소 지도</h4>
+
+                            <div class="input-group-addon">위도</div>
+                            <input type="text" class="form-control" maxlength="15" name="LATITUDE" value="" style="max-width: 150px;">
+
+                            <div class="input-group-addon">경도</div>
+                            <input type="text" class="form-control" maxlength="15" name="LONGITUDE" value="" style="max-width: 150px;">
+
+                            <button class="btn btn-default searchMapBtn">찾기</button>
+                        </div>
+
+                        <div class="map_canvas" id="map_canvas" style="height:205px;"></div>
+
+                        <h4 style="padding: 0 15px;">미팅 장소 사진</h4>
+                        <div class="se2_inputarea" style="position:static; padding: 0 15px;">
+                            <div class="photos" id="p1">
+
+                                @{
+                                    string onClass = "";
+                                
+                                    if (!string.IsNullOrEmpty(VOU_PHOTO1))
+                                    {
+                                        onClass += "on";
+                                    }
+                                }
+                                
+                                <a class="uploadImg @onClass" href="#">
+                                    <img src="~/Content/images/upload2.jpg" style="position:static; width:100%" />
+                                </a>
+                                <div class="feature">
+                                    @if (!string.IsNullOrEmpty(VOU_PHOTO1))
+                                    {
+                                        <img src="@VOU_PHOTO1" alt="대표이미지" style="position: static; width: 100%; height: 100%;" />
+                                    }
+                                </div>
+                            </div>
+                            <div class="photos" id="p2">
+
+                                @{
+                                    onClass = "";
+
+                                    if (!string.IsNullOrEmpty(VOU_PHOTO2))
+                                    {
+                                        onClass += "on";
+                                    }
+                                }
+                                <a class="uploadImg @onClass" href="#">
+                                    <img src="~/Content/images/upload2.jpg" style="position:static; width:100%" />
+                                </a>
+                                @if (!string.IsNullOrEmpty(VOU_PHOTO2))
+                                {
+                                    <img src="@VOU_PHOTO2" alt="대표이미지" style="position: static; width: 100%; height: 100%;" />
+                                }
+                            </div>
+                            <div class="photos" id="p3">
+
+                                @{
+                                    onClass = "";
+
+                                    if (!string.IsNullOrEmpty(VOU_PHOTO3))
+                                    {
+                                        onClass += "on";
+                                    }
+                                }
+                                <a class="uploadImg @onClass" href="#">
+                                    <img src="~/Content/images/upload2.jpg" style="position:static; width:100%" />
+                                </a>
+                                @if (!string.IsNullOrEmpty(VOU_PHOTO3))
+                                {
+                                    <img src="@VOU_PHOTO3" alt="대표이미지" style="position: static; width: 100%; height: 100%;" />
+                                }
+                            </div>
+                            <input type="hidden" name="p1" value="@VOU_PHOTO1" />
+                            <input type="hidden" name="p2" value="@VOU_PHOTO2" />
+                            <input type="hidden" name="p3" value="@VOU_PHOTO3" />
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch5">
+
+
+
+
+
+
+<article class="se2_inputarea" style="width:750px; margin:0; padding:20px; font-size:15px; margin:0 auto; border:1px dashed #999999;">
+    <img style="width:110px; height:45px; position: static;" src="~/Content/images/logo.jpg">
+
+    <div style="width:100%; height:65px; background-color:#94ce55; color:#fff; font-size:20px; line-height:45px; font-weight:bold; padding:10px; box-sizing:border-box;">
+        엔데이트립 확정바우처
+    </div>
+
+    <h3 style="border-bottom:1px solid #ccc; padding-bottom:5px; font-weight:bold; margin-top:40px;" class="vou_title"></h3>
+
+    <ul style="font-weight:bold; list-style:none; line-height:30px;">
+
+        <li>
+            <span style="color:#94ce55;">투어날짜 :</span> <span class="vou_date"></span><br>
+        </li>
+        <li>
+            <span style="color:#94ce55;">투어자 :</span> <span class="vou_user"></span><br>
+        </li>
+        <li>
+            <span style="color:#94ce55;">포함사항 :</span>      
+            <div class="vou_include">
+            </div>
+        </li>
+        <li>
+            <span style="color:#94ce55;">불포함사항 :</span> 
+            <div class="vou_notincluded">
+            </div>
+        </li>
+    </ul>
+
+    <h3 style="border-bottom:1px solid #ccc; padding-bottom:5px; font-weight:bold; margin-top:40px;">미팅장소</h3>
+
+    <div class="voucher_map" style="border:0; width:100%; height:300px;"></div>
+
+    @*<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1225.6410657306342!2d141.35140942997018!3d43.060739719529366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDAzJzM4LjgiTiAxNDHCsDIxJzA4LjIiRQ!5e0!3m2!1sko!2skr!4v1500425673329" frameborder="0" allowfullscreen></iframe>*@
+
+    <h3 style="border-bottom:1px solid #ccc; padding-bottom:5px; font-weight:bold; margin-top:40px;">주의사항</h3>
+    <div class="vou_careful">
+    </div>
+
+    <h3 style="border-bottom:1px solid #ccc; padding-bottom:5px; font-weight:bold; margin-top:40px;">취소수수료약관</h3>
+    <div class="vou_cancellation">
+    </div>
+</article>
+
+                        <a class="btn btn-default sendmail">메일 보내기</a>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">저장</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/HuskyEZCreator.js"></script>
+
+<script>
+    //function initMap() {
+    //    var myLatlng = new google.maps.LatLng(43.062524, 141.353615);
+
+    //    var myOptions = {
+    //        zoom: 18,
+    //        center: myLatlng
+    //    }
+
+    //    var map = new google.maps.Map($(".map_canvas")[0], myOptions);
+
+    //    var marker = new google.maps.Marker({
+    //        position: myLatlng,
+    //        map: map,
+    //    });
+    //}
+
+    //initMap();
+
+
+    var oEditors = [];
+
+    $(".content").each(function () {
+        var id = $(this).attr("id");
+
+        nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditors,
+            elPlaceHolder: id,
+            sSkinURI: "/Editor/SmartEditor2Skin",
+            fCreator: "createSEditor2"
+        });
+    });
+
+    $("a[data-action='getData']").on("click", function () {
+        var _this = $(this),
+            type = _this.attr("data-type"),
+            url = "/Reserve/JSON_getVouData",
+            id = _this.siblings("textarea").attr("ID");
+
+        var f = document.schForm,
+            revDay = f.REV_DAY.value,
+            revSeq = f.REV_SEQ.value;
+
+        var datas = { REV_DAY: revDay, REV_SEQ: revSeq, type: type };
+
+        //$.post(url, datas, function (data) {
+        //    _this.siblings("textarea").html(data);
+
+        //    oEditors.getById[id].exec("SET_IR", [""]);
+        //    oEditors.getById[id].exec("PASTE_HTML", [data]);
+        //});
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datas,
+            success: function (data) {
+                _this.siblings("textarea").html(data);
+
+                oEditors.getById[id].exec("SET_IR", [""]);
+                oEditors.getById[id].exec("PASTE_HTML", [data]);
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    });
+
+    $('.uploadImg').on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var _this = $(this),
+            parent = _this.parents(".photos"),
+            target = parent.attr("ID");
+
+        var opt = "left=0,top=0,width=403,height=359,scrollbars=yes,location=no,status=0,resizable=no";
+        window.open("/Editor/Photo_uploader?isFeature=true&target=" + target, "대표 이미지", opt);
+    });
+
+    $('#schTabs a').click(function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        $(this).tab('show');
+
+        var text = $(this).text();
+
+        switch(text)
+        {
+            case "미팅장소":
+                initialize($(".map_canvas")[0], 33.603364, 130.419998, 18);
+                break;
+            case "미리보기":
+
+                var url = "/Reserve/JSON_getVoucher";
+                var rev_day = $("input[name='REV_DAY']").val();
+                var rev_seq = $("input[name='REV_SEQ']").val();
+
+                var datas = { day: rev_day, seq: rev_seq };
+
+                //$.post(url, datas, function (data) {
+                //    for(var i in data)
+                //    {
+                //        initialize($(".voucher_map")[0], data[i].VOU_LATITUDE, data[i].VOU_LONGITUDE, 18);
+
+                //        $(".vou_title").html(data[i].PDT_TITLE);
+                //        $(".vou_date").html(data[i].REV_STARTDAY);
+                //        $(".vou_user").html(data[i].rcName);
+
+                //        $(".vou_include").html(data[i].VOU_CONT1);
+                //        $(".vou_notinclude").html(data[i].VOU_CONT2);
+                //        $(".vou_careful").html(data[i].VOU_CONT3);
+                //        $(".vou_cancellation").html(data[i].VOU_CONT4);
+                //    }
+                //});
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: datas,
+                    success: function (data) {
+                        for (var i in data) {
+                            initialize($(".voucher_map")[0], data[i].VOU_LATITUDE, data[i].VOU_LONGITUDE, 18);
+
+                            $(".vou_title").html(data[i].PDT_TITLE);
+                            $(".vou_date").html(data[i].REV_STARTDAY);
+                            $(".vou_user").html(data[i].rcName);
+
+                            $(".vou_include").html(data[i].VOU_CONT1);
+                            $(".vou_notinclude").html(data[i].VOU_CONT2);
+                            $(".vou_careful").html(data[i].VOU_CONT3);
+                            $(".vou_cancellation").html(data[i].VOU_CONT4);
+                        }
+                    }
+                    , beforeSend: function () {
+                        $('#loading').show();
+                    }
+                    , complete: function () {
+                        $('#loading').hide();
+                    }
+                });
+
+                break;
+        }
+    });
+
+    $('.sch .chkBtn a').on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var _this = $(this),
+            parent = _this.parents('.sch'),
+            txt = parent.attr("id");
+
+        oEditors.getById["content" + txt.substring(txt.length - 1)].exec("UPDATE_CONTENTS_FIELD", []);
+
+        var cont = parent.find('textarea').val();
+
+        parent.find("div.prvContent").html(cont);
+    });
+
+    $(".searchMapBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.schForm;
+        var lon = f.LONGITUDE.value;
+        var lat = f.LATITUDE.value;
+
+        initialize($(".map_canvas")[0], lat, lon, 18);
+    });
+
+    //function initialize(lat, lng, zoom) {
+    //    var myLatlng = new google.maps.LatLng(lat, lng);
+    //    var myOptions = {
+    //        zoom: zoom,
+    //        center: myLatlng,
+    //        mapTypeId: google.maps.MapTypeId.ROADMAP
+    //    }
+
+    //    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+    //    var marker = new google.maps.Marker({
+    //        position: myLatlng,
+    //        map: map,
+    //    });
+    //}
+
+    //function initialize(el, lat, lng, zoom) {
+    //    ////var myLatlng = new google.maps.LatLng(lat, lng);
+    //    //var myLatlng = new google.maps.LatLng(43.062524, 141.353615);
+
+    //    //var myOptions = {
+    //    //    zoom: 18,//zoom,
+    //    //    center: myLatlng,
+    //    //    mapTypeId: google.maps.MapTypeId.ROADMAP
+    //    //}
+
+    //    ////console.log(el);
+
+    //    //var map = new google.maps.Map(el, myOptions);
+
+    //    //var marker = new google.maps.Marker({
+    //    //    position: myLatlng,
+    //    //    map: map,
+    //    //});
+
+    //    var uluru = { lat: -25.363, lng: 131.044 };
+    //    var map = new google.maps.Map(el, {
+    //        zoom: 4,
+    //        center: uluru
+    //    });
+    //    var marker = new google.maps.Marker({
+    //        position: uluru,
+    //        map: map
+    //    });
+    //}
+
+    $("#uptBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.schForm;
+
+        $(".content").each(function () {
+            var id = $(this).attr("id");
+
+            oEditors.getById[id].exec("UPDATE_CONTENTS_FIELD", []);
+        });
+
+        var REV_DAY = f.REV_DAY.value;
+        var REV_SEQ = f.REV_SEQ.value;
+        var VOU_SEQ = f.VOU_SEQ.value;
+        var CONT1   = f.content0.value;
+        var CONT2   = f.content1.value;
+        var CONT3   = f.content2.value;
+        var CONT4   = f.content3.value;
+        var LAT     = f.LATITUDE.value;
+        var LON     = f.LONGITUDE.value;
+        var PHOTO1  = f.p1.value;
+        var PHOTO2  = f.p2.value;
+        var PHOTO3  = f.p3.value;
+
+        var url = "/Reserve/updateVoucher";
+
+        CONT1 = encodeURIComponent(CONT1); 
+        CONT2 = encodeURIComponent(CONT2);
+        CONT3 = encodeURIComponent(CONT3);
+        CONT4 = encodeURIComponent(CONT4);
+
+        var datas = { REV_DAY: REV_DAY, REV_SEQ: REV_SEQ, VOU_SEQ: VOU_SEQ, CONT1: CONT1, CONT2: CONT2, CONT3: CONT3, CONT4: CONT4, LAT: LAT, LON: LON, PHOTO1: PHOTO1, PHOTO2: PHOTO2, PHOTO3: PHOTO3 };
+
+        //$.post(url, datas, function (msg) {
+        //    alert(msg);
+        //});
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datas,
+            success: function (data) {
+                alert(data);
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    });
+
+    $("a.sendmail").on("click", function () {
+        var url = "/Reserve/sendVoucher";
+
+        //$.post(url, null, function (data) {
+        //    alert(data);
+        //});
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datas,
+            success: function (data) {
+                alert(data);
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    });
+</script>

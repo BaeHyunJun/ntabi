@@ -1,0 +1,528 @@
+﻿@using Ntabi.Models;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+
+    <title>@*@ViewBag.Title -*@ 일본 갈땐 엔타비</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link href="https://fonts.googleapis.com/css?family=Song+Myung&amp;subset=korean" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+
+    @{
+        string controllerName = "",
+               actionName = "";
+
+        try { controllerName = this.ViewContext.Controller.ControllerContext.RouteData.Values["controller"].ToString().ToLower(); }
+        catch { }
+        try { actionName = this.ViewContext.Controller.ControllerContext.RouteData.Values["action"].ToString().ToLower(); }
+        catch { }
+
+        string cssName = controllerName + ".css";
+
+        <link rel="stylesheet" type="text/css" href="/Content/site.css?v=20180917">
+        <link rel="stylesheet" type="text/css" href="/Content/@cssName?v=20180917">
+
+        string nat = Request["N"],
+               area = Request["A"],
+               selectedMenu = "on";
+
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        Response.Cache.SetNoStore();
+
+        string userAgent = Request.UserAgent;
+        string[] browser = { "iphone", "ipod", "ipad", "android", "blackberry", "windows ce", "nokia", "webos", "opera mini", "sonyericsson", "opera mobi", "iemobile", "windows phone" };
+        bool isMobile = false;
+
+        for (int iasd = 0; iasd < browser.Length; iasd++)
+        {
+            if (userAgent.ToLower().Contains(browser[iasd]))
+            {
+                isMobile = true;
+                break;
+            }
+        }
+
+        string view_pc = Request["pc"];
+
+        if (HttpContext.Current.Request.Url.Host == "www.ntabi.co.kr" ||
+            HttpContext.Current.Request.Url.Host == "ntabi.co.kr")
+        {
+            <script>
+                location.href = "http://ntabi.kr" + "@HttpContext.Current.Request.Url.PathAndQuery";
+            </script>
+        }
+
+        var user = Session["user"] as User;
+    }
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    @if (controllerName == "products" && actionName == "views")
+    {
+        <script src="/Scripts/jquery.bxslider2.js"></script>
+    }
+    else
+    {
+        <script src="/Scripts/jquery.bxslider.js"></script>
+    }
+
+    <script src="/Scripts/jquery.cookie.js"></script>
+    <script src="~/Scripts/notice.js"></script>
+
+</head>
+<body>
+    <div id="container">
+        <h1 class="sr-only sr-only-focusable">여행 갈땐, 엔타비</h1>
+        <article class="navbar-fixed-top">
+
+            <header id="header">
+                <p id="logo">
+                    <a href="/">
+                        <img src="/Content/Images/newSample/logo_ntabi.png">
+                    </a>
+                </p> <!--#logo-->
+                <div class="notice_move">
+                    <ul style="width: 100%;"></ul>
+
+                    <script>
+                        //$(document).ready(function () {
+
+                        //    var url = "/Community/getNotice";
+                        //    var el = "";
+                        //    var area = $('div.notice_move');
+
+                        //    $.post(url, null, function (data) {
+
+                        //        for (var i in data) {
+                        //            if (data[i].key == 89 || data[i].key == 88) {
+                        //                continue;
+                        //                //el += "<li><a href='/Community/Views?type=notice&key=" + data[i].key + "' target='_blank' style='color: red;'>" + data[i].title + "</a></li>";
+                        //            }
+                        //            else if (data[i].key == 59 || data[i].key == 58 || data[i].key == 68 || data[i].key == 77) {
+                        //                continue;
+                        //            }
+                        //            else {
+                        //                el += "<li><a href='/Community/Views?type=notice&key=" + data[i].key + "' target='_blank'>" + data[i].title + "</a></li>";
+                        //            }
+                        //        }
+
+                        //        area.find("ul").html(el);
+
+                        //        area.vTicker({
+                        //            speed: 1000,
+                        //            pause: 3000,
+                        //            showItems: 1,
+                        //            animation: 'fade',
+                        //            mousePause: false,
+                        //        });
+                        //    });
+                        //});
+                    </script>
+                    @if (user != null)
+                    {
+                        <style>
+                            .notice_move {
+                                position: absolute;
+                                top: 20px;
+                                left: 180px;
+                                width: 46%;
+                                text-align: center;
+                                vertical-align: middle;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                word-wrap: normal;
+                                overflow: hidden;
+                            }
+                        </style>
+                    }
+                    else
+                    {
+                        <style>
+                            .notice_move {
+                                position: absolute;
+                                top: 20px;
+                                left: 180px;
+                                width: 46%;
+                                text-align: center;
+                                vertical-align: middle;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                word-wrap: normal;
+                                overflow: hidden;
+                            }
+                        </style>
+                    }
+                </div>
+
+                <div class="topmenu">
+                    @Html.Partial("_LoginPartial")
+                    @*<ul>
+                            <li><a href="http://ndaytrip.com" target="_blank"><img alt="엔데이트립" src="/Content/Images/newSample/ndtLogo.png"></a></li>
+                            <li><a class="loginBtn">로그인</a></li>
+                            <li><a href="/Members/chkMail">회원가입</a></li>
+                            <li><a href="/Community/Lists">고객센터</a></li>
+                            <li><a href="/Event/Lists">기획전</a></li>
+                            <li><a href="/Event/Lists?t=event">이벤트/쿠폰</a></li>
+                        </ul>*@
+                </div> <!--.topmenu-->
+                <div class="mainmenu">
+                    <ul class="m1">
+                        <li class="air">
+                            <a href="#">
+                                <p class="m1tit">항공</p>
+                            </a>
+                            <div class="m2">
+                                <ul>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=TYO&T=F">동경</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=OSA&T=A">오사카</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=KYU&T=A">규슈</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=OKA&T=F">오키나와</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=CTS&T=F">훗카이도</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=ETC&T=F">기타지역</a></li>
+                                </ul>
+                            </div> <!--.m2-->
+                        </li> <!--.air-->
+                        <li class="ship">
+                            <a href="#">
+                                <p class="m1tit">선박</p>
+                            </a>
+                            <div class="m2">
+                                <ul>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&T=S&S=PK">부관훼리</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&T=S&S=CA">카멜리아</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&T=S&S=BE">비틀</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&T=S&S=PA">팬스타</a></li>
+                                    @*<li class="m2tit"><a href="/Products/Lists?N=JP&T=S&S=OF">오션플라워</a></li>*@
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=TSM&T=F">대마도</a></li>
+                                </ul>
+                            </div> <!--.m2-->
+                        </li> <!--.ship-->
+                        <li class="package">
+                            <a href="#">
+                                <p class="m1tit">패키지</p>
+                            </a>
+                            <div class="m2">
+                                <ul>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=TYO&T=P">동경</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=OSA&T=P">오사카</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=KYU&T=P">규슈</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=OKA&T=P">오키나와</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=CTS&T=P">훗카이도</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=TSM&T=P">대마도</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=MN&A=MNG&T=P">몽골</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=ETC&T=P">기타지역</a></li>
+                                    @*<li class="m2tit"><a href="/Products/Lists?N=RU&A=KMC&T=P">러시아</a></li>*@
+                                </ul>
+                            </div> <!--.m2-->
+                        </li> <!--.package-->
+                        <li class="daytour">
+                            <a href="#">
+                                <p class="m1tit">현지투어</p>
+                            </a>
+                            <div class="m2">
+                                <ul>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=TYO&T=L">동경</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=OSA&T=L">오사카</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=KYU&T=L">규슈</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=OKA&T=L">오키나와</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=CTS&T=L">훗카이도</a></li>
+                                    <li class="m2tit"><a href="/Products/Lists?N=JP&A=TSM&T=L">대마도</a></li>
+                                    @*<li class="m2tit"><a href="/Products/Lists?N=JP&A=ETC&T=L">기타지역</a></li>*@
+                                </ul>
+                            </div> <!--.m2-->
+                        </li> <!--.daytour-->
+                    </ul> <!--.m1-->
+                </div> <!--.mainmenu-->
+                <div class="booking">
+                    <a href="https://www.booking.com/?aid=1294434" target="_blank">
+                        <img src="/Content/Images/Shared/booking.png" alt="부킹닷컴">
+                    </a>
+                </div>
+            </header> <!--#header-->
+
+            <div class="scroll-bar"></div>
+        </article>
+        <article id="content">
+            <h2 class="sr-only sr-only-focusable">컨텐츠</h2>
+
+            @RenderBody()
+        </article>
+        <article>
+            <h2 class="sr-only sr-only-focusable">하단 메뉴</h2>
+            <nav class="foot-menu">
+                <h3 class="sr-only sr-only-focusable">하단 기본 네비</h3>
+                <ul class="nav">
+                    <li>
+                        <a href="/Company"><h5>회사소개</h5></a>
+                    </li>
+                    <li>
+                        <a href="/Company/Map"><h5>찾아오시는 길</h5></a>
+                    </li>
+                    <li>
+                        <a href="/Company/privacy"><h5>개인정보처리방침</h5></a>
+                    </li>
+                    <li>
+                        <a href="/Company/service"><h5>여행약관</h5></a>
+                    </li>
+                    <li>
+                        <a href="http://www.tourinsu.co.kr/join/join_banner.html?uniq_key=4132ee273b4d9" target="_blank"><h5>여행자보험</h5></a>
+                    </li>
+                    <li>
+                        <a href="/Community/Lists"><h5>고객센터</h5></a>
+                    </li>
+                    @*<li>
+                            <a href="#"><h5>광고제휴</h5></a>
+                        </li>*@
+                </ul>
+            </nav>
+            <footer>
+                <section>
+                    <h4>Contact</h4>
+                    <div class="sns">
+                        <ul>
+                            <li class="kakao">
+                                <a href="https://pf.kakao.com/_xnmVhu" target="_blank">
+                                    <img src="~/Content/Images/Shared/btn_kakao.png">
+                                </a>
+                            </li>
+                            <li class="insta">
+                                <a href="https://www.instagram.com/ntabi_insta/" target="_blank">
+                                    <img src="~/Content/Images/Shared/btn_insta.png">
+                                </a>
+                            </li>
+                            <li class="facebook">
+                                <a href="https://www.facebook.com/ntabi.co.kr/" target="_blank">
+                                    <img src="~/Content/Images/Shared/btn_facebook.png">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="goMobile"><a href="http://m.ntabi.kr/">Mobile ver</a></p>
+                    <address>
+                        <div>tel : 1670-4601 | fax : 051.466.4605</div>
+                        <div>부산광역시 중구 중앙대로 119 (상현빌딩)</div>
+                        <div>평  일 : 09:00 ~ 18:00<span class="lunchtime"> (11:50~13:00 점심시간)</span></div>
+                        <div>토/일요일 및 공휴일 휴무</div>
+                    </address>
+                    @*
+                        <div class="tel-info">
+                                    <table>
+                                        <tr>
+                                            <td>카멜리아</td>
+                                            <td>051.466.4601</td>
+                                        </tr>
+                                        <tr>
+                                            <td>부관훼리</td>
+                                            <td>070.7844.1417</td>
+                                        </tr>
+                                        <tr>
+                                            <td>비틀/팬스타</td>
+                                            <td>070.7825.6514</td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>북해도/오사카</td>
+                                            <td>070.7844.1418</td>
+                                        </tr>
+                                        <tr>
+                                            <td>오키나와/동경</td>
+                                            <td>070.7844.1419</td>
+                                        </tr>
+                                        <tr>
+                                            <td>후쿠오카</td>
+                                            <td>070.7844.0399</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                    *@
+
+                    <p>
+                        엔타비 글로벌(주) | 대표 : 김윤중<br />
+                        사업자등록번호 : 602-81-43288<br />
+                        통신판매등록번호 : 제2007-부산 중구-0653<br />
+                        관광사업등록증 : 부산광역시 중구청 제2007-000014호<br />
+                        &copy; copyright @DateTime.Now.Year
+                    </p>
+
+                    <table class="account">
+                        <tr>
+                            <td>예금주</td>
+                            <td>(주)엔타비글로벌</td>
+                        </tr>
+                        <tr>
+                            <td>우리은행</td>
+                            <td>1006-901-267484</td>
+                        </tr>
+                        <tr>
+                            <td>국민은행</td>
+                            <td>947801-01-285353</td>
+                        </tr>
+                        <tr>
+                            <td>부산은행</td>
+                            <td>070-13-001512-3</td>
+                        </tr>
+                    </table>
+                </section>
+            </footer>
+        </article>
+    </div>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33284868-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-33284868-1');
+    </script>
+
+
+    <script>
+        $(window).scroll(function () {
+
+            /*
+             * 스크롤 백분율
+             */
+
+            var scrollTop = $(window).scrollTop();
+
+            var scrollPercent = (scrollTop / ($(document).height() - $(window).height())) * 100;
+
+            var decimalPercent = (100 - scrollPercent) / 100;
+
+            /*
+             * 헤더 밑에 프로그레스
+             */
+
+            var scrollBar = $("div.scroll-bar");
+
+            scrollBar.css("width", scrollPercent + "%");
+
+            /*
+             * 헤더 사이즈 조절
+             */
+
+            var header = $("header.navbar");
+            var headerHeight = header.outerHeight();
+
+            var content = $("div#container article#content");
+            var menuText = $("div#container article.navbar-fixed-top header.navbar nav.top-menu li a");
+            var etcLists = $("div#container article.navbar-fixed-top header.navbar nav.top-menu ul.etcList");
+
+            var maxHeaderHeight = 160;
+            var minHeaderHeight = 55;
+
+            var maxPaddingVal = 15;
+            var minPaddingVal = 10;
+            var headerPercent = scrollTop / (maxHeaderHeight - minHeaderHeight);
+
+            var maxEtcMarginLeft = 155;
+
+            if (headerHeight >= minHeaderHeight && headerHeight <= maxHeaderHeight) {
+                if ((maxHeaderHeight * 1 - scrollTop * 1) >= minHeaderHeight * 1) {
+                    header.css("height", maxHeaderHeight - scrollTop);
+                    content.css("margin-top", maxHeaderHeight - scrollTop);
+                    menuText.css({
+                        "padding-left": maxPaddingVal - (headerPercent * 5),
+                        "padding-right": maxPaddingVal - (headerPercent * 5)
+                    });
+                    etcLists.css("margin-left", maxEtcMarginLeft * headerPercent);
+                }
+                else {
+                    header.css("height", minHeaderHeight);
+                    content.css("margin-top", minHeaderHeight);
+                    menuText.css({
+                        "padding-left": minPaddingVal,
+                        "padding-right": minPaddingVal
+                    });
+                    etcLists.css("margin-left", maxEtcMarginLeft);
+                }
+            }
+
+            /*
+             * 로고 사이즈 조절
+             */
+
+            var maxLogoWidth = 160;
+            var minLogoWidth = 90;
+
+            var maxLogoBottom = 71;
+            var minLogoBottom = 10;
+
+            var brandLogo = $("a.navbar-brand");
+
+            var logoBottom = parseInt(brandLogo.css("bottom"));
+
+            var logoWidth = brandLogo.width();
+
+            var decimalheaderPercent = (100 - headerPercent * 100) / 100;
+
+            if (logoWidth >= minLogoWidth && logoWidth <= maxLogoWidth) {
+                if (maxLogoWidth * decimalheaderPercent >= minLogoWidth) {
+                    brandLogo.css({
+                        "width": maxLogoWidth * decimalheaderPercent,
+                        "margin-left": "-" + ((maxLogoWidth * decimalheaderPercent) / 2) + "px",
+                    });
+                }
+                else {
+                    brandLogo.css({
+                        "width": minLogoWidth,
+                        "margin-left": "-" + (minLogoWidth / 3) + "px",
+                    });
+                }
+            }
+
+            if (logoBottom >= minLogoBottom && logoBottom <= maxLogoBottom) {
+                if (maxLogoBottom * decimalheaderPercent >= minLogoBottom) {
+                    brandLogo.css("bottom", maxLogoBottom * decimalheaderPercent);
+                }
+                else {
+                    brandLogo.css("bottom", minLogoBottom);
+                }
+            }
+        });
+
+        /*
+         * 로그인 팝업 띄우기
+         */
+
+        $('a.loginBtn').click(function (e) {
+            e.preventDefault();
+
+            var rUrl = encodeURIComponent("@Request.Url.PathAndQuery".replace("&amp;", "&"));
+            var url = "/Home/Login?r=" + rUrl;
+
+            if (url.indexOf('#') == 0) {
+                $(url).modal('show');
+            } else {
+                $.get(url, function (data) {
+                    $('<div class="modal fade login">' + data + '</div>').modal();
+                });
+            }
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+        });
+    </script>
+
+    @if (isMobile && view_pc != "Y")
+    {
+        <script>
+            $(document).ready(function () {
+                location.href = "http://m.ntabi.kr" + window.location.pathname + window.location.search;
+            });
+        </script>
+    }
+</body>
+</html>

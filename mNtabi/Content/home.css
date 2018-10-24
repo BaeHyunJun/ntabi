@@ -1,0 +1,346 @@
+﻿
+/*메인슬라이더*/
+div#wrap section.mainslider {
+position: relative;
+height: auto;
+margin: 0 -15px;
+overflow: hidden;
+}
+
+div#wrap section.mainslider ul:after {
+content: "";
+display: block;
+clear: both;
+}
+
+div#wrap section.mainslider li {
+float: left;
+}
+
+div#wrap section.mainslider li:nth-child(2),
+div#wrap section.mainslider li:nth-child(3),
+div#wrap section.mainslider li:nth-child(4),
+div#wrap section.mainslider li:nth-child(5) {
+position: absolute;
+top: 0;
+left: 0;
+}
+
+div#wrap section.mainslider li a {
+display: block;
+}
+
+div#wrap section.mainslider li a img {
+width: 100%;
+}
+/*페이저*/
+div#wrap section.mainslider div.bx-has-pager {
+}
+
+div#wrap section.mainslider div.bx-has-pager div.bx-pager {
+width: 100%;
+}
+
+div#wrap section.mainslider div.bx-has-pager div.bx-pager:after {
+content: "";
+display: block;
+clear: both;
+}
+
+div#wrap section.mainslider div.bx-has-pager div.bx-pager div {
+float: left;
+width: 20%;
+height: 3px;
+}
+
+div#wrap section.mainslider div.bx-has-pager div.bx-pager div a {
+display: block;
+text-indent: -9999px;
+background-color: rgba(0,0,0,.6);
+}
+
+div#wrap section.mainslider div.bx-has-pager div.bx-pager div a.active {
+background-color: #a0ce54;
+}
+
+
+/*엔버팩*/
+div#wrap section.nvp {
+margin: 50px -15px 0 -15px;
+}
+
+div#wrap section.nvp li {
+position: relative;
+height: 250px;
+}
+
+div#wrap section.nvp li:after {
+content: "";
+display: block;
+clear: both;
+}
+
+div#wrap section.nvp li a{
+display: block;
+width: 100%;
+height: 100%;
+}
+
+div#wrap section.nvp li p.image {
+float: left;
+width: 64%;
+margin-top: 30px;
+}
+
+div#wrap section.nvp li p.image img {
+width: 100%;
+}
+
+div#wrap section.nvp li div.text {
+position: relative;
+float: right;
+width: 34%;
+height: 100%;
+}
+
+div#wrap section.nvp li div.text h3 {
+position: absolute;
+top: 15px;
+right: 10%;
+font-size: 23px;
+writing-mode: tb-rl;
+line-height: 1em;
+letter-spacing: 1px;
+}
+
+div#wrap section.nvp li div.text h3 span.small {
+font-size: 13px;
+font-weight: normal;
+}
+
+div#wrap section.nvp li div.text p.icon {
+position: absolute;
+top: 33%;
+left: 5%;
+width: 50px;
+height: 50px;
+background-size: 100% auto;
+text-indent: -9999px;
+}
+
+div#wrap section.nvp li.nvp01 div.text p.icon {
+background-image: url(/Content/Images/home/variety/icon_nvp_GoToGOTO.png);
+}
+
+div#wrap section.nvp li.nvp02 div.text p.icon {
+background-image: url(/Content/Images/newSample/icon_nvp_arkyushu.png);
+}
+
+div#wrap section.nvp li.nvp03 div.text p.icon {
+background-image: url(/Content/Images/home/variety/icon_nvp_odentour.png);
+}
+
+
+div#wrap section.nvp li div.text p.nvpline {
+position: absolute;
+/*top: 55%;*/
+left: 5%;
+width: 60px;
+background-image: url(/Content/Images/newSample/rooftopparty.png);
+background-size: 100% auto;
+background-repeat: no-repeat;
+background-position: center;
+text-indent: -9999px;
+bottom: 0;
+}
+
+div#wrap section.nvp li p.info {
+position: absolute;
+top: 69%;
+left: 44%;
+font-size: 15px;
+line-height: 1.4em;
+}
+
+div#wrap section.nvp li p.info span.nvptit {
+font-weight: bold;
+}
+
+div#wrap section.nvp li p.btn {
+position: absolute;
+top: 70%;
+left: 12%;
+width: 100px;
+height: 30px;
+background-image: url(/Content/Images/newSample/btn_nvp_viewbox.png);
+background-size: 100% auto;
+background-position: center;
+background-repeat: no-repeat;
+}
+
+div#wrap section.nvp li p.btn a {
+display: block;
+font-size: 15px;
+text-align: center;
+line-height: 20px;
+}
+
+/*두번째만 방향반대*/
+div#wrap section.nvp li.nvp02 p.image {
+float: right;
+}
+
+div#wrap section.nvp li.nvp02 div.text {
+float: left;
+}
+
+div#wrap section.nvp li.nvp02 div.text h3 {
+left: 10%;
+writing-mode: vertical-lr;
+}
+
+div#wrap section.nvp li.nvp02 div.text h3 span.small {
+font-size: 13px;
+font-weight: normal;
+}
+
+div#wrap section.nvp li.nvp02 div.text p.icon {
+right: 8%;
+left: inherit;
+top: 35%;
+}
+
+div#wrap section.nvp li.nvp02 div.text p.nvpline {
+right: 5%;
+left: inherit;
+width: 60px;
+}
+
+div#wrap section.nvp li.nvp02 p.info {
+right: 44%;
+left: inherit;
+text-align: right;
+}
+
+div#wrap section.nvp li.nvp02 p.btn {
+right: 12%;
+left: inherit;
+}
+
+/*베스트메뉴*/
+div#wrap section.best {
+padding-top: 30px;
+padding-bottom: 30px;
+margin: 30px -15px 0 -15px;
+background-color: rgba(228,221,215,.7);
+}
+
+div#wrap section.best h3 {
+margin-bottom: 15px;
+text-align: center;
+font-size: 18px;
+letter-spacing: 2px;
+}
+
+div#wrap section.best ul {
+padding: 0 10px;
+}
+
+div#wrap section.best ul:after {
+content: "";
+display: block;
+clear: both;
+}
+
+div#wrap section.best li {
+position: relative;
+float: left;
+width: 49%;
+margin-right: 2%;
+margin-bottom: 9px;
+}
+
+div#wrap section.best li:nth-child(even) {
+margin-right: 0;
+}
+
+div#wrap section.best li a {
+display: block;
+}
+
+div#wrap section.best li a img {
+width: 100%;
+}
+
+div#wrap section.best li a p.tit {
+position: absolute;
+top: 0;
+left: -12px;
+width: 30%;
+height: 100%;
+padding: 5px 12px 5px 0;
+writing-mode: tb-rl;
+color: white;
+line-height: 15px;
+text-align: center;
+box-sizing: border-box;
+background-color: rgba(0,0,0,.5);
+}
+
+div#wrap section.best li:nth-child(3) a p.tit,
+div#wrap section.best li:nth-child(4) a p.tit,
+div#wrap section.best li:nth-child(7) a p.tit,
+div#wrap section.best li:nth-child(8) a p.tit {
+right: 12px;
+left: inherit;
+}
+
+/*시그니처*/
+div#wrap section.signature {
+margin: 30px -5px 0 -5px;
+}
+
+div#wrap section.signature h3 {
+margin-bottom: 15px;
+text-align: center;
+font-size: 18px;
+letter-spacing: 2px;
+}
+
+div#wrap section.signature ul:after {
+content: "";
+display: block;
+clear: both;
+}
+
+div#wrap section.signature li {
+position: relative;
+float: left;
+width: 49%;
+margin-right: 2%;
+margin-bottom: 9px;
+}
+
+div#wrap section.signature li:nth-child(even) {
+margin-right: 0;
+}
+
+div#wrap section.signature li a {
+display: block;
+}
+
+div#wrap section.signature li a img {
+width: 100%;
+}
+
+div#wrap section.signature li a p.tit {
+position: absolute;
+top: 20px;
+left: 38%;
+color: white;
+writing-mode: tb-rl;
+font-size: 18px;
+letter-spacing: -0.5px;
+line-height: 1.3em;
+text-shadow: 0 0 10px rgba(0,0,0,.5);
+}

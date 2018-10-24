@@ -1,0 +1,284 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var type = Request["type"];
+
+    if (string.IsNullOrEmpty(type))
+    {
+        type = "notice";
+    }
+
+    string typeTxt = "";
+
+    switch (type)
+    {
+        case "notice":
+            typeTxt = "공지 사항";
+            break;
+        case "qna":
+            typeTxt = "질문과 답변";
+            break;
+        case "review":
+            typeTxt = "고객리뷰";
+            break;
+        case "customer":
+            typeTxt = "맞춤여행문의";
+            break;
+    }
+}
+
+<section class="board @type">
+    <h3>고객센터 > @typeTxt</h3>
+
+    <form name="schForm" method="post" action="/Community/Update">
+        <input type="hidden" name="type" value="@type" />
+        <input type="hidden" name="key" value="" />
+
+        @*
+        <label>
+            <input type="radio" name="area[]" value="JP" checked="checked" />
+            일본
+        </label>
+        <label>
+            <input type="radio" name="area[]" value="JP" />
+            동남아
+        </label>
+        <label>
+            <input type="radio" name="area[]" value="CH" />
+            중국
+        </label>
+        <label>
+            <input type="radio" name="area[]" value="US" />
+            미주
+        </label>
+        <label>
+            <input type="radio" name="area[]" value="EU" />
+            유럽
+        </label>
+        <label>
+            <input type="radio" name="area[]" value="5P" />
+            대양주
+        </label>
+        *@
+
+        @if (type == "customer")
+        {
+        <div class="select">
+            <ul>
+                <li id="select_box01">
+                    <select id="start" name="sCity" title="select start">
+                        <option value="" selected="selected">출발지</option>
+                        <option value="PUS">부산</option>
+                        <option value="SEO">서울</option>
+                        <option value="DAE">대구</option>
+                        <option value="ETC">기타</option>
+                    </select>
+                </li> <!--.box01-->
+                <li id="select_box02">
+                    <select id="arrival" name="eCity" title="select arrival">
+                        <option value="" selected="selected">목적지</option>
+                        <option value="JP">일본</option>
+                        <option value="HK">홍콩</option>
+                        <option value="TW">대만</option>
+                        <option value="VE">베트남</option>
+                        <option value="PH">필리핀</option>
+                        <option value="AM">미주</option>
+                        <option value="5P">괌/사이판</option>
+                        <option value="RU">러시아</option>
+                    </select>
+                </li> <!--.box02-->
+                <li id="select_box03">
+                    <select id="transport" name="traff" title="select transport">
+                        <option value="" selected="selected">이용편</option>
+                        <option value="SHP">선박</option>
+                        <option value="AIR">항공</option>
+                        <option value="BUS">버스투어</option>
+                    </select>
+                </li> <!--.box03-->
+                <li id="select_box04">
+                    <select id="adult" name="aCnt" title="select adult">
+                        <option value="" selected="selected">성인</option>
+                        <option value="1">성인 1명</option>
+                        <option value="2">성인 2명</option>
+                        <option value="3">성인 3명</option>
+                        <option value="4">성인 4명</option>
+                        <option value="5">성인 5명</option>
+                        <option value="6">성인 6명이상</option>
+                    </select>
+                </li> <!--.box04-->
+                <li id="select_box05">
+                    <select id="child" name="cCnt" title="select child">
+                        <option value="" selected="selected">소아</option>
+                        <option value="1">소아 1명</option>
+                        <option value="2">소아 2명</option>
+                        <option value="3">소아 3명</option>
+                        <option value="4">소아 4명</option>
+                        <option value="5">소아 5명</option>
+                        <option value="6">소아 6명이상</option>
+                    </select>
+                </li> <!--.box05-->
+                <li id="select_box06">
+                    <select id="baby" name="bCnt" title="select baby">
+                        <option value="" selected="selected">유아</option>
+                        <option value="1">유아 1명</option>
+                        <option value="2">유아 2명</option>
+                        <option value="3">유아 3명</option>
+                        <option value="4">유아 4명</option>
+                        <option value="5">유아 5명</option>
+                        <option value="6">유아 6명이상</option>
+                    </select>
+                </li> <!--.box06-->
+            </ul>
+        </div> <!--.select-->
+        <p id="date">
+            <label>날짜선택<input type="text" id="datepicker" name="date" placeholder="날짜선택하기" readonly="readonly" /></label>
+        </p>
+
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script>
+            $("#datepicker").datepicker({
+                dateFormat: 'yy-mm-dd',
+                prevText: '이전',
+                nextText: '이후',
+                monthNames: ['01. January', '02. February', '03. March', '04. April', '05. May', '06. June', '07. July', '08. August', '09. September', '10. October', '11. November', '12. December'],
+                monthNamesShort: ['01.', '02.', '03.', '04.', '05.', '06.', '07.', '08.', '09.', '10.', '11.', '12.'],
+                dayNames: ['sun', 'mon', 'tue', 'wed', 'thr', 'fri', 'sat'],
+                dayNamesShort: ['sun', 'mon', 'tue', 'wed', 'thr', 'fri', 'sat'],
+                dayNamesMin: ['sun', 'mon', 'tue', 'wed', 'thr', 'fri', 'sat'],
+                showMonthAfterYear: true,
+                yearSuffix: '',
+                autoSize: true,
+                numberOfMonths: 1
+            });
+
+            function setVali() {
+                var sCity = $("select[name='sCity'] option:selected"),
+                    eCity = $("select[name='eCity'] option:selected"),
+                    traff = $("select[name='traff'] option:selected"),
+                    aCnt = $("select[name='aCnt'] option:selected"),
+                    cCnt = $("select[name='cCnt'] option:selected"),
+                    bCnt = $("select[name='bCnt'] option:selected");
+
+                if (sCity.val() == "") {
+                    alert("출발지를 선택해주세요.");
+                    sCity.focus();
+                    return false;
+                }
+
+                if (eCity.val() == "") {
+                    alert("목적지를 선택해주세요.");
+                    eCity.focus();
+                    return false;
+                }
+
+                if (traff.val() == "") {
+                    alert("이용편을 선택해주세요.");
+                    traff.focus();
+                    return false;
+                }
+
+                if (aCnt.val() == "") {
+                    alert("성인 숫자를 선택해주세요.");
+                    aCnt.focus();
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
+        }
+        else if (type == "qna")
+        {
+        <p id="cat">
+            <label><input type="radio" name="category" value="AIR" checked="checked" />항공</label>
+            <label><input type="radio" name="category" value="SHP" />선박</label>
+            <label><input type="radio" name="category" value="PAC" />패키지</label>
+            <label><input type="radio" name="category" value="LOC" />현지투어</label>
+        </p>
+        <p class="secret"><input type="checkbox" name="secret" value="Y" checked="checked">비밀글</p>
+
+        <script>
+            function setVali() {
+                var cat = $("input[name='category']");
+
+                if (cat.val() == "") {
+                    alert("항목을 선택해주세요.");
+                    cat.focus();
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
+        }
+
+        <div class="title">
+            <input name="title" type="text" placeholder="제목" style="width: 100%; height: 35px; padding: 5px; margin-bottom: 10px;" />
+        </div>
+
+        <div class="content">
+            <textarea class="form-control" rows="15" name="content" id="content" style="width: 100%; resize: none;"></textarea>
+            <p class="secretInfo">작성시 비밀글 처리됩니다.</p>
+            <p class="writewith">상품이름이나 코드를 함께 적어주시면 더욱 상세한 답변이 가능합니다.</p>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button id="uptBtn" class="btn btn-default">글쓰기</button>
+            <a class="btn btn-default" href="./Lists?type=@type">취소</a>
+        </div>
+    </form>
+</section>
+
+
+@*
+<script src="~/Scripts/HuskyEZCreator.js"></script>*@
+
+<script>
+    //var oEditors = [];
+
+    //nhn.husky.EZCreator.createInIFrame({
+    //    oAppRef: oEditors,
+    //    elPlaceHolder: "content",
+    //    sSkinURI: "/Editor/SmartEditor2Skin",
+    //    fCreator: "createSEditor2"
+    //});
+
+    //$('.uploadImg').on("click", function (e) {
+    //    e.stopPropagation();
+    //    e.preventDefault();
+
+    //    var opt = "left=0,top=0,width=403,height=359,scrollbars=yes,location=no,status=0,resizable=no";
+    //    window.open("/Editor/Photo_uploader?isFeature=true", "대표 이미지", opt);
+    //});
+
+    $("#uptBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.schForm;
+        var title = f.title.value;
+        var content = f.content.value;
+
+        if (!setVali())
+            return;
+
+        if (title == "") {
+            alert("제목을 입력해주세요.");
+            return;
+        }
+
+        if (content == "") {
+            alert("내용을 입력해주세요.");
+            return;
+        }
+
+        f.submit();
+        //oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+
+        //var type    = f.type.value;
+
+        //f.content.value = encodeURIComponent(content);
+
+        //f.content.value = (content);
+    });
+</script>

@@ -1,0 +1,222 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    div#container > article > section.magazineLists {
+        padding-top: 20px;
+    }
+
+    section.magazineLists > h3 {
+        font-size: 18px;
+        color: #2a2a2a;
+    }
+
+    section.magazineLists > div {
+        position: relative;
+        margin-top: 30px;
+    }
+
+        section.magazineLists > div > h4 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 135px;
+            text-align: center;
+            line-height: 350px;
+            background-color: #fcfefa;
+        }
+
+        section.magazineLists > div > ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            font-size: 0;
+            overflow: hidden;
+        }
+
+            section.magazineLists > div > ul > li {
+                float: right;
+                overflow: hidden;
+                position: relative;
+                height: 350px;
+            }
+
+                section.magazineLists > div > ul > li > a > img {
+                    margin-right: -222px;
+                }
+
+                section.magazineLists > div > ul > li.on > a > img {
+                    margin: 0;
+                }
+</style>
+
+<section class="magazineLists">
+    <h3>매거진</h3>
+
+    <div class="magazine2018">
+        <h4>2018</h4>
+        <ul>
+            <li class="JAN">
+                <a href="/Magazine/Views?date=201801">
+                    <h5 class="sr-only sr-only-focusable">일본의 전통축제. 마츠리.</h5>
+                    <img src="~/Content/Images/Magazine/2018/magazine_01.jpg" alt="엔타비 매거진 1월호" />
+                </a>
+            </li>
+            <li class="FEB">
+                <a href="/Magazine/Views?date=201802">
+                    <h5 class="sr-only sr-only-focusable">다양한 꼬치의 세계. 야키토리.</h5>
+                    <img src="~/Content/Images/Magazine/2018/magazine_02.jpg" alt="엔타비 매거진 2월호" />
+                </a>
+            </li>
+            <li class="MAR">
+                <a href="/Magazine/Views?date=201803">
+                    <h5 class="sr-only sr-only-focusable">이제는 명소가 된. 운하.</h5>
+                    <img src="~/Content/Images/Magazine/2018/magazine_03.jpg" alt="엔타비 매거진 3월호" />
+                </a>
+            </li>
+            <li class="APR">
+                <a href="/Magazine/Views?date=201804">
+                    <h5 class="sr-only sr-only-focusable">소박하지만 매력넘치는. 이키섬.</h5>
+                    <img src="~/Content/Images/Magazine/2018/magazine_04.jpg" alt="엔타비 매거진 4월호" />
+                </a>
+            </li>
+            <li class="MAY">
+                <a href="/Magazine/Views?date=201805">
+                    <h5 class="sr-only sr-only-focusable">운남성에서 만나요. 운남성 여행기.</h5>
+                    <img src="~/Content/Images/Magazine/2018/magazine_05.jpg" alt="엔타비 매거진 5월호" />
+                </a>
+            </li>
+            <li class="JUN">
+                <a href="/Magazine/Views?date=201806">
+                    <h5 class="sr-only sr-only-focusable">스쿠버다이빙의 꽃. 요나구니 섬.</h5>
+                    <img src="~/Content/Images/Magazine/2018/magazine_06.jpg" alt="엔타비 매거진 6월호" />
+                </a>
+            </li>
+            <li class="JUL">
+                <a href="/Magazine/Views?date=201807">
+                    <h5 class="sr-only sr-only-focusable">한여름의 추억. 오키나와.</h5>
+                    <img src="~/Content/Images/Magazine/2018/magazine_07.jpg" alt="엔타비 매거진 7월호" />
+                </a>
+            </li>
+            <li class="AUG on">
+                <a href="/Magazine/Views?date=201808">
+                    <h5 class="sr-only sr-only-focusable">사케 고르는법. 가이드북.</h5>
+                    <img src="~/Content/Images/Magazine/2018/magazine_08.jpg" alt="엔타비 매거진 8월호" />
+                </a>
+            </li>
+            <li class="SEP">
+                <a href="/Magazine/Views?date=201809">
+                    <h5 class="sr-only sr-only-focusable">세계에서 사랑받는. 트레킹 코스.</h5>
+                    <img src="~/Content/Images/Magazine/2018/magazine_09.jpg" alt="엔타비 매거진 9월호" />
+                </a>
+            </li>
+            <li class="OCT">
+                <a href="/Magazine/Views?date=201810">
+                    <h5 class="sr-only sr-only-focusable">러시아 극동. 캄차카 여행기.</h5>
+                    <img src="~/Content/Images/Magazine/2018/magazine_10.jpg" alt="엔타비 매거진 10월호" />
+                </a>
+            </li>
+            <li class="NOV">
+                <a href="javascript:alert('11월 오픈예정');">
+                    <h5 class="sr-only sr-only-focusable">엔타비 매거진 11월호</h5>
+                    <img src="~/Content/Images/Magazine/default/commingsoon_11.jpg" alt="엔타비 매거진 11월호" />
+                </a>
+            </li>
+            <li class="DEC">
+                <a href="javascript:alert('12월 오픈예정');">
+                    <h5 class="sr-only sr-only-focusable">엔타비 매거진 12월호</h5>
+                    <img src="~/Content/Images/Magazine/default/commingsoon_12.jpg" alt="엔타비 매거진 12월호" />
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="magazine2017">
+        <h4>2017</h4>
+        <ul>
+            <li class="JAN">
+                <a href="/Magazine/Views?date=201701">
+                    <h5 class="sr-only sr-only-focusable">셰프의 맛기행. 기타큐슈 로컬맛집.</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_01.jpg" alt="엔타비 매거진 1월호" />
+                </a>
+            </li>
+            <li class="FEB">
+                <a href="/Magazine/Views?date=201702">
+                    <h5 class="sr-only sr-only-focusable">'봄'을 만나다. 하나미.</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_02.jpg" alt="엔타비 매거진 2월호" />
+                </a>
+            </li>
+            <li class="MAR">
+                <a href="/Magazine/Views?date=201703">
+                    <h5 class="sr-only sr-only-focusable">도심속 오아시스. 비지니스 호텔.</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_03.jpg" alt="엔타비 매거진 3월호" />
+                </a>
+            </li>
+            <li class="APR">
+                <a href="/Magazine/Views?date=201704">
+                    <h5 class="sr-only sr-only-focusable">식도락 여행. 도시락.</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_04.jpg" alt="엔타비 매거진 4월호" />
+                </a>
+            </li>
+            <li class="MAY">
+                <a href="/Magazine/Views?date=201705">
+                    <h5 class="sr-only sr-only-focusable">가고시마. 맛기행.</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_05.jpg" alt="엔타비 매거진 5월호" />
+                </a>
+            </li>
+            <li class="JUN">
+                <a href="/Magazine/Views?date=201706">
+                    <h5 class="sr-only sr-only-focusable">부산-일본. 선박</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_06.jpg" alt="엔타비 매거진 6월호" />
+                </a>
+            </li>
+            <li class="JUL">
+                <a href="/Magazine/Views?date=201707">
+                    <h5 class="sr-only sr-only-focusable">모험의 나라. 디즈니랜드.</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_07.jpg" alt="엔타비 매거진 7월호" />
+                </a>
+            </li>
+            <li class="AUG">
+                <a href="/Magazine/Views?date=201708">
+                    <h5 class="sr-only sr-only-focusable">일본의 보양식. 건강비결.</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_08.jpg" alt="엔타비 매거진 8월호" />
+                </a>
+            </li>
+            <li class="SEP">
+                <a href="/Magazine/Views?date=201709">
+                    <h5 class="sr-only sr-only-focusable">제이파크. 인기비결.</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_09.jpg" alt="엔타비 매거진 9월호" />
+                </a>
+            </li>
+            <li class="OCT">
+                <a href="/Magazine/Views?date=201710">
+                    <h5 class="sr-only sr-only-focusable">면나라. 이웃나라.</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_10.jpg" alt="엔타비 매거진 10월호" />
+                </a>
+            </li>
+            <li class="NOV">
+                <a href="/Magazine/Views?date=201711">
+                    <h5 class="sr-only sr-only-focusable">낮엔 도시풍경. 밤엔 야경. 관람차.</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_11.jpg" alt="엔타비 매거진 11월호" />
+                </a>
+            </li>
+            <li class="DEC on">
+                <a href="/Magazine/Views?date=201712">
+                    <h5 class="sr-only sr-only-focusable">북해도, 도쿄, 오사카 그리고 규슈의 맛</h5>
+                    <img src="~/Content/Images/Magazine/2017/magazine_12.jpg" alt="엔타비 매거진 12월호" />
+                </a>
+            </li>Z
+        </ul>
+    </div>
+
+</section>
+
+<script>
+    $("section.magazineLists li").on("mouseover", function () {
+        var _this = $(this);
+
+        _this.addClass("on").siblings().removeClass("on");
+    });
+</script>

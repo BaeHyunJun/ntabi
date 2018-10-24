@@ -1,0 +1,146 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    div#container > article section.checklists {
+        position: relative;
+    }
+
+        div#container > article section.checklists > div {
+            position: absolute;
+            width: 170px;
+            text-align: center;
+        }
+
+            div#container > article section.checklists > div.wifi {
+                left: 10%;
+                bottom: 19%;
+                transition-duration: 0.3s;
+            }
+
+                div#container > article section.checklists > div.wifi:hover {
+                    left: 9%;
+                    bottom: 20%;
+                    transition-duration: 0.7s;
+                }
+
+            div#container > article section.checklists > div.insurance {
+                left: 50%;
+                bottom: 19%;
+                margin-left: -85px;
+                transition-duration: 0.3s;
+            }
+
+                div#container > article section.checklists > div.insurance:hover {
+                    bottom: 20%;
+                    transition-duration: 0.7s;
+                }
+
+            div#container > article section.checklists > div.rentcar {
+                right: 10%;
+                bottom: 19%;
+                transition-duration: 0.3s;
+            }
+
+                div#container > article section.checklists > div.rentcar:hover {
+                    right: 9%;
+                    bottom: 20%;
+                    transition-duration: 0.7s;
+                }
+
+            div#container > article section.checklists > div.kosokubus {
+                left: 25%;
+                bottom: 4%;
+                transition-duration: 0.3s;
+            }
+
+                div#container > article section.checklists > div.kosokubus:hover {
+                    left: 24%;
+                    bottom: 3%;
+                    transition-duration: 0.7s;
+                }
+
+            div#container > article section.checklists > div.booking {
+                right: 25%;
+                bottom: 4%;
+                transition-duration: 0.3s;
+            }
+
+                div#container > article section.checklists > div.booking:hover {
+                    right: 24%;
+                    bottom: 3%;
+                    transition-duration: 0.7s;
+                }
+
+            div#container > article section.checklists > div > a {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+
+                div#container > article section.checklists > div > a > h4 {
+                    display: block;
+                    text-align: center;
+                    border: 1px solid white;
+                    border-radius: 10px;
+                    line-height: 30px;
+                    margin-top: 25px;
+                }
+
+            div#container > article section.checklists > div.kosokubus > a > h4 {
+                border: 1px solid #eee;
+            }
+
+            div#container > article section.checklists > div.booking > a > h4 {
+                border: 1px solid #e9e9e9;
+            }
+
+        div#container > article section.checklists > p {
+            position: absolute;
+            left: 510px;
+            bottom: 0;
+            font-size: 12px;
+            margin: 0;
+        }
+</style>
+
+<section class="checklists">
+    <h3 class="sr-only sr-only-focusable">여행 전 체크 리스트</h3>
+    <img src="~/Content/Images/Checklists/bg.jpg" alt="배경" />
+
+    <div class="wifi">
+        <a href="http://travel.maaltalk.com/id/ntabi" target="_blank">
+            <img src="~/Content/Images/Checklists/icon_wifi.png" alt="포켓 와이파이" />
+            <h4>포켓 와이파이</h4>
+        </a>
+    </div>
+    <div class="insurance">
+        <a href="http://www.travelover.co.kr/bnn/?uk=4132ee273b4d9" target="_blank">
+            <img src="~/Content/Images/Checklists/icon_insurance.png" alt="여행자 보험" />
+            <h4>여행자 보험</h4>
+        </a>
+    </div>
+    <div class="rentcar">
+        <a href="https://www.web-rentacar.com/kr/agt/ntabi.asp?afrieitcd=ntabi" target="_blank">
+            <img src="~/Content/Images/Checklists/icon_rentcar.png" alt="렌트카" />
+            <h4>렌트카</h4>
+        </a>
+    </div>
+    <div class="kosokubus">
+        <a href="https://www.kosokubus.com/kr/special/agt/ntabi.html?ad=NTB" target="_blank">
+            <img src="~/Content/Images/Checklists/icon_kosokubus.png" alt="일본고속버스" />
+            <h4>일본 고속버스</h4>
+        </a>
+    </div>
+    <div class="booking">
+        <a href="https://www.booking.com/?aid=1294434" target="_blank">
+            <img src="~/Content/Images/Checklists/icon_booking.png" alt="부킹닷컴" />
+            <h4>부킹닷컴</h4>
+        </a>
+    </div>
+
+    <p>
+        *클릭시 예약 페이지로 넘어갑니다.
+    </p>
+</section>

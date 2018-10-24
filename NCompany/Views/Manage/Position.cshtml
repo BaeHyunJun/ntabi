@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "직책";
+}
+
+<section class="row">
+    <aside class="col-md-2">
+        @Html.Partial("_subMenu")
+    </aside>
+    <article class="col-md-10">
+        <h3>@ViewBag.Title 관리</h3>
+
+        <a class="btn btn-primary pull-right" href="#" role="button">+ @ViewBag.Title 추가</a>
+
+        <p>
+            @ViewBag.Title을 생성, 수정, 삭제할 수 있습니다.
+        </p>
+
+        <table class="table">
+            <colgroup class="row">
+                <col class="col-md-1">
+                <col class="col-md-8">
+                <col class="col-md-1">
+                <col class="col-md-2">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        순서
+                    </th>
+                    <th>
+                        @ViewBag.Title 명
+                    </th>
+                    <th class="text-center">
+                        구성원 수
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">
+                        1
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" placeholder="사장">
+                    </td>
+                    <td class="text-center">
+                        0
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-default" href="#" role="button">수정</a>
+                        <a class="btn btn-danger" href="#" role="button">삭제</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </article>
+</section>

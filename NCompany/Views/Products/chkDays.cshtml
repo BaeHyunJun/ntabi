@@ -1,0 +1,471 @@
+﻿@using NCompany.Models
+
+@{
+    Layout = null;
+    
+    var user = Session["user"] as User;
+
+    var trfData = ViewBag.trf;
+    var prcData = ViewBag.prc;
+
+    string no = "",
+           title = "",
+           content = "";
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">판매 일 생성</h4>
+        </div>
+        <div class="modal-body" style="padding-bottom: 0;">
+            <form name="dayForm" method="post" action="" class="daysForm form-horizontal">
+                <input type="hidden" name="redirect" value="@Request["url"]" />
+                <input type="hidden" name="code" value="@Request["code"]" />
+                <input type="hidden" name="key" value="@Request["key"]" />
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">교통</label>
+                    <div class="col-sm-9">
+                        <select name="trfCD" class="form-control">
+                            <option value="" selected="selected">교통편을 선택해주세요.</option>
+                            @foreach (var item in trfData)
+                            {
+                                try { no = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                                catch { }
+                                try { title = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                                catch { }
+                                try
+                                {
+                                    content = "출발 시간 : " + item.GetType().GetProperties()[2].GetValue(item, null).ToString() +
+                                              " | 도착 시간 : " + item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+                                }
+                                catch { }
+
+                                <option value="@no">@title (@content)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">판매가</label>
+                    <div class="col-sm-9">
+                        <select name="prcCD" class="form-control">
+                            <option value="" selected="selected">판매가를 선택해주세요.</option>
+                            @foreach (var item in prcData)
+                            {
+                                try { no = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                                catch { }
+                                try { title = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                                catch { }
+                                try
+                                {
+                                    content = "화폐 : " + item.GetType().GetProperties()[1].GetValue(item, null).ToString() +
+                                              " | 요금 : " + item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+                                }
+                                catch { }
+
+                                <option value="@no">@title (@content)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group text-center">
+                    <div class="btn-group selectDate" role="group">
+                        <button type="button" class="btn btn-default" data-days="all">전체</button>
+                        <button type="button" class="btn btn-default" data-days="0">일요일</button>
+                        <button type="button" class="btn btn-default" data-days="1">월요일</button>
+                        <button type="button" class="btn btn-default" data-days="2">화요일</button>
+                        <button type="button" class="btn btn-default" data-days="3">수요일</button>
+                        <button type="button" class="btn btn-default" data-days="4">목요일</button>
+                        <button type="button" class="btn btn-default" data-days="5">금요일</button>
+                        <button type="button" class="btn btn-default" data-days="6">토요일</button>
+                    </div>
+                </div>
+
+                <div id="datepicker" style="width: 100%;"></div>
+
+            </form> 
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">닫기</button>
+            <button type="button" class="btn btn-danger uptBtn" data-state="05">날짜 제거</button>
+            <button type="button" class="btn btn-default uptBtn" data-state="02">특가</button>
+            <button type="button" class="btn btn-success uptBtn" data-state="01">예약 가능</button>
+            <button type="button" class="btn btn-primary uptBtn" data-state="03">예약 마감</button>
+            <button type="button" class="btn btn-danger uptBtn" data-state="04">출발 확정</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+<script>
+    var day = 0;
+    var dates;
+
+    //getDate();
+
+    $('select').on('change', function () {
+        var f = document.dayForm,
+            trfCode = f.trfCD.value,
+            prcCode = f.prcCD.value;
+
+        if (trfCode != '' && prcCode != '')
+        {
+            getDate();
+        }
+    });
+
+    function getDate() {
+        var url = "/Products/getDays";
+
+        var f = document.dayForm,
+            code    = f.code.value,
+            key     = f.key.value,
+            trfCode = f.trfCD.value,
+            prcCode = f.prcCD.value;
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { code: code, key: key, trfCode: trfCode, prcCode: prcCode },
+            success: function (data) {
+                dates = data;
+
+                var minDate = new Date();
+
+                $("#datepicker").multiDatesPicker({
+                    dateFormat: 'yy-mm-dd',
+                    prevText: '이전',
+                    nextText: '이후',
+                    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+                    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+                    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                    showMonthAfterYear: true,
+                    yearSuffix: '년',
+                    minDate: minDate,
+                    defaultDate: minDate,
+                    beforeShowDay: selectableDays,
+                });
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+
+        //$.post(url, { code: code, key: key, trfCode: trfCode, prcCode: prcCode }, function (data) {
+
+        //    dates = data;
+
+        //    //console.log(dates);
+        //    var minDate = new Date();
+
+        //    //$("#datepicker").datepicker({
+        //    $("#datepicker").multiDatesPicker({
+        //        dateFormat: 'yy-mm-dd',
+        //        prevText: '이전',
+        //        nextText: '이후',
+        //        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        //        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        //        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+        //        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+        //        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+        //        showMonthAfterYear: true,
+        //        yearSuffix: '년',
+        //        minDate: minDate,
+        //        defaultDate: minDate,
+        //        //showOn: "both",
+        //        //beforeShow: function (el, inst) {
+        //        //    console.log("aaa");
+        //        //},
+        //        beforeShowDay: selectableDays,
+        //        //The calendar is recreated OnSelect for inline calendar
+        //        //onSelect: function (date, dp) {
+        //        //    updateDatePickerCells();
+        //        //},
+        //        //onChangeMonthYear: function (month, year, dp) {
+        //        //    updateDatePickerCells();
+        //        //},
+        //        //beforeShow: function (elem, dp) { //This is for non-inline datepicker
+        //        //    updateDatePickerCells();
+        //        //}
+        //    });
+
+        //    //$("#datepicker").focus(function () {
+
+        //    //    $(".ui-datepicker-calendar .ui-state-default").each(function () {
+
+        //    //        //add custome text to date cell
+        //    //        $(this).html($(this).html() + "days");
+
+        //    //    });
+        //    //});
+
+
+        //});
+    }
+
+    $(".selectDate button").on("click", function () {
+        var _this = $(this);
+
+        day = _this.attr("data-days");
+
+        var str = "";
+
+        switch(day)
+        {
+            case "all":
+                str = "n";
+                break;
+            case "0":
+                str = "7n + 1";
+                break;
+            case "1":
+                str = "7n + 2";
+                break;
+            case "2":
+                str = "7n + 3";
+                break;
+            case "3":
+                str = "7n + 4";
+                break;
+            case "4":
+                str = "7n + 5";
+                break;
+            case "5":
+                str = "7n + 6";
+                break;
+            case "6":
+                str = "7n + 7";
+                break;
+        }
+
+        //$("#datepicker").multiDatesPicker('resetDates');
+
+        $("#datepicker table td:nth-child(" + str + ")").find("a").each(function () {
+            var date = new Date();
+            var day = $(this).text();
+
+            var month = $(this).parent().attr("data-month");
+
+            date.setMonth(month);
+
+            //console.log(date)
+
+            $('#datepicker').multiDatesPicker('addDates', [date.setDate(day)]);
+        });
+    });
+
+    function zeroNum(num) {
+        var rNum = num;
+
+        if (rNum.length < 2) {
+            rNum = "0" + rNum
+        }
+
+        return rNum;
+    }
+
+    //var m, d, y, checkDate, specificPrice = '';
+    //var specificPrices = { "2017-6-8": "300 EUR", "2017-6-26": "263 EUR" }
+
+    //function checkAvailable(date) {
+    //    m = date.getMonth();
+    //    d = date.getDate();
+    //    y = date.getFullYear();
+    //    checkDate = y + '-' + (m + 1) + '-' + d;
+    //    if (specificPrices[checkDate]) {
+    //        specificPrice = specificPrices[checkDate];
+    //    } else {
+    //        specificPrice = '';
+    //    }
+    //    return [true, "", specificPrice];
+    //}
+
+    //function selectableDays2(elem, inst){
+    //    $('table.ui-datepicker-calendar tbody td', inst.dpDiv).each(function(){
+    //        var calendarPrice = $(this).attr('title');
+    //        if(calendarPrice != undefined){
+    //            $(this).find('a').append('<span class="calendar-price">' + calendarPrice + '<span>');
+    //        }
+    //    });         
+    //}
+
+    //function updateDate(el, inst) {
+    //    setTimeout(function () {
+    //        console.log(el);
+
+    //        //$('.ui-datepicker td > *').each(function (idx, elem) {
+
+    //        //    addCont = '<span style="font-size: 10px;width: 100%;font-size: 10px;position: absolute;width: 100%;right: 0;bottom: 0;">쿠루쿠루버스 - 성수기 요금</span>';
+
+    //        //    //if (value != 0)
+    //        //    $(this).append(addCont);
+    //        //});
+    //    }, 0);
+    //}
+
+    //function updateDatePickerCells(dp) {
+    //    /* Wait until current callstack is finished so the datepicker
+    //       is fully rendered before attempting to modify contents */
+    //    setTimeout(function () {
+    //        //Fill this with the data you want to insert (I use and AJAX request).  Key is day of month
+    //        //NOTE* watch out for CSS special characters in the value
+    //        var cellContents = { 1: '20', 15: '60', 28: '100' };
+
+    //        //Select disabled days (span) for proper indexing but apply the rule only to enabled days(a)
+    //        $('.ui-datepicker td > *').each(function (idx, elem) {
+    //            var value = cellContents[idx + 1] || 0;
+
+    //            /* dynamically create a css rule to add the contents with the :after                         
+    //               selector so we don't break the datepicker functionality */
+    //            //var className = 'datepicker-content-' + value;
+
+    //            //if (value == 0)
+    //            //    addCSSRule('.ui-datepicker td a.' + className + ':after {content: "\\a0";}'); //&nbsp;
+    //            //else
+    //            //    addCSSRule('.ui-datepicker td a.' + className + ':after {content: "' + value + '";}');
+
+    //            //$(this).addClass(className);
+
+    //            addCont = '<span style="font-size: 10px;width: 100%;font-size: 10px;position: absolute;width: 100%;right: 0;bottom: 0;">쿠루쿠루버스 - 성수기 요금</span>';
+                
+    //            if (value != 0)
+    //                $(this).append(addCont);
+    //        });
+    //    }, 0);
+    //}
+
+    //var dynamicCSSRules = [];
+    //function addCSSRule(rule) {
+    //    if ($.inArray(rule, dynamicCSSRules) == -1) {
+    //        $('head').append('<style>' + rule + '</style>');
+    //        dynamicCSSRules.push(rule);
+    //    }
+    //}
+
+    function selectableDays(date) {
+
+        var dayOfMonth = date.getDate();
+
+        var dummy = zeroNum(date.getFullYear().toString()) + "-" + zeroNum((date.getMonth() + 1).toString()) + "-" + zeroNum(date.getDate().toString());
+
+        var state = $.map(dates, function (obj) { return obj.state });
+        var arrayDays = $.map(dates, function (obj) { return obj.day });
+
+        var trfCode = $.map(dates, function (obj) { return obj.TRF_SEQ });
+        var prcCode = $.map(dates, function (obj) { return obj.PRC_SEQ });
+
+        var idx;
+
+        if ($.inArray(dummy, arrayDays) > -1) {
+            var className = "";
+
+            idx = arrayDays.indexOf(dummy);
+
+            switch (state[idx]) {
+                case "01":
+                    className += "bg_grn";
+                    break;
+                case "02":
+                    className += "bg_gry";
+                    break;
+                case "03":
+                    className += "bg_blu";
+                    break;
+                case "04":
+                    className += "bg_red";
+                    break;
+                default:
+                    className = "";
+                    break;
+            }
+
+            return [true, className];
+        }
+
+        return [true, ""];
+    }
+
+    $(".uptBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.dayForm,
+            ErMsg = "",
+            focusEl,
+            isSub = true,
+            url = "/Products/udtDays";
+
+        var code  = f.code.value,
+            key   = f.key.value,
+            trfCD = f.trfCD.value,
+            prcCD = f.prcCD.value;
+
+        var state = $(this).attr('data-state');
+
+        if (trfCD == null || trfCD == undefined || trfCD == "") {
+            alert("교통편을 선택해 주세요.");
+            f.trfCD.focus();
+            return;
+        }
+
+        if (prcCD == null || prcCD == undefined || prcCD == "") {
+            alert("판매가를 선택해 주세요.");
+            f.prcCD.focus();
+            return;
+        }
+
+        var dates = $("#datepicker").multiDatesPicker('getDates');
+
+        if (dates == null || dates == undefined || dates == "") {
+            alert("판매일을 선택해 주세요.");
+            return;
+        }
+
+        $(".uptBtn").attr("disabled", true);
+
+        var datas = { code: code, key: key, trfCode: trfCD, prcCode: prcCD, type: state, days: dates };
+
+        //$.post(url, datas, function () {
+        //    $(".uptBtn").attr("disabled", false);
+
+        //    $("#datepicker").datepicker("destroy");
+        //    getDate();
+
+        //    $("#datepicker").multiDatesPicker('resetDates');
+
+        //    $("#chkDays_" + code).prop("checked", true);
+        //});
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datas,
+            success: function (data) {
+                $(".uptBtn").attr("disabled", false);
+
+                $("#datepicker").datepicker("destroy");
+                getDate();
+
+                $("#datepicker").multiDatesPicker('resetDates');
+
+                $("#chkDays_" + code).prop("checked", true);
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+
+    });
+</script>

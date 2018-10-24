@@ -1,0 +1,142 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string userName = ViewBag.user_Name;
+
+    int revCnt = ViewBag.rev_Cnt,
+        bdCnt = ViewBag.bd_Cnt;
+}
+
+<section class="menu">
+    <ul>
+        <li>
+            <a href="/Mypage/">예약/결제내역</a>
+        </li>
+        <li class="on">
+            <a href="/Mypage/MyBoard">내가쓴글</a>
+        </li>
+        <li>
+            <a href="/Mypage/Myinfo">정보수정</a>
+        </li>
+    </ul>
+</section> <!--.menu-->
+<section class="mywrite">
+    <ul>
+        @{
+        string GB   = "",
+        key  = "",
+        tit  = "",
+        date = "",
+        link = "",
+        content = "";
+
+        int count = 0,
+        pageNum = 1,
+        maxPage = 1,
+        boardNum = 0;
+
+        try { count = ViewBag.Cnt; }
+        catch { }
+        try { pageNum = ViewBag.pageNum; }
+        catch { }
+
+        decimal a = count / 10;
+
+        maxPage = count / 10;
+
+        boardNum = count - ((pageNum - 1) * 10);
+
+        foreach(object item in Model)
+        {
+        GB   = "";
+        key  = "";
+        tit  = "";
+        date = "";
+        link = "";
+        content = "";
+
+        try { GB    = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+        try { key   = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+        try { tit   = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+        try { date  = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+        try { content  = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); } catch { }
+
+        //link = "/Community/Views?type=" + GB + "&key=" + key;
+        link = "/Community/Views?Lists=" + GB;
+
+        string catText = "";
+
+        switch(GB)
+        {
+        case "review":
+        catText = "고객 리뷰";
+        break;
+        case "qna":
+        catText = "질문과 답변";
+        break;
+        case "customer":
+        catText = "맞춤 여행 문의";
+        break;
+        }
+        <li class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@boardNum" aria-expanded="true" aria-controls="@boardNum">
+                        @tit
+                    </a>
+                </h4>
+            </div>
+            <div id="@boardNum" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    @MvcHtmlString.Create(content)
+                </div>
+            </div>
+            <p class="@GB">@catText </p>
+            <p class="date">@date</p>
+        </li>
+
+        boardNum--;
+        }
+        }
+    </ul>
+</section> <!--.mywrite-->
+@*
+<div class="paging">
+    <ul>
+        @{
+        int curBlock = 1,
+        maxBlock = 10;
+
+        string className = "";
+
+        if (count % 10 > 0)
+        {
+        maxPage++;
+        }
+
+        if (pageNum > 1)
+        {
+        <li class="prev_btn"><a href="?&idx=@(pageNum-1)"><span><</span></a></li>
+        }
+
+        for (var i = 0 * curBlock; i < maxBlock * curBlock; i++)
+        {
+        if (i + 1 == pageNum)
+        {
+        className = "class=on";
+        }
+        else
+        {
+        className = "";
+        }
+
+        <li><a href="?&idx=@(i+1)" @className><span>@(i + 1)</span></a></li>
+        }
+
+        if (pageNum < maxPage)
+        {
+        <li class="next_btn"><a href="?&idx=@(pageNum+1)"><span>></span></a></li>
+        }
+        }
+    </ul>
+</div> <!--.paging-->
+*@

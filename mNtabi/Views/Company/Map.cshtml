@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h3 style="margin-top: 10px; margin-bottom: 15px; font-size: 18px;">
+    찾아오시는 길
+</h3>
+<div class="wayto">
+    <p class="map" id="map_canvas" style="width: 100%; height: 500px; margin-bottom: 10px;"></p> <!--.map-->
+    <p class="address">
+        부산광역시 중구 중앙대로 119 (상현빌딩 5층)<br>
+        SangHyun Bldg 5th, 119, Jungang-daero, Jung-gu, Busan, Republic of Korea
+    </p> <!--.address-->
+    <p class="howto" style="margin-top: 5px; font-weight: bold;">
+        지하철 1호선 중앙역 17번 출구 도보 5분소요.
+    </p> <!--.howto-->
+</div> <!--.wayto-->
+
+<script>
+    function initialize() {
+        var myLatlng = new google.maps.LatLng(35.108312, 129.036401);
+        var myOptions = {
+            zoom: 17,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+        var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOCavluEV5R78T2xJ1YoyVu91zdN8DCAE&callback=initialize" async defer></script>

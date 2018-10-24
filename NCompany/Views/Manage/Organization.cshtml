@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "조직";
+    
+    string num = "",
+           title = "",
+           parent = "";
+}
+
+<section class="row">
+    <aside class="col-md-2">
+        @Html.Partial("_subMenu")
+    </aside>
+    <article class="col-md-10">
+        <h3>@ViewBag.Title 관리</h3>
+
+        <a class="btn btn-primary pull-right" href="#" role="button">+ 조직 추가</a>
+
+        <p>
+            새 조직을 만들거나 조직을 수정, 이동, 삭제할 수 있습니다.
+        </p>
+
+        <table class="table">
+            <colgroup class="row">
+                <col class="col-md-9">
+                <col class="col-md-1">
+                <col class="col-md-2">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>
+                        조직 명
+                    </th>
+                    <th class="text-center">
+                        구성원 수
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+@foreach (object item in Model)
+{
+    num = "";
+    title = "";
+    parent = "";
+    
+    try { num = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+    try { title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+    try { parent = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { parent = ""; }
+    
+    <tr>
+        <td>
+            @if(!string.IsNullOrEmpty(parent))
+            {
+                <span>┗</span>
+            }
+            @title 
+        </td>
+        <td class="text-center">
+            0
+        </td>
+        <td>
+            <a class="btn btn-default" href="#" role="button">수정</a>
+            <a class="btn btn-danger" href="#" role="button" data-NO="@num">삭제</a>
+        </td>
+    </tr>
+}
+
+                @*<tr>
+                    <td>
+                        엔타비글로벌(주)
+                    </td>
+                    <td class="text-center">
+                        0
+                    </td>
+                    <td>
+                        <a class="btn btn-default" href="#" role="button">수정</a>
+                        <a class="btn btn-danger" href="#" role="button">삭제</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ┗ 영업부(일본)
+                    </td>
+                    <td class="text-center">
+                        0
+                    </td>
+                    <td>
+                        <a class="btn btn-default" href="#" role="button">수정</a>
+                        <a class="btn btn-danger" href="#" role="button">삭제</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ┗ 영업부(진엔투어)
+                    </td>
+                    <td class="text-center">
+                        0
+                    </td>
+                    <td>
+                        <a class="btn btn-default" href="#" role="button">수정</a>
+                        <a class="btn btn-danger" href="#" role="button">삭제</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ┗ 경영지원팀
+                    </td>
+                    <td class="text-center">
+                        0
+                    </td>
+                    <td>
+                        <a class="btn btn-default" href="#" role="button">수정</a>
+                        <a class="btn btn-danger" href="#" role="button">삭제</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        엔버스
+                    </td>
+                    <td class="text-center">
+                        0
+                    </td>
+                    <td>
+                        <a class="btn btn-default" href="#" role="button">수정</a>
+                        <a class="btn btn-danger" href="#" role="button">삭제</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ┗ 영업부(현지투어)
+                    </td>
+                    <td class="text-center">
+                        0
+                    </td>
+                    <td>
+                        <a class="btn btn-default" href="#" role="button">수정</a>
+                        <a class="btn  btn-danger" href="#" role="button">삭제</a>
+                    </td>
+                </tr>*@
+            </tbody>
+        </table>
+
+    </article>
+</section>

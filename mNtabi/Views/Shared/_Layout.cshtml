@@ -1,0 +1,336 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일본 갈땐 엔타비</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    @{
+        if (Request.Cookies["userSettings"] != null)
+        {
+            HttpCookie myCookie = new HttpCookie("UserSettings");
+            myCookie.Expires = DateTime.Now.AddDays(-1d);
+            Response.Cookies.Add(myCookie);
+        }
+
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        Response.Cache.SetNoStore();
+
+        string controllerName = "",
+               actionName = "";
+
+        try { controllerName = this.ViewContext.Controller.ControllerContext.RouteData.Values["controller"].ToString().ToLower(); }
+        catch { }
+        try { actionName = this.ViewContext.Controller.ControllerContext.RouteData.Values["action"].ToString().ToLower(); }
+        catch { }
+
+        string cssName = controllerName + ".css";
+
+        <link rel="stylesheet" type="text/css" href="/Content/site.css?v=20181015">
+        <link rel="stylesheet" type="text/css" href="/Content/@cssName?v=20181015">
+    }
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    @if (controllerName == "products" && actionName == "views")
+    {
+        <script src="/Scripts/jquery.bxslider2.js"></script>
+    }
+    else
+    {
+        <script src="/Scripts/jquery.bxslider.js"></script>
+    }
+
+    <script src="/Scripts/jquery.cookie.js"></script>
+
+</head>
+<body>
+    <header id="header">
+        <p class="logo"><a href="/">ntabi</a></p>
+        <p class="menubtn"><a href="#">메뉴버튼</a></p>
+
+        @if (controllerName != "home" || actionName != "index")
+        {
+            <p class="back"><a href="javascript:history.go(-1)">뒤로가기</a></p>
+        }
+
+        <div class="menu_bg" style="display: none; position: fixed; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,.5);"></div>
+        <div class="side">
+            <div class="topmenu">
+                @Html.Partial("_LoginPartial")
+            </div> <!--.topmenu-->
+            <p class="close">
+                <a href="#">닫기</a>
+            </p> <!--.close-->
+            <div class="sideMainmenu">
+                <ul>
+                    <li class="air">
+                        <a href="/Products/Lists?N=JP&A=TYO&T=A">항공</a>
+                    </li>
+                    <li class="ship">
+                        <a href="/Products/Lists?N=JP&T=S&S=PK">선박</a>
+                    </li>
+                    <li class="package">
+                        <a href="/Products/Lists?N=JP&A=TYO&T=P">패키지</a>
+                    </li>
+                    <li class="daytour">
+                        <a href="/Products/Lists?N=JP&A=TYO&T=L">현지투어</a>
+                    </li>
+                </ul>
+
+                @*<div class="ntalk">
+                        <a href="/Community/Chat">
+                            <img src="/Content/Images/share/banner_Ntalk.png">
+                        </a>
+                    </div>*@
+
+                @*도와줘요마호상x
+                    </div> <!--.sideMainmenu-->
+                        <div class="sideSubmenu">
+                            <ul class="packs">
+                                <li class="varietypack">
+                                    <a href="/variety">
+                                        <p class="image"><img src="/Content/Images/share/icon_side_variety.png" /></p>
+                                        <p class="menuname">버라이어티팩</p>
+                                    </a>
+                                </li> <!--.varietypack-->
+                                <li class="airfreepack">
+                                    <a href="/AirFree">
+                                        <p class="image"><img src="/Content/Images/share/icon_side_airfree.png" /></p>
+                                        <p class="menuname">에어프리팩</p>
+                                    </a>
+                                </li> <!--.airfreepack-->
+                            </ul>
+                            <ul class="sidesubmenu">
+                                <li class="pass">
+                                    <a href="/Pass">
+                                        <p class="image"><img src="/Content/Images/share/icon_side_pass.png" /></p>
+                                        <p class="menuname">패스/티켓</p>
+                                    </a>
+                                </li> <!--.pass-->
+                                <li class="rentcar">
+                                    <a href="https://www.web-rentacar.com/kr/agt/ntabi.asp?afrieitcd=ntabi" target="_blank">
+                                        <p class="image"><img src="/Content/Images/share/icon_side_rentcar.png" /></p>
+                                        <p class="menuname">렌트카</p>
+                                    </a>
+                                </li> <!--.rentcar-->
+                                <li class="kosokubus">
+                                    <a href="https://www.kosokubus.com/kr/special/agt/ntabi.html?ad=NTB" target="_blank">
+                                        <p class="image"><img src="/Content/Images/share/icon_side_kosoku.png" /></p>
+                                        <p class="menuname">일본고속버스예약</p>
+                                    </a>
+                                </li> <!--.kosokubus-->
+                                <li class="wifi">
+                                    <a href="http://ap.wifidosirak.com/?ntabi" target="_blank">
+                                        <p class="image"><img src="/Content/Images/share/icon_side_wifi.png" /></p>
+                                        <p class="menuname">포켓와이파이</p>
+                                    </a>
+                                </li> <!--.wifi-->
+                                <li class="insurance">
+                                    <a href="http://www.travelover.co.kr/bnn/?uk=4132ee273b4d9" target="_blank">
+                                        <p class="image"><img src="/Content/Images/share/icon_side_insurance.png" /></p>
+                                        <p class="menuname">여행자보험</p>
+                                    </a>
+                                </li> <!--.insurance-->
+                                <li class="booking">
+                                    <a href="https://www.booking.com/?aid=1294434" target="_blank">
+                                        <p class="image"><img src="/Content/Images/share/icon_side_booking.png" /></p>
+                                        <p class="menuname">부킹닷컴</p>
+                                    </a>
+                                </li> <!--.booking-->
+                            </ul> <!--.sidesubmenu-->
+                        </div> <!--.sideSubmenu-->*@
+
+
+                <div class="sideSubmenu">
+                    <ul class="sidesubmenu">
+                        <li class="varietypack">
+                            <a href="/variety">
+                                <p class="image"><img src="/Content/Images/share/icon_side_variety.png" /></p>
+                                <p class="menuname">버라이어티팩</p>
+                            </a>
+                        </li> <!--.varietypack-->
+                        <li class="airfreepack">
+                            <a href="/AirFree">
+                                <p class="image"><img src="/Content/Images/share/icon_side_airfree.png" /></p>
+                                <p class="menuname">에어프리팩</p>
+                            </a>
+                        </li> <!--.airfreepack-->
+                        <li class="helpmaho">
+                            <a href="/promotion/Views?f=helpmaho">
+                                <p class="image"><img src="/Content/Images/newsample/icon_side_helpmaho.png" /></p>
+                                <p class="menuname">도와줘요 마호상!</p>
+                            </a>
+                        </li> <!--.helpmaho-->
+                        <li class="pass">
+                            <a href="/Pass">
+                                <p class="image"><img src="/Content/Images/share/icon_side_pass.png" /></p>
+                                <p class="menuname">패스/티켓</p>
+                            </a>
+                        </li> <!--.pass-->
+                        <li class="rentcar">
+                            <a href="https://www.web-rentacar.com/kr/agt/ntabi.asp?afrieitcd=ntabi" target="_blank">
+                                <p class="image"><img src="/Content/Images/share/icon_side_rentcar.png" /></p>
+                                <p class="menuname">렌트카</p>
+                            </a>
+                        </li> <!--.rentcar-->
+                        <li class="kosokubus">
+                            <a href="https://www.kosokubus.com/kr/special/agt/ntabi.html?ad=NTB" target="_blank">
+                                <p class="image"><img src="/Content/Images/share/icon_side_kosoku.png" /></p>
+                                <p class="menuname">일본고속버스예약</p>
+                            </a>
+                        </li> <!--.kosokubus-->
+                        <li class="wifi">
+                            <a href="http://travel.maaltalk.com/id/ntabi" target="_blank">
+                                <p class="image"><img src="/Content/Images/share/icon_side_wifi.png" /></p>
+                                <p class="menuname">포켓와이파이</p>
+                            </a>
+                        </li> <!--.wifi-->
+                        <li class="insurance">
+                            <a href="http://www.travelover.co.kr/bnn/?uk=4132ee273b4d9" target="_blank">
+                                <p class="image"><img src="/Content/Images/share/icon_side_insurance.png" /></p>
+                                <p class="menuname">여행자보험</p>
+                            </a>
+                        </li> <!--.insurance-->
+                        <li class="booking">
+                            <a href="https://www.booking.com/?aid=1294434" target="_blank">
+                                <p class="image"><img src="/Content/Images/share/icon_side_booking.png" /></p>
+                                <p class="menuname">부킹닷컴</p>
+                            </a>
+                        </li> <!--.booking-->
+                    </ul> <!--.sidesubmenu-->
+                </div> <!--.sideSubmenu-->
+
+                <p class="magazine">
+                    <a href="/Magazine/Views">
+                        <img src="/Content/Images/share/banner_magazine_m.jpg" />
+                    </a>
+                </p> <!--.ndaytrip-->
+
+                <address class="ntabiInfo">
+                    <h3>contact</h3>
+                    <p class="number">
+                        tel : 1670-4601 | fax : 051-466-4605
+                    </p> <!--.number-->
+                    <p class="address">
+                        부산광역시 중구 중앙대로 119(상현빌딩 5층)<br>
+                        1호선 중앙역 17번출구 5분거리
+                    </p> <!--.address-->
+                    <p class="time">
+                        평 일 : 09:00 ~ 18:00 (11:50~13:00 점심시간)<br />
+                        <span class="rest">토/일요일 및 공휴일 휴무</span>
+                    </p> <!--.time-->
+                </address> <!--.ntabiInfo-->
+
+                <p class="ndaytrip">
+                    <a href="http://ndaytrip.com/" target="_blank">
+                        <img src="/Content/Images/share/banner_ndt_m.jpg" />
+                    </a>
+                </p> <!--.ndaytrip-->
+            </div> <!--.side-->
+    </header>
+    <div id="wrap" class="container body-content" style="margin-top: 60px;">
+        @RenderBody()
+        <footer id="footer">
+            <div class="company">
+                <ul>
+                    <li>
+                        <a href="/Company/">회사소개 ></a>
+                    </li>
+                    <li>
+                        <a href="/Company/Map">오시는길 ></a>
+                    </li>
+                </ul>
+            </div> <!--.company-->
+            <div class="sns">
+                <ul>
+                    <li class="kakao">
+                        <a href="https://pf.kakao.com/_xnmVhu" target="_blank"></a>
+                    </li>
+                    <li class="insta">
+                        <a href="https://www.instagram.com/ntabi_insta/" target="_blank"></a>
+                    </li>
+                    <li class="facebook">
+                        <a href="https://www.facebook.com/ntabi.co.kr/" target="_blank"></a>
+                    </li>
+                </ul>
+            </div> <!--.sns-->
+            <p class="number">1670-4601</p>
+            <div class="terms">
+                <a href="/Company/privacy" class="privacy">개인정보처리방침</a>
+                |
+                <a href="/Company/service" class="service">여행약관</a>
+            </div>
+            <p class="finfo">
+                엔타비 글로벌(주) | 대표 : 김윤중<br />
+                사업자등록번호 : 602-81-43288<br />
+                통신판매등록번호 : 제2007-부산 중구-0653<br />
+                관광사업등록증 : 부산광역시 중구청 제2007-000014호<br />
+                © copyright 2018
+            </p> <!--.finfo-->
+        </footer> <!--#footer-->
+    </div>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33284868-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-33284868-1');
+    </script>
+
+    <script>
+        $(".menubtn").on("click", function () {
+            var menu = $("div.side"),
+                bg = $("div.menu_bg");
+
+            bg.show();
+
+            menu.animate({ right: 0 }, 500, function () {
+            });
+        });
+
+        $(".close, div.menu_bg").on("click", function () {
+            var menu = $("div.side"),
+                bg = $("div.menu_bg");
+
+            menu.animate({ right: "-100%" }, 200, function () {
+                bg.hide();
+            });
+        });
+
+        /*
+         * 로그인 팝업 띄우기
+         */
+
+        $('a.loginBtn').click(function (e) {
+            e.preventDefault();
+
+            var rUrl = encodeURIComponent("@Request.Url.PathAndQuery".replace("&amp;", "&"));
+            var url = "/Home/Login?r=" + rUrl;
+
+            if (url.indexOf('#') == 0) {
+                $(url).modal('show');
+            } else {
+                $.get(url, function (data) {
+                    $('<div class="modal fade login">' + data + '</div>').modal();
+                });
+            }
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+        });
+    </script>
+</body>
+</html>
+

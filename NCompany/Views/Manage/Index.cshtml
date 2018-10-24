@@ -1,0 +1,353 @@
+﻿@{
+    ViewBag.Title = "직원";
+
+    string EMP_NO       = "",
+           PER_CODE     = "",
+           EMP_NAME     = "",
+           POS_CODE     = "",
+           code         = "",
+           name         = "";
+
+    var groData = ViewBag.GroData;
+    var posData = ViewBag.PosData;
+    var perData = ViewBag.PerData;
+}
+
+<style>
+    section.manage > aside
+    {
+        height: 100%; 
+        border-right: 1px solid #ddd;
+    }
+
+    section.manage > article
+    {
+        height: 10%; 
+        border-bottom: 1px solid #ddd;
+    }
+
+    section.manage > article.row
+    {
+        height: 90%;
+        border: none;
+    }
+
+    section.manage > article.row ul.lists-header,
+    section.manage > article.row ul.lists-body
+    {
+        padding: 0; 
+        margin: 0; 
+        list-style: none; 
+        font-size: 0;
+    }
+
+    section.manage > article.row ul.lists-header > li
+    {
+        font-size: 16px; 
+        font-weight: bold; 
+        line-height: 26px; 
+        display: inline-block; 
+        width: 35%; 
+        text-align: center; 
+        border: 1px solid #ddd; 
+        border-left: none;
+    }
+
+    section.manage > article.row ul.lists-header > li:first-child
+    {
+        border-left: 1px solid #ddd;
+    }
+
+    section.manage > article.row ul.lists-header > li:nth-child(3)
+    {
+        width: 30%;
+    }
+
+    section.manage > article.row ul.lists-body > li > span
+    {
+        font-size: 14px; 
+        line-height: 26px; 
+        display: inline-block; 
+        width: 35%; 
+        text-align: center; 
+        border: 1px solid #ddd; 
+        border-left: none;
+        border-top: none;
+        cursor: pointer;
+    }
+
+    section.manage > article.row ul.lists-body > li > span:first-child
+    {
+        border-left: 1px solid #ddd;
+    }
+
+    section.manage > article.row ul.lists-body > li > span:nth-child(3)
+    {
+        width: 30%;
+    }
+
+    section.manage > article.row > div
+    {
+        padding: 15px;
+        border-left: 1px solid #ddd;
+        height: 100%;
+        text-align: center;
+    }
+
+    section.manage > article.row > div:first-child
+    {
+        border: none;
+    }
+
+    section.manage div.layerBG
+    {
+        position: absolute; 
+        left: 0; 
+        top: 0; 
+        right: 0; 
+        bottom: 0; 
+        z-index: 9; 
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    section.manage div.layerBG > p
+    {
+        position: absolute; 
+        z-index: 9; 
+        background: white; 
+        width: 300px; 
+        text-align: center; 
+        height: 150px; 
+        line-height: 150px; 
+        left: 50%; 
+        top: 50%; 
+        margin: 0; 
+        margin-left: -150px; 
+        margin-top: -75px; 
+        color: red; 
+        border-radius: 15px; 
+        border: 1px solid black;
+    }
+</style>
+
+<section class="manage row">
+    <aside class="col-md-2">
+        @Html.Partial("_subMenu")
+    </aside>
+    <article class="col-md-10" style="">
+        <div class="pull-right" style="margin-right: 0;">
+            <a class="btn btn-success" data-toggle="popup" href="/Car/Uploader">직원 등록</a>
+        </div>
+
+        <h3>@ViewBag.Title 관리</h3>
+    </article>
+
+    <article class="row col-md-10">
+        <div class="col-md-6">
+            <ul class="lists-header">
+                <li>
+                    권한
+                </li>
+                <li>
+                    이름
+                </li>
+                <li>
+                    직위
+                </li>
+            </ul>
+            <ul class="lists-body">
+                @foreach(object item in Model)
+                {
+                    EMP_NO = "";
+                    PER_CODE = "";
+                    EMP_NAME = "";
+                    POS_CODE = "";
+
+                    try { EMP_NO    = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                    try { PER_CODE  = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                    try { EMP_NAME  = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                    try { POS_CODE  = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+
+                    <li data-seq="@EMP_NO">
+                        <span>
+                            @PER_CODE
+                        </span>
+                        <span>
+                            @EMP_NAME
+                        </span>
+                        <span>
+                            @POS_CODE
+                        </span>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-6" style="padding: 15px; border-left: 1px solid #ddd; height: 100%; text-align: center;">
+            
+            <div class="layerBG">
+                <p>
+                    직원을 선택해주세요.
+                </p>
+            </div>
+            
+            @using (Html.BeginForm("UserUpdate", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", name = "schForm", @class = "schForm" }))
+            {
+                <input type="hidden" name="seq" value="" />
+
+                <a class="uploadImg" href="#" style="border: 1px solid #ddd; display: inline-block; margin-bottom: 10px;">
+                    <img src="~/Content/images/defaultUser.jpg" />
+                    <div id="featureImg" style="position: absolute; left: 0; top: 0;">
+                    </div>
+                    <input type="hidden" name="feature" value="" />
+                </a>
+
+                <div class="form-group input-group col-md-6" style="margin: 10px 0 0;">
+                    <div class="input-group-addon">이름</div>
+                    <input type="text" name="name" class="form-control" value="" />
+                </div>
+
+                <div class="form-group input-group col-md-6" style="margin: 10px 0 0;">
+                    <div class="input-group-addon">아이디</div>
+                    <input type="text" name="id" class="form-control" value="" readonly="readonly" style="background-color: white; cursor: pointer;"/>
+                </div>
+
+                <div class="form-group input-group col-md-6" style="margin: 10px 0 0;">
+                    <div class="input-group-addon">메일</div>
+                    <input type="text" name="mail" class="form-control" value="" />
+                </div>
+
+                <div class="form-group input-group col-md-6" style="margin: 10px 0 0;">
+                    <div class="input-group-addon">비밀번호</div>
+                    <input type="password" name="pwd" class="form-control" value="" />
+                </div>
+
+                <div class="form-group input-group col-md-6" style="margin: 10px 0 0;">
+                    <div class="input-group-addon">부서</div>
+                    <select name="group" class="form-control">
+                        @foreach (object data in groData)
+                        {
+                            code = "";
+                            name = "";
+                            
+                            try { code  = data.GetType().GetProperties()[0].GetValue(data, null).ToString(); } catch { continue; }
+                            try { name  = data.GetType().GetProperties()[1].GetValue(data, null).ToString(); } catch { continue; }
+
+                            <option value="@code">@name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group input-group col-md-6" style="margin: 10px 0 0;">
+                    <div class="input-group-addon">생년월일</div>
+                    <input type="text" name="birth" class="form-control" value="" />
+                </div>
+
+                <div class="form-group input-group col-md-6" style="margin: 10px 0 0;">
+                    <div class="input-group-addon">직위</div>
+                    <select name="pos" class="form-control">
+                        @foreach (object data in posData)
+                        {
+                            code = "";
+                            name = "";
+                            
+                            try { code  = data.GetType().GetProperties()[0].GetValue(data, null).ToString(); } catch { continue; }
+                            try { name  = data.GetType().GetProperties()[1].GetValue(data, null).ToString(); } catch { continue; }
+
+                            <option value="@code">@name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group input-group col-md-6" style="margin: 10px 0 0;">
+                    <div class="input-group-addon">전화번호</div>
+                    <input type="text" name="tel" class="form-control" value="" />
+                </div>
+
+                <div class="form-group input-group col-md-6" style="margin: 10px 0 0;">
+                    <div class="input-group-addon">권한</div>
+                    <select name="per" class="form-control">
+                        @foreach (object data in perData)
+                        {
+                            code = "";
+
+                            try { code  = data.GetType().GetProperties()[0].GetValue(data, null).ToString(); } catch { continue; }
+
+                            <option value="@code">@Html.Action("getPer", new { code = code })</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group input-group col-md-6" style="margin: 10px 0 0;">
+                    <div class="input-group-addon">휴대폰</div>
+                    <input type="text" name="phone" class="form-control" value="" />
+                </div>
+
+                <button class="btn btn-success pull-right" style="margin: 10px 15px 0;">변경하기</button>
+            }
+        </div>
+    </article>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $(".schForm").submit(function () {
+            var regPwd = /^(?=.*[A-Za-z0-9])((?=.*\d)|(?=.*\W)).{6,20}$/;
+            var pwd = $(".schForm input[name=pwd]");
+
+            if (pwd.val() == "") {
+                alert("비밀번호를 입력해주세요.");
+                pwd.focus();
+                return false;
+            }
+
+            if (!regPwd.test(pwd.val())) {
+                alert("비밀번호는 영문 + 숫자로 6~20자 이내로 입력해주세요.");
+                pwd.focus();
+                return false;
+            }
+
+            $(".schForm input[name=birth]").val($(".schForm input[name=birth]").val().replace(/[^0-9]/g, ''));
+            $(".schForm input[name=tel]").val($(".schForm input[name=tel]").val().replace(/[^0-9]/g, ''));
+            $(".schForm input[name=phone]").val($(".schForm input[name=phone]").val().replace(/[^0-9]/g, ''));
+
+            return true;
+        });
+
+        $("ul.lists-body li").on("click", function () {
+            var _this = $(this),
+                seq = _this.attr("data-seq");
+
+            var url = "/Manage/JSON_getUser";
+            var datas = { seq: seq };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var f = document.schForm;
+
+                    f.feature.value = "";
+                    f.seq.value = data[0].no;
+                    f.name.value = data[0].name;
+                    f.id.value = data[0].id;
+                    f.mail.value = data[0].mail;
+                    f.group.value = data[0].gro;
+                    f.birth.value = data[0].bir;
+                    f.pos.value = data[0].pos;
+                    f.tel.value = data[0].tel;
+                    f.per.value = data[0].per;
+                    f.phone.value = data[0].phone;
+                }
+                , beforeSend: function () {
+                    $("div.layerBG").show();
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $("div.layerBG").hide();
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

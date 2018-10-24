@@ -1,0 +1,129 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">은행 자료 업로드</h4>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("File_Upload", "Account", FormMethod.Post, new { enctype = "multipart/form-data", name = "uploadForm", style="overflow:hidden;" }))
+            {
+                string value = "",
+                       tempValue = "";
+                
+                <div class="row form-group">
+                    <div class="form-group input-group col-md-6">
+                        <div class="input-group-addon">은행 선택</div>
+                        <select class="form-control" name="BANK_CODE">
+                            <option value="">선택</option>
+                            @foreach(object item in Model)
+                            {
+                                try { tempValue = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+
+                                if (value == tempValue)
+                                {
+                                    continue;   
+                                }
+
+                                value = tempValue;
+                                
+                                <option value="@value">@Html.Action("getBank", new { code = value })</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group input-group col-md-6">
+                        <div class="input-group-addon">계좌 선택</div>
+                        <select class="form-control" name="BANK_NUMBER">
+                            <option value="">선택</option>
+                            @*<option value="1006-901-267484">1006-901-267484</option>*@
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <p>은행 자료를 받아서 업로드 해주세요.</p>
+                        <input type="file" name="file" multiple />
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">등록</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("button#uptBtn").on("click", function () {
+            var f = document.uploadForm,
+                code = f.BANK_CODE,
+                number = f.BANK_NUMBER,
+                file = f.file;
+
+            if (code.value == "" || code.value == undefined) {
+                alert("은행을 선택해주세요.");
+                code.focus();
+                return;
+            }
+
+            if (number.value == "" || number.value == undefined) {
+                alert("계좌번호를 선택해주세요.");
+                number.focus();
+                return;
+            }
+
+            if (file.value == "" || file.value == undefined) {
+                alert("엑셀 파일을 등록해주세요.");
+                file.focus();
+                return;
+            }
+
+            f.submit();
+        });
+
+        $("select[name='BANK_CODE']").on("change", function () {
+            var _this = $(this),
+                BNK_CODE = _this.val(),
+                url = "/Account/JSON_getBnkNumber";
+
+            var target = $("select[name='BANK_NUMBER']"),
+                html = "";
+
+            var datas = { code: BNK_CODE };
+
+            //$.post(url, datas, function (data) {
+
+            //    for (i in data)
+            //    {
+            //        html += '<option value="' + data[i].BNK_NUMBER + '">' + data[i].BNK_NUMBER + '</option>';
+            //    }
+
+            //    target.append(html);
+            //});
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    for (i in data) {
+                        html += '<option value="' + data[i].BNK_NUMBER + '">' + data[i].BNK_NUMBER + '</option>';
+                    }
+
+                    target.append(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

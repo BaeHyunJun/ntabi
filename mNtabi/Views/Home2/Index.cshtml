@@ -1,0 +1,633 @@
+﻿<style>
+
+
+/*메인슬라이더*/
+div#wrap section.mainslider {
+    position: relative;
+    height: auto;
+    margin: 0 -15px;
+    overflow: hidden;
+}
+
+    div#wrap section.mainslider ul:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    div#wrap section.mainslider li {
+        float: left;
+    }
+
+        div#wrap section.mainslider li:nth-child(2),
+        div#wrap section.mainslider li:nth-child(3),
+        div#wrap section.mainslider li:nth-child(4),
+        div#wrap section.mainslider li:nth-child(5) {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        div#wrap section.mainslider li a {
+            display: block;
+        }
+
+            div#wrap section.mainslider li a img {
+                width: 100%;
+            }
+    /*페이저*/
+    div#wrap section.mainslider div.bx-has-pager {
+    }
+
+        div#wrap section.mainslider div.bx-has-pager div.bx-pager {
+            width: 100%;
+        }
+
+            div#wrap section.mainslider div.bx-has-pager div.bx-pager:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+
+            div#wrap section.mainslider div.bx-has-pager div.bx-pager div {
+                float: left;
+                width: 20%;
+                height: 3px;
+            }
+
+                div#wrap section.mainslider div.bx-has-pager div.bx-pager div a {
+                    display: block;
+                    text-indent: -9999px;
+                    background-color: rgba(0,0,0,.6);
+                }
+
+                    div#wrap section.mainslider div.bx-has-pager div.bx-pager div a.active {
+                        background-color: #a0ce54;
+                    }
+
+
+/*엔버팩*/
+div#wrap section.nvp {
+    margin: 50px -15px 0 -15px;
+}
+
+    div#wrap section.nvp li {
+        position: relative;
+        height: 230px;
+    }
+
+        div#wrap section.nvp li:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        div#wrap section.nvp li p.image {
+            float: left;
+            width: 64%;
+            margin-top: 30px;
+        }
+
+            div#wrap section.nvp li p.image img {
+                width: 100%;
+            }
+
+        div#wrap section.nvp li div.text {
+            position: relative;
+            float: right;
+            width: 34%;
+            height: 100%;
+        }
+
+            div#wrap section.nvp li div.text h3 {
+                position: absolute;
+                top: 15px;
+                right: 10%;
+                font-size: 23px;
+                writing-mode: tb-rl;
+                line-height: 1em;
+                letter-spacing: 1px;
+            }
+
+                div#wrap section.nvp li div.text h3 span.small {
+                    font-size: 13px;
+                    font-weight: normal;
+                }
+
+            div#wrap section.nvp li div.text p.icon {
+                position: absolute;
+                top: 33%;
+                left: 5%;
+                width: 50px;
+                height: 50px;
+                background-size: 100% auto;
+                text-indent: -9999px;
+            }
+
+        div#wrap section.nvp li.nvp01 div.text p.icon {
+            background-image: url(/Content/Images/newSample/icon_nvp_rooftopparty.png);
+        }
+
+        div#wrap section.nvp li.nvp02 div.text p.icon {
+            background-image: url(/Content/Images/newSample/icon_nvp_JMT.png);
+        }
+
+        div#wrap section.nvp li.nvp03 div.text p.icon {
+        }
+
+        div#wrap section.nvp li div.text p.nvpline {
+            position: absolute;
+            /*top: 55%;*/
+            left: 5%;
+            width: 60px;
+            background-image: url(/Content/Images/newSample/nvp_line.png);
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            background-position: center;
+            text-indent: -9999px;
+            bottom: 0;
+        }
+
+        div#wrap section.nvp li p.info {
+            position: absolute;
+            top: 69%;
+            left: 44%;
+            font-size: 15px;
+            line-height: 1.4em;
+        }
+
+            div#wrap section.nvp li p.info span.nvptit {
+                font-weight: bold;
+            }
+
+        div#wrap section.nvp li p.btn {
+            position: absolute;
+            top: 70%;
+            left: 12%;
+            width: 100px;
+            height: 30px;
+            background-image: url(/Content/Images/newSample/btn_nvp_viewbox.png);
+            background-size: 100% auto;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+            div#wrap section.nvp li p.btn a {
+                display: block;
+                font-size: 15px;
+                text-align: center;
+                line-height: 20px;
+            }
+
+        /*두번째만 방향반대*/
+        div#wrap section.nvp li.nvp02 p.image {
+            float: right;
+        }
+
+        div#wrap section.nvp li.nvp02 div.text {
+            float: left;
+        }
+
+            div#wrap section.nvp li.nvp02 div.text h3 {
+                left: 10%;
+                writing-mode: vertical-lr;
+            }
+
+                div#wrap section.nvp li.nvp02 div.text h3 span.small {
+                    font-size: 13px;
+                    font-weight: normal;
+                }
+
+            div#wrap section.nvp li.nvp02 div.text p.icon {
+                right: 8%;
+                left: inherit;
+                top: 65%;
+            }
+
+            div#wrap section.nvp li.nvp02 div.text p.nvpline {
+                right: 5%;
+                left: inherit;
+                width: 60px;
+            }
+
+        div#wrap section.nvp li.nvp02 p.info {
+            right: 44%;
+            left: inherit;
+            text-align: right;
+        }
+
+        div#wrap section.nvp li.nvp02 p.btn {
+            right: 12%;
+            left: inherit;
+        }
+
+/*베스트메뉴*/
+div#wrap section.best {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin: 30px -15px 0 -15px;
+    background-color: rgba(228,221,215,.7);
+}
+
+    div#wrap section.best h3 {
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 18px;
+        letter-spacing: 2px;
+    }
+
+    div#wrap section.best ul {
+        padding: 0 10px;
+    }
+
+        div#wrap section.best ul:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+    div#wrap section.best li {
+        position: relative;
+        float: left;
+        width: 49%;
+        margin-right: 2%;
+        margin-bottom: 9px;
+    }
+
+        div#wrap section.best li:nth-child(even) {
+            margin-right: 0;
+        }
+
+        div#wrap section.best li a {
+            display: block;
+        }
+
+            div#wrap section.best li a img {
+                width: 100%;
+            }
+
+            div#wrap section.best li a p.tit {
+                position: absolute;
+                top: 0;
+                left: -12px;
+                width: 30%;
+                height: 100%;
+                padding: 5px 12px 5px 0;
+                writing-mode: tb-rl;
+                color: white;
+                line-height: 15px;
+                letter-spacing: -0.5px;
+                text-align: center;
+                box-sizing: border-box;
+                background-color: rgba(0,0,0,.5);
+            }
+
+        div#wrap section.best li:nth-child(3) a p.tit,
+        div#wrap section.best li:nth-child(4) a p.tit,
+        div#wrap section.best li:nth-child(7) a p.tit,
+        div#wrap section.best li:nth-child(8) a p.tit {
+            right: 12px;
+            left: inherit;
+        }
+
+/*시그니처*/
+div#wrap section.signature {
+    margin: 30px -5px 0 -5px;
+}
+
+    div#wrap section.signature h3 {
+        margin-bottom: 15px;
+        text-align: center;
+        font-size: 18px;
+        letter-spacing: 2px;
+    }
+
+    div#wrap section.signature ul:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    div#wrap section.signature li {
+        position: relative;
+        float: left;
+        width: 49%;
+        margin-right: 2%;
+        margin-bottom: 9px;
+    }
+
+        div#wrap section.signature li:nth-child(even) {
+            margin-right: 0;
+        }
+
+        div#wrap section.signature li a {
+            display: block;
+        }
+
+            div#wrap section.signature li a img {
+                width: 100%;
+            }
+
+            div#wrap section.signature li a p.tit {
+                position: absolute;
+                top: 20px;
+                left: 38%;
+                color: white;
+                writing-mode: tb-rl;
+                font-size: 18px;
+                letter-spacing: -0.5px;
+                line-height: 1.3em;
+                text-shadow: 0 0 10px rgba(0,0,0,.5);
+            }
+
+/*푸터*/
+div#wrap footer#footer {
+    position: relative;
+    margin: 50px -10px 0 -15px;
+    border-top: 2px solid #111;
+}
+
+    div#wrap footer#footer div.company {
+    }
+
+        div#wrap footer#footer div.company ul:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        div#wrap footer#footer div.company li {
+            float: left;
+            width: 50%;
+            margin: 0;
+            background-color: #5e5e5e;
+        }
+
+            div#wrap footer#footer div.company li a {
+                display: block;
+                width: 100%;
+                line-height: 30px;
+                text-align: center;
+                font-size: 13px;
+                color: white;
+            }
+
+    div#wrap footer#footer div.sns {
+        text-align: center;
+    }
+
+        div#wrap footer#footer div.sns > ul li {
+            display: inline-block;
+            float: inherit;
+            width: 26px;
+            height: 26px;
+            margin: 0;
+            margin: 2px;
+        }
+
+            div#wrap footer#footer div.sns > ul li.kakao {
+                background-image: url("/Content/Images/newsample/btn_kakao.png");
+            }
+
+            div#wrap footer#footer div.sns > ul li.insta {
+                background-image: url("/Content/Images/newsample/btn_insta.png");
+            }
+
+            div#wrap footer#footer div.sns > ul li.facebook {
+                background-image: url("/Content/Images/newsample/btn_facebook.png");
+            }
+
+            div#wrap footer#footer div.sns > ul li a {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+
+    div#wrap footer#footer p.finfo {
+        padding-top: 10px;
+        margin-bottom: 50px;
+        text-align: center;
+        font-size: 15px;
+        color: #555;
+    }
+</style>
+
+
+<section class="mainslider">
+<ul>
+    <li class="no1">
+        <a href="/promotion/Views?f=minamishimabara">
+            <img src="/Content/Images/newSample/mainSlider_minamishimabara.jpg" alt="여행지원 프로젝트">
+        </a>
+    </li> <!--.no1-->
+    <li class="no2">
+        <a href="/promotion/Views?f=osakasetpack">
+            <img src="/Content/Images/newSample/mainSlider_osakasetpack.jpg" alt="오사카 9월 3+1특전 세트팩">
+        </a>
+    </li> <!--.no2-->
+    <li class="no3">
+        <a href="/promotion/Views?f=miyagiolle">
+            <img src="/Content/Images/newSample/mainSlider_miyagiolle.jpg" alt="미야기올레 개장행사">
+        </a>
+    </li> <!--.no3-->
+    <li class="no4">
+        <a href="/promotion/Views?f=naturekamchatka">
+            <img src="/Content/Images/newSample/mainSlider_naturekamchatka.jpg" alt="대자연의 캄차카">
+        </a>
+    </li> <!--.no4-->
+    <li class="no5">
+        <a href="/promotion/Views?f=osakacycling">
+            <img src="/Content/Images/newSample/mainSlider_osakacycling.jpg" alt="오사카 사이클링">
+        </a>
+    </li> <!--.no5-->
+</ul>
+</section> <!--.mainslider-->
+<section class="nvp">
+<ul>
+    <li class="nvp01">
+        <p class="image"><img src="/Content/Images/newSample/img_nvp_rooftopparty.jpg"></p>
+        <div class="text">
+            <h3>
+                <span class="small">엔타비가 만드는 여행 시리즈</span><br>
+                한여름 루프탑<br>party
+            </h3>
+            <p class="icon">아이콘</p>
+            <p class="nvpline">라인</p>
+        </div> <!--.text-->
+
+        <!--p class="info">
+            <span class="nvptit">엔타비 버라이어티팩</span><br>
+            [시즌기획]<br>
+            Hello~ 낯선사람!<br>
+            새로운 곳에서의 새로운 만남.<br>
+            20,30대만의 청춘여행!
+        </p>
+        <p class="btn"><a href="/promotion/Views?f=rooftopparty">보러가기</a></p>
+    </li> <!--.nvp01-->
+    <li class="nvp02">
+        <p class="image"><img src="/Content/Images/newSample/img_nvp_JMT.jpg"></p>
+        <div class="text">
+            <h3>
+                <span class="small">엔타비가 만드는 여행 시리즈</span><br>
+                존맛탱 투어
+            </h3>
+            <p class="icon">아이콘</p>
+            <p class="nvpline">라인</p>
+        </div> <!--.text-->
+        <!--p class="info">
+            <span class="nvptit">엔타비 버라이어티팩</span><br>
+            [맛있는 여행]<br>
+            요즘뜨는 핫 한 그 곳!<br>
+            시모노세키/모지코/고쿠라<br>
+            JMT여행!!
+        </p>
+        <p class="btn"><a href="/Products/Views?C=NTBPT201817&K=20">보러가기</a></p>
+    </li> <!--.nvp02-->
+    @*<li class="nvp03">
+            <p class="image"><img src="/Content/Images/newSample/img_nvp_commingsoon.jpg"></p>
+            <div class="text">
+                <h3>
+                    <span class="small">엔타비가 만드는 여행 시리즈</span><br>
+                    COMMING SOON
+                </h3>
+                <p class="icon">아이콘</p>
+                <p class="nvpline">라인</p>
+            </div> <!--.text-->
+            <p class="info">
+                <span class="nvptit">엔타비 버라이어티팩</span><br>
+                지금은 상품 준비중 입니다.<br>
+                더 나은 상품으로<br>
+                찾아뵙겠습니다.
+            </p>
+            <p class="btn"><a href="#">보러가기</a></p>
+        </li> <!--.nvp03-->*@
+</ul>
+</section> <!--.nvp-->
+<section class="best">
+<h3>베스트</h3>
+<ul>
+    <li>
+        <a href="/promotion/Views?f=chuseok">
+            <img src="/Content/Images/newSample/img_best01.jpg">
+            <p class="tit">추석여행<br>패키지 모음</p>
+        </a>
+    </li><!--li01-->
+    <li>
+        <a href="/promotion/Views?f=enjoytsushima">
+            <img src="/Content/Images/newSample/img_best02.jpg">
+            <p class="tit">대마도를 즐기는<br>다양한 방법</p>
+        </a>
+    </li><!--li02-->
+    <li>
+        <a href="/Products/Views?C=NTBPT201818&K=20">
+            <img src="/Content/Images/newSample/img_best03.jpg">
+            <p class="tit">박현빈과 함께하는<br>대마도 ２일</p>
+        </a>
+    </li><!--li03-->
+    <li>
+        <a href="/Products/Views?C=NTBFT61816&K=6">
+            <img src="/Content/Images/newSample/img_best04.jpg">
+            <p class="tit"><항공+투어><br>오키나와 실속세트</p>
+        </a>
+    </li><!--li04-->
+    <li>
+        <a href="/Products/Views?C=NTBFT23183&K=23">
+            <img src="/Content/Images/newSample/img_best05.jpg">
+            <p class="tit">기타규슈 항공권<br>２박３일</p>
+        </a>
+    </li><!--li05-->
+    <li>
+        <a href="/Products/Views?C=NTBFT61811&K=6">
+            <img src="/Content/Images/newSample/img_best06.jpg">
+            <p class="tit">북해도 항공권 ３일</p>
+        </a>
+    </li><!--li06-->
+    <li>
+        <a href="/Products/Views?C=NTBFT6183&K=6">
+            <img src="/Content/Images/newSample/img_best07.jpg">
+            <p class="tit">오쿠히다 온천 ４일</p>
+        </a>
+    </li><!--li07-->
+    <li>
+        <a href="/Products/Views?C=NTBPT201821&K=20">
+            <img src="/Content/Images/newSample/img_best08.jpg">
+            <p class="tit">부관훼리 ２박３일<br>패키지</p>
+        </a>
+    </li><!--li08-->
+    <li>
+        <a href="/Products/Views?C=NTBFT2181&K=2">
+            <img src="/Content/Images/newSample/img_best09.jpg">
+            <p class="tit">부관훼리 ２박３일<br>왕복 승선권</p>
+        </a>
+    </li><!--li09-->
+    <li>
+        <a href="/Products/Views?C=NTBPT231816&K=23">
+            <img src="/Content/Images/newSample/img_best10.jpg">
+            <p class="tit">박현빈과 함께<br>단풍/온천 여행</p>
+        </a>
+    </li><!--li10-->
+</ul>
+</section> <!--.best-->
+<section class="signature">
+<h3>시그니처</h3>
+<ul>
+    <li>
+        <a href="/promotion/Views?f=ferrytwo">
+            <img src="/Content/Images/newSample/img_signature01.jpg">
+            <p class="tit">
+                부산출발<br>선박 ２대장
+            </p>
+        </a>
+    </li><!--li01-->
+    <li>
+        <a href="/promotion/Views?f=kyushuolle">
+            <img src="/Content/Images/newSample/img_signature02.jpg">
+            <p class="tit">
+                규슈올레<br>트레킹 패키지
+            </p>
+        </a>
+    </li><!--li02-->
+    <li>
+        <a href="/promotion/Views?f=tvshimonoseki">
+            <img src="/Content/Images/newSample/img_signature03.jpg">
+            <p class="tit">
+                티비나온 바로거기!<br>시모노세키 특집
+            </p>
+        </a>
+    </li><!--li03-->
+    <li>
+        <a href="/promotion/Views?f=okinawapension">
+            <img src="/Content/Images/newSample/img_signature04.jpg">
+            <p class="tit">
+                오키나와<br>풀빌라&amp;펜션
+            </p>
+        </a>
+    </li><!--li04-->
+    <li>
+        <a href="/Products/hViews?C=NTBFT221813&K=22">
+            <img src="/Content/Images/newSample/img_signature05.jpg">
+            <p class="tit">
+                오사카 ３대호텔<br>특전 이벤트!
+            </p>
+        </a>
+    </li><!--li05-->
+    <li>
+        <a href="/Products/Views?C=NTBPT201816&K=20">
+            <img src="/Content/Images/newSample/img_signature06.jpg">
+            <p class="tit">
+                대마도 １박２일<br>bbq+온천 패키지
+            </p>
+        </a>
+    </li><!--li06-->
+</ul>
+
+<script>
+    $(document).ready(function () {
+        var mainSlider = $('.mainslider > ul').bxSlider({
+            controls: false,
+            auto: true,
+            speed: 2000,
+            pager: true,
+        });
+    });
+</script>

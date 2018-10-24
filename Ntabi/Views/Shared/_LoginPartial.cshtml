@@ -1,0 +1,82 @@
+﻿@using Ntabi.Models;
+
+@{
+    var user = Session["user"] as User;
+}
+
+@if (user != null)
+{
+    using (Html.BeginForm("LogOff", "Members", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @*<a>
+                        <img alt="Brand" src="~/Content/Images/Shared/booking.jpg" />
+                    </a>*@
+                <a href="http://ndaytrip.com" target="_blank">
+                    <img alt="엔데이트립" src="~/Content/Images/Shared/ndtLogo.png" style="margin-top: -10px;" />
+                </a>
+            </li>
+            <li>
+                @Html.ActionLink("마이페이지", "Index", "Mypage")
+            </li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">로그아웃</a>
+            </li>
+            <li>
+                <a href="/Community/Lists">
+                    고객센터
+                </a>
+            </li>
+            <li>
+                <a href="/Event/Lists">
+                    기획전
+                </a>
+            </li>
+            <li>
+                <a href="/Event/Lists?t=event">
+                    이벤트/쿠폰
+                </a>
+            </li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a href="http://ndaytrip.com" target="_blank">
+                <img alt="엔데이트립" src="~/Content/Images/Shared/ndtLogo.png" style="margin-top: -10px;" />
+            </a>
+        </li>
+        <li>
+            <a class="loginBtn">
+                로그인
+            </a>
+        </li>
+        <li>
+            <a href="/Members/chkMail">
+                회원가입
+            </a>
+        </li>
+        <li>
+            <a href="/Community/Lists">
+                고객센터
+            </a>
+        </li>
+        <li>
+            <a href="/Event/Lists">
+                기획전
+            </a>
+        </li>
+        <li>
+            <a href="/Event/Lists?t=event">
+                이벤트/쿠폰
+            </a>
+        </li>
+        @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+    </ul>
+}

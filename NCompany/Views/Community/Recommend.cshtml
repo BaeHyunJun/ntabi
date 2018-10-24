@@ -1,0 +1,366 @@
+﻿@using NCompany.Models;
+@using System.Text.RegularExpressions;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    section.recommend > article > button {
+        margin: 3% 0 0;
+    }
+
+    section.recommend > article > h4 {
+        font-size: 20px;
+        font-weight: bold;
+        height: 6%;
+        line-height: 40px;
+        margin: 3% 0 0%;
+        border-bottom: 1px solid black;
+    }
+
+    section.recommend > article div.Lists {
+        height: 91%;
+    }
+
+    section.recommend > article div.Lists > ul > li {
+        font-size: 14px;
+        line-height: 24px;
+        padding: 10px;
+        border-bottom: 1px solid #777;
+    }
+
+    section.recommend > article div.Lists > ul > li > a,
+    section.recommend > article div.Lists > ul > li > a :hover {
+        color: black;
+        text-decoration: none;
+    }
+
+    section.recommend > article div.Lists > ul > li > div.collapse,
+    section.recommend > article div.Lists > ul > li > div.collapsing,
+    section.recommend > article div.Lists > ul > li > div.in {
+        height: 11px;
+        margin-top: 10px;
+        border-top: 1px solid rgb(119, 119, 119);
+        padding: 10px 10px 0px;
+    }
+
+    section.recommend > article div.Lists > ul > li > div.collapse img,
+    section.recommend > article div.Lists > ul > li > div.collapsing img,
+    section.recommend > article div.Lists > ul > li > div.in img {
+        max-width: 100%;
+    }
+
+    section.recommend > article div.Lists > ul > li > a > h3 {
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+        line-height: 24px;
+    }
+
+    section.recommend > article div.Lists > ul > li div.comment > ul > li {
+        border-top: 1px dashed #777;
+        font-size: 14px;
+        padding: 15px;
+    }
+
+    section.recommend > article div.Lists > ul > li div.comment > ul > li > div {
+        margin: 0;
+        text-align: right;
+    }
+</style>
+
+<section class="recommend row community">
+    <article class="col-md-8">
+        <button class="btn btn-default pull-right" data-toggle="popup" data-target="Write" data-type="recommend">글쓰기</button>
+        <h4>테마 여행</h4>
+        <div class="Lists">
+            <ul data-children=".item">
+                @{
+                    string post_type = "",
+                           post_ID = "",
+                           post_title = "",
+                           ist_date = "",
+                           post_status = "",
+                           CU_NM_KOR = "",
+                           post_content = "",
+                           contID = "",
+                           corp = "";
+                           
+                    foreach(object item in Model)
+                    {
+                        post_type = "";
+                        post_ID = "";
+                        post_title = "";
+                        ist_date = "";
+                        post_status = "";
+                        CU_NM_KOR = "";
+                        post_content = "";
+                        contID = "";
+                        corp = "";
+                        
+                        try { post_type = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                        try { post_ID = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                        try { post_title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                        try { ist_date = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+                        try { post_status = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+                        try { CU_NM_KOR = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { continue; }
+                        try { post_content = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { continue; }
+                        try { corp = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { continue; }
+
+                        contID = "Cont" + post_ID;
+
+                        string tid = corp + contID;
+                        
+                        <li class="item" data-corp="@corp">
+                            <a data-toggle="collapse" href="#@tid">
+                                <span class="pull-right">@ist_date</span>
+                                <h3>@post_title</h3>
+                        
+                            </a>
+                            <div id="@tid" class="collapse">
+                                @MvcHtmlString.Create(post_content)
+
+                                <div class="comment">
+                                    <ul>
+                    @{
+                        try
+                        {
+                            var aa = item.GetType().GetProperties()[7].GetValue(item, null);
+
+                            string rid = "",
+                                   rcont = "",
+                                   rdate = "",
+                                   rname = "";
+
+                            foreach (object ab in aa as List<review>)
+                            {
+                                rid = "";
+                                rcont = "";
+                                rdate = "";
+                                rname = "";
+
+                                try { rid = ab.GetType().GetProperties()[0].GetValue(ab, null).ToString(); } catch { }
+                                try { rname = ab.GetType().GetProperties()[3].GetValue(ab, null).ToString(); } catch { }
+                                try { rcont = ab.GetType().GetProperties()[4].GetValue(ab, null).ToString(); } catch { }
+                                try { rdate = ab.GetType().GetProperties()[6].GetValue(ab, null).ToString(); } catch { }
+
+                                if (rcont == "")
+                                {
+                                    continue;
+                                }
+
+                                <li>
+                                    <p>
+                                    @{
+                                        var cont = rcont;
+
+                                        try
+                                        {
+                                            cont = Regex.Replace(cont, @"\r\n|\n|\r", "<br/>");
+                                        }
+                                        catch { }
+
+                                        @MvcHtmlString.Create(cont)
+                                    }
+                                    </p>
+                                    <div>
+                                        <span class="date">등록일 @rdate</span> | <span class="user">@rname</span>
+                                        <button class="btn btn-default" id="dltBtn" data-type="recommend" data-key="@rid">삭제</button>
+                                    </div>
+                                </li>
+
+                            }
+
+
+                        }
+                        catch { }
+                    }
+
+
+                                        @*<li>
+                                            안녕하세요
+                                            <p>등록일 : 2017-09-04 | 배현준</p>
+
+                                        </li>*@
+                                    </ul>
+                                </div>
+
+                                <div style="border-top: 1px dashed #777; padding-top: 10px; text-align: right;">
+                                    <button class="btn btn-default" data-toggle="popup" data-target="Write" data-type="recommend" data-key="@post_ID" data-corp="@corp">수정</button>
+                                    <button class="btn btn-default" id="dltBtn" data-type="recommend" data-key="@post_ID" data-corp="@corp">삭제</button>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+
+
+
+
+                @*<li class="item">
+                    <a data-toggle="collapse" href="#Cont1">
+                        <span class="pull-right">2017-09-01</span>
+                        <h3><공지> 오키나와 이온몰최대 5% 할인 쿠폰 이벤트</h3>
+                    </a>
+                    <div id="Cont1" class="collapse">
+                        <p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);">오키나와 이온몰 나하점/차탄점/라이컴&nbsp;</p><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);">이 3곳의 점포에서 사용할 수있는&nbsp;<span style="font-size: 10pt;">최대 5% 할인쿠폰 이벤트를 하고 있습니다.</span></p><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);"><span style="font-size: 10pt;">보다 자세한 내용은 아래의 홈페이지를 확인해주세요^^</span>&nbsp;</p><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);">&nbsp;</p><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);"><span style="font-size: 10pt;">홈페이지 :&nbsp;<a href="http://okinawa-coupon.jp/okinawa/kr/" target="_blank" style="background-color: transparent;">http://okinawa-coupon.jp/okinawa/kr/</a></span>&nbsp;</p><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);">&nbsp;</p><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);"><img src="http://ntabi.kr/thumb/event/20170831024930_다운로드 (1).png" title="다운로드 (1).png"><br style="clear:both;">&nbsp;</p>
+
+                        <div style="border-top: 1px dashed #777; padding-top: 10px; text-align: right;">
+                            <button class="btn btn-default" data-toggle="popup" data-target="Write" data-type="event" data-key="1">수정</button>
+                            <button class="btn btn-default" id="dltBtn" data-type="event" data-key="1">삭제</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="item">
+                    <a data-toggle="collapse" href="#Cont2">
+                        <span class="pull-right">2017-09-01</span>
+                        <h3><현지소식> 2017 오키나와 오리온 비어페스타(Orion Beer festa) 9/16(토)~9/17(일)</h3>
+                    </a>
+                    <div id="Cont2" class="collapse">
+                        <p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);">오는 9월 16일(토)~17일(일) 오키나와시 고자운동공원에서 오리온 맥주축제가 열린다고 합니다~</p><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);">공장 직송 맥주 판매와 현 출신 아티스트들이 꾸미는 라이브 무대까지 준비되어있다고 하는데요!!</p><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);"><span style="font-size: 10pt;">날짜는 현재까지 예정이라고 하니 가시기 전에 다시 한번 확인해주세요!</span>&nbsp;</p><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);"><span style="font-size: 10pt;">&nbsp;</span></p><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);"><span style="font-size: 10pt;">자세한 내용 :&nbsp;</span><span style="font-size: 10pt;"><a href="http://www.okinawastory.jp/event/600009339" target="_blank" style="background-color: transparent;">http://www.okinawastory.jp/event/600009339</a></span><span style="font-size: 13.3333px;">&nbsp;</span>&nbsp;</p><div><span style="font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);">오키나와 여행상품 보기 :&nbsp;</span><font face="NanumGothic, 나눔고딕, sans-serif"><span style="font-size: 13.3333px; background-color: rgb(255, 255, 255);"><a href="http://ntabi.kr/Product/Lists?m=AJ05">http://ntabi.kr/Product/Lists?m=AJ05</a></span></font></div><div><font face="NanumGothic, 나눔고딕, sans-serif"><span style="font-size: 13.3333px; background-color: rgb(255, 255, 255);"><br></span></font></div><p style="line-height: 1.5; font-family: NanumGothic, 나눔고딕, sans-serif; font-size: 13.3333px; background-color: rgb(255, 255, 255);"><img src="http://ntabi.kr/thumb/event/20170831024502_다운로드.png" title="다운로드.png">&nbsp;</p><div><font face="NanumGothic, 나눔고딕, sans-serif"><span style="font-size: 13.3333px; background-color: rgb(255, 255, 255);"></span></font><br></div><div><font face="NanumGothic, 나눔고딕, sans-serif"><span style="font-size: 13.3333px; background-color: rgb(255, 255, 255);"><br></span></font></div><div><font face="NanumGothic, 나눔고딕, sans-serif"><span style="font-size: 13.3333px; background-color: rgb(255, 255, 255);"><br></span></font></div>
+
+                        <div style="border-top: 1px dashed #777; padding-top: 10px; text-align: right;">
+                            <button class="btn btn-default" data-toggle="popup" data-target="Write" data-type="event" data-key="2">수정</button>
+                            <button class="btn btn-default" id="dltBtn" data-type="event" data-key="2">삭제</button>
+                        </div>
+                    </div>
+                </li>*@
+
+            </ul>
+        </div>
+    </article>
+    <div class="col-md-4">
+
+        <article>
+            <a href="/Reserve" class="btn btn-default pull-right">자세히 보기</a>
+            <h4>자유게시판</h4>
+
+            <ul class="table-header">
+                <li style="width: 80%">제목</li>
+                <li style="width: 20%">날짜</li>
+            </ul>
+
+            <ul class="table-body">
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+            </ul>
+        </article>
+
+        <article>
+            <a href="/Reserve" class="btn btn-default pull-right">자세히 보기</a>
+            <h4>상품 후기</h4>
+
+            <ul class="table-header">
+                <li style="width: 80%">제목</li>
+                <li style="width: 20%">날짜</li>
+            </ul>
+
+            <ul class="table-body">
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+                <li>
+                    <ul>
+                        <li style="width: 80%">[HOKKAIDO] 비에이/후라노 코스 1일 현지투어</li>
+                        <li style="width: 20%">2017-08-22</li>
+                    </ul>
+                </li>
+            </ul>
+        </article>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popup"]').on("click", function (e) {
+            e.preventDefault();
+
+            var _this = $(this),
+                rUrl = "@Request.Url.PathAndQuery",
+                corp = _this.attr('data-corp'),
+                target = _this.attr('data-target'),
+                type = _this.attr('data-type'),
+                key = _this.attr('data-key'),
+                url = '/Community/' + target;
+
+            var datas = { corp: corp, type: type, key: key };
+
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+        });
+
+        $("button#dltBtn").on("click", function () {
+            var _this = $(this),
+                corp = _this.attr('data-corp'),
+                type = _this.attr('data-type'),
+                key = _this.attr('data-key');
+
+            var url = "/Community/JSON_delete";
+            var datas = { corp: corp, type: type, key: key };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function () {
+                    location.reload();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,115 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string loc = @Request["loc"],
+           imgPath = "/Content/Images/products/" + loc + ".jpg";
+
+}
+
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
+
+<section class="content pdtLists">
+    <div class="LocPicture">
+        <img src="@imgPath">
+        <p>@loc</p>
+    </div>
+
+    <div class="list_type">
+        <a href="#" class="on"><i class="fa fa-th-list"></i></a>
+        <a href="#"><i class="fa fa-th"></i></a>
+    </div>
+
+    <ul class="Lists">
+
+        @{
+        string code = "",
+        title = "",
+        content = "",
+        img = "",
+        option = "",
+        price = "",
+        Currency = "",
+        key = "";
+
+        foreach (object item in Model)
+        {
+        code = "";
+        title = "";
+        content = "";
+        img = "";
+        option = "";
+        price = "";
+        Currency = "";
+        key = "";
+
+        try { code = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { title = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { content = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { option = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { img = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { Currency = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { price = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { key = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+        catch { continue; }
+
+        switch (Currency)
+        {
+        case "KRW":
+        Currency = "원";
+        break;
+        case "JPY":
+        Currency = "엔";
+        break;
+        case "USD":
+        Currency = "달러";
+        break;
+        }
+
+        <li class="box">
+            <a href="/Products/Views?code=@code&key=@key">
+                <figure style="background-image:url('@img');">
+                    @if (option != "없음")
+                    {
+                    <div>best</div>
+                    }
+                </figure>
+                <figcaption>
+                    <h3>@title</h3>
+                    <p>@content</p>
+                    <div>
+                        1인<span> @{@String.Format("{0:#,##0}", int.Parse(price))}<</span>@Currency 부터~
+                    </div>
+                </figcaption>
+            </a>
+        </li>
+
+        }
+
+        }
+    </ul>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $(".list_type a").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this);
+
+            if (_this.hasClass("on"))
+                return;
+
+            _this.addClass("on").siblings().removeClass("on");
+
+            $("ul.Lists").toggleClass("thumb");
+        });
+    });
+</script>

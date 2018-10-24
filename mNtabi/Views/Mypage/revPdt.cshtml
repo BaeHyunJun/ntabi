@@ -1,0 +1,638 @@
+﻿@using mNtabi.Models
+@using System.Globalization;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string userAgent = Request.UserAgent;
+    string[] browser = { "iphone", "ipod", "ipad", "android", "blackberry", "windows ce", "nokia", "webos", "opera mini", "sonyericsson", "opera mobi", "iemobile", "windows phone" };
+    bool isMobile = false;
+
+    for (int iasd = 0; iasd < browser.Length; iasd++)
+    {
+        if (userAgent.ToLower().Contains(browser[iasd]))
+        {
+            isMobile = true;
+            break;
+        }
+    }
+
+    var user = Session["user"] as User;
+
+    string revDay = "",
+           revSeq = "",
+           revStartDay = "",
+           revEndDay = "",
+           pdtTitle = "",
+           pdtContent = "",
+           empName = "",
+           empTel = "",
+           empMail = "",
+           revState = "",
+           revStateTxt = "",
+           revName = "",
+           revPCnt = "",
+           revContent = "",
+           cntTxt = "",
+           revPrice = "",
+           pdtCode = "",
+           dayCode = "",
+           vcImg = "mypageti.png";
+
+    string dayCodeTxt = "";
+
+    foreach (object item in Model)
+    {
+        revDay = "";
+        revSeq = "";
+        revStartDay = "";
+        revEndDay = "";
+        pdtTitle = "";
+        pdtContent = "";
+        empName = "";
+        empTel = "";
+        empMail = "";
+        revState = "";
+        revName = "";
+        revPCnt = "";
+        revContent = "";
+        revPrice = "";
+        pdtCode = "";
+        revStateTxt = "";
+        dayCode = "";
+
+        try { revDay = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { revSeq = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { revStartDay = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtTitle = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtContent = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { empName = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { empTel = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { empMail = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { revState = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { revName = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { revPCnt = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { revContent = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+        catch { }
+        try { revPrice = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+        catch { }
+        try { pdtCode = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); }
+        catch { }
+        try { dayCode = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); }
+        catch { }
+
+        if (string.IsNullOrEmpty(revContent))
+        {
+            revContent = "-";
+        }
+
+        DateTime dt = DateTime.ParseExact(revStartDay, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+        switch (dt.DayOfWeek)
+        {
+            case DayOfWeek.Monday:
+                revStartDay += " (월)";
+                break;
+            case DayOfWeek.Tuesday:
+                revStartDay += " (화)";
+                break;
+            case DayOfWeek.Wednesday:
+                revStartDay += " (수)";
+                break;
+            case DayOfWeek.Thursday:
+                revStartDay += " (목)";
+                break;
+            case DayOfWeek.Friday:
+                revStartDay += " (금)";
+                break;
+            case DayOfWeek.Saturday:
+                revStartDay += " (토)";
+                break;
+            case DayOfWeek.Sunday:
+                revStartDay += " (일)";
+                break;
+        }
+
+        dt = dt.AddDays(Convert.ToInt32(dayCode.Substring(2)) - 1);
+
+        revEndDay = dt.ToString("yyyy-MM-dd");
+
+        switch (dt.DayOfWeek)
+        {
+            case DayOfWeek.Monday:
+                revEndDay += " (월)";
+                break;
+            case DayOfWeek.Tuesday:
+                revEndDay += " (화)";
+                break;
+            case DayOfWeek.Wednesday:
+                revEndDay += " (수)";
+                break;
+            case DayOfWeek.Thursday:
+                revEndDay += " (목)";
+                break;
+            case DayOfWeek.Friday:
+                revEndDay += " (금)";
+                break;
+            case DayOfWeek.Saturday:
+                revEndDay += " (토)";
+                break;
+            case DayOfWeek.Sunday:
+                revEndDay += " (일)";
+                break;
+        }
+
+        switch (revState)
+        {
+            case "10":
+                revStateTxt = "<span style='color: red;'>예약 취소</span>";
+                break;
+            case "20":
+                revStateTxt = "<span style='color: #01790d;'>예약 확인중</span>";
+                break;
+            case "30":
+                revStateTxt = "<span style='color: #960ce8;'>예약 진행중</span>";
+                break;
+            case "40":
+                vcImg = "mypageti_ok.png";
+                revStateTxt = "<span style='color: #f84a0d;'>출발 확정</span>";
+                break;
+            case "50":
+                revStateTxt = "<span style='color: blue;'>완료</span>";
+                break;
+        }
+
+        cntTxt = revName;
+
+        if (Convert.ToInt32(revPCnt) > 1)
+        {
+            cntTxt += "외 " + (Convert.ToInt32(revPCnt) - 1) + "명";
+        }
+
+        switch (dayCode.Substring(2, 2))
+        {
+            case "01":
+                dayCodeTxt = "당일치기";
+                break;
+            case "02":
+                dayCodeTxt = "1박 2일";
+                break;
+            case "03":
+                dayCodeTxt = "2박 3일";
+                break;
+            case "04":
+                dayCodeTxt = "3박 4일";
+                break;
+            case "05":
+                dayCodeTxt = "4박 5일";
+                break;
+            case "06":
+                dayCodeTxt = "5박 6일";
+                break;
+            case "07":
+                dayCodeTxt = "6박 7일";
+                break;
+            case "08":
+                dayCodeTxt = "7박 8일";
+                break;
+            case "09":
+                dayCodeTxt = "8박 9일";
+                break;
+            case "10":
+                dayCodeTxt = "9박 10일";
+                break;
+        }
+    }
+}
+
+<h4>예약/결제 내역</h4>
+<section class="bookinginfo">
+    <h3>예약정보</h3>
+    <div>
+        <ul>
+            <li class="city">
+                <h4>예약자</h4>
+                <p>@revName</p>
+            </li> <!--.city-->
+            <li class="pdname">
+                <h4>상품명</h4>
+                <p>@pdtTitle</p>
+            </li> <!--.pdname-->
+            <li class="time">
+                <h4>여행일정</h4>
+                <p>
+                    <strong>출국편</strong> @revStartDay<br />
+                    제주항공|김해국제공항(11:00) - 나리타공항(14:00)<br />
+                    <span></span>
+                    <strong>귀국편</strong> @revEndDay<br />
+                    제주항공|나리타공항(11:00) - 김해국제공항(14:00)
+                </p>
+            </li> <!--.time-->
+            <li class="status">
+                <h4>진행상태</h4>
+                <p>@MvcHtmlString.Create(revStateTxt)</p>
+            </li> <!--.status-->
+            <li class="planner">
+                <h4>담당자</h4>
+                <p>
+                    @empName | @empTel | @empMail
+                </p>
+            </li> <!--.planner-->
+            <li class="request">
+                <h4>요청사항</h4>
+                <p>@revContent</p>
+            </li> <!--.request-->
+        </ul>
+    </div>
+</section> <!--.bookinginfo-->
+<section class="bookingpersoninfo">
+    <h3>예약자 정보</h3>
+    <p class="howmany">총 @revPCnt 명</p>
+    <div class="person01">
+        @{
+            string CU_NAME = "",
+                    CU_NAME_LAST = "",
+                    CU_NAME_FIRST = "",
+                    CU_GB = "",
+                    CU_SEX = "",
+                    CU_TEL = "",
+                    CU_BIRTH = "";
+
+            int ACnt = 0,
+                CCnt = 0,
+                BCnt = 0,
+                
+                idx = 1;
+
+            foreach (object item in ViewBag.tourData)
+            {
+                CU_NAME = "";
+                CU_NAME_LAST = "";
+                CU_NAME_FIRST = "";
+                CU_GB = "";
+                CU_SEX = "";
+                CU_TEL = "";
+                CU_BIRTH = "";
+
+                try { CU_NAME = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                catch { }
+                try { CU_NAME_LAST = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                catch { }
+                try { CU_NAME_FIRST = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                catch { }
+                try { CU_GB = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                catch { }
+                try { CU_SEX = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                catch { }
+                try { CU_BIRTH = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                catch { }
+                try { CU_TEL = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                catch { }
+
+                CU_NAME = string.IsNullOrEmpty(CU_NAME) ? " - " : CU_NAME;
+                CU_NAME_LAST = string.IsNullOrEmpty(CU_NAME_LAST) ? " - " : CU_NAME_LAST;
+                CU_NAME_FIRST = string.IsNullOrEmpty(CU_NAME_FIRST) ? " - " : CU_NAME_FIRST;
+                CU_GB = string.IsNullOrEmpty(CU_GB) ? " - " : CU_GB;
+                CU_SEX = string.IsNullOrEmpty(CU_SEX) ? " - " : CU_SEX;
+                CU_BIRTH = string.IsNullOrEmpty(CU_BIRTH) ? " - " : CU_BIRTH;
+                CU_TEL = string.IsNullOrEmpty(CU_TEL) ? " - " : CU_TEL;
+
+                switch (CU_GB)
+                {
+                    case "A":
+                        CU_GB = "성인";
+                        ACnt++;
+                        break;
+                    case "C":
+                        CU_GB = "소아";
+                        CCnt++;
+                        break;
+                    case "B":
+                        CU_GB = "유아";
+                        BCnt++;
+                        break;
+                }
+
+                switch (CU_SEX)
+                {
+                    case "M":
+                        CU_SEX = "남자";
+                        break;
+                    case "F":
+                        CU_SEX = "여자";
+                        break;
+                }
+                
+                
+            <p class="subscriber"><a href="#">예약자 @idx</a></p>
+            <ul>
+                <li class="Kname">
+                    <h4>한글이름</h4>
+                    <p>@CU_NAME</p>
+                </li> <!--.Kname-->
+                <li class="Enname">
+                    <h4>영문이름</h4>
+                    <p>@CU_NAME_LAST @CU_NAME_FIRST</p>
+                </li> <!--.Enname-->
+                <li class="age">
+                    <h4>구분</h4>
+                    <p>@CU_GB</p>
+                </li> <!--.age-->
+                <li class="sex">
+                    <h4>성별</h4>
+                    <p>@CU_SEX</p>
+                </li> <!--.sex-->
+            </ul>
+            
+                idx++;
+            }
+        }
+    </div>
+
+</section> <!--.bookingpersoninfo-->
+<section class="payinfo">
+    <h3>결제 정보</h3>
+    <div>
+        <ul>
+            <li class="pdname">
+                <h4>상품명</h4>
+                <p>@pdtTitle</p>
+            </li> <!--.pdname-->
+            <li class="option">
+                <h4>옵션</h4>
+                <p>
+                    <span>
+                        @{
+                            string HTL_DATE = "",
+                                   HTL_NAME = "",
+                                   HTL_ROOM = "";
+
+                            string HTL_TXT = "";
+
+                            foreach (object item in ViewBag.htlData)
+                            {
+                                HTL_DATE = "";
+                                HTL_NAME = "";
+                                HTL_ROOM = "";
+
+                                try { HTL_DATE = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                                catch { }
+                                try { HTL_NAME = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                                catch { }
+                                try { HTL_ROOM = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                                catch { }
+
+                                HTL_DATE = HTL_DATE.Split('-')[1] + "." + HTL_DATE.Split('-')[2];
+
+                                HTL_TXT = HTL_ROOM + " " + HTL_NAME + " - " + HTL_ROOM + "<br />";
+
+                                @HTL_TXT
+                            }
+                        }
+                    </span>
+                </p>
+            </li> <!--.option-->
+            <li class="howmany">
+                <h4>인원</h4>
+                <p>성인 @ACnt 명</p>
+                <p>소아 @CCnt 명</p>
+                <p>아동 @BCnt 명</p>
+            </li> <!--.howmany-->
+            <li class="payall">
+                <h4>합계</h4>
+                <p>
+                    <span>@{@String.Format("{0:#,##0}", int.Parse(revPrice))}</span> 원
+                </p>
+            </li> <!--.payall-->
+        </ul>
+    </div>
+</section> <!--.payinfo-->
+
+@if (revState == "30" || revState == "40")
+{
+    string ID = "",
+            Name_kor = "",
+            Address = "";
+
+    int chkPrice = 0;// Total_Price - Account_Price;
+
+    foreach (object item in ViewBag.memData)
+    {
+        ID = "";
+        Name_kor = "";
+        Address = "";
+
+        try { ID = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+        catch { }
+        try { Name_kor = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+        catch { }
+        try { Address = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+        catch { }
+    }
+
+    string rNum = ViewBag.rNum;
+
+    if (string.IsNullOrEmpty(Address) || Address.Length < 1)
+    {
+        Address = "-";
+    }
+    
+<section class="pay">
+    <h3>결제하기</h3>
+                @using (Html.BeginForm("approval", "Mypage", FormMethod.Post, new { @class = "pro_ok_box", name = "appForm", style = "padding:0;" }))
+                {
+                    string depseq = DateTime.Now.ToString("yyyyMMddhhmmss");
+
+                    string receiveUrl = Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf(Request.Url.AbsolutePath)) + "/Mypage/Allat_receive";
+
+                    if (string.IsNullOrEmpty(Address.Trim()))
+                    {
+                        Address = "미입력";
+                    }
+
+                    @Html.Hidden("allat_shop_id", "ntabi1")
+                    @*@Html.Hidden("test_cross_key", "d0710c593beacf516164220fb7133a6f")*@
+                    @Html.Hidden("allat_order_no", revDay + "_" + revSeq + "_" + depseq)                                     @* 예약 번호 넣기 *@
+                    @Html.Hidden("allat_amt", 1000@*(rTPrice - price)*@)                                    @* 승인금액 *@
+                    @Html.Hidden("allat_pmember_id", @ID)                                                   @* 회원 ID *@
+                    @Html.Hidden("allat_product_cd", @pdtCode)                                         @* 상품 코드 *@
+                    @Html.Hidden("allat_product_nm", @pdtTitle)                                        @* 상품 명 *@
+                    @Html.Hidden("allat_buyer_nm", @Name_kor)                                               @* 결제자 성명 *@
+                    @Html.Hidden("allat_recp_nm", @Name_kor)                                                @* 수취인 성명 *@
+                    @Html.Hidden("allat_recp_addr", @Address)                                               @* 수취인 주소 *@
+                    @Html.Hidden("shop_receive_url", @receiveUrl)                                           @* 콜백 주소 *@
+                    @Html.Hidden("allat_enc_data")                                                          @* 오잉? *@
+
+                    @Html.Hidden("allat_card_yn", "Y")                                                      @* 카드 사용 여부 *@
+                    @Html.Hidden("allat_bank_yn", "N")                                                      @* 게좌이체 사용 여부 *@
+                    @Html.Hidden("allat_vbank_yn", "N")                                                     @* 무통장 결제 사용 여부 *@
+                    @Html.Hidden("allat_hp_yn", "N")                                                        @* 휴대폰 결제 사용 여부 *@
+                    @Html.Hidden("allat_ticket_yn", "N")                                                    @* 상품권 결제 사용 여부 *@
+
+                    @Html.Hidden("allat_encode_type", "U")                                                  @* UTF-8 사용 여부 *@
+
+                    @Html.Hidden("allat_test_yn", "N")                                                      @* 테스트 여부 *@
+
+                    @Html.Hidden("revDate", Request["d"])                                                @* 오잉? *@
+                    @Html.Hidden("revSeq", Request["k"])                                                  @* 오잉? *@
+                    
+                    <select name="payType">
+                        <option value="Card" selected>신용카드</option>
+                        <option value="account">계좌이체</option>
+                        <option value="tabipay">타비페이</option>
+                    </select>
+                    
+                    <p class="accessPay">
+                        <input type="number" name="dPrice" value="0" /> 원
+
+                        <a href="javascript:ftn_approval(document.appForm);" class="btn btn-default">결제</a>
+                    </p>
+                }
+</section> <!--.pay-->
+    
+    <script type="text/javascript" charset="utf-8" src="https://tx.allatpay.com/common/AllatPayM.js"></script>
+
+    <script language=Javascript>
+            // 결제페이지 호출
+            function ftn_approval(dfm) {
+
+                if (dfm.dPrice.value < 1000) {
+                    alert("1000 원 부터 결제가 가능합니다.");
+                    return;
+                }
+
+                @*var price = "@chkPrice";
+
+                if (dfm.dPrice.value > price)
+                {
+                    alert("결제 하시려는 금액을 다시 체크해주세요.");
+                    return;
+                }*@
+
+                var type = dfm.payType.value;
+
+                type = $("select[name=payType]").val();
+
+                switch (type)
+                {
+                    case "Card":
+                        $(window).scrollTop(0)
+
+                        dfm.allat_amt.value = dfm.dPrice.value;
+
+                        Allat_Mobile_Approval(dfm, 0, 0);
+                        break;
+                    case "tabipay":
+                        dfm.shop_receive_url.value = "@Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf(Request.Url.AbsolutePath))" + "/Mypage/checkpay_acc";
+
+                        dfm.action = "/Mypage/payApprove";
+                        dfm.method = "post";
+                        dfm.target = "_self";
+                        dfm.submit();
+                        break;
+                    default:
+                        alert("결제 타입을 선택해주세요.");
+                        break;
+                }
+            }
+
+            // 결과값 반환( receive 페이지에서 호출 )
+            function result_submit(result_cd, result_msg, enc_data) {
+
+                Allat_Mobile_Close();
+
+                if (result_cd != '0000') {
+                    alert(result_cd + " : " + result_msg);
+                } else {
+
+                    var f = document.appForm;
+                    f.allat_enc_data.value = enc_data;
+
+                    f.action = "/Mypage/approval";
+                    f.method = "post";
+                    f.target = "_self";
+                    f.submit();
+                }
+            }
+    </script>
+}
+
+@if (ViewBag.accData != null)
+{
+<section class="payrecord">
+    <h3>결제내역</h3>
+    @{
+        string REV_ACC_SEQ = "",
+               REV_ACC_DATE = "",
+               REV_ACC_REG_DATE = "",
+               REV_ACC_IST_EMP_NO = "",
+               REV_ACC_GB_CODE = "",
+               REV_ACC_DET_SEQ = "",
+               REV_ACC_PRICE = "",
+               REV_ACC_NAME = "",
+               REV_ACC_CONTENT = "";
+
+        int totalPrice = 0;
+
+        foreach (object item in ViewBag.accData)
+        {
+
+            try { REV_ACC_SEQ = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+            catch { continue; }
+            try { REV_ACC_DATE = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+            catch { continue; }
+            try { REV_ACC_REG_DATE = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { continue; }
+            try { REV_ACC_IST_EMP_NO = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+            catch { continue; }
+            try { REV_ACC_GB_CODE = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+            catch { continue; }
+            try { REV_ACC_DET_SEQ = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+            catch { continue; }
+            try { REV_ACC_PRICE = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+            catch { continue; }
+            try { REV_ACC_NAME = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+            catch { continue; }
+            try { REV_ACC_CONTENT = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+            catch { continue; }
+
+            totalPrice += int.Parse(REV_ACC_PRICE);
+        
+            <ul class="record">
+                <li>
+                    <p>입금금액</p>
+                    <p>@{@String.Format("{0:#,##0}", int.Parse(REV_ACC_PRICE))} 원</p>
+                </li>
+                <li>
+                    <p>@REV_ACC_GB_CODE | @REV_ACC_DET_SEQ</p>
+                    <p>@REV_ACC_DATE</p>
+                    <p>@REV_ACC_NAME</p>
+                </li>
+            </ul> <!--.record-->
+        }
+    }
+    <div class="totalsum">
+        <ul>
+            <li>
+                <h4>총 입금 금액</h4>
+                <p>@{@String.Format("{0:#,##0}", totalPrice)}</p>
+            </li>
+            <li>
+                <h4>미 입금 금액</h4>
+                <p>@{@String.Format("{0:#,##0}", int.Parse(revPrice) - totalPrice)}</p>
+            </li>
+        </ul>
+    </div> <!--.totalsum-->
+</section> <!--.payrecord-->
+}

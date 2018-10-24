@@ -1,0 +1,82 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    section.map {
+        padding-top: 10px;
+    }
+
+        /*제목*/
+        section.map h3 {
+            font-size: 14px;
+            font-weight: normal;
+            color: #2a2a2a;
+        }
+
+        /*지도*/
+        section.map div.wayto {
+            width: 800px;
+            margin: 80px auto 0 auto;
+        }
+
+            section.map div.wayto p.map {
+                width: 100%;
+                height: 500px;
+                margin-bottom: 30px;
+                background-color: #ddd;
+            }
+
+                section.map div.wayto p.map a {
+                    display: block;
+                    width: 100%;
+                    height: 500px;
+                }
+
+            section.map div.wayto p.address {
+                margin-bottom: 15px;
+                font-size: 15px;
+                text-align: center;
+            }
+
+            section.map div.wayto p.howto {
+                text-align: center;
+                font-size: 16px;
+                color: #1e6acc;
+            }
+</style>
+
+<section class="map">
+    <h3>찾아오시는 길</h3>
+    <div class="wayto">
+        <p class="map" id="map_canvas"></p> <!--.map-->
+        <p class="address">
+            부산광역시 중구 중앙대로 119 (상현빌딩 5층)<br>
+            SangHyun Bldg 5th, 119, Jungang-daero, Jung-gu, Busan, Republic of Korea
+        </p> <!--.address-->
+        <p class="howto">
+            지하철 1호선 중앙역 17번 출구 도보 5분소요.
+        </p> <!--.howto-->
+    </div> <!--.wayto-->
+</section>
+
+<script>
+    function initialize() {
+        var myLatlng = new google.maps.LatLng(35.108312, 129.036401);
+        var myOptions = {
+            zoom: 17,
+            center: myLatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+        var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+        });
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOCavluEV5R78T2xJ1YoyVu91zdN8DCAE&callback=initialize" async defer></script>

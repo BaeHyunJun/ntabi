@@ -1,0 +1,404 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string nation = Request["N"],
+           area = Request["A"],
+           areaTxt = "";
+
+    string pdtKey = "",
+           pdtCode = "",
+           pdtTitle = "",
+           pdtContent = "",
+           pdtFeature = "",
+           pdtPrice = "";
+
+    switch (area)
+    {
+        case "OSA":
+            areaTxt = "오사카";//"OSAKA";
+            break;
+        case "FUK":
+            areaTxt = "규슈";//"FUKUOKA";
+            break;
+        case "TYO":
+            areaTxt = "동경";//"TOKYO";
+            break;
+        case "OKA":
+            areaTxt = "오키나와";//"OKINAWA";
+            break;
+        case "CTS":
+            areaTxt = "홋카이도";//"HOKKAIDO";
+            break;
+        case "TSM":
+            areaTxt = "대마도";//"TSUSHIMA";
+            break;
+        case "ETC":
+            areaTxt = "기타 지역";//"ETC";
+            break;
+        case "HKG":
+            areaTxt = "홍콩";//"HONG KONG";
+            break;
+        case "TPE":
+        case "TWN":
+            areaTxt = "대만";//"TAIWAN";
+            break;
+        case "SEA":
+            areaTxt = "SOUTH EAST ASIA";
+            break;
+        case "VEN":
+            areaTxt = "베트남";//"HAWAII";
+            break;
+        case "PNL":
+            areaTxt = "필리핀";//
+            break;
+        case "AME":
+            areaTxt = "미주";
+            break;
+        case "HNL":
+            areaTxt = "HAWAII";
+            break;
+        case "GSA":
+        case "GUM":
+            areaTxt = "괌/사이판";//"GUAM";
+            break;
+        default:
+            areaTxt = "NTABI";
+            break;
+    }
+}
+
+<style>
+    section.bestPdt.KMC {
+        padding-top: 50px;
+    }
+</style>
+
+@Html.Partial("_SubMenu")
+
+
+@if (nation == "JP")
+{
+<section class="bestpd">
+    <ul>
+        @try
+        {
+        foreach (object item in ViewBag.PackPdt)
+        {
+        pdtKey = "";
+        pdtCode = "";
+        pdtTitle = "";
+        pdtContent = "";
+        pdtFeature = "";
+        pdtPrice = "";
+
+        try { pdtKey = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try
+        {
+        pdtCode = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+        }
+        catch { continue; }
+        try { pdtTitle = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtContent = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtFeature = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtPrice = item.GetType().GetProperties()[15].GetValue(item, null).ToString(); }
+        catch { continue; }
+        <li class="bestpackage">
+            <a href="/Products/Views?C=@pdtCode&K=@pdtKey">
+                <ul class="pdIn">
+                    <li class="img">
+                        <img src="@pdtFeature" width="100%" />
+                    </li>
+                    <li class="text">
+                        <h3>BEST 패키지 상품</h3>
+                        <p class="title">@pdtTitle</p>
+                        <p class="price">1인 @{@String.Format("{0:#,##0}", int.Parse(pdtPrice))} 원 ~</p>
+                    </li>
+                </ul> <!--.pdIn-->
+            </a>
+        </li> <!--.bestpackage-->
+        }
+        }
+        catch { }
+        @try
+        {
+        foreach (object item in ViewBag.FreePdt)
+        {
+        pdtKey = "";
+        pdtCode = "";
+        pdtTitle = "";
+        pdtContent = "";
+        pdtFeature = "";
+        pdtPrice = "";
+
+        try { pdtKey = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try
+        {
+        pdtCode = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+        }
+        catch { continue; }
+        try { pdtTitle = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtContent = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtFeature = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtPrice = item.GetType().GetProperties()[15].GetValue(item, null).ToString(); }
+        catch { continue; }
+
+        <li class="bestfree">
+            <a href="/Products/Views?C=@pdtCode&K=@pdtKey">
+                <ul class="pdIn">
+                    <li class="img">
+                        <img src="@pdtFeature" width="100%" />
+                    </li>
+                    <li class="text">
+                        <h3>BEST 자유여행 상품</h3>
+                        <p class="title">@pdtTitle</p>
+                        <p class="price">1인 @{@String.Format("{0:#,##0}", int.Parse(pdtPrice))} 원 ~</p>
+                    </li>
+                </ul> <!--.pdIn-->
+            </a>
+        </li> <!--.bestfree-->
+        }
+        }
+        catch { }
+
+        @try
+        {
+        foreach (object item in ViewBag.LocalPdt)
+        {
+        pdtKey = "";
+        pdtCode = "";
+        pdtTitle = "";
+        pdtContent = "";
+        pdtFeature = "";
+        pdtPrice = "";
+
+        try { pdtKey = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try
+        {
+        pdtCode = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+        pdtCode += item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+        }
+        catch { continue; }
+        try { pdtTitle = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtContent = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtFeature = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pdtPrice = item.GetType().GetProperties()[15].GetValue(item, null).ToString(); }
+        catch { continue; }
+
+        <li class="bestdaytour">
+            <a href="/Products/Views?C=@pdtCode&K=@pdtKey">
+                <ul class="pdIn">
+                    <li class="img">
+                        <img src="@pdtFeature" width="100%" />
+                    </li>
+                    <li class="text">
+                        <h3>BEST 현지투어 상품</h3>
+                        <p class="title">@pdtTitle</p>
+                        <p class="price">1인 @{@String.Format("{0:#,##0}", int.Parse(pdtPrice))} 원 ~</p>
+                    </li>
+                </ul> <!--.pdIn-->
+            </a>
+        </li> <!--.bestdaytour-->
+        }
+        }
+        catch { }
+    </ul>
+</section> <!--.bestpd-->
+}
+else if (nation != "JP")
+{
+
+
+<section class="product">
+
+    <ul>
+        @try
+        {
+        string pppdate = "",
+        ppppdtKey = "",
+        ppppdtCode = "",
+        ppppdtTitle = "",
+        ppppdtContent = "",
+        ppppdtFeature = "",
+        ppppdtPrice = "",
+        ppppdtDasys = "",
+        ppppdtOptions = "",
+        ppppdtTraff = "",
+        ppppdtSCity = "",
+        ppppdtSTime = "",
+        ppppdtECity = "",
+        ppppdtETime = "",
+        ppppdtDasysTxt = "";
+
+        foreach (object item in Model)
+        {
+        ppppdtKey = "";
+        ppppdtCode = "";
+        ppppdtTitle = "";
+        ppppdtContent = "";
+        ppppdtFeature = "";
+        ppppdtPrice = "";
+        ppppdtDasys = "";
+        ppppdtOptions = "";
+        ppppdtTraff = "";
+        ppppdtSCity = "";
+        ppppdtSTime = "";
+        ppppdtECity = "";
+        ppppdtETime = "";
+        ppppdtDasysTxt = "";
+        pppdate = "";
+
+        try { ppppdtKey = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try
+        {
+        ppppdtCode = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+        ppppdtCode += item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+        ppppdtCode += item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+        ppppdtCode += item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+        ppppdtCode += item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+        }
+        catch { continue; }
+        try { ppppdtTitle = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { ppppdtContent = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { ppppdtDasys = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { ppppdtOptions = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { ppppdtTraff = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { ppppdtSCity = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { ppppdtSTime = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { ppppdtECity = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { ppppdtETime = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { ppppdtFeature = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { ppppdtPrice = item.GetType().GetProperties()[15].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { pppdate = item.GetType().GetProperties()[16].GetValue(item, null).ToString(); }
+        catch { continue; }
+
+        if (ppppdtPrice == "0")
+        {
+        continue;
+        }
+
+        switch (ppppdtDasys.Substring(2, 2))
+        {
+        case "01":
+        ppppdtDasysTxt = "당일치기";
+        break;
+        case "02":
+        ppppdtDasysTxt = "1박 2일";
+        break;
+        case "03":
+        ppppdtDasysTxt = "2박 3일";
+        break;
+        case "04":
+        ppppdtDasysTxt = "3박 4일";
+        break;
+        case "05":
+        ppppdtDasysTxt = "4박 5일";
+        break;
+        case "06":
+        ppppdtDasysTxt = "5박 6일";
+        break;
+        case "07":
+        ppppdtDasysTxt = "6박 7일";
+        break;
+        case "08":
+        ppppdtDasysTxt = "7박 8일";
+        break;
+        case "09":
+        ppppdtDasysTxt = "8박 9일";
+        break;
+        case "10":
+        ppppdtDasysTxt = "9박 10일";
+        break;
+        }
+
+        int inCnt = Convert.ToInt32(ppppdtDasys.Substring(2, 2)) - (Convert.ToInt32(ppppdtDasys.Substring(0, 2)) + 1);
+
+        if (inCnt != 0)
+        {
+        ppppdtDasysTxt += " (기내 " + inCnt + "박)";
+        }
+
+        switch (ppppdtOptions)
+        {
+        case "best":
+        ppppdtOptions = "베스트 상품";
+        break;
+        case "vari":
+        ppppdtOptions = "버라이어티 팩";
+        break;
+        case "airf":
+        ppppdtOptions = "에어 프리 팩";
+        break;
+        default:
+        ppppdtOptions = "";
+        break;
+        }
+        <li>
+            <a href="./Views?C=@ppppdtCode&K=@ppppdtKey">
+                <p class="images"><img src="@ppppdtFeature" alt="@ppppdtTitle" /></p>
+                @if (!string.IsNullOrEmpty(ppppdtOptions))
+                {
+                <p class="bestbox">@ppppdtOptions</p>
+                }
+                <div class="text">
+                    <p class="pdtit">
+                        @ppppdtTitle
+                    </p> <!--.pdtit-->
+                    <p class="time">@ppppdtSCity @ppppdtSTime ~ @ppppdtECity @ppppdtETime</p> <!--.time-->
+                    <div class="box">
+                        <p class="cord">@ppppdtTraff</p>
+                        <p class="start">출발지 : @ppppdtSCity</p>
+                    </div> <!--.box-->
+                    <p class="price">@{@String.Format("{0:#,##0}", int.Parse(ppppdtPrice))} <span style="font-size: 20px;">원 ~</span></p>
+                </div>
+            </a>
+
+        </li>
+        }
+        }
+        catch { }
+    </ul>
+</section>
+
+}
+<script>
+    $(document).ready(function () {
+        if ($("div.bestitem").length < 1) {
+            $("section.bestPdt").css("display", "none");
+        }
+    });
+</script>

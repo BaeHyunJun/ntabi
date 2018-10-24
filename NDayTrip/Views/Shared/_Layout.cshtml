@@ -1,0 +1,204 @@
+﻿@using NDayTrip.Models
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <title>NDayTrip</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    @{
+    var user = Session["user"] as User;
+
+    @*if (user == null)
+    {
+    <script>
+        location.href = "/";
+    </script>
+    }*@
+
+    string userAgent = Request.UserAgent;
+    string[] browser = { "iphone", "ipod", "ipad", "android", "blackberry", "windows ce", "nokia", "webos", "opera mini", "sonyericsson", "opera mobi", "iemobile", "windows phone" };
+    bool isMobile = false;
+
+    for (int iasd = 0; iasd < browser.Length; iasd++)
+    {
+    if (userAgent.ToLower().Contains(browser[iasd]))
+    {
+    isMobile = true;
+    break;
+    }
+    }
+
+    @*if (!isMobile)
+    {
+    <script>
+        location.href = "/Home/Maintenance";
+    </script>
+    }*@
+
+    string controllerName = "",
+    actionName = "";
+
+    try { controllerName = this.ViewContext.Controller.ControllerContext.RouteData.Values["controller"].ToString().ToLower(); }
+    catch { }
+    try { actionName = this.ViewContext.Controller.ControllerContext.RouteData.Values["action"].ToString().ToLower(); }
+    catch { }
+
+    string cssName = controllerName + ".css";
+
+    <link rel="stylesheet" type="text/css" href="/Content/@cssName">
+    }
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                @*
+                <button type="button" class="navbar-toggle pull-left menuBtn" data-toggle="collapse" data-target=".menu">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                *@
+                <a href="javascript:history.back()" class="back" style="position: absolute; left: 0; top: 5px;">
+                    <img src="~/Content/Images/back.png" />
+                </a>
+                <a href="/">
+                    <img class="logo" src="~/Content/Images/logo.png" alt="엔데이트립" />
+                </a>
+                @if (user != null && controllerName == "mypage" && actionName == "index")
+                {
+                using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", style = "position: absolute; right: 0; top: 5px;" }))
+                {
+                @Html.AntiForgeryToken()
+
+                <a href="javascript:document.getElementById('logoutForm').submit()">
+                    <img src="~/Content/Images/logout.png" style="width: 40px;" />
+                </a>
+                }
+                }
+
+                @*
+                <button type="button" class="navbar-toggle searchBtn" data-toggle="collapse" data-target=".search">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+                *@
+            </div>
+
+            @*
+            <div class="navbar-collapse collapse menu">
+                <ul class="nav navbar-nav depth1">
+                    <li>
+                        버스투어 (지역 선택)
+                        <ul class="depth2">
+                            <li>
+                                <a href="/Products/Lists?loc=HOKKAIDO">
+                                    <img src="~/content/Images/share/menu_hokkaido.png">
+                                    홋카이도
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Products/Lists?loc=OSAKA">
+                                    <img src="~/content/Images/share/menu_osaka.png">
+                                    오사카
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Products/Lists?loc=TOKYO">
+                                    <img src="~/content/Images/share/menu_tokyo.png">
+                                    도쿄
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Products/Lists?loc=OKINAWA">
+                                    <img src="~/content/Images/share/menu_okinawa.png">
+                                    오키나와
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Products/Lists?loc=FUKUOKA">
+                                    <img src="~/content/Images/share/menu_kyushu.png">
+                                    큐슈
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Products/Lists?loc=TSUSHIMA">
+                                    <img src="~/content/Images/share/menu_tsushima.png">
+                                    대마도
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="https://www.booking.com/?aid=1294434" target="_blank">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.timescar-rental.kr/af/7822000010/kr/" target="_blank">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Community?type=NTB_qna">
+                            질문과 답변
+                        </a>
+                    </li>
+
+                    <li>@Html.ActionLink("마이페이지", "Index", "MyPage")</li>
+                    <li>
+                        @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", style = "padding: 10px 15px; line-height: 20px;" }))
+                        {
+                        @Html.AntiForgeryToken()
+
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            로그아웃
+                        </a>
+                        }
+                    </li>
+                </ul>
+            </div>
+
+            <div class="navbar-collapse collapse search">
+            </div>
+            *@
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        @*<hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>*@
+        @*@Html.Partial("_FMenu")*@
+    </div>
+
+    <div id="loading">
+        <img src="~/Content/Images/loading.gif" alt="로딩중..." />
+    </div>
+    <script>
+        $(".menuBtn").on("click", function () {
+            $(this).toggleClass("in");
+        });
+    </script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-106206861-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</body>
+</html>

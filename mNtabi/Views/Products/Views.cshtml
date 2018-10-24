@@ -1,0 +1,1314 @@
+﻿@using mNtabi.Models;
+@using System.Globalization;
+@using System.Text.RegularExpressions;
+
+@{
+    var user = Session["user"] as User;
+
+    var DateData = ViewBag.Date;
+    var empData = ViewBag.emp;
+    var rvData = ViewBag.rvData;
+    var isHtl = ViewBag.isHtl;
+
+    string empNo = "",
+           empTel = "",
+           empMail = "",
+           empName = "",
+           empTxt = "";
+
+    string pdtCode = "",
+           pdtTitle = "",
+           pdtContent = "",
+           pdtOptinos = "",
+           pdtFeature = "",
+           pdtSch0 = "",
+           pdtSch1 = "",
+           pdtSch2 = "",
+           pdtSch3 = "",
+           pdtSch4 = "",
+           pdtSch5 = "",
+           pdtSch6 = "",
+           pdtSch7 = "",
+           pdtCurrency = "",
+           pdtPrice = "",
+           pdtKey = "",
+           pdtSchDay = "",
+           pdtSchCont = "",
+           pdtArea = "",
+           tourType = "",
+           tourCity = "",
+           minCount = "",
+           pdtDays = "",
+           daysTxt = "",
+           combine = "",
+           userKey = user == null ? "" : user.Login;
+
+    int dayCnt = 1,
+        inCnt = 0;
+
+    string nation = "";
+
+    try
+    {
+        foreach (object item in empData)
+        {
+            try { empNo = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+            catch { }
+            try { empTel = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+            catch { }
+            try { empMail = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { }
+            try { empName = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+            catch { }
+            try { empTxt = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+            catch { }
+        }
+
+        empTel = empTel.Substring(0, 3) + "-" + empTel.Substring(3, empTel.Length - 7) + "-" + empTel.Substring(empTel.Length - 4);
+
+        foreach (object item in Model)
+        {
+            try { pdtCode = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtTitle = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtContent = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtOptinos = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtFeature = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtSch0 = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtSch1 = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtSch2 = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtSch3 = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtSch4 = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtSch5 = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtSch6 = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtSch7 = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtCurrency = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtPrice = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtKey = item.GetType().GetProperties()[15].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtSchDay = item.GetType().GetProperties()[16].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtSchCont = item.GetType().GetProperties()[17].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtArea = item.GetType().GetProperties()[18].GetValue(item, null).ToString(); }
+            catch { }
+            try { tourCity = item.GetType().GetProperties()[19].GetValue(item, null).ToString(); }
+            catch { }
+            try { minCount = item.GetType().GetProperties()[20].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtDays = item.GetType().GetProperties()[21].GetValue(item, null).ToString(); }
+            catch { }
+            try { combine = item.GetType().GetProperties()[22].GetValue(item, null).ToString(); }
+            catch { }
+        }
+
+        //tourType = pdtCode.Split(Convert.ToChar(pdtKey))[0];//.Substring(3);
+
+        tourType = pdtCode.Substring(3, 2);
+
+        switch (tourType)
+        {
+            case "FT":
+                tourType = "자유여행";
+                break;
+            case "PT":
+                tourType = "패키지";
+                break;
+            case "VP":
+                tourType = "버라이어티 팩";
+                break;
+            case "LT":
+                tourType = "현지투어";
+                break;
+        }
+
+        switch (pdtArea)
+        {
+            case "KYU":
+            case "FUK":
+                pdtArea = "규슈";
+                nation = "일본";
+                break;
+            case "TOK":
+            case "TYO":
+                pdtArea = "도쿄";
+                nation = "일본";
+                break;
+            case "OSA":
+                pdtArea = "오사카";
+                nation = "일본";
+                break;
+            case "HOK":
+            case "CTS":
+                pdtArea = "홋카이도";
+                nation = "일본";
+                break;
+            case "TSU":
+            case "TSM":
+                pdtArea = "대마도";
+                nation = "일본";
+                break;
+            case "OKI":
+            case "OKA":
+                pdtArea = "오키나와";
+                nation = "일본";
+                break;
+            case "NGY":
+            case "TKI":
+                pdtArea = "나고야";
+                nation = "일본";
+                break;
+            case "HKG":
+                pdtArea = "홍콩";
+                break;
+            case "TPE":
+                pdtArea = "타이페이";
+                break;
+            case "DAD":
+                pdtArea = "다낭";
+                break;
+            case "CEB":
+                pdtArea = "세부";
+                break;
+            case "HNL":
+                pdtArea = "호놀룰루";
+                break;
+            case "GUM":
+                pdtArea = "괌";
+                break;
+            case "SPN":
+                pdtArea = "사이판";
+                break;
+        }
+
+        inCnt = Convert.ToInt32(pdtDays.Substring(0, 2));
+        dayCnt = Convert.ToInt32(pdtDays.Substring(2));
+
+        daysTxt = (dayCnt - 1) + "박 " + dayCnt + "일";
+
+        if (dayCnt - 1 - inCnt > 0)
+        {
+            daysTxt += " (선내 " + (dayCnt - 1 - inCnt) + "박)";
+        }
+
+        if (tourType == "현지투어")
+        {
+            daysTxt = "당일 투어";
+        }
+    }
+    catch { }
+}
+
+
+@*<span class="pdtView nav">@pdtArea > @tourType</span>*@
+
+<section class="pdtInfo">
+    <h3 class="sr-only sr-only-focusable">상품 대표 이미지</h3>
+    <div class="mobilepd">
+        <h2>@pdtTitle</h2>
+        <div class="images">
+            <ul>
+                @{
+                string imgUrl = "";
+
+                foreach (object item in ViewBag.imgLists)
+                {
+                try { imgUrl = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                catch { }
+
+                <li>
+                    <img src="@imgUrl" style="width: 100%;" />
+                </li>
+                }
+                }
+            </ul>
+        </div> <!--.images-->
+    </div> <!--.mobilepd-->
+</section>
+
+<section class="pdtDetail">
+    <h3 class="sr-only sr-only-focusable">@pdtTitle</h3>
+
+    <div class="mobilepd">
+        <h4 class="sr-only sr-only-focusable">상품 정보</h4>
+        <div class="pdinfo">
+            <h5 class="sr-only sr-only-focusable">간단 정보</h5>
+            <ul>
+                <li class="city">
+                    <h4>여행도시</h4>
+                    <p>@tourCity</p>
+                </li> <!--.city-->
+                <li class="time">
+                    <h4>여행 일정</h4>
+                    <p class="daysTxt">@daysTxt</p>
+                    <p class="tourPlan">
+                        -
+                    </p>
+                </li> <!--.time-->
+                <li class="planner">
+                    <h4>담당자</h4>
+                    <p>
+                        @empName | @empTel<br />
+                        @empMail
+                    </p>
+                </li> <!--.planner-->
+            </ul>
+        </div> <!--.pdinfo-->
+
+        <div class="pddetail">
+            <h5 class="sr-only sr-only-focusable">상세 정보</h5>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs menu" role="tablist">
+                <li role="presentation" class="active"><a href="#chkLists" aria-controls="chkLists" role="tab" data-toggle="tab">체크리스트</a></li>
+                <li role="presentation"><a href="#schedule" aria-controls="schedule" role="tab" data-toggle="tab">여행 일정</a></li>
+                <li role="presentation"><a href="#reviews" aria-controls="reviews" role="tab" data-toggle="tab">리뷰</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="chkLists">
+
+                    <h6 class="conTit">예약 진행 과정</h6>
+                    <img src="~/Content/Images/Products/views/procData.jpg" />
+                    @if (!string.IsNullOrEmpty(pdtSch2) && !pdtSch2.Equals("<p>&nbsp;</p>"))
+                    {
+                    pdtSch2 = pdtSch2.Replace("&nbsp;", "");
+
+                    <h6 class="conTit">특전</h6>
+                    @MvcHtmlString.Create(pdtSch2)
+                    @*@MvcHtmlString.Create(Regex.Replace(pdtSch2, @"[^a-z0-9A-Z가-힣ㄱ-ㅎㅏ-ㅣ!.*,()%￥+:~/ \\<>=#?&;\[\]_\-\']", "●"))*@
+                    }
+
+                    @*@if (!string.IsNullOrEmpty(pdtSch0) && !pdtSch0.Equals("<p>&nbsp;</p>") && false)
+                    {
+                    <h6 class="conTit">예약 진행 과정</h6>
+                    @MvcHtmlString.Create(pdtSch0)
+                    @MvcHtmlString.Create(Regex.Replace(pdtSch0, @"[^a-z0-9A-Z가-힣ㄱ-ㅎㅏ-ㅣ.,()%￥+:~/ <>=#?&;\[\]_-]", "●"))
+                    }*@
+
+                    @if (!string.IsNullOrEmpty(pdtSch3) && !pdtSch3.Equals("<p>&nbsp;</p>"))
+                    {
+                    pdtSch3 = pdtSch3.Replace("&nbsp;", "");
+
+                    <h6 class="conTit">포함 사항</h6>
+                    @MvcHtmlString.Create(pdtSch3)
+                    @*@MvcHtmlString.Create(Regex.Replace(pdtSch3, @"[^a-z0-9A-Z가-힣ㄱ-ㅎㅏ-ㅣ!.*,()%￥+:~/ \\<>=#?&;\[\]_\-\']", "●"))*@
+                    }
+
+                    @if (!string.IsNullOrEmpty(pdtSch4) && !pdtSch4.Equals("<p>&nbsp;</p>"))
+                    {
+                    pdtSch4 = pdtSch4.Replace("&nbsp;", "");
+
+                    <h6 class="conTit">불포함 사항</h6>
+                    @MvcHtmlString.Create(pdtSch4)
+                    @*@MvcHtmlString.Create(Regex.Replace(pdtSch4, @"[^a-z0-9A-Z가-힣ㄱ-ㅎㅏ-ㅣ!.*,()%￥+:~/ \\<>=#?&;\[\]_\-\']", "●"))*@
+                    }
+
+                    @if (!string.IsNullOrEmpty(pdtSch1) && !pdtSch1.Equals("<p>&nbsp;</p>"))
+                    {
+                    pdtSch1 = pdtSch1.Replace("&nbsp;", "");
+
+                    <h6 class="conTit">확인 사항</h6>
+                    @MvcHtmlString.Create(pdtSch1)
+                    @*@MvcHtmlString.Create(Regex.Replace(pdtSch1, @"[^a-z0-9A-Z가-힣ㄱ-ㅎㅏ-ㅣ!.*,()%￥+:~/ \\<>=#?&;\[\]_\-\']", "●"))*@
+                    }
+
+                    @if (!string.IsNullOrEmpty(pdtSch5) && !pdtSch5.Equals("<p>&nbsp;</p>"))
+                    {
+                    pdtSch5 = pdtSch5.Replace("&nbsp;", "");
+
+                    <h6 class="conTit">취소 수수료</h6>
+                    @MvcHtmlString.Create(pdtSch5)
+                    @*@MvcHtmlString.Create(Regex.Replace(pdtSch5, @"[^a-z0-9A-Z가-힣ㄱ-ㅎㅏ-ㅣ!.*,()%￥+:~/ \\<>=#?&;\[\]_\-\']", "●"))*@
+                    }
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="schedule">
+                    @{
+                    string scheduleTxt = "";
+
+                    scheduleTxt = pdtSch6.Replace("&nbsp;", "");
+
+                    if (string.IsNullOrEmpty(scheduleTxt.Trim()))
+                    {
+                    scheduleTxt = pdtSchCont.Replace("&nbsp;", "");
+                    }
+                    }
+
+                    @MvcHtmlString.Create(scheduleTxt)
+                    @*@MvcHtmlString.Create(Regex.Replace(pdtSchCont, @"[^a-z0-9A-Z가-힣ㄱ-ㅎㅏ-ㅣ!.*,()%￥+:~/ \\<>=#?&;\[\]_\-\']", "●"))*@
+                </div>
+                <div role="tabpanel" class="tab-pane" id="reviews">
+                    <ul>
+                        @{
+                        int index = 0;
+
+                        string rvCont = "",
+                        rvStar = "",
+                        rvDate = "",
+                        rvName = "",
+                        rvMail = "";
+
+                        foreach (object item in rvData)
+                        {
+                        rvCont = "";
+                        rvStar = "";
+                        rvDate = "";
+                        rvName = "";
+                        rvMail = "";
+
+                        try { rvCont = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { rvStar = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { rvDate = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { rvName = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                        catch { }
+                        try { rvMail = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                        catch { }
+
+                        switch (rvStar)
+                        {
+                        case "5":
+                        rvStar = "★★★★★";
+                        break;
+                        case "4":
+                        rvStar = "★★★★";
+                        break;
+                        case "3":
+                        rvStar = "★★★";
+                        break;
+                        case "2":
+                        rvStar = "★★";
+                        break;
+                        case "1":
+                        rvStar = "★";
+                        break;
+                        }
+
+                        <li class="review">
+                            <div class="reviewview">
+                                <ul class="box1">
+                                    <li class="member">
+                                        <p class="id">@rvName</p>
+                                        <p class="date">@rvDate</p>
+                                    </li> <!--.member-->
+                                    <li class="content">
+                                        <div class="text">
+                                            @*@MvcHtmlString.Create(rvCont.Replace())*@
+                                            @{
+                                            string cont = rvCont;
+
+                                            try
+                                            {
+                                            cont = Regex.Replace(cont, @"\r\n|\n|\r", "<br />");
+                                            }
+                                            catch { }
+
+                                            @MvcHtmlString.Create(cont)
+                                            }
+                                        </div> <!--.text-->
+                                        @*<p class="moreview"><a href="#">더보기</a></p>*@
+                                    </li> <!--.content-->
+                                </ul> <!--.box1-->
+                            </div> <!--.reviewview-->
+                        </li> <!--.review-->
+                        index++;
+                        }
+
+                        if (index < 1)
+                        {
+                        <li class="noRv" style="line-height: 100px; text-align: center;">
+                            후기가 없습니다. 등록해주세요
+                        </li>
+                        }
+                        }
+                    </ul>
+
+                    <form name="rvForm" class="rvWriter" onsubmit="false;">
+                        <div class="write">
+                            <textarea name="rvCont" placeholder="리뷰를 작성해 주세요."></textarea>
+                            <p class="btn"><a href="#" class="rvSave" data-type="review">등록</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="bookingbox">
+    <a href="#" class="bookingbtn">예약하기</a>
+    <a href="/Community/Lists?type=qna" class="goqna">Q&A</a>
+</div> <!--.bookingbox-->
+<div class="booking_bg" style="display: none; position: fixed; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,.5); z-index: 1020"></div>
+<div class="bookingboxoption">
+
+    @using (Html.BeginForm("Reserve", "Products", FormMethod.Post, new { @class = "form-horizontal", role = "form", name = "reserveForm" }))
+    {
+    @Html.Hidden("trfCD")
+    @Html.Hidden("prcCD")
+    @Html.Hidden("pdtCode", pdtCode)
+    @Html.Hidden("pdtKey", pdtKey)
+    @Html.Hidden("inCnt", inCnt)
+    @Html.Hidden("empNo", empNo)
+
+    @Html.Hidden("APrice")
+    @Html.Hidden("CPrice")
+    @Html.Hidden("BPrice")
+
+    @Html.Hidden("user", userKey)
+
+    @Html.Hidden("inHotels")
+    @Html.Hidden("type", "pdt")
+
+    <p class="date">
+        <input type="text" name="revDate" id="datepicker" class="datepicker" placeholder="날짜선택하기" readonly="readonly" />
+    </p>
+    <div class="traffic">
+        <p>
+            옵션 : 날짜를 먼저 선택해 주세요.
+        </p>
+    </div>
+
+    if (isHtl)
+    {
+    <div class="hotel">
+        <p style='margin-top: 10px;'> 호텔 선택</p>
+    </div> <!--.option-->
+    }
+    @*<div class="dateselect">
+        <p class="back"><a href="#">이전달</a></p>
+        <p class="next"><a href="#">다음달</a></p>
+        <p class="calendar"></p>
+    </div>*@
+    <div class="people">
+        <p class="adult">
+            @{
+                string aTxt = "성인";
+
+                if ("NTBVP3183" == pdtCode)
+                {
+                    aTxt = "성인+ 소아";
+                }
+            }
+            <select name="adultCnt">
+                <option value="0">@aTxt</option>
+                <option value="1">@aTxt 1 명</option>
+                <option value="2">@aTxt 2 명</option>
+                <option value="3">@aTxt 3 명</option>
+                <option value="4">@aTxt 4 명</option>
+                <option value="5">@aTxt 5 명</option>
+                <option value="6">@aTxt 6 명</option>
+                <option value="7">@aTxt 7 명</option>
+                <option value="8">@aTxt 8 명</option>
+                <option value="9">@aTxt 9 명</option>
+            </select>
+            <span>@*만 2세 이상*@</span>
+        </p>
+        <p class="child" style="display: none;">
+            <select name="childCnt">
+                <option value="0">소아</option>
+                <option value="1">소아 1 명</option>
+                <option value="2">소아 2 명</option>
+                <option value="3">소아 3 명</option>
+                <option value="4">소아 4 명</option>
+                <option value="5">소아 5 명</option>
+                <option value="6">소아 6 명</option>
+                <option value="7">소아 7 명</option>
+                <option value="8">소아 8 명</option>
+                <option value="9">소아 9 명</option>
+            </select>
+            <span>@*만 2세 이상*@</span>
+        </p>
+        <p class="baby" style="display: none;">
+            <select name="babyCnt">
+                <option value="0">유아</option>
+                <option value="1">유아 1 명</option>
+                <option value="2">유아 2 명</option>
+                <option value="3">유아 3 명</option>
+                <option value="4">유아 4 명</option>
+                <option value="5">유아 5 명</option>
+                <option value="6">유아 6 명</option>
+                <option value="7">유아 7 명</option>
+                <option value="8">유아 8 명</option>
+                <option value="9">유아 9 명</option>
+            </select>
+            <span>@*만 2세 미만 / 무임(유류세 6,000원)*@</span>
+        </p>
+    </div> <!--.people-->
+    <div class="price">
+        <p class="allprice">0 <span>원</span></p>
+    </div> <!--.price-->
+    }
+</div> <!--.bookingboxobtion-->
+
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            e.target // newly activated tab
+            e.relatedTarget // previous active tab
+
+            $("li.content > div.text").each(function () {
+                var _this = $(this),
+                    parent = _this.parents("li.content");
+
+                if (_this.height() > 36) {
+                    parent.append('<p class="moreview"><a href="#">더보기</a></p>');
+                    _this.css({
+                        "overflow": "hidden",
+                        "display": "-webkit-box",
+                        "-webkit-line-clamp": "2"
+                    });
+                }
+            });
+        });
+
+        $("li.content").delegate("p.moreview > a", "click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this);
+
+            if (_this.text() == "더보기") {
+                _this.parents("li.content").find("div.text").css("-webkit-line-clamp", "initial");
+                _this.text("접기");
+            } else {
+                _this.parents("li.content").find("div.text").css("-webkit-line-clamp", "2");
+                _this.text("더보기");
+            }
+        });
+
+        var pdtSlider = $('.images ul').bxSlider({
+            controls: false,
+            auto: true,
+            mode: "horizontal",
+            minSlides: 1,
+            maxSlides: 1,
+            moveSlides: 1,
+            slideMargin: 10,
+            speed: 700,
+            pause: 10000,
+            pager: false,
+        });
+
+        $("a.bookingbtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var resView = $("div.bookingboxoption"),
+                bg = $("div.booking_bg");
+
+            if (resView.position().top == $(window).height()) {
+                bg.show();
+                resView.css("top", "auto").stop().animate({ bottom: 50 }, 500, function () { });
+            }
+            else {
+                var url = window.location.pathname + window.location.search;
+                url = encodeURIComponent(url);
+
+                if ("@user" == "") {
+                    alert("로그인을 하셔야 예약이 진행됩니다.");
+                    $("a.loginBtn").click();
+                    return;
+                }
+
+                var f = document.reserveForm,
+                    trf = f.trfCD,
+                    prc = f.prcCD;
+
+                if (trf.value == undefined || trf.value == "") {
+                    alert("교통을 선택해주세요.");
+                    return;
+                }
+
+                if (prc.value == undefined || prc.value == "") {
+                    alert("옵션을 선택해주세요.");
+                    return;
+                }
+
+                if ("@combine" == "Y") {
+                    if ($("input[name='inHotels']").val() == "" || $("input[name='inHotels']").val() == undefined) {
+                        alert("호텔을 선택해주세요.");
+                        return;
+                    }
+                }
+
+                $(this).attr("disabeld", true);
+
+                f.method = "post";
+                f.action = "/Reserve/agree";
+                f.submit();
+            }
+
+        });
+
+        $("div.booking_bg").on("click", function () {
+            var resView = $("div.bookingboxoption"),
+                bg = $("div.booking_bg");
+
+            resView.stop().animate({ top: "100%" }, 500, function () {
+                $(this).css("bottom", "auto"); bg.hide()
+            });
+        });
+
+        var dates = "@DateData";
+        var minDate = new Date();
+
+        getOptions();
+
+        function getDate() {
+            var url = "/Products/JSON_getDays";
+
+            var code = "@pdtCode",
+                key = "@pdtKey";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { code: code, key: key },
+                success: function (data) {
+                    dates = data;
+
+                    minDate = getFirstDate(dates);
+
+                    $("#datepicker").datepicker("destroy");
+                    $("#datepicker").datepicker({
+                        dateFormat: 'yy-mm-dd',
+                        prevText: '이전',
+                        nextText: '이후',
+                        monthNames: ['01. January', '02. February', '03. March', '04. April', '05. May', '06. June', '07. July', '08. August', '09. September', '10. October', '11. November', '12. December'],
+                        monthNamesShort: ['01.', '02.', '03.', '04.', '05.', '06.', '07.', '08.', '09.', '10.', '11.', '12.'],
+                        dayNames: ['sun', 'mon', 'tue', 'wed', 'thr', 'fri', 'sat'],
+                        dayNamesShort: ['sun', 'mon', 'tue', 'wed', 'thr', 'fri', 'sat'],
+                        dayNamesMin: ['sun', 'mon', 'tue', 'wed', 'thr', 'fri', 'sat'],
+                        showMonthAfterYear: true,
+                        yearSuffix: '',
+                        autoSize: true,
+                        numberOfMonths: 1,
+                        firstDay: 0,
+                        minDate: minDate,
+                        defaultDate: minDate,
+                        beforeShowDay: selectableDays,
+                        constrainInput: false,
+                        onSelect: function (dateText, inst) {
+                            resetOptions();
+
+                            $("input#revDate").val(inst.selectedYear.toString() + '-' + zeroNum((inst.selectedMonth + 1).toString()) + '-' + zeroNum(inst.selectedDay.toString()));
+
+                            //getPrc(code, key, inst.selectedYear.toString() + '-' + zeroNum((inst.selectedMonth + 1).toString()) + '-' + zeroNum(inst.selectedDay.toString()));
+                            getSideOptions(inst.selectedYear.toString() + '-' + zeroNum((inst.selectedMonth + 1).toString()) + '-' + zeroNum(inst.selectedDay.toString()));
+
+                            getHotels(inst.selectedYear.toString() + '-' + zeroNum((inst.selectedMonth + 1).toString()) + '-' + zeroNum(inst.selectedDay.toString()));
+                        }
+                    });
+
+                    $("#datepicker td").not(".ui-state-disabled").eq(0).click();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        getDate();
+
+        function getOptions() {
+            var getTourDataUrl = "/Products/JSON_getTraffData";
+
+            var code = "@pdtCode",
+                key = "@pdtKey";
+
+            var datas = { code: code, key: key }
+
+            $.ajax({
+                type: "POST",
+                url: getTourDataUrl,
+                data: datas,
+                success: function (data) {
+                    var titleTxt = "",
+                        htmlTxt = "";
+
+                    for (var idx in data) {
+                        switch (data[idx].TRF_TYPE) {
+                            case "AIR":
+                            case "SHP":
+                                if (data[idx].TRF_SUB_SEQ == 1) {
+                                    htmlTxt += "";//"<hr />";
+                                    titleTxt = "출국편";
+                                }
+                                else if (data[idx].TRF_SUB_SEQ == 2) {
+                                    htmlTxt += "";
+                                    titleTxt = "귀국편";
+                                }
+                                $("input#trfCD").val(data[idx].TRF_SEQ).trigger("change");
+                                break;
+                            default:
+                                $("input#trfCD").val(data[idx].TRF_SEQ).trigger("change");
+                                break;
+                        }
+
+                        htmlTxt += "<span>" + titleTxt + " - " + data[idx].title + " [" + data[idx].TRF_TITLE + "] <br> " + data[idx].TRF_SAREA + " 출발 " + data[idx].TRF_STIME + " ~ " + data[idx].TRF_EAREA + " 도착 " + data[idx].TRF_ETIME + "</span><br />";
+
+                        var aTxt = "",
+                            cTxt = "",
+                            bTxt = "";
+
+                        switch (data[idx].title) {
+                            case "카멜리아":
+                                aTxt = "만 6세 이상";
+                                cTxt = "만 2세 ~ 만 6세";
+                                bTxt = "만 2세 미만";
+                                break;
+                            case "팬스타":
+                                aTxt = "만 3세 이상";
+                                cTxt = "";
+                                bTxt = "만 2세 이하";
+                                break;
+                            case "부관훼리":
+                                aTxt = "만 2세 이상";
+                                cTxt = "";
+                                bTxt = "만 2세 미만 / 무임(유류세 6,000원)";
+                                break;
+                            case "니나":
+                            case "코비":
+                            case "비틀":
+                            case "오션플라워":
+                                aTxt = "만 2세 이상";
+                                cTxt = "";
+                                bTxt = "만 2세 미만";
+                                break;
+                            default:
+                                aTxt = "만 12세 이상";
+                                cTxt = "만 2세 ~ 만 11세";
+                                bTxt = "만 2세 미만";
+                                break;
+                        }
+
+                        $("p.adult > span").text(aTxt);
+                        $("p.child > span").text(cTxt);
+                        $("p.baby > span").text(bTxt);
+                    }
+
+                    $("p.tourPlan").html(htmlTxt);
+                }
+            });
+        }
+
+        $("div.traffic").delegate("select[name=strfCD]", "change", function () {
+            var _this = $(this),
+                code = "@pdtCode",
+                key = "@pdtKey",
+                date = $("input[name=revDate]").val(),
+                trfCD = _this.val();
+
+            getPrc(code, key, date, trfCD);
+        });
+
+        function getSideOptions(date) {
+            var trfUrl = "/Products/JSON_getTrf";
+
+            var code = "@pdtCode",
+                key = "@pdtKey";
+
+            var trfHtml = "";
+
+            $("div.traffic").html("");
+            $("[name='revDate']").val(date);
+
+            $.ajax({
+                type: "POST",
+                url: trfUrl,
+                data: { code: code, key: key, date: date },
+                success: function (data) {
+                    if (data.length < 2) {
+                        for (var idx in data) {
+                            trfHtml = "";
+
+                            $("input[name=trfCD]").val(data[idx].TRF_SEQ).trigger("change");
+
+                            getPrc(code, key, date, data[idx].TRF_SEQ);
+                        }
+                    } else {
+                        trfHtml = "<p class='trfTxt'> 교통편 </p>" +
+                            "<select name='strfCD' class='option form-control'>" +
+                            "<option selected='selected' value=''>----교통편 선택----</option>";
+
+                        for (var idx in data) {
+                            trfHtml += "<option value='" + data[idx].TRF_SEQ + "'>" + data[idx].TRF_TITLE + " (출발 시간 : " + data[idx].TRF_STIME + " | 도착 시간 : " + data[idx].TRF_ETIME + ")</option>";
+
+                        }
+
+                        trfHtml += "</select>";
+                    }
+
+                    if ($("p.trfTxt").length > 0) {
+                        $("p.trfTxt").remove();
+                    }
+
+                    $("div.traffic").append(trfHtml);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        function getPrc(code, key, date, trfCD) {
+            var optionsUrl = "/Products/JSON_getPrc";
+
+            //var trfCD = $("input#trfCD").val();
+
+            var datas = { code: code, key: key, date: date, trfCD: trfCD };
+
+            $.ajax({
+                type: "POST",
+                url: optionsUrl,
+                data: datas,
+                success: function (data) {
+
+                    var optionsTxt = "",
+                        prcHtml = "";
+
+                    if (data.length < 2) {
+                        for (var idx in data) {
+                            $("input[name=prcCD]").val(data[idx].PRC_SEQ).trigger("change");
+
+                            var opTxt = "기본";
+
+                            if (data[idx].PRC_EXP != "") {
+                                opTxt = data[idx].PRC_EXP;
+                            }
+
+                            prcHtml = "";
+
+                            prcHtml = "<p class='prcTxt' style='margin-top: 10px;'> 옵션 : <span style='text-align: right;'>" + opTxt + "</span></p>";
+
+                            $("select[name=sprcCD]").remove();
+                        }
+                    } else {
+                        prcHtml = "<select name='sprcCD' class='option form-control'>" +
+                            "<option selected='selected' value=''>----옵션 선택----</option>";
+
+                        for (var idx in data) {
+                            prcHtml += "<option value='" + data[idx].PRC_SEQ + "'>" + data[idx].PRC_EXP + "</option>";
+                        }
+
+                        prcHtml += "</select>";
+
+                        $("select[name=sprcCD]").remove();
+                        $("input[name=prcCD]").val("");
+                        $("div.peoples > p").hide();
+                    }
+
+                    if ($("p.prcTxt").length > 0) {
+                        $("p.prcTxt").remove();
+                    }
+
+                    $("div.traffic").prepend(prcHtml);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        $("div.hotel").delegate("select", "change", function () {
+            var _this = $(this),
+                _option = _this.find("option:selected"),
+                inCnt = _option.attr('data-incnt');
+
+            if (inCnt > 1) {
+                if (confirm("해당 호텔은 " + inCnt + "박 호텔입니다. \n선택하시겠습니까?")) {
+                    for (i = 1; i < inCnt; i++) {
+                        $($("div.hotel select")[i]).val(_option.val());
+                    }
+                }
+                else {
+                }
+            }
+            else {
+            }
+        })
+
+        function getHotels(date) {
+            var url = "/Products/JSON_getHotels";
+
+            var code = "@pdtCode",
+                key = "@pdtKey";
+
+            var datas = { code: code, key: key, date: date }
+
+            $("div.hotel").html("");
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var tempIn = "1";
+
+                    var html = "<p>" +
+                        "<select class='form-control' name='htl[]'>" +
+                        "<option value=''>" + tempIn + "박 호텔</option>";
+
+                    for (i in data) {
+
+                        if (data[i].PDT_IN != tempIn) {
+                            tempIn = data[i].PDT_IN;
+
+                            html += "</select>" +
+                                "</p>" +
+                                "<p>" +
+                                "<select class='form-control' name='htl[]'>" +
+                                "<option value=''>" + tempIn + "박 호텔</option>";
+                        }
+
+                        html += "<option value='" + data[i].PDT_HTL_SEQ + "' data-inCnt='" + data[i].inCnt + "'>" + data[i].HTL_NAME + "</option>";
+                    }
+
+                    html += "</select>" +
+                        "</p>" +
+                        "<span style='color: red;'>※ 기본 더블 룸 (2인 1실) 기준</span>";
+
+                    $("div.hotel").append(html);
+                }
+            });
+        }
+
+        $("div.traffic").delegate("select", "change", function () {
+            var _this = $(this),
+                value = _this.val();
+
+            if (_this.attr("name") == "sprcCD") {
+                $("input[name='prcCD']").val(value).trigger("change");
+            }
+            else if (_this.attr("name") == "strfCD") {
+                $("input[name='trfCD']").val(value).trigger("change");
+            }
+        });
+
+        if ("@combine" == "Y") {
+            $("div.hotel").delegate("select", "change", function () {
+                var x = 0,
+                    hSeq = "";
+
+                $("div.hotel select").each(function () {
+                    var _this = $(this);
+
+                    hSeq += _this.val() + ", ";
+
+                    if (_this.val() == "")
+                        x++;
+                });
+
+                if (x < 1) {
+                    $("#inHotels").val(hSeq);
+                    getPriceData();
+                }
+            });
+
+            $("input[name=trfCD], input[name=prcCD]").on("change", function () {
+                var chkHtl = $("div.hotel select").find("option:selected").not(function (e) {
+                    if ($(this).val() == "") {
+                        return true;
+                    }
+                });
+
+                if (chkHtl.length == $("div.hotel select").length) {
+                    getPriceData();
+                }
+            });
+        }
+        else {
+            $("input[name=trfCD], input[name=prcCD]").on("change", function () {
+                getPriceData();
+            });
+        }
+
+        function getPriceData() {
+            var f = document.reserveForm,
+                trf = f.trfCD,
+                prc = f.prcCD;
+
+            if (trf.value != "" && prc.value != "") {
+                var url = "/Products/getPriceData";
+                var code = "@pdtCode",
+                    key = "@pdtKey",
+                    date = $("[name='revDate']").val();
+
+                var datas = { code: code, key: key, prcCode: prc.value, trfCode: trf.value, date: date };
+
+                if ("@combine" == "Y") {
+                    var inHotels = $("#inHotels").val();
+
+                    datas = { code: code, key: key, prcCode: prc.value, trfCode: trf.value, date: date, inHotels: inHotels };
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: datas,
+                    success: function (data) {
+                        var adult = $("select[name='adultCnt']").prev("span");
+                        var child = $("select[name='childCnt']").prev("span");
+                        var baby = $("select[name='babyCnt']").prev("span");
+
+                        adult.text(data[0].APrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                        child.text(data[0].CPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                        baby.text(data[0].BPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+                        var f = document.reserveForm;
+
+                        f.APrice.value = data[0].APrice;
+                        f.CPrice.value = data[0].CPrice;
+                        f.BPrice.value = data[0].BPrice;
+                    }
+                    , beforeSend: function () {
+                        $('#loading').show();
+                    }
+                    , complete: function () {
+                        $('#loading').hide();
+                        $("section.pdtDetail > aside div.peoples > p").show();
+
+                        setCntPrice();
+                    }
+                });
+            }
+        }
+
+        $("div.people").delegate("select", "change", function () {
+            setCntPrice();
+        });
+
+        function setCntPrice() {
+            var aCnt = $("select[name=adultCnt]").val(),
+                cCnt = $("select[name=childCnt]").val(),
+                bCnt = $("select[name=babyCnt]").val();
+
+            var aPrice = aCnt * $("input#APrice").val(),
+                cPrice = cCnt * $("input#CPrice").val(),
+                bPrice = bCnt * $("input#BPrice").val(),
+                totalPrice = aPrice + bPrice + cPrice;
+
+            if ($("input#APrice").val() == undefined || $("input#APrice").val() == null || $("input#APrice").val() == 0) {
+                alert("여행 날짜를 선택해 주세요.");
+                return;
+            }
+
+            if ($("input#CPrice").val() != "0") {
+                $("select[name=childCnt]").parent().show();
+            }
+
+            if ($("input#BPrice").val() != "0") {
+                $("select[name=babyCnt]").parent().show();
+            }
+
+            if ("@combine" == "Y") {
+                $("div.peoples select").not("[name=adultCnt]").parents("p").hide();
+            }
+
+            $("p.allprice").html(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " <span>원</span>");
+        }
+
+        function resetOptions() {
+            var f = document.reserveForm;
+
+            f.trfCD.value = "";
+            f.prcCD.value = "";
+
+            $("select[name=adultCnt]").val(1),
+            $("select[name=childCnt]").val(0),
+            $("select[name=babyCnt]").val(0);
+
+            $("div.peoples > p").hide();
+            $("p.allprice").text("0 원");
+        }
+
+        function getFirstDate(date) {
+            var nowDate = new Date();
+
+            var date1 = "",
+                abs = -1,
+                returnDate;
+
+            var days = 1;
+
+            switch (nowDate.getDay()) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    days = 2;
+                    break;
+                case 5:
+                    days = 4;
+                    break;
+                case 6:
+                    days = 3;
+                    break;
+            }
+
+            for (var i = 0; i < date.length; i++) {
+                date1 = new Date(date[i].day.replace(/-/g, '/'));
+
+                var str = (zeroNum(nowDate.getFullYear()) + "/" + zeroNum((nowDate.getMonth() + 1)) + "/" + zeroNum(nowDate.getDate()));
+
+                var nowDate2 = new Date(str);
+
+                nowDate2.setDate(nowDate2.getDate() + days);
+
+                returnDate = nowDate2;
+
+                if ((nowDate2.getTime() - date1.getTime()) < 0) {
+                    returnDate = date1;
+                    break;
+                }
+            }
+
+            return returnDate;
+        }
+
+        function zeroNum(num) {
+            var rNum = num;
+
+            if (rNum.length < 2) {
+                rNum = "0" + rNum
+            }
+
+            return rNum;
+        }
+
+        function selectableDays(date) {
+            var dayOfMonth = date.getDate();
+
+            var dummy = zeroNum(date.getFullYear().toString()) + "-" + zeroNum((date.getMonth() + 1).toString()) + "-" + zeroNum(date.getDate().toString());
+
+            var state = $.map(dates, function (obj) { return obj.state });
+            var arrayDays = $.map(dates, function (obj) { return obj.day });
+
+            var idx;
+
+            if ($.inArray(dummy, arrayDays) > -1) {
+                var className = "addClass";
+
+                idx = arrayDays.indexOf(dummy);
+
+                switch (state[idx]) {
+                    case "01":
+                        className += " st_grn";
+                        return [true, ""];
+                        break;
+                    case "02":
+                        className += " st_gry";
+                        break;
+                    case "03":
+                        className += " st_blu";
+                        break;
+                    case "04":
+                        className += " st_red";
+                        break;
+                    default:
+                        className = "";
+                        break;
+                }
+
+                return [true, className];
+            }
+
+            return [false, ""];
+        }
+
+        $("a.rvSave").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var url = window.location.pathname + window.location.search;
+
+            var type = $(this).attr("data-type");
+
+            var pCode = "@pdtCode",
+                pKey = "@pdtKey";
+
+            url = encodeURIComponent(url);
+
+            if ("@user" == "") {
+                alert("로그인을 하셔야 리뷰 등록이 진행됩니다.");
+                $("a.loginBtn").click();
+                return;
+            }
+
+            var txt = "";
+            var url = "/Products/JSON_udtReview";
+            var data = {};
+
+            switch (type) {
+                case "review":
+                    txt = "후기";
+                    cont = document.rvForm.rvCont.value;
+                    data = { pCode: pCode, pKey: pKey, cont: cont, type: type };
+                    break;
+                case "qna":
+                    txt = "문의";
+                    tit = document.askForm.askTit.value;
+                    cont = document.askForm.askCont.value;
+                    data = { pCode: pCode, pKey: pKey, cont: cont, type: type, title: tit };
+                    break;
+            }
+
+            if (cont == "") {
+                alert(txt + " 내용을 써주세요.");
+                return;
+            }
+
+            if (cont != "" && cont != undefined) {
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    success: function (rData) {
+                        alert(rData);
+                        location.reload();
+                    }
+                    , beforeSend: function () {
+                        $('#loading').show();
+                    }
+                    , complete: function () {
+                        $('#loading').hide();
+                    }
+                });
+            }
+        });
+    });
+</script>

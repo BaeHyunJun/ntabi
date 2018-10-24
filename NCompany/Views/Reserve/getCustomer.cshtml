@@ -1,0 +1,155 @@
+﻿@{
+    Layout = null;
+
+    string no = Request["no"];
+}
+
+<style>
+    ul.cuLists {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        max-height: 300px;
+        overflow: auto;
+    }
+
+    ul.cuLists li {
+        border: 1px solid #ddd;
+        padding: 8px;
+        margin-top: -1px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    ul.cuLists li span {
+        display: inline-block;
+        width: 200px;
+        float: right;
+    }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 664px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">고객 정보</h4>
+        </div>
+        <div class="modal-body">
+
+            <form name="getCustomer" method="post" style="border: 1px solid #ddd; padding: 8px;">
+                <div class="row" style="margin: 0;">
+                    <div class="form-group input-group" style="width: 250px; float: left; margin: 0;">
+                        <div class="input-group-addon">고객 명</div>
+                        <input type="text" class="form-control" maxlength="10" value="" name="name">
+                    </div>
+
+                    <div class="form-group input-group" style="width: 260px; float: left; margin: 0; margin-left: 10px;">
+                        <div class="input-group-addon">전화번호</div>
+                        <input type="text" class="form-control" maxlength="13" value="" name="tel">
+                    </div>
+
+                    <a class="btn btn-default" href="#" style="margin-left: 10px;">조회</a>
+                </div>
+            </form>
+
+            <ul class="cuLists">
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("form a.btn").on("click", function () {
+            var f = document.getCustomer,
+                name = f.name.value,
+                tel = f.tel.value,
+                url = "/Reserve/Json_getCustomer",
+                cuLists = $("ul.cuLists");
+
+            var datas = { name: name, tel: tel };
+
+            //$.post(url, datas, function (data) {
+            //    var html = "";
+
+            //    var code, name, first, last, mail, tel;
+
+            //    for (i in data) {
+            //        code    = data[i].code;
+            //        name    = data[i].name;
+            //        first   = data[i].first == null ? "" : data[i].first;
+            //        last    = data[i].last  == null ? "" : data[i].last;
+            //        mail    = data[i].mail  == null ? "" : data[i].mail;
+            //        tel     = data[i].tel   == null ? "" : data[i].tel;
+
+            //        html += "<li data-code='" + code + "' data-mail='" + mail + "' data-name='" + name + "' data-first='" + first + "' data-last='" + last + "' data-tel='" + tel + "'>" + name + "(" + last + " " + first + ")<span>전화번호 : " + tel + "</span></li>";
+            //    }
+
+            //    cuLists.html(html);
+            //});
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = "";
+
+                    var code, name, first, last, mail, tel;
+
+                    for (i in data) {
+                        code = data[i].code;
+                        name = data[i].name;
+                        first = data[i].first == null ? "" : data[i].first;
+                        last = data[i].last == null ? "" : data[i].last;
+                        mail = data[i].mail == null ? "" : data[i].mail;
+                        tel = data[i].tel == null ? "" : data[i].tel;
+
+                        html += "<li data-code='" + code + "' data-mail='" + mail + "' data-name='" + name + "' data-first='" + first + "' data-last='" + last + "' data-tel='" + tel + "'>" + name + "(" + last + " " + first + ")<span>전화번호 : " + tel + "</span></li>";
+                    }
+
+                    cuLists.html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("ul.cuLists").delegate("li", "click", function () {
+            var _this   = $(this),
+                code    = _this.attr("data-code"),
+                mail    = _this.attr("data-mail"),
+                name    = _this.attr("data-name"),
+                first   = _this.attr("data-first"),
+                last    = _this.attr("data-last"),
+                tel = _this.attr("data-tel");
+
+            var parentModal = $("div.detRev");
+
+            if (parentModal.length < 1)
+            {
+                $("ul.rcLists li.selected input[name=user]").val(code);
+                $("ul.rcLists li.selected input[name=cuName]").val(name);
+                $("ul.rcLists li.selected input[name=cuFirst]").val(first);
+                $("ul.rcLists li.selected input[name=cuLast]").val(last);
+                $("ul.rcLists li.selected input[name=cuTel]").val(tel);
+            }
+            else
+            {
+                $("div.detRev input[name=user]").val(code);
+                $("div.detRev input[name=cuName]").val(name);
+                $("div.detRev input[name=cuFirst]").val(first);
+                $("div.detRev input[name=cuLast]").val(last);
+                $("div.detRev input[name=cuMail]").val(mail);
+                $("div.detRev input[name=cuTel]").val(tel);
+            }
+
+            _this.parents(".modal").modal("hide");
+        });
+    });
+</script>

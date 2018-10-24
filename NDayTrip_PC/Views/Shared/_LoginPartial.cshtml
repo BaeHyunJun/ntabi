@@ -1,0 +1,37 @@
+﻿@using NDayTrip_PC.Models;
+
+@{
+    var user = Session["user"] as User;
+}
+
+@if (user != null)
+{
+    <li class="login">
+        @using (Html.BeginForm("LogOff", "Login", FormMethod.Post, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <a href="javascript:document.getElementById('logoutForm').submit()">
+                <h4>로그아웃</h4>
+            </a>
+        }
+    </li>
+    <li class="my">
+        <a href="/Mypage">
+            <h4>마이페이지</h4>
+        </a>
+    </li>
+}
+else
+{
+    <li class="login">
+        <a href="/Login" data-toggle="popup">
+            <h4>로그인</h4>
+        </a>
+    </li>
+    <li>
+        <a href="/Login/Membership">
+            <h4>회원 가입</h4>
+        </a>
+    </li>
+}

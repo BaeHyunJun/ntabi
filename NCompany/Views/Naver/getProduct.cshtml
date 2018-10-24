@@ -1,0 +1,186 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    ul.pdtLists {
+        padding: 0; 
+        margin: 0; 
+        list-style: none; 
+        max-height: 300px; 
+        overflow: auto;
+    }
+
+    ul.pdtLists li {
+        border: 1px solid #ddd; 
+        padding: 8px; 
+        margin-top: -1px; 
+        cursor: pointer
+    }
+</style>
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">상품 정보</h4>
+        </div>
+        <div class="modal-body">
+
+            <form name="getProduct" method="post" style="border: 1px solid #ddd; padding: 8px;">
+                <div class="row pdt" style="margin: 0;">
+                    <div class="form-group input-group" style="width: 188px; float: left; margin: 0;">
+                        <div class="input-group-addon">상품 구분</div>
+                        <select class="form-control" name="type">
+                            <option value="LT">현지투어</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group" style="width: 130px; float: left; margin: 0; margin-left: 21px;">
+                        <div class="input-group-addon">국가</div>
+                        <select class="form-control" name="nation">
+                            <option value="JP">일본</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group" style="width: 160px; float: left; margin: 0; margin-left: 21px;">
+                        <div class="input-group-addon">지역</div>
+                        <select class="form-control" name="area">
+                            <option value="">선택</option>
+                            <option value="KYU">@Html.Action("getAreaTxt", new { code = "KYU" })</option>
+                            <option value="TOK">@Html.Action("getAreaTxt", new { code = "TOK" })</option>
+                            <option value="OSA">@Html.Action("getAreaTxt", new { code = "OSA" })</option>
+                            <option value="HOK">@Html.Action("getAreaTxt", new { code = "HOK" })</option>
+                            <option value="TSU">@Html.Action("getAreaTxt", new { code = "TSU" })</option>
+                            <option value="OKI">@Html.Action("getAreaTxt", new { code = "OKI" })</option>
+                            <option value="NGY">@Html.Action("getAreaTxt", new { code = "NGY" })</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <ul class="pdtLists">
+        @{
+            string code = "",
+                   title = "",
+                   key = "";//,
+                   //imgPath = "",
+                   //Currency = "",
+                   //Price = "";
+                               
+            foreach(object item in Model)
+            {
+                code = "";
+                title = "";
+                key = "";
+                //imgPath = "";
+                //Currency = "";
+                //Price = "";
+
+                try { code = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+                try { title = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+                //try { imgPath = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+                //try { Currency = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+                //try { Price = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+                try { key = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+                            
+                <li data-code="@code" data-key="@key">@title</li>
+            }
+        }
+            </ul>
+
+        </div>
+        @*<div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">등록</button>
+        </div>*@
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("form[name='getProduct'] select").on("change", function () {
+            var f = document.getProduct,
+                type = f.type.value,
+                nation = f.nation.value,
+                area = f.area.value,
+                url = "/Reserve/Json_getProducts",
+                pdtLists = $("ul.pdtLists");
+
+            var datas = { type: type, nation: nation, area: area };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = "";
+
+                    for (i in data) {
+                        html += "<li data-code='" + data[i].code + "' data-key='" + data[i].key + "'>" + data[i].title + "</li>";
+                    }
+
+                    pdtLists.html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("ul.pdtLists").delegate("li", "click", function () {
+            var _this = $(this),
+                code = _this.attr("data-code"),
+                key = _this.attr("data-key"),
+                //imgPath = _this.attr("data-imgPath"),
+                //price = _this.attr("data-price"),
+                title = _this.text();
+
+            //$("input[name=id]").val(code);
+            //$("input[name=key]").val(key);
+            //$("input[name=image_link]").val(imgPath);
+            //$("input[name=price_pc]").val(price);
+            //$("input[name=price_mobile]").val(price);
+            //$("input[name=link]").val(price);
+            //$("input[name=mobile_link]").val(price);
+
+            //$("div.title input").val(title);
+
+            //_this.parents(".modal").modal("hide");
+
+            var url = "/naver/getPdtData",
+                datas = { code: code, key: key };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    $("input[name=id]").val(data[0].Code);
+                    $("input[name=title]").val(title);
+                    $("input[name=key]").val(data[0].key);
+                    $("input[name=image_link]").val(data[0].PDT_IMG);
+                    $("input[name=price_pc]").val(data[0].Price);
+                    $("input[name=price_mobile]").val(data[0].Price);
+                    $("input[name=link]").val(data[0].link);
+                    $("input[name=mobile_link]").val(data[0].mobile_link);
+                    $("input[name=category_name1]").val(data[0].category1);
+                    $("input[name=category_name2]").val(data[0].category2);
+                    $("input[name=category_name3]").val(data[0].category3);
+                    $("input[name=category_name4]").val(data[0].category4);
+
+                    $("div.title input").val(data[0].Code);
+
+                    _this.parents(".modal").modal("hide");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

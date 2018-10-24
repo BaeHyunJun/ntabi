@@ -1,0 +1,83 @@
+﻿
+/* 상품 리스트 */
+
+article .pro_top{width:100%; max-width:1920px;}
+article .pro_top img{width:100%; position:relative;}
+article .pro_top p{position:absolute; top:20%; left:25%; color:#ffffff; font-size:15px; text-align:left;}
+article .pro_top p span{font-size:40px;}
+
+article .pdtLists{width:58%; margin:0 auto; max-width:1100px;}
+article .pdtLists > ul {margin-top:50px;}
+article .pdtLists > ul > li {width:100%; overflow:hidden; margin-bottom:50px;}
+article .pdtLists > ul > li{width:31%; float:left; margin-left:3.5%; border:1px solid #959595; box-sizing:border-box;}
+article .pdtLists > ul > li:nth-child(3n+1){margin-left:0;}
+article .pdtLists > ul > li figure{position:relative; left:0; top:0; height:0; padding-bottom:75%; background-size:cover; margin:0;}
+article .pdtLists > ul > li figure div{width:60px; height:30px; position:absolute; left:10px; top:10px; color:#ffffff; background-color:#a0ce54; text-align:center; line-height:30px; font-weight:bold; letter-spacing:1px;}
+article .pdtLists > ul > li figcaption{position:relative; left:0; top:0; padding:10px; text-align:left; overflow:hidden;}
+article .pdtLists > ul > li figcaption h3{font-size:20px; line-height:30px; height:60px;overflow: hidden;}
+article .pdtLists > ul > li figcaption p{font-size:15px; line-height:25px; letter-spacing:-1px; font-weight:400; overflow: hidden; text-overflow: ellipsis;  white-space: nowrap;}
+article .pdtLists > ul > li figcaption span{font-size:15px; line-height:40px;}
+article .pdtLists > ul > li figcaption div{text-align:right; font-size:20px; font-weight:bold;}
+article .pdtLists > ul > li figcaption div span{color:#a0ce54; font-size:20px;}
+
+/* 상품 뷰 */
+
+article .product_img{width:100%; height:auto; margin:0 auto; max-width:1920px;}
+article .product_img img{width:100%; margin:0 auto; display:block;}
+
+
+article .con_box{width:1060px; max-width:1400px; overflow:hidden; margin:0 auto;}
+
+article .con_box .left_box{width:690px; max-width:910px; float:left; padding-right:20px; box-sizing:border-box;}
+article .con_box .right_box{width:370px; float:left; padding-left:20px; box-sizing:border-box;}
+
+article .con_box .left_box ul.pro_nav{overflow:hidden; border-bottom:1px solid #ebebeb;} 
+article .con_box .left_box ul.pro_nav li{float:left; width:100px; line-height:60px;}
+article .con_box .left_box h3{font-size:24px; font-weight:bold; height:auto; line-height:35px; padding:20px 0; box-sizing:border-box; border-top: 1px solid #ddd; margin: 30px 0 0;}
+article .con_box .left_box h3 span{font-size:16px; display: block;}
+article .con_box .left_box .price{width:100%; background-color:#ebebeb; line-height:60px; font-weight:bold; padding-left:10px; box-sizing:border-box; overflow:hidden;}
+article .con_box .left_box .price .te{float:left; margin-left:10px;} 
+article .con_box .left_box .price .te_r{float:right; margin-right:10px;}
+article .con_box .left_box .price div span{color:red;} 
+ 
+article .con_box .left_box .option_price{border:1px solid #a9d267; padding:10px; box-sizing:border-box;} 
+article .con_box .left_box .option_price .price01,article .con_box .left_box .option_price .price02{border-bottom:1px solid #ebebeb; overflow:hidden; font-size:15px;}
+article .con_box .left_box .option_price .price01 .te,article .con_box .left_box .option_price .price02 .te{float:left; line-height:50px; height:30px;}
+article .con_box .left_box .option_price .price01 .te_r,article .con_box .left_box .option_price .price02 .te_r{float:right; line-height:50px; height:30px;}
+article .con_box .left_box .option_price .btn{width:20%; margin-left:80%; height:50px; background-color:#a9d267; text-align:center; line-height:50px; color:#ffffff; margin-top:10px;}
+
+article .con_box .left_box .sheet{ box-sizing:border-box;}
+
+article .con_box .left_box .sheet h4{color:#83ad40; font-weight:bold; font-size:20px; line-height:60px;}
+
+article .con_box .left_box .sheet img { max-width: 100%; }
+
+article .con_box .left_box .sheet * { max-width: 670px !important; }
+
+article .con_box .left_box .review form { position: relative; }
+article .con_box .left_box .review form textarea { width: 77%; height: 100px; margin: 20px 0; padding: 10px; }
+article .con_box .left_box .review form select { position: absolute; right: 0; top: -15px; }
+article .con_box .left_box .review form a.rvSave { position: absolute; right: 0; bottom: 25px; width: 20%; top: 20px; padding: 0; line-height: 97px; background-color: #a0ce54; color: white; cursor: pointer;}
+
+article .con_box .left_box .review ul.rvLists > li { border-bottom: 1px dotted #ccc; padding: 10px 0; margin: 10px 0; text-align: right; }
+article .con_box .left_box .review ul.rvLists > li > span.point { float: left }
+article .con_box .left_box .review ul.rvLists > li > p { text-align: left; margin: 10px 0; }
+
+article .con_box .left_box .reserve_area {width:100%; margin:20px 0; border:1px solid #a9d267; padding:10px; box-sizing:border-box; overflow:hidden;}
+article .con_box .left_box .reserve_area div#datepicker {width:50%; float:left;} 
+article .con_box .left_box .reserve_area .date{width:35%; height:45px; border:1px solid #ebebeb; float:left; box-sizing:border-box;}
+article .con_box .left_box .reserve_area .option_peo{width:35%; height:45px; border:1px solid #ebebeb; float:left; margin-left:2%; box-sizing:border-box;} 
+article .con_box .left_box .reserve_area .but_re{width:26%; height:45px; border:none; background-color:#a0ce54; float:left; margin-left:2%; color:#ffffff; font-weight:bold;}
+
+article .con_box .right_box .sub_img{margin-top:60px; width:100%;}
+article .con_box .right_box .sub_img img{width:100%; border:none;}
+
+article .con_box .right_box .total_price{width:100%; border:1px solid #ebebeb; padding:10px; box-sizing:border-box; margin-top:20px;}
+article .con_box .right_box .total_price .price01{width:100%; overflow:hidden; border-bottom: 1px solid #ddd;}
+/*article .con_box .right_box .total_price .price02{height:60px;}*/
+article .con_box .right_box .total_price .price03{border-bottom:1px solid #ebebeb;}
+article .con_box .right_box .total_price .price01 .te{float:left; line-height:50px;}
+article .con_box .right_box .total_price .price01 .te_r{float:right; line-height:50px; font-weight:bold;}
+article .con_box .right_box .total_price .price02 .te_r{line-height:20px;}
+article .con_box .right_box .total_price .price03 .te_r{font-size:25px; color:red;}
+article .con_box .right_box .total_price .button.reserve_btn{width:40%; height:50px; background-color:#a0ce54; color:#ffffff; line-height:50px; text-align:center; margin-left:60%; margin-top:10px; cursor: pointer;}

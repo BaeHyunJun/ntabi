@@ -1,0 +1,306 @@
+﻿@using System.Globalization;
+
+@{
+    Layout = null;
+
+    string dateTxt = "";
+
+    dateTxt = DateTime.Now.ToString("yyyy년 MM월 dd일");
+
+    string out1 = "",
+           out2 = "";
+
+    var guideData = ViewBag.guide;
+
+    string SEQ          = "",
+           TITLE        = "",
+           DATE         = "",
+           AREA_CODE    = "",
+           EMP_NO       = "",
+           CAR_SEQ      = "",
+           DRIVER       = "",
+           NOTE         = "",
+           TYPE_CODE    = "",
+           selected     = "selected='selected'",
+           disabled     = "disabled='disabled'";
+
+    try
+    {
+        foreach(object item in Model)
+        {
+            SEQ = "";
+            TITLE = "";
+            DATE = "";
+            AREA_CODE = "";
+            EMP_NO = "";
+            CAR_SEQ = "";
+            DRIVER = "";
+            NOTE = "";
+        
+            try { SEQ       = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+            try { TITLE     = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+            try { DATE      = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+            try { AREA_CODE = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+            try { EMP_NO    = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+            try { CAR_SEQ   = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { continue; }
+            try { DRIVER    = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { continue; }
+            try { NOTE      = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { continue; }
+            try { TYPE_CODE = item.GetType().GetProperties()[8].GetValue(item, null).ToString().Trim(); } catch { continue; }
+
+            dateTxt = DateTime.ParseExact(DATE, "yyyyMMdd", CultureInfo.InvariantCulture).ToString("yyyy년 MM월 dd일");
+        }
+    }
+    catch (Exception e)
+    {
+        
+    }
+}
+
+<style>
+    input.date
+    {
+        background-color: white !important; 
+        cursor: pointer !important; 
+        text-align: right !important;
+    }
+</style>
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">행사 등록</h4>
+        </div>
+        <div class="modal-body">
+            @using (Html.BeginForm("ScheduleUpload", "Event", FormMethod.Post, new { enctype = "multipart/form-data", name = "srcForm" }))
+            {
+                <input type="hidden" name="csSeq" value="@SEQ" />
+                
+                <div class="row form-group" style="margin-bottom: 0;">
+                    <div class="form-group input-group col-md-12">
+                        <div class="input-group-addon">코스 제목</div>
+                        <input type="text" name="title" class="form-control" value="@TITLE" />
+                    </div>
+
+                    <div class="form-group input-group col-md-6">
+                        <div class="input-group-addon">출발일</div>
+                        <input type="text" class="form-control date datepicker" maxlength="10" name="sDay" value="@dateTxt" readonly="readonly" @if(!string.IsNullOrEmpty(TITLE)){ @disabled; } />
+                    </div>
+
+                    <div class="form-group input-group col-md-6">
+                        <div class="input-group-addon">지역 선택</div>
+                        <select name="area" class="form-control">
+                            <option value="HOK" @if (AREA_CODE == "HOK") { @selected }>홋카이도</option>
+                            <option value="OSA" @if (AREA_CODE == "OSA") { @selected }>오사카</option>
+                            <option value="TOK" @if (AREA_CODE == "TOK") { @selected }>도쿄</option>
+                            <option value="KYU" @if (AREA_CODE == "KYU") { @selected }>규슈</option>
+                            <option value="TSU" @if (AREA_CODE == "TSU") { @selected }>대마도</option>
+                            <option value="OKI" @if (AREA_CODE == "OKI") { @selected }>오키나와</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-addon">가이드</div>
+                        <select name="guide" class="form-control">
+                            @try
+                            {
+                                foreach (object item in guideData)
+                                {
+                                    out1 = "";
+                                    out2 = "";
+
+                                    try { out1 = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                                    catch { continue; }
+                                    try { out2 = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                                    catch { continue; }
+
+                                    if (DRIVER == out2)
+                                    {
+                                        DRIVER = "";
+                                    }
+
+                                    <option value="@out1" @if (EMP_NO == out1) { @selected }>@out2</option>
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-addon">차종</div>
+                        <select name="carType" class="form-control">
+                            <option value="">선택</option>
+                            <option value="LBS">대형 버스</option>
+                            <option value="MBS">중형 버스</option>
+                            <option value="SBS">소형 버스</option>
+                            <option value="14">14 인승</option>
+                            <option value="10">10 인승</option>
+                            <option value="8">8 인승</option>
+                            <option value="6">6 인승</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-md-4">
+                        <div class="input-group-addon">기사</div>
+                        <input type="text" name="driver" class="form-control" value="@DRIVER" />
+                    </div>
+
+                    <div class="form-group input-group col-md-12">
+                        <div class="input-group-addon">차량 선택</div>
+                        <select name="car" class="form-control">
+                            <option value="">선택</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group col-md-12">
+                        <div class="input-group-addon">특이 사항</div>
+                        <textarea name="note" class="form-control">@NOTE</textarea>
+                    </div>
+
+                    <p style="color: red; text-align: left; margin-left: 15px;">
+                        ※ 가이드가 직접 운전 하는 경우 운전 기사를 입력하지 않아도 됩니다. <br />
+                        ※ 배차가 되지 않은 차량의 경우 차량 정보는 입력하지 않아도 됩니다. <br />
+                        ※ 차량 및 가이드는 추후 변경 가능합니다.
+                    </p>
+                </div>
+            }
+        </div>
+        <div class="modal-footer" style="margin-top: 0;">
+            @if (!string.IsNullOrEmpty(SEQ))
+            {
+                <button type="button" class="btn btn-danger" id="removeBtn">삭제</button>
+            }
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">등록</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var minDate = new Date();
+
+        $("input.datepicker").datepicker({
+            dateFormat: 'yy년 mm월 dd일',
+            prevText: '이전',
+            nextText: '이후',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+            nowDate: minDate,
+        });
+
+        $("#removeBtn").on("click", function () {
+            var url = "/Car/removeCourse",
+                csSeq = $("input[name=csSeq]").val(),
+                date = $("input[name=sDay]").val();
+
+            var datas = { seq: csSeq, date: date };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    location.reload();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("#uptBtn").on("click", function () {
+            var url = "/Car/JSON_updateCourse",
+                csSeq = $(".modal input[name=csSeq]").val(),
+                guide = $(".modal select[name=guide]").val(),
+                driver = $(".modal input[name=driver]").val(),
+                title = $(".modal input[name=title]").val(),
+                date = $(".modal input[name=sDay]").val(),
+                car = $(".modal select[name=car]").val(),
+                note = $(".modal input[name=note]").val(),
+                area = $(".modal select[name=area]").val();
+
+            if (title == "") {
+                alert("코스 제목은 필수로 입력해주세요.");
+                $(".modal input[name=title]").focus();
+                return;
+            }
+
+            if (csSeq == "") {
+                csSeq = 0;
+            }
+
+            if (note == undefined) {
+                note = "";
+            }
+
+            var datas = { seq: csSeq, guide: guide, driver: driver, title: title, date: date, area: area, car: car, note: note };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    location.reload();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("select[name='carType']").on("change", function () {
+        //$("select[name='area'], select[name='carType']").on("change", function () {
+            var f = document.srcForm,
+                //area = f.area,
+                type = f.carType;
+
+            if (type.value == "") {
+            //if (area.value == "" || type.value == "") {
+                return;
+            }
+
+            var url = "/Car/JSON_getCar";
+            var datas = { type: type.value };
+            //var datas = { area: area.value, type: type.value };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].CAR_SEQ + '">' + data[i].CAR_NAME + ' (' + data[i].CAR_REG_NUM + ')</option>';
+                    }
+
+                    $("select[name='car']").html(html);
+                    $("select[name='car']").val("@CAR_SEQ");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("select[name='carType']").val("@TYPE_CODE").change();
+    });
+</script>

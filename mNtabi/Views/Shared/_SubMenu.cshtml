@@ -1,0 +1,517 @@
+﻿@{
+
+    string nat = Request["N"],
+           area = Request["A"],
+           type = Request["T"],
+           ssss = Request["S"],
+           areaTxt = "",
+           selectedMenu = "selected='selected'",
+           onMenu = "class=on";
+
+    if (string.IsNullOrEmpty(type))
+    {
+        type = "B";
+    }
+
+    switch (area)
+    {
+        case "OSA":
+            areaTxt = "오사카";//"OSAKA";
+            break;
+        case "FUK":
+            areaTxt = "규슈";//"FUKUOKA";
+            break;
+        case "TYO":
+            areaTxt = "동경";//"TOKYO";
+            break;
+        case "OKA":
+            areaTxt = "오키나와";//"OKINAWA";
+            break;
+        case "CTS":
+            areaTxt = "홋카이도";//"HOKKAIDO";
+            break;
+        case "TSM":
+            areaTxt = "대마도";//"TSUSHIMA";
+            break;
+        case "ETC":
+            areaTxt = "기타 지역";//"ETC";
+            break;
+        case "HKG":
+            areaTxt = "홍콩";//"HONG KONG";
+            break;
+        case "TPE":
+        case "TWN":
+            areaTxt = "대만";//"TAIWAN";
+            break;
+        case "SEA":
+            areaTxt = "SOUTH EAST ASIA";
+            break;
+        case "VEN":
+            areaTxt = "베트남";//"HAWAII";
+            break;
+        case "PNL":
+            areaTxt = "필리핀";//
+            break;
+        case "AME":
+            areaTxt = "미주";
+            break;
+        case "HNL":
+            areaTxt = "HAWAII";
+            break;
+        case "GSA":
+        case "GUM":
+            areaTxt = "괌/사이판";//"GUAM";
+            break;
+        default:
+            areaTxt = "NTABI";
+            break;
+    }
+
+    Dictionary<string, string> sideMenu = new Dictionary<string, string>();
+
+    sideMenu.Add("B", areaTxt + " 베스트");
+    sideMenu.Add("P", "패키지 여행");
+
+    if (area == "OSA" || area == "FUK")
+    {
+        sideMenu.Add("A", "항공 자유 여행");
+        sideMenu.Add("S", "선박 자유 여행");
+    }
+    else
+    {
+        sideMenu.Add("F", "자유 여행");
+    }
+
+    sideMenu.Add("L", "현지 투어");
+
+    string titImage = "";
+
+    switch (nat)
+    {
+        case "HK":                  // 동경 상품
+            titImage = "img_hongkongbest.jpg";
+
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_hongkongfree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_hongkongpackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_hongkongdaytour.jpg";
+                    break;
+            }
+            break;
+        case "TW":                  // 동경 상품
+            titImage = "img_taiwanbest.jpg";
+
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_taiwanfree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_taiwanpackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_taiwandaytour.jpg";
+                    break;
+            }
+            break;
+        case "VE":                  // 동경 상품
+            titImage = "img_vietnambest.jpg";
+
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_vietnamfree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_vietnampackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_vietnamdaytour.jpg";
+                    break;
+            }
+            break;
+        case "PH":                  // 동경 상품
+            titImage = "img_philippinebest.jpg";
+
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_philippinefree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_philippinepackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_philippinedaytour.jpg";
+                    break;
+            }
+            break;
+    }
+
+    switch (area)
+    {
+        case "TYO":                     // 동경 상품
+            titImage = "img_tokyobest.jpg";
+
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_tokyofree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_tokyopackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_tokyodaytour.jpg";
+                    break;
+            }
+            break;
+        case "OSA":                     // 오사카 상품
+            titImage = "img_osakabest.jpg";
+            switch (type)
+            {
+                case "A":               // 자유 항공 여행
+                    titImage = "img_osakaair.jpg";
+                    break;
+                case "S":               // 자유 선박 여행
+                    titImage = "img_osakaship.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_osakapackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_osakadaytour.jpg";
+                    break;
+            }
+            break;
+        case "FUK":                     // 큐슈 상품
+            titImage = "img_kyushubest.jpg";
+            switch (type)
+            {
+                case "A":               // 자유 항공 여행
+                    titImage = "img_kyushuair.jpg";
+                    break;
+                case "S":               // 자유 선박 여행
+                    titImage = "img_kyushuship.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_kyushupackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_kyushudaytour.jpg";
+                    break;
+            }
+            break;
+        case "OKA":                     // 오키나와 상품
+            titImage = "img_okinahwabest.jpg";
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_okinahwafree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_okinahwapackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_okinahwadaytour.jpg";
+                    break;
+            }
+            break;
+        case "CTS":                     // 홋카이도 상품
+            titImage = "img_hokkaidobest.jpg";
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_hokkaidofree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_hokkaidopackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_hokkaidodaytour.jpg";
+                    break;
+            }
+            break;
+        case "TSM":                     // 대마도 상품
+            titImage = "img_tsushimabest.jpg";
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_tsushimafree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_tsushimapackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_tsushimadaytour.jpg";
+                    break;
+            }
+            break;
+        case "ETC":                     // 기타 상품
+            titImage = "img_japanbest.jpg";
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_japanfree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_japanpackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_japandaytour.jpg";
+                    break;
+            }
+            break;
+        case "HAW":                     // 기타 상품
+            titImage = "img_hawaiibest.jpg";
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_hawaiifree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_hawaiipackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_hawaiidaytour.jpg";
+                    break;
+            }
+            break;
+        case "GSA":                     // 기타 상품
+            titImage = "img_guamsaipanbest.jpg";
+            switch (type)
+            {
+                case "F":               // 자유 여행
+                    titImage = "img_guamsaipanfree.jpg";
+                    break;
+                case "P":               // 패키지 여행
+                    titImage = "img_guamsaipanpackage.jpg";
+                    break;
+                case "L":               // 현지 투어
+                    titImage = "img_guamsaipandaytour.jpg";
+                    break;
+            }
+            break;
+        default:
+            titImage = "img_kyushuship.jpg";
+            break;
+    }
+
+    switch (ssss)
+    {
+        case "PK":                     // 기타 상품
+        case "CA":                     // 기타 상품
+            titImage = "img_kyushuship.jpg";
+            break;                 // 기타 상품
+        case "PA":                     // 기타 상품
+            titImage = "img_osakaship.jpg";
+            break;
+        case "NN":
+        case "BE":                     // 기타 상품
+            titImage = "img_tsushimafree.jpg";
+            break;
+    }
+
+
+    switch (area)
+    {
+        case "TYO":                     // 동경 상품
+            titImage = "img_pdlist_tokyo.jpg";
+            break;
+        case "OSA":                     // 오사카 상품
+            titImage = "img_pdlist_osaka.jpg";
+            break;
+        case "FUK":
+        case "KYU":                     // 큐슈 상품
+            titImage = "img_pdlist_kyushu.jpg";
+            break;
+        case "OKA":                     // 오키나와 상품
+            titImage = "img_pdlist_okinawa.jpg";
+            break;
+        case "CTS":                     // 홋카이도 상품
+            titImage = "img_pdlist_hokkaido.jpg";
+            break;
+        case "TSM":                     // 대마도 상품
+            titImage = "img_pdlist_tsushima.jpg";
+            break;
+        case "ETC":                     // 기타 상품
+            titImage = "img_pdlist_andothers.jpg";
+            break;
+        case "KMC":                     // 기타 상품
+            titImage = "img_pdlist_russia.jpg";
+            break;
+        case "MNG":                     // 기타 상품
+            titImage = "img_pdlist_mongolia.jpg";
+            break;
+    }
+
+    switch (ssss)
+    {
+        case "PK":                     // 기타 상품
+            titImage = "img_pdlist_pukwan.jpg";
+            break;
+        case "CA":                     // 기타 상품
+            titImage = "img_pdlist_camellia.jpg";
+            break;
+        case "NN":                     // 기타 상품
+            titImage = "img_pdlist_nina.jpg";
+            break;
+        case "PA":                     // 기타 상품
+            titImage = "img_pdlist_panstar.jpg";
+            break;
+        case "BE":                     // 기타 상품
+            titImage = "img_pdlist_beetle.jpg";
+            break;
+        case "TSM":                     // 대마도 상품
+            titImage = "img_pdlist_tsushima.jpg";
+            break;
+    }
+}
+
+<h3 class="sr-only sr-only-focusable">@areaTxt</h3>
+
+@*@if (nat == "JP")
+    {*@
+<section class="pdimages" style="background-size: 100%; background-image:url('/Content/Images/Products/best/@titImage')">
+    <h4 class="sr-only sr-only-focusable">@areaTxt 타이틀</h4>
+</section>
+
+<div class="selectbox">
+
+    <div class="pdlistMenu">
+        @if (string.IsNullOrEmpty(ssss))
+        {
+            <ul>
+                <li @{if ("TYO" == area) { @onMenu  }}><a href="./Lists?N=JP&A=TYO&T=@type">동경</a></li>
+                <li @{if ("OSA" == area) { @onMenu  }}><a href="./Lists?N=JP&A=OSA&T=@type">오사카</a></li>
+                <li @{if ("KYU" == area) { @onMenu  }}><a href="./Lists?N=JP&A=KYU&T=@type">규슈</a></li>
+                <li @{if ("OKA" == area) { @onMenu  }}><a href="./Lists?N=JP&A=OKA&T=@type">오키나와</a></li>
+                <li @{if ("CTS" == area) { @onMenu  }}><a href="./Lists?N=JP&A=CTS&T=@type">훗카이도</a></li>
+                @if (type != "A")
+                {
+                    <li @{if ("TSM" == area) { @onMenu  }}><a href="./Lists?N=JP&A=TSM&T=@type">대마도</a></li>
+                }
+
+                @if (type == "P")
+                {
+                    <li @{if ("MNG" == area) { @onMenu }}><a href="./Lists?N=MN&A=MNG&T=@type">몽골</a></li>
+                }
+                <li @{if ("ETC" == area) { @onMenu  }}><a href="./Lists?N=JP&A=ETC&T=@type">기타지역</a></li>
+            </ul> <!--.japanCity-->
+        }
+        else
+        {
+            <ul class="ship">
+                <li @{if ("PK" == ssss) { @onMenu  }}><a href="./Lists?N=JP&T=S&S=PK">부관훼리</a></li>
+                <li @{if ("CA" == ssss) { @onMenu  }}><a href="./Lists?N=JP&T=S&S=CA">카멜리아</a></li>
+                <li @{if ("BE" == ssss) { @onMenu  }}><a href="./Lists?N=JP&T=S&S=BE">비틀</a></li>
+                <li @{if ("PA" == ssss) { @onMenu  }}><a href="./Lists?N=JP&T=S&S=PA">팬스타</a></li>
+                <li @{if ("TSM" == ssss) { @onMenu  }}><a href="./Lists?N=JP&A=TSM&T=F&S=TSM">대마도</a></li>
+            </ul> <!--.ship-->
+        }
+
+    </div> <!--.pdlistMenu-->
+    @*<div class="select01" style="width: 100%;">
+            <select id="select_japan" name="JapanCity" title="select japancity">
+            @if (string.IsNullOrEmpty(ssss))
+            {
+                <option value="TYO" @{if ("TYO" == area) { @selectedMenu }}>동경</option>
+                <option value="OSA" @{if ("OSA" == area) { @selectedMenu }}>오사카</option>
+                <option value="FUK" @{if ("FUK" == area) { @selectedMenu }}>규슈</option>
+                <option value="OKA" @{if ("OKA" == area) { @selectedMenu }}>오키나와</option>
+                <option value="CTS" @{if ("CTS" == area) { @selectedMenu }}>홋카이도</option>
+                if (type != "A")
+                {
+                <option value="TSM" @{if ("TSM" == area) { @selectedMenu }}>대마도</option>
+                }
+
+                if (type == "P")
+                {
+                <option value="KMC" @{if ("KMC" == area) { @selectedMenu }}>러시아</option>
+                }
+                <option value="ETC" @{if ("ETC" == area) { @selectedMenu }}>기타지역</option>
+            }
+            else
+            {
+                <option value="PK" @{if ("PK" == ssss) { @selectedMenu }}>부관훼리</option>
+                <option value="CA" @{if ("CA" == ssss) { @selectedMenu }}>카멜리아</option>
+                <option value="BE" @{if ("BE" == ssss) { @selectedMenu }}>비틀</option>
+                <option value="PA" @{if ("PA" == ssss) { @selectedMenu }}>팬스타</option>
+                <option value="TSM" @{if ("TSM" == ssss) { @selectedMenu }}>대마도</option>
+            }
+            </select> <!--.select_japan-->
+        </div> <!--.select01-->
+        <div class="select02" style="display: none;">
+            <select id="select_pdlist" name="pdList" title="select pdlist">
+                <option selected="selected">여행 분류</option>
+                @{
+                    foreach (var items in sideMenu)
+                    {
+                        <option value="@items.Key" @{if (items.Key == type) { @selectedMenu  }}>
+                            @items.Value
+                        </option>
+                    }
+                }
+            </select> <!--.select_japan-->
+        </div> <!--.select01-->*@
+</div>
+
+@if (string.IsNullOrEmpty(ssss))
+{
+    <script>
+        $("select#select_japan").on("change", function () {
+            var _this = $(this);
+
+            location.href = "./Lists?N=@nat&A=" + _this.val() + "&T=@type";
+        });
+
+        $("select#select_pdlist").on("change", function () {
+            var _this = $(this);
+
+            location.href = "./Lists?N=@nat&A=@area&T=" + _this.val();
+        });
+    </script>
+}
+else
+{
+    <script>
+            $("select#select_japan").on("change", function () {
+                var _this = $(this);
+
+                if (_this.val() == "TSM")
+                {
+                    location.href = "./Lists?N=@nat&A=" + _this.val() + "&T=F&S=" + _this.val();
+                    return;
+                }
+
+                location.href = "./Lists?N=@nat&T=@type&S=" + _this.val();
+            });
+    </script>
+
+}
+@*<section class="selecttype">
+        <h4 class="sr-only sr-only-focusable">사이드 메뉴</h4>
+        <ul>
+            @{
+                foreach (var items in sideMenu)
+                {
+                    <li class="@{if (items.Key == type) { @selectedMenu }}">
+                        <a href="./Lists?N=@nat&A=@area&T=@items.Key">
+                            <h5>@items.Value</h5>
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </section>*@
+@*}
+    else
+    {
+
+    }*@

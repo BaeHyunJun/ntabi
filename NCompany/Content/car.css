@@ -1,0 +1,93 @@
+﻿input.date
+{
+    background-color: white !important; 
+    cursor: pointer !important; 
+    text-align: right !important;
+}
+
+section.car .boxline
+{
+    border: 1px solid #ddd; 
+    padding: 10px; 
+    position: relative
+}
+
+section.car > article > form .form-group
+{
+    margin-bottom: 0;
+}
+
+section.car div.layerBG
+{
+    position: absolute; 
+    left: 0; 
+    top: 0; 
+    right: 0; 
+    bottom: 0; 
+    z-index: 1; 
+    background: rgba(0, 0, 0, 0.3);
+}
+
+section.car div.layerBG > p
+{
+    position: absolute; 
+    z-index: 9; 
+    background: white; 
+    width: 300px; 
+    text-align: center; 
+    left: 50%; 
+    top: 50%; 
+    margin: 0; 
+    margin-left: -150px; 
+    margin-top: -75px; 
+    color: red; 
+    border-radius: 15px; 
+    border: 1px solid black;
+    padding: 45px 0;
+}
+
+section.car a.uploadImg
+{
+    border: 1px solid #ddd; 
+    display: inline-block; 
+    position: relative; 
+    margin-bottom: 10px;
+}
+
+section.car form.schForm
+{
+    /*width: 500px;*/ 
+    text-align: center; 
+    height: 100%; 
+    display: inline-block; 
+    margin: 0;
+    border-right: 1px solid #ddd;
+    padding-right: 15px;
+    padding-top: 15px;
+}
+
+section.car form.csForm
+{
+    width: 400px;
+    text-align: center; 
+    height: 100%; 
+    display: inline-block; 
+    margin: 0;
+    border-right: 1px solid #ddd;
+    padding-right: 15px;
+    float: left;
+}
+
+section.car form.schForm > div
+{
+    width: 60%; 
+    margin: 0 auto; 
+    margin-top: 10px; 
+    padding: 0;
+    overflow: hidden;
+}
+
+section.car form.schForm > div > select
+{
+    width: 47%;
+}

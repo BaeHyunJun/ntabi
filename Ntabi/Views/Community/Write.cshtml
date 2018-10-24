@@ -1,0 +1,650 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var type = Request["t"];
+
+    if (string.IsNullOrEmpty(type))
+    {
+        type = "notice";
+    }
+
+    string typeTxt = "";
+
+    switch (type)
+    {
+        case "notice":
+            typeTxt = "공지 사항";
+            break;
+        case "qna":
+            typeTxt = "질문과 답변";
+            break;
+        case "review":
+            typeTxt = "고객리뷰";
+            break;
+        case "customer":
+            typeTxt = "맞춤여행문의";
+            break;
+    }
+}
+
+<style>
+    div#container > article > section.board {
+        padding-top: 10px;
+    }
+
+    section.board > h3 {
+        font-size: 14px;
+        font-weight: normal;
+        color: #2a2a2a;
+    }
+
+    section.board form div.select {
+        margin-top: 20px;
+        padding: 0 10px;
+    }
+
+        section.board form div.select ul {
+            padding: 0;
+            margin: 0;
+        }
+
+            section.board form div.select ul:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+
+        section.board form div.select li {
+            float: left;
+            width: 18%;
+        }
+
+            section.board form div.select li#select_box01 {
+                margin-right: 2%;
+            }
+
+            section.board form div.select li#select_box02 {
+                margin-right: 2%;
+            }
+
+            section.board form div.select li#select_box03 {
+            }
+
+            section.board form div.select li#select_box04 {
+                float: right;
+                width: 13%;
+                margin-left: 1%;
+            }
+
+            section.board form div.select li#select_box05 {
+                float: right;
+                width: 13%;
+            }
+
+            section.board form div.select li#select_box06 {
+                float: right;
+                width: 13%;
+            }
+
+            section.board form div.select li label {
+                float: left;
+                margin-top: 4px;
+                text-align: right;
+                letter-spacing: 2px;
+                font-size: 13px;
+            }
+
+            section.board form div.select li select {
+                width: 100%;
+                padding: 2px 5px;
+                border: 0;
+                border-bottom: 1px solid #ddd;
+                background-color: inherit;
+            }
+
+            section.board form div.select li#select_box04 select {
+                float: right;
+                width: 90%;
+            }
+
+            section.board form div.select li#select_box05 select {
+                float: right;
+                width: 90%;
+            }
+
+            section.board form div.select li#select_box06 select {
+                float: right;
+                width: 90%;
+            }
+
+    section.board p#date {
+        float: right;
+        margin: 10px 0;
+        padding-right: 10px;
+    }
+
+        section.board p#date label {
+            margin-bottom: 0;
+            font-size: 13px;
+            font-weight: normal;
+        }
+
+            section.board p#date label input {
+                width: 200px;
+                margin-left: 10px;
+                padding: 2px 5px;
+                border: 0;
+                border-bottom: 1px solid #ddd;
+                text-align: center;
+                background-color: inherit;
+            }
+
+    div.ui-datepicker {
+        top: 25% !important;
+        right: 0 !important;
+        width: 266px;
+        height: 320px;
+        margin-left: -133px;
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        background-color: #f9f9f9;
+    }
+
+        div.ui-datepicker div.ui-datepicker-header {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            padding: 0;
+            background: none;
+            border: none;
+        }
+
+            div.ui-datepicker div.ui-datepicker-header a.ui-datepicker-prev {
+                top: 28px;
+                left: 5px;
+                width: 16px;
+                height: 16px;
+            }
+
+                div.ui-datepicker div.ui-datepicker-header a.ui-datepicker-prev span.ui-icon {
+                    background-image: url("/Content/Images/Shared/left_btn.png");
+                    background-size: auto 100%;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+
+            div.ui-datepicker div.ui-datepicker-header a.ui-datepicker-next {
+                top: 28px;
+                right: 5px;
+                width: 16px;
+                height: 16px;
+            }
+
+                div.ui-datepicker div.ui-datepicker-header a.ui-datepicker-next span.ui-icon {
+                    background-image: url("/Content/Images/Shared/right_btn.png");
+                    background-size: auto 100%;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+
+            div.ui-datepicker div.ui-datepicker-header div.ui-datepicker-title {
+                margin: 0;
+                line-height: 1.2em;
+            }
+
+                div.ui-datepicker div.ui-datepicker-header div.ui-datepicker-title span.ui-datepicker-year {
+                    position: relative;
+                    display: block;
+                    width: 100%;
+                    margin-top: 5px;
+                    padding: 0 5px;
+                    text-align: left;
+                    font-size: 14px;
+                    letter-spacing: -0.5px;
+                }
+
+                    div.ui-datepicker div.ui-datepicker-header div.ui-datepicker-title span.ui-datepicker-year:after {
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        top: 9px;
+                        right: 10px;
+                        width: 75%;
+                        height: 1px;
+                        background-color: #aaa;
+                    }
+
+                div.ui-datepicker div.ui-datepicker-header div.ui-datepicker-title span.ui-datepicker-month {
+                    display: block;
+                    width: 100%;
+                    margin-top: -14px;
+                    font-size: 18px;
+                    font-weight: normal;
+                }
+
+        div.ui-datepicker table.ui-datepicker-calendar {
+        }
+
+            div.ui-datepicker table.ui-datepicker-calendar thead {
+            }
+
+                div.ui-datepicker table.ui-datepicker-calendar thead tr {
+                }
+
+                    div.ui-datepicker table.ui-datepicker-calendar thead tr th.ui-datepicker-week-end {
+                    }
+
+                    div.ui-datepicker table.ui-datepicker-calendar thead tr th span {
+                        font-size: 13px;
+                        font-weight: normal;
+                        letter-spacing: -0.5px;
+                    }
+
+                    div.ui-datepicker table.ui-datepicker-calendar thead tr th.ui-datepicker-week-end:first-child span {
+                        color: red;
+                    }
+
+                    div.ui-datepicker table.ui-datepicker-calendar thead tr th.ui-datepicker-week-end:last-child span {
+                        color: blue;
+                    }
+
+            div.ui-datepicker table.ui-datepicker-calendar tbody {
+            }
+
+                div.ui-datepicker table.ui-datepicker-calendar tbody tr {
+                }
+
+                    div.ui-datepicker table.ui-datepicker-calendar tbody tr td {
+                        width: 38px;
+                        height: 38px;
+                        padding: 0;
+                    }
+
+                        div.ui-datepicker table.ui-datepicker-calendar tbody tr td span {
+                            height: 100%;
+                            padding: 0;
+                            font-size: 12px;
+                            text-align: center;
+                            line-height: 38px;
+                            border: 0;
+                            background: none;
+                        }
+
+                        div.ui-datepicker table.ui-datepicker-calendar tbody tr td a {
+                            height: 100%;
+                            padding: 0;
+                            font-size: 12px;
+                            text-align: center;
+                            line-height: 38px;
+                            border: 0;
+                            background: none;
+                        }
+
+    section.board p#cat {
+        float: right;
+        width: 30%;
+        margin-top: 25px;
+        padding-left: 18px;
+        text-align: center;
+    }
+
+        section.board p#cat > label {
+            margin-right: 20px;
+            font-weight: normal;
+        }
+
+            section.board p#cat > label > input {
+                margin-right: 8px;
+            }
+
+    section.qna div.title {
+        position: relative;
+        float: left;
+        width: 65%;
+        margin: 20px 10px 10px 20px;
+    }
+
+        section.qna div.title input {
+            padding: 2px 80px 2px 5px !important;
+            margin-bottom: 0 !important;
+            border: 0;
+            border-bottom: 1px solid #ddd;
+            background-color: inherit;
+        }
+
+        section.qna div.title p.secret {
+            position: absolute;
+            top: 6px;
+            right: 10px;
+            margin: 0;
+            font-size: 13px;
+        }
+
+            section.qna div.title p.secret input {
+                width: 12px;
+                height: 12px;
+                margin-right: 4px;
+            }
+
+    section.customer div.title {
+        float: left;
+        width: 70%;
+        padding-left: 10px;
+    }
+
+        section.customer div.title input {
+            width: 100%;
+            margin-left: 0;
+            padding: 0 10px;
+            border: 0;
+            border-bottom: 1px solid #ddd;
+            background-color: inherit;
+        }
+
+        section.customer div.title p.secret {
+            display: none;
+        }
+
+    section.board > div.content {
+        padding: 20px 10px;
+    }
+
+        section.board > div.content img {
+            max-width: 100%;
+        }
+
+    section.board table.listsBody {
+        width: 100%;
+        margin-top: 50px;
+    }
+
+        section.board table.listsBody > thead {
+            background-color: #f2f8e9;
+        }
+
+            section.board table.listsBody > thead > tr {
+                line-height: 42px;
+            }
+
+                section.board table.listsBody > thead > tr > th {
+                    text-align: center;
+                    font-size: 15px;
+                    color: #424242;
+                    width: 10%;
+                }
+
+        section.board table.listsBody > tbody > tr {
+            line-height: 40px;
+            text-align: center;
+            font-size: 15px;
+            color: #2a2a2a;
+        }
+
+            section.board table.listsBody > tbody > tr td.title {
+                text-align: left;
+            }
+
+                section.board table.listsBody > tbody > tr td.title > a {
+                    display: block;
+                }
+
+                    section.board table.listsBody > tbody > tr td.title > a > h4 {
+                        font-size: 15px;
+                        font-weight: normal;
+                    }
+
+                        section.board table.listsBody > tbody > tr td.title > a > h4 > span.notice {
+                            color: red;
+                        }
+
+                        section.board table.listsBody > tbody > tr td.title > a > h4 > span.air {
+                            color: #2077c9;
+                        }
+
+                        section.board table.listsBody > tbody > tr td.title > a > h4 > span.ship {
+                            color: #69b265;
+                        }
+
+                        section.board table.listsBody > tbody > tr td.title > a > h4 > span.event {
+                            color: #8e71fb;
+                        }
+
+                        section.board table.listsBody > tbody > tr td.title > a > h4 > span.local {
+                            color: #ffa019;
+                        }
+
+    section.board div.paging {
+        height: 180px;
+        text-align: center;
+        background-color: #fcfefa;
+        position: relative;
+    }
+
+        section.board div.paging > ul {
+            line-height: 180px;
+        }
+
+            section.board div.paging > ul > li {
+                display: inline-block;
+                padding: 5px 10px;
+            }
+
+                section.board div.paging > ul > li > a {
+                    font-size: 13px;
+                    color: #9f9f9f;
+                }
+
+                section.board div.paging > ul > li.on > a {
+                    color: black;
+                }
+
+        section.board div.paging > p {
+            position: absolute;
+            right: 20px;
+            bottom: 10px;
+            font-size: 12px;
+            color: #5c5c5c;
+        }
+</style>
+
+<section class="board @type">
+    <h3>고객센터 > @typeTxt</h3>
+
+    <form name="schForm" method="post" action="/Community/Update">
+        <input type="hidden" name="type" value="@type" />
+        <input type="hidden" name="key" value="" />
+
+        @if (type == "customer")
+        {
+        <div class="select">
+            <ul>
+                <li id="select_box01">
+                    <select id="start" name="sCity" title="select start">
+                        <option value="" selected="selected">출발지</option>
+                        <option value="PUS">부산</option>
+                        <option value="SEO">서울</option>
+                        <option value="DAE">대구</option>
+                        <option value="ETC">기타</option>
+                    </select>
+                </li> <!--.box01-->
+                <li id="select_box02">
+                    <select id="arrival" name="eCity" title="select arrival">
+                        <option value="" selected="selected">목적지</option>
+                        <option value="JP">동경</option>
+                        <option value="HK">오사카</option>
+                        <option value="TW">규슈</option>
+                        <option value="VE">오키나와</option>
+                        <option value="PH">훗카이도</option>
+                        <option value="AM">대마도</option>
+                        <option value="5P">기타지역</option>
+                        <option value="RU">러시아</option>
+                    </select>
+                </li> <!--.box02-->
+                <li id="select_box03">
+                    <select id="transport" name="traff" title="select transport">
+                        <option value="" selected="selected">이용편</option>
+                        <option value="SHP">선박</option>
+                        <option value="AIR">항공</option>
+                        <option value="BUS">버스투어</option>
+                    </select>
+                </li> <!--.box03-->
+                <li id="select_box06">
+                    <select id="baby" name="bCnt" title="select baby">
+                        <option value="" selected="selected">유아</option>
+                        <option value="1">유아 1명</option>
+                        <option value="2">유아 2명</option>
+                        <option value="3">유아 3명</option>
+                        <option value="4">유아 4명</option>
+                        <option value="5">유아 5명</option>
+                        <option value="6">유아 6명이상</option>
+                    </select>
+                </li> <!--.box06-->
+                <li id="select_box05">
+                    <select id="child" name="cCnt" title="select child">
+                        <option value="" selected="selected">소아</option>
+                        <option value="1">소아 1명</option>
+                        <option value="2">소아 2명</option>
+                        <option value="3">소아 3명</option>
+                        <option value="4">소아 4명</option>
+                        <option value="5">소아 5명</option>
+                        <option value="6">소아 6명이상</option>
+                    </select>
+                </li> <!--.box05-->
+                <li id="select_box04">
+                    <select id="adult" name="aCnt" title="select adult">
+                        <option value="" selected="selected">성인</option>
+                        <option value="1">성인 1명</option>
+                        <option value="2">성인 2명</option>
+                        <option value="3">성인 3명</option>
+                        <option value="4">성인 4명</option>
+                        <option value="5">성인 5명</option>
+                        <option value="6">성인 6명이상</option>
+                    </select>
+                </li> <!--.box04-->
+            </ul>
+        </div> <!--.select-->
+        <p id="date">
+            <label>날짜선택<input type="text" id="datepicker" placeholder="날짜선택하기" name="date" /></label>
+        </p>
+
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+        <script>
+            $("#datepicker").datepicker({
+                dateFormat: 'yy-mm-dd',
+                prevText: '이전',
+                nextText: '이후',
+                monthNames: ['01. January', '02. February', '03. March', '04. April', '05. May', '06. June', '07. July', '08. August', '09. September', '10. October', '11. November', '12. December'],
+                monthNamesShort: ['01.', '02.', '03.', '04.', '05.', '06.', '07.', '08.', '09.', '10.', '11.', '12.'],
+                dayNames: ['sun', 'mon', 'tue', 'wed', 'thr', 'fri', 'sat'],
+                dayNamesShort: ['sun', 'mon', 'tue', 'wed', 'thr', 'fri', 'sat'],
+                dayNamesMin: ['sun', 'mon', 'tue', 'wed', 'thr', 'fri', 'sat'],
+                showMonthAfterYear: true,
+                yearSuffix: '',
+                autoSize: true,
+                numberOfMonths: 1
+            });
+
+            function setVali() {
+                var sCity = $("select[name='sCity'] option:selected"),
+                    eCity = $("select[name='eCity'] option:selected"),
+                    traff = $("select[name='traff'] option:selected"),
+                    aCnt = $("select[name='aCnt'] option:selected"),
+                    cCnt = $("select[name='cCnt'] option:selected"),
+                    bCnt = $("select[name='bCnt'] option:selected");
+
+                if (sCity.val() == "") {
+                    alert("출발지를 선택해주세요.");
+                    sCity.focus();
+                    return false;
+                }
+
+                if (eCity.val() == "") {
+                    alert("목적지를 선택해주세요.");
+                    eCity.focus();
+                    return false;
+                }
+
+                if (traff.val() == "") {
+                    alert("이용편을 선택해주세요.");
+                    traff.focus();
+                    return false;
+                }
+
+                if (aCnt.val() == "") {
+                    alert("성인 숫자를 선택해주세요.");
+                    aCnt.focus();
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
+        }
+        else if (type == "qna")
+        {
+        <p id="cat">
+            <label><input type="radio" name="category" value="JPN" checked="checked" />항공</label>
+            <label><input type="radio" name="category" value="SEA" />선박</label>
+            <label><input type="radio" name="category" value="LOC" />패키지</label>
+            <label><input type="radio" name="category" value="ETC" />현지투어</label>
+        </p>
+
+        <script>
+            function setVali() {
+                var cat = $("input[name='category']");
+
+                if (cat.val() == "") {
+                    alert("항목을 선택해주세요.");
+                    cat.focus();
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
+        }
+
+        <div class="title">
+            <input name="title" type="text" placeholder="제목" style="width: 100%; height: 35px; padding: 5px; margin-bottom: 10px;" />
+            <p class="secret"><input type="checkbox" name="secret" value="check">비밀글</p>
+        </div>
+
+        <div class="content">
+            <textarea class="form-control" rows="15" name="content" id="content" style="width: 100%; resize: none;"></textarea>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button id="uptBtn" class="btn btn-default">글쓰기</button>
+            <a class="btn btn-default" href="./Lists?type=@type">취소</a>
+        </div>
+    </form>
+</section>
+
+<script>
+
+    $("#uptBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.schForm;
+        var title = f.title.value;
+        var content = f.content.value;
+
+        if (!setVali())
+            return;
+
+        if (title == "") {
+            alert("제목을 입력해주세요.");
+            return;
+        }
+
+        if (content == "") {
+            alert("내용을 입력해주세요.");
+            return;
+        }
+
+        f.submit();
+    });
+</script>

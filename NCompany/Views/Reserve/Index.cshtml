@@ -1,0 +1,1790 @@
+﻿@{
+    ViewBag.Title = "예약";
+}
+
+<section class="reserve row">
+    <article class="col-md-12 revData">
+        <div class="row pull-right" style="margin-right: 0;">
+            <button type="button" class="btn btn-default default" data-toggle="popup" data-target="searchForm">예약 조회</button>
+            <button type="button" class="btn btn-success default" data-toggle="popup" data-target="detRev">예약 등록</button>
+        </div>
+
+        <h3>@ViewBag.Title 관리</h3>
+
+        <div style="margin-top: 20px; height: 320px; overflow: auto">
+            @*<form class="form-inline">
+                <div class="form-group row">
+                    <label class="col-md-3">
+                        상품 구분
+                        <select class="form-control">
+                            <option>전체</option>
+                            <option>현지투어</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-3">
+                        국가
+                        <select class="form-control">
+                            <option>전체</option>
+                            <option>일본</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-3">
+                        지역
+                        <select class="form-control">
+                            <option>전체</option>
+                            <option>규슈</option>
+                            <option>도쿄</option>
+                            <option>오사카</option>
+                            <option>홋카이도</option>
+                            <option>대마도</option>
+                            <option>오키나와</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-3">
+                        담당자
+                        <select class="form-control">
+                            <option>전체</option>
+                            <option>배현준</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-3">
+                        출발 지역
+                        <select class="form-control">
+                            <option>전체</option>
+                            <option>하카타</option>
+                            <option>도쿄</option>
+                            <option>오사카</option>
+                            <option>삿포로</option>
+                            <option>대마도</option>
+                            <option>나하</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-3">
+                        행사 일수
+                        <select class="form-control">
+                            <option>전체</option>
+                            <option>당일치기</option>
+                            <option>1박 2일</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-3">
+                        옵션
+                        <select class="form-control">
+                            <option>전체</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-3">
+                        진행 구분
+                        <select class="form-control">
+                            <option>전체</option>
+                            <option>판매중</option>
+                            <option>준비중</option>
+                            <option>마감</option>
+                        </select>
+                    </label>
+                </div>
+            </form>*@
+
+            <ul>
+                <li style="width: 6%;">상태</li>
+                <li style="width: 8%;">예약 일</li>
+                <li style="width: 8%;">출발 일</li>
+                <li style="width: 8%;">예약 자</li>
+                <li style="width: 32%;">상품 명</li>
+                <li style="width: 4%;">성인</li>
+                <li style="width: 4%;">소아</li>
+                <li style="width: 4%;">유아</li>
+                <li style="width: 10%;">판매 금액</li>
+                <li style="width: 4%;">미수</li>
+                <li style="width: 8%;">담당자</li>
+                <li style="width: 4%;">@*바우처*@</li>
+            </ul>
+
+            <ul class="revLists">
+                @{
+                    string rev_Seq = "",
+                            rev_State = "",
+                            rev_Day = "",
+                            rev_start_Day = "",
+                            rev_Customer = "",
+                            rev_PdtTitle = "",
+                            rev_Acnt = "",
+                            rev_Ccnt = "",
+                            rev_Bcnt = "",
+                            rev_Price = "",
+                            rev_chk_price = "",
+                            rev_emp_name = "",
+                            chkVou = "";
+                            
+                    int total_Acnt = 0,
+                        total_Ccnt = 0,
+                        total_Bcnt = 0,
+                        total_Price = 0;
+
+                    foreach (object item in Model)
+                    {
+                        rev_Seq = "";
+                        rev_State = "";
+                        rev_Day = "";
+                        rev_start_Day = "";
+                        rev_Customer = "";
+                        rev_PdtTitle = "";
+                        rev_Acnt = "";
+                        rev_Ccnt = "";
+                        rev_Bcnt = "";
+                        rev_Price = "";
+                        rev_chk_price = "";
+                        rev_emp_name = "";
+                        chkVou = "";
+
+                        try { rev_Seq = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_State = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_Day = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_start_Day = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_Customer = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_PdtTitle = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_Acnt = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_Ccnt = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_Bcnt = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_Price = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_chk_price = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { rev_emp_name = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+                        catch { continue; }
+                        try { chkVou = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+                        catch { }
+
+                        switch (rev_State)
+                        {
+                            case "10":
+                                rev_State = "<span style='color: red;'>취소</span>";
+                                break;
+                            case "20":
+                                rev_State = "<span style='color: green;'>확인중</span>";
+                                break;
+                            case "30":
+                                rev_State = "<span style='color: green;'>진행중</span>";
+                                break;
+                            case "40":
+                                rev_State = "<span style='color: green;'>확정</span>";
+                                break;
+                            case "50":
+                                rev_State = "<span style='color: green;'>완료</span>";
+                                break;
+                        }
+
+                        if (rev_chk_price == "Y")
+                        {
+                            rev_chk_price = "완납";
+                        }
+                        else if (rev_chk_price == "N")
+                        {
+                            rev_chk_price = "미수";
+                        }
+                        else
+                        {
+                            rev_chk_price = "과납";
+                        }
+                        
+                        total_Acnt += Convert.ToInt16(rev_Acnt);
+                        total_Ccnt += Convert.ToInt16(rev_Ccnt);
+                        total_Bcnt += Convert.ToInt16(rev_Bcnt);
+                        total_Price += Convert.ToInt32(rev_Price);
+
+                        <li data-code="@rev_Seq" data-toggle="popup" data-target="detRev">
+                            <ul>
+                                <li style="width: 6%;">@MvcHtmlString.Create(rev_State)</li>
+                                <li style="width: 8%;">@rev_Day</li>
+                                <li style="width: 8%;">@rev_start_Day</li>
+                                <li style="width: 8%;">@rev_Customer</li>
+                                <li style="width: 32%;">@rev_PdtTitle</li> @*<a href="/Reserve/detRev" data-toggle="popup"><img src="~/Content/images/.png" alt="자세히보기" /></a></td>*@
+                                <li style="width: 4%;">@rev_Acnt</li>
+                                <li style="width: 4%;">@rev_Ccnt</li>
+                                <li style="width: 4%;">@rev_Bcnt</li>
+                                <li style="width: 10%;">@String.Format("{0:#,##0}", int.Parse(rev_Price))</li>
+                                <li style="width: 4%;">@rev_chk_price</li>
+                                <li style="width: 8%;">@rev_emp_name</li>
+                                <li style="width: 4%">@*<input type="checkbox" id="chk_@rev_Seq" class="chkVoucher" data-toggle="popup" data-target="chkVoucher" @if (chkVou == "Y") { string a = "checked='checked'"; @a } /><label for="chk_@rev_Seq"></label>*@</li>
+                            </ul>
+                        </li>
+                    }
+                }
+            </ul>
+
+
+
+            <div class="col-md-12" style="left: 0; position: absolute; overflow: auto; right: 0; bottom: 0;">
+                <ul class="table-footer" style="margin-right: 10px;">
+                    <li style="width: 6%;">합계</li>
+                    <li style="width: 56%;"></li>
+                    <li style="width: 4%;">@total_Acnt</li>
+                    <li style="width: 4%;">@total_Ccnt</li>
+                    <li style="width: 4%;">@total_Bcnt</li>
+                    <li style="width: 10%;">@String.Format("{0:#,##0}", total_Price)</li>
+                    <li style="width: 16%;"></li>
+                </ul>
+            </div>
+
+            @*<table class="table table-hover revTable">
+                <colgroup>
+                    <col style="width: 6%" />
+                    <col style="width: 8%" />
+                    <col style="width: 8%" />
+                    <col style="width: 8%" />
+                    <col style="width: 36%" />
+                    <col style="width: 4%" />
+                    <col style="width: 4%" />
+                    <col style="width: 4%" />
+                    <col style="width: 10%" />
+                    <col style="width: 4%" />
+                    <col style="width: 8%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>상태</th>
+                        <th>예약 일</th>
+                        <th>출발 일</th>
+                        <th>예약 자</th>
+                        <th>상품 명</th>
+                        <th>성인</th>
+                        <th>소아</th>
+                        <th>유아</th>
+                        <th>판매 금액</th>
+                        <th>미수</th>
+                        <th>담당자</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        string rev_Seq = "",
+                               rev_State = "",
+                               rev_Day = "",
+                               rev_start_Day = "",
+                               rev_Customer = "",
+                               rev_PdtTitle = "",
+                               rev_Acnt = "",
+                               rev_Ccnt = "",
+                               rev_Bcnt = "",
+                               rev_Price = "",
+                               rev_chk_price = "",
+                               rev_emp_name = "";
+
+                        foreach (object item in Model)
+                        {
+                            rev_Seq = "";
+                            rev_State = "";
+                            rev_Day = "";
+                            rev_start_Day = "";
+                            rev_Customer = "";
+                            rev_PdtTitle = "";
+                            rev_Acnt = "";
+                            rev_Ccnt = "";
+                            rev_Bcnt = "";
+                            rev_Price = "";
+                            rev_chk_price = "";
+                            rev_emp_name = "";
+
+                            try { rev_Seq = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_State = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_Day = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_start_Day = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_Customer = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_PdtTitle = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_Acnt = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_Ccnt = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_Bcnt = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_Price = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_chk_price = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+                            catch { continue; }
+                            try { rev_emp_name = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+                            catch { continue; }
+
+                            switch (rev_State)
+                            {
+                                case "10":
+                                    rev_State = "<span style='color: red;'>취소</span>";
+                                    break;
+                                case "20":
+                                    rev_State = "<span style='color: green;'>확인중</span>";
+                                    break;
+                                case "30":
+                                    rev_State = "<span style='color: green;'>진행중</span>";
+                                    break;
+                                case "40":
+                                    rev_State = "<span style='color: green;'>확정</span>";
+                                    break;
+                                case "50":
+                                    rev_State = "<span style='color: green;'>완료</span>";
+                                    break;
+                            }
+
+                            if (rev_chk_price == "Y")
+                            {
+                                rev_chk_price = "완납";
+                            }
+                            else
+                            {
+                                rev_chk_price = "미수";
+                            }
+
+                            <tr data-code="@rev_Seq" data-toggle="popup" data-target="detRev">
+                                <td>@MvcHtmlString.Create(rev_State)</td>
+                                <td>@rev_Day</td>
+                                <td>@rev_start_Day</td>
+                                <td>@rev_Customer</td>
+                                <td>@rev_PdtTitle</td>
+                                <td>@rev_Acnt</td>
+                                <td>@rev_Ccnt</td>
+                                <td>@rev_Bcnt</td>
+                                <td>@String.Format("{0:#,##0}", int.Parse(rev_Price))</td>
+                                <td>@rev_chk_price</td>
+                                <td>@rev_emp_name</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>*@
+        </div>
+    </article>
+
+    <article class="revData2">
+        <div class="row pull-right" style="margin-right: 0;">
+            <button type="button" class="btn btn-default addform">추가</button>
+            <a href="#" class="btn btn-success udtRevData2">저장</a>
+        </div>
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#pirceTable" aria-controls="pirceTable" role="tab" data-toggle="tab">판매 요금</a></li>
+            <li role="presentation"><a href="#traveler" aria-controls="traveler" role="tab" data-toggle="tab">여행자 정보</a></li>
+            <li role="presentation"><a href="#account" aria-controls="account" role="tab" data-toggle="tab">입금/환불</a></li>
+            <li role="presentation"><a href="#hotels" aria-controls="hotels" role="tab" data-toggle="tab">호텔 정보</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <form name="pirceTable" role="tabpanel" class="tab-pane active" id="pirceTable">
+                <input type="hidden" name="type" value="" />
+                <input type="hidden" name="REV_DAY" value="" />
+                <input type="hidden" name="REV_SEQ" value="" />
+
+                <ul class="rpLists lists-header">
+                    <li style="width: 17%">옵션</li>
+                    <li style="width: 18%">간단 설명</li>
+                    <li style="width: 7%">구분</li>
+                    <li style="width: 7%">화폐</li>
+                    <li style="width: 10%">요금</li>
+                    <li style="width: 10%">할인 금액</li>
+                    <li style="width: 10%">추가 금액</li>
+                    <li style="width: 6%">인원 수</li>
+                    <li style="width: 10%">총 금액</li>
+                    <li style="width: 5%">제거</li>
+                </ul>
+
+                <ul class="rpLists lists-body">
+                    <li>
+                        <p style="width: 17%;">
+                            <input type="hidden" name="prcKey" value="">
+                            <input type="text" value="" maxlength="10" style="width: 134px;">
+                            <button class="btn btn-default" data-target="getOptions">찾기</button>
+                        </p>
+                        <p style="width: 18%;">
+                            <input type="text" value="">
+                        </p>
+                        <p style="width: 7%;">
+                            <select class="form-control">
+                                <option value="A">성인</option>
+                                <option value="C">소아</option>
+                                <option value="B">유아</option>
+                            </select>
+                        </p>
+                        <p style="width: 7%;">
+                            <select class="form-control">
+                                <option value="KRW">₩</option>
+                                <option value="JPY">¥</option>
+                                <option value="USD">$</option>
+                            </select>
+                        </p>
+                        <p style="width: 10%;"><input type="text" value="0" class="price" maxlength="10"></p>
+                        <p style="width: 10%;"><input type="text" value="0" class="price" maxlength="10"></p>
+                        <p style="width: 10%;"><input type="text" value="0" class="price" maxlength="10"></p>
+                        <p style="width: 6%;"><input type="text" value="0"></p>
+                        <p style="width: 10%;">0</p>
+                        <p style="width: 5%;"><span aria-hidden="true">&times;</span></p>
+                    </li>
+                </ul>
+
+
+                @*<table class="table table-hover rpLists">
+                    <colgroup>
+                        <col style="width: 17%" />
+                        <col style="width: 27%" />
+                        <col style="width: 5%" />
+                        <col style="width: 5%" />
+                        <col style="width: 10%" />
+                        <col style="width: 10%" />
+                        <col style="width: 10%" />
+                        <col style="width: 6%" />
+                        <col style="width: 10%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>옵션</th>
+                            <th>간단 설명</th>
+                            <th>구분</th>
+                            <th>화폐</th>
+                            <th>요금</th>
+                            <th>할인 금액</th>
+                            <th>추가 금액</th>
+                            <th>인원 수</th>
+                            <th>총 금액</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>aa</td>
+                        </tr>
+                    </tbody>
+                </table>*@
+            </form>
+            <form name="traveler" role="tabpanel" class="tab-pane" id="traveler">
+                <input type="hidden" name="type" value="" />
+                <input type="hidden" name="REV_DAY" value="" />
+                <input type="hidden" name="REV_SEQ" value="" />
+
+                <ul class="rcLists lists-header">
+                    <li style="width: 5%">번호</li>
+                    <li style="width: 10%">이름</li>
+                    <li style="width: 5%">찾기</li>
+                    <li style="width: 10%">영문 성</li>
+                    <li style="width: 10%">영문 이름</li>
+                    <li style="width: 7%">성별</li>
+                    <li style="width: 7%">구분</li>
+                    <li style="width: 15%">전화 번호</li>
+                    <li style="width: 26%">간단 설명</li>
+                    <li style="width: 5%">제거</li>
+                </ul>
+
+                <ul class="rcLists lists-body">
+                    <li>
+                        <p style="width: 5%;">
+                            <input type="hidden" name="user" />
+                        </p>
+                        <p style="width: 10%;"><input type="text" value="" name="cuName"></p>
+                        <p style="width: 5%;">
+                            <button class="btn btn-default" data-target="getCustomer">검색</button>
+                        </p>
+                        <p style="width: 10%;"><input type="text" value="" name="cuLast"></p>
+                        <p style="width: 10%;"><input type="text" value="" name="cuFirst"></p>
+                        <p style="width: 7%;">
+                            <select class="form-control" name="sex">
+                                <option value="M">남자</option>
+                                <option value="F">여자</option>
+                            </select>
+                        </p>
+                        <p style="width: 7%;">
+                            <select class="form-control" name="gb">
+                                <option value="A">성인</option>
+                                <option value="C">소아</option>
+                                <option value="B">유아</option>
+                            </select>
+                        </p>
+                        <p style="width: 15%;"><input type="text" value="" name="cuTel"></p>
+                        <p style="width: 26%;"><input type="text" value="" name="content"></p>
+                        <p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>
+                    </li>
+                </ul>
+            </form>
+            <form name="account" role="tabpanel" class="tab-pane" id="account">
+                <input type="hidden" name="type" value="" />
+                <input type="hidden" name="REV_DAY" value="" />
+                <input type="hidden" name="REV_SEQ" value="" />
+
+                <ul class="acLists lists-header">
+                    <li style="width: 5%">번호</li>
+                    <li style="width: 10%">입금 일자</li>
+                    <li style="width: 10%">등록 일자</li>
+                    <li style="width: 8%">등록 사원</li>
+                    <li style="width: 7%">입금 구분</li>
+                    <li style="width: 15%">세부</li>
+                    <li style="width: 10%">금액</li>
+                    <li style="width: 10%">입금자</li>
+                    <li style="width: 20%">비고</li>
+                    <li style="width: 5%">@*제거*@</li>
+                </ul>
+
+                <ul class="acLists lists-body">
+                    <li>
+                        <p style="width: 5%;">
+                            <input type="hidden" name="user" />
+                            1
+                        </p>
+                        <p style="width: 10%;">
+                            2017-07-25
+                        </p>
+                        <p style="width: 10%;">
+                            2017-07-25
+                        </p>
+                        <p style="width: 8%;">
+                            정원정
+                        </p>
+                        <p style="width: 7%;">
+                            은행 입금
+                        </p>
+                        <p style="width: 15%;">
+                            우리은행
+                        </p>
+                        <p style="width: 10%;">
+                            10,369,500
+                        </p>
+                        <p style="width: 10%;">
+                            （주）큐브여행사
+                        </p>
+                        <p style="width: 20%;">
+                            ㅑ
+                        </p>
+                        <p style="width: 5%;">@*<a href="#" class="removeData"><span aria-hidden="true">&times;</span></a>*@</p>
+                    </li>
+                    @*<li>
+                        <p style="width: 5%;">
+                            2
+                        </p>
+                        <p style="width: 10%;">
+                            2017-07-25
+                        </p>
+                        <p style="width: 10%;">
+                            2017-07-25
+                        </p>
+                        <p style="width: 8%;">
+                            정원정
+                        </p>
+                        <p style="width: 7%;">
+                            카드 결제
+                        </p>
+                        <p style="width: 15%;">
+                            현대카드
+                        </p>
+                        <p style="width: 10%;">
+                            10,369,500
+                        </p>
+                        <p style="width: 10%;">
+                            배현준
+                        </p>
+                        <p style="width: 20%;">
+                            ㅑ
+                        </p>
+                        <p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>
+                    </li>
+                    <li>
+                        <p style="width: 5%;">
+                            3
+                        </p>
+                        <p style="width: 10%;">
+                            2017-07-25
+                        </p>
+                        <p style="width: 10%;">
+                            2017-07-25
+                        </p>
+                        <p style="width: 8%;">
+                            정원정
+                        </p>
+                        <p style="width: 7%;">
+                            현금 결제
+                        </p>
+                        <p style="width: 15%;">
+                            현대카드
+                        </p>
+                        <p style="width: 10%;">
+                            10,369,500
+                        </p>
+                        <p style="width: 10%;">
+                            배현준
+                        </p>
+                        <p style="width: 20%;">
+                            ㅑ
+                        </p>
+                        <p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>
+                    </li>*@
+                </ul>
+            </form>
+            <div role="tabpanel" class="tab-pane" id="hotels">
+                <ul class="htList lists-body">
+                    <li>
+                        출발일 : 2018-07-07<br />
+                        교통편 : - <br />
+                        옵  션 : 기본<br />
+                        성  인 : 1명<br />
+                        소  아 : 0 명<br />
+                        유  아 : 0 명<br />
+                        1박 호텔 : -<br />
+                        2박 호텔 : -<br />
+                        3박 호텔 : -
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </article>
+</section>
+
+
+@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOCavluEV5R78T2xJ1YoyVu91zdN8DCAE&callback=initMap" async defer></script>*@
+
+<script>
+
+    $(document).ready(function () {
+
+        $("article.revData2 a.udtRevData2").on("click", function () {
+            var pannel = $(".tab-content").find(".active"),
+                pannelID = pannel.attr("id"),
+                f = $("form[name='" + pannelID + "']");
+
+            var url = "/Reserve/updateData",
+                type = "";
+
+            switch (pannelID) {
+                case "traveler":
+                    type = "updateTraveler";
+                    break;
+                case "pirceTable":
+                    type = "updatePrice";
+                    break;
+                default:
+                    return;
+            }
+
+            var chkCurrency = "",
+                isCurrency = true;
+
+            $("select[name='prcCurrencyCode']").each(function () {
+                if (chkCurrency == "")
+                    chkCurrency = $(this).val();
+
+                if (chkCurrency != $(this).val()) {
+                    alert("화폐를 통일해주세요.");
+                    isCurrency = false;
+                }
+            });
+
+            if (!isCurrency) {
+                return;
+            }
+
+            f.find("input.price").each(function () {
+                var tempPrice = $(this).val().replace(/[^\d]+/g, '');
+
+                $(this).val(tempPrice);
+            });
+
+            f.find("input[name='type']").val(type);
+            f.attr("method", "post");
+            f.attr("action", url);
+            f.submit();
+
+            f.find("input.price").each(function () {
+                var tempPrice = $(this).val().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                $(this).val(tempPrice);
+            });
+        });
+
+        $("article.revData2 button.addform").on("click", function () {
+            var pannel = $(".tab-content").find(".active"),
+                pannelID = pannel.attr("id"),
+                body = pannel.find("ul.lists-body");
+
+            var html = "",
+                str = "",
+                cnt = 5;
+
+            switch (pannelID) {
+                case "account":
+                    //html += '<li>' +
+                    //            '<p style="width: 5%;">' +
+                    //                '<input type="hidden" name="user" />' +
+                    //            '</p>' +
+                    //            '<p style="width: 10%;">' +
+                    //            '</p>' +
+                    //            '<p style="width: 10%;">' +
+                    //            '</p>' +
+                    //            '<p style="width: 8%;">' +
+                    //            '</p>' +
+                    //            '<p style="width: 7%;">' +
+                    //            '</p>' +
+                    //            '<p style="width: 10%;">' +
+                    //            '</p>' +
+                    //            '<p style="width: 15%;">' +
+                    //            '</p>' +
+                    //            '<p style="width: 10%;">' +
+                    //            '</p>' +
+                    //            '<p style="width: 10%;">' +
+                    //            '</p>' +
+                    //            '<p style="width: 10%;">' +
+                    //                '<button class="btn btn-default">찾기</button>' +
+                    //            '</p>' +
+                    //            '<p style="width: 5%;">' +
+                    //                '<a href="#" class="removeData">' +
+                    //                    '<span aria-hidden="true">&times;</span>' +
+                    //                '</a>' +
+                    //            '</p>' +
+                    //        '</li>'
+                    //cnt = 10;
+                    //str = "입금내역은 " + cnt + "개 까지만 생성할 수 있습니다.";
+                    var url = "/Reserve/setAccount";
+
+                    var rDay = pannel.find("input[name='REV_DAY']").val();
+                    var rSeq = pannel.find("input[name='REV_SEQ']").val();
+
+                    var datas = { revDay: rDay, revSeq: rSeq };
+
+                    $.get(url, datas, function (data) {
+                        $('<div class="modal fade">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+                    });
+                    return;
+                case "traveler":
+                    html += '<li>' +
+                                '<p style="width: 5%;">' +
+                                    '<input type="hidden" name="user" />' +
+                                '</p>' +
+                                '<p style="width: 10%;"><input type="text" value="" name="cuName"></p>' +
+                                '<p style="width: 5%;">' +
+                                    '<button class="btn btn-default" data-target="getCustomer">검색</button>' +
+                                '</p>' +
+                                '<p style="width: 10%;"><input type="text" value="" name="cuLast"></p>' +
+                                '<p style="width: 10%;"><input type="text" value="" name="cuFirst"></p>' +
+                                '<p style="width: 7%;">' +
+                                    '<select class="form-control" name="sex">' +
+                                        '<option value="M">남자</option>' +
+                                        '<option value="F">여자</option>' +
+                                    '</select>' +
+                                '</p>' +
+                                '<p style="width: 7%;">' +
+                                    '<select class="form-control" name="gb">' +
+                                        '<option value="A">성인</option>' +
+                                        '<option value="C">소아</option>' +
+                                        '<option value="B">유아</option>' +
+                                    '</select>' +
+                                '</p>' +
+                                '<p style="width: 15%;"><input type="text" value="" name="cuTel"></p>' +
+                                '<p style="width: 26%;"><input type="text" value="" name="content"></p>' +
+                                //'<p style="width: 5%;"></p>' +
+                                '<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+                            '</li>';
+                    cnt = 10;
+                    str = "여행자는 " + cnt + "명까지만 생성할 수 있습니다.";
+                    break;
+                case "pirceTable":
+                    html += '<li>' +
+                                '<p style="width: 17%;">' +
+                                    //'<input type="hidden" name="pdtCode" value="">' +
+                                    //'<input type="hidden" name="pdtKey" value="">' +
+                                    '<input type="hidden" name="prcKey" value="">' +
+                                    '<input type="text" name="prcContent" value="" maxlength="10" style="width: 134px;">' +
+                                    '<button class="btn btn-default" data-target="getOptions">찾기</button>' +
+                                '</p>' +
+                                '<p style="width: 19%;">' +
+                                    '<input type="text" name="revprcContent" value="">' +
+                                '</p>' +
+                                '<p style="width: 7%;">' +
+                                    '<select name="revprcGB" class="form-control">' +
+                                        '<option value="A">성인</option>' +
+                                        '<option value="C">소아</option>' +
+                                        '<option value="B">유아</option>' +
+                                    '</select>' +
+                                '</p>' +
+                                '<p style="width: 6%;">' +
+                                    '<select name="prcCurrencyCode" class="form-control">' +
+                                        '<option value="KRW">₩</option>' +
+                                        '<option value="JPY">¥</option>' +
+                                        '<option value="USD">$</option>' +
+                                    '</select>' +
+                                '</p>' +
+                                '<p style="width: 10%;">' +
+                                    '<input type="text" name="price" value="" class="price" maxlength="10">' +
+                                '</p>' +
+                                '<p style="width: 10%;">' +
+                                    '<input type="text" name="discount" value="" class="price" maxlength="10">' +
+                                '</p>' +
+                                '<p style="width: 10%;">' +
+                                    '<input type="text" name="additional" value="" class="price" maxlength="10">' +
+                                '</p>' +
+                                '<p style="width: 6%;">' +
+                                    '<input type="text" name="cnt" value="">' +
+                                '</p>' +
+                                '<p style="width: 10%;" class="totalPrice">' +
+                                    0 +
+                                '</p>' +
+                                '<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+                            '</li>';
+
+                    cnt = 5;
+                    str = "판매가는 " + cnt + "개까지만 생성할 수 있습니다.";
+                    break;
+            }
+
+            if (body.find("li").length >= cnt) {
+                alert(str);
+                return;
+            }
+
+            body.append(html);
+            $("input.price").onlyNumber();
+        });
+
+        $("article.revData2").delegate("a.removeData", "click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this),
+                parent = _this.parents('li');
+
+            if (parent.siblings().length < 1) {
+                $("article.revData2 button.addform").click();
+            }
+
+            parent.remove();
+        });
+
+        function getHotels(revCode) {
+            var datas = { code: revCode },
+                url = "/Reserve/JSON_getHotels",
+                acLists = $("ul.htList.lists-body"),
+                html = "";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    //for (i in data) {
+
+                    //    html += '<li';
+
+                    //    if (data[i].REV_ACC_GB_CODE == "환불") {
+                    //        html += " style='color: red;'";
+                    //    }
+
+                    //    html += '>' +
+                    //               '<p style="width: 5%;">' +
+                    //                   '<input type="hidden" name="user" />' +
+                    //                   data[i].REV_ACC_SEQ +
+                    //               '</p>' +
+                    //               '<p style="width: 10%;">' + data[i].REV_ACC_DATE + '</p>' +
+                    //               '<p style="width: 10%;">' + data[i].REV_ACC_REG_DATE + '</p>' +
+                    //               '<p style="width: 8%;">' + data[i].REV_ACC_IST_EMP_NO + '</p>' +
+                    //               '<p style="width: 7%;">' + data[i].REV_ACC_GB_CODE + '</p>' +
+                    //               '<p style="width: 15%;">' + data[i].REV_ACC_DET_SEQ + '</p>' +
+                    //               '<p style="width: 10%;">' + data[i].REV_ACC_PRICE.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</p>' +
+                    //               '<p style="width: 10%;">' + data[i].REV_ACC_NAME + '</p>' +
+                    //               '<p style="width: 20%;">' + data[i].REV_ACC_CONTENT + '</p>' +
+                    //               '<p style="width: 5%;"></p>' +
+                    //               //'<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+                    //           '</li>';
+                    //}
+
+                    acLists.html(html);
+                }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+            });
+        }
+
+        function getAcc(revCode) {
+            var datas = { code: revCode },
+                url = "/Reserve/JSON_getAcc",
+                acLists = $("ul.acLists.lists-body"),
+                html = "";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    for (i in data) {
+
+                        html += '<li';
+
+                        if (data[i].REV_ACC_GB_CODE == "환불")
+                        {
+                            html += " style='color: red;'";
+                        }
+
+                        html += '>' +
+                                   '<p style="width: 5%;">' +
+                                       '<input type="hidden" name="user" />' +
+                                       data[i].REV_ACC_SEQ +
+                                   '</p>' +
+                                   '<p style="width: 10%;">' + data[i].REV_ACC_DATE + '</p>' +
+                                   '<p style="width: 10%;">' + data[i].REV_ACC_REG_DATE + '</p>' +
+                                   '<p style="width: 8%;">' + data[i].REV_ACC_IST_EMP_NO + '</p>' +
+                                   '<p style="width: 7%;">' + data[i].REV_ACC_GB_CODE + '</p>' +
+                                   '<p style="width: 15%;">' + data[i].REV_ACC_DET_SEQ + '</p>' +
+                                   '<p style="width: 10%;">' + data[i].REV_ACC_PRICE.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</p>' +
+                                   '<p style="width: 10%;">' + data[i].REV_ACC_NAME + '</p>' +
+                                   '<p style="width: 20%;">' + data[i].REV_ACC_CONTENT + '</p>' +
+                                   '<p style="width: 5%;"></p>' +
+                                   //'<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+                               '</li>';
+                    }
+
+                    acLists.html(html);
+                }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+            });
+        }
+
+        function getTraveler(revCode) {
+            var datas = { code: revCode },
+                url = "/Reserve/JSON_getTraveler",
+                rcLists = $("ul.rcLists.lists-body"),
+                html = "";;
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    for (i in data) {
+
+                        html += '<li>' +
+                                    '<p style="width: 5%;">' +
+                                        '<input type="hidden" name="user" />' +
+                                        data[i].REV_CU_SEQ +
+                                    '</p>' +
+                                    '<p style="width: 10%;"><input type="text" value="' + data[i].CU_NAME + '" name="cuName"></p>' +
+                                    '<p style="width: 5%;">' +
+                                        '<button class="btn btn-default" data-target="getCustomer">검색</button>' +
+                                    '</p>' +
+                                    '<p style="width: 10%;"><input type="text" value="' + data[i].CU_NAME_LAST + '" name="cuLast"></p>' +
+                                    '<p style="width: 10%;"><input type="text" value="' + data[i].CU_NAME_FIRST + '" name="cuFirst"></p>' +
+                                    '<p style="width: 7%;">' +
+                                        '<select class="form-control" name="sex">';
+
+                        if (data[i].CU_SEX == "M")
+                            html += "<option value='M' selected='selected'>남자</option>";
+                        else
+                            html += "<option value='M'>남자</option>";
+
+                        if (data[i].CU_SEX == "F")
+                            html += "<option value='F' selected='selected'>여자</option>";
+                        else
+                            html += "<option value='F'>여자</option>";
+
+                        html += '</select>' +
+                                '</p>' +
+                                '<p style="width: 7%;">' +
+                                    '<select class="form-control" name="gb">';
+
+                        if (data[i].CU_GB == "A")
+                            html += "<option value='A' selected='selected'>성인</option>";
+                        else
+                            html += "<option value='A'>성인</option>";
+
+                        if (data[i].CU_GB == "C")
+                            html += "<option value='C' selected='selected'>소아</option>";
+                        else
+                            html += "<option value='C'>소아</option>";
+
+                        if (data[i].CU_GB == "B")
+                            html += "<option value='B' selected='selected'>유아</option>";
+                        else
+                            html += "<option value='B'>유아</option>";
+
+
+                        html += '</select>' +
+                                '</p>' +
+                                '<p style="width: 15%;"><input type="text" value="' + data[i].CU_TEL + '" name="cuTel"></p>' +
+                                '<p style="width: 26%;"><input type="text" value="' + data[i].REV_CONTENT + '" name="content"></p>' +
+                                '<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+                            '</li>';
+                    }
+
+                    if (html == "") {
+                        html += '<li>' +
+                                    '<p style="width: 5%;">' +
+                                        '<input type="hidden" name="user" />' +
+                                    '</p>' +
+                                    '<p style="width: 10%;"><input type="text" value="" name="cuName"></p>' +
+                                    '<p style="width: 5%;">' +
+                                        '<button class="btn btn-default" data-target="getCustomer">검색</button>' +
+                                    '</p>' +
+                                    '<p style="width: 10%;"><input type="text" value="" name="cuLast"></p>' +
+                                    '<p style="width: 10%;"><input type="text" value="" name="cuFirst"></p>' +
+                                    '<p style="width: 7%;">' +
+                                        '<select class="form-control" name="sex">' +
+                                            '<option value="M">남자</option>' +
+                                            '<option value="F">여자</option>' +
+                                        '</select>' +
+                                    '</p>' +
+                                    '<p style="width: 7%;">' +
+                                        '<select class="form-control" name="gb">' +
+                                            '<option value="A">성인</option>' +
+                                            '<option value="C">소아</option>' +
+                                            '<option value="B">유아</option>' +
+                                        '</select>' +
+                                    '</p>' +
+                                    '<p style="width: 15%;"><input type="text" value="" name="cuTel"></p>' +
+                                    '<p style="width: 26%;"><input type="text" value="" name="content"></p>' +
+                                    '<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+                                '</li>';
+                    }
+
+                    rcLists.html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+
+            //$.post(url, datas, function (data) {
+            //    for (i in data) {
+
+            //        html += '<li>' +
+            //                    '<p style="width: 5%;">' +
+            //                        '<input type="hidden" name="user" />' +
+            //                        data[i].REV_CU_SEQ +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;"><input type="text" value="' + data[i].CU_NAME + '" name="cuName"></p>' +
+            //                    '<p style="width: 5%;">' +
+            //                        '<button class="btn btn-default" data-target="getCustomer">검색</button>' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;"><input type="text" value="' + data[i].CU_NAME_LAST + '" name="cuLast"></p>' +
+            //                    '<p style="width: 10%;"><input type="text" value="' + data[i].CU_NAME_FIRST + '" name="cuFirst"></p>' +
+            //                    '<p style="width: 7%;">' +
+            //                        '<select class="form-control" name="sex">';
+
+            //        if (data[i].CU_SEX == "M")
+            //            html += "<option value='M' selected='selected'>남자</option>";
+            //        else
+            //            html += "<option value='M'>남자</option>";
+
+            //        if (data[i].CU_SEX == "F")
+            //            html += "<option value='F' selected='selected'>여자</option>";
+            //        else
+            //            html += "<option value='F'>여자</option>";
+
+            //            html +=     '</select>' +
+            //                    '</p>' +
+            //                    '<p style="width: 7%;">' +
+            //                        '<select class="form-control" name="gb">';
+
+            //                if (data[i].CU_GB == "A")
+            //                    html += "<option value='A' selected='selected'>성인</option>";
+            //                else
+            //                    html += "<option value='A'>성인</option>";
+
+            //                if (data[i].CU_GB == "C")
+            //                    html += "<option value='C' selected='selected'>소아</option>";
+            //                else
+            //                    html += "<option value='C'>소아</option>";
+
+            //                if (data[i].CU_GB == "B")
+            //                    html += "<option value='B' selected='selected'>유아</option>";
+            //                else
+            //                    html += "<option value='B'>유아</option>";
+
+
+            //            html +=     '</select>' +
+            //                    '</p>' +
+            //                    '<p style="width: 15%;"><input type="text" value="' + data[i].CU_TEL + '" name="cuTel"></p>' +
+            //                    '<p style="width: 26%;"><input type="text" value="' + data[i].REV_CONTENT + '" name="content"></p>' +
+            //                    '<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+            //                '</li>';
+            //    }
+
+            //    if (html == "")
+            //    {
+            //        html += '<li>' +
+            //                    '<p style="width: 5%;">' +
+            //                        '<input type="hidden" name="user" />' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;"><input type="text" value="" name="cuName"></p>' +
+            //                    '<p style="width: 5%;">' +
+            //                        '<button class="btn btn-default" data-target="getCustomer">검색</button>' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;"><input type="text" value="" name="cuLast"></p>' +
+            //                    '<p style="width: 10%;"><input type="text" value="" name="cuFirst"></p>' +
+            //                    '<p style="width: 7%;">' +
+            //                        '<select class="form-control" name="sex">' +
+            //                            '<option value="M">남자</option>' +
+            //                            '<option value="F">여자</option>' +
+            //                        '</select>' +
+            //                    '</p>' +
+            //                    '<p style="width: 7%;">' +
+            //                        '<select class="form-control" name="gb">' +
+            //                            '<option value="A">성인</option>' +
+            //                            '<option value="C">소아</option>' +
+            //                            '<option value="B">유아</option>' +
+            //                        '</select>' +
+            //                    '</p>' +
+            //                    '<p style="width: 15%;"><input type="text" value="" name="cuTel"></p>' +
+            //                    '<p style="width: 26%;"><input type="text" value="" name="content"></p>' +
+            //                    '<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+            //                '</li>';
+            //    }
+
+            //    rcLists.html(html);
+            //});
+        }
+
+        $("ul.revLists > li").on("click", function () {
+            var _this = $(this);
+
+            _this.addClass("selected").siblings().removeClass("selected");
+
+            var revCode = _this.attr("data-code"),
+                url = "/Reserve/JSON_getSellPrice";
+
+            var datas = { code: revCode };
+
+            var REVCODE = revCode.split("_");
+
+            $("input[name='REV_DAY']").val(REVCODE[0]);
+            $("input[name='REV_SEQ']").val(REVCODE[1]);
+
+            getAcc(revCode);
+            getTraveler(revCode);
+            getHotels(revCode);
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var rpLists = $("ul.rpLists.lists-body"),
+                        html = "";
+
+                    for (i in data) {
+                        var pdtCode = data[i].pdtCode;
+                        var pdtKey = data[i].pdtKey;
+
+                        html += '<li>' +
+                                    '<p style="width: 17%;">' +
+                                        '<input type="hidden" name="prcKey" value="' + data[i].prcKey + '">' +
+                                        '<input type="text" name="prcContent" value="' + data[i].PRC_CONTENT + '" maxlength="10" style="width: 134px;">' +
+                                        '<button class="btn btn-default" data-target="getOptions">찾기</button>' +
+                                    '</p>' +
+                                    '<p style="width: 19%;">' +
+                                        '<input type="text" name="revprcContent" value="' + data[i].REV_PRC_CONTENT + '">' +
+                                    '</p>' +
+                                    '<p style="width: 7%;">' +
+                                        '<select name="revprcGB" class="form-control" data-aPrice="' + data[i].aPrice + '" data-cPrice="' + data[i].cPrice + '" data-bPrice="' + data[i].bPrice + '">';
+
+                        if (data[i].REV_PRC_GB == "A")
+                            html += "<option value='A' selected='selected'>성인</option>";
+                        else
+                            html += "<option value='A'>성인</option>";
+
+                        if (data[i].REV_PRC_GB == "C")
+                            html += "<option value='C' selected='selected'>소아</option>";
+                        else
+                            html += "<option value='C'>소아</option>";
+
+                        if (data[i].REV_PRC_GB == "B")
+                            html += "<option value='B' selected='selected'>유아</option>";
+                        else
+                            html += "<option value='B'>유아</option>";
+
+                        html += '</select>' +
+                                    '</p>' +
+                                    '<p style="width: 6%;">' +
+                                        '<select name="prcCurrencyCode" class="form-control">';
+
+                        if (data[i].PRC_CURRENCY_CODE == "KRW")
+                            html += "<option value='KRW' selected='selected'>₩</option>";
+                        else
+                            html += "<option value='KRW'>₩</option>";
+
+                        if (data[i].PRC_CURRENCY_CODE == "JPY")
+                            html += "<option value='JPY' selected='selected'>¥</option>";
+                        else
+                            html += "<option value='JPY'>¥</option>";
+
+                        if (data[i].PRC_CURRENCY_CODE == "USD")
+                            html += "<option value='USD' selected='selected'>$</option>";
+                        else
+                            html += "<option value='USD'>$</option>";
+
+                        html += '</select>' +
+                                    '</p>' +
+                                    '<p style="width: 10%;">' +
+                                        '<input type="text" name="price" value="' + data[i].REV_PRC_PRICE + '" class="price" maxlength="10">' +
+                                    '</p>' +
+                                    '<p style="width: 10%;">' +
+                                        '<input type="text" name="discount" value="' + data[i].REV_PRC_DISCOUNT + '" class="price" maxlength="10">' +
+                                    '</p>' +
+                                    '<p style="width: 10%;">' +
+                                        '<input type="text" name="additional" value="' + data[i].REV_PRC_ADDITIONAL_PRICE + '" class="price" maxlength="10">' +
+                                    '</p>' +
+                                    '<p style="width: 6%;">' +
+                                        '<input type="text" name="cnt" value="' + data[i].REV_PRC_CNT + '">' +
+                                    '</p>' +
+                                    '<p style="width: 10%;" class="totalPrice">' +
+                                        data[i].REV_PRC_TOTAL_PRICE.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                                    '</p>' +
+                                    '<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+                                '</li>';
+                    }
+
+                    if (html == "") {
+                        html += '<li>' +
+                                    '<p style="width: 17%;">' +
+                                        '<input type="hidden" name="prcKey" value="">' +
+                                        '<input type="text" name="prcContent" value="" maxlength="10" style="width: 134px;">' +
+                                        '<button class="btn btn-default" data-target="getOptions">찾기</button>' +
+                                    '</p>' +
+                                    '<p style="width: 19%;">' +
+                                        '<input type="text" name="revprcContent" value="">' +
+                                    '</p>' +
+                                    '<p style="width: 7%;">' +
+                                        '<select name="revprcGB" class="form-control">' +
+                                            '<option value="A">성인</option>' +
+                                            '<option value="C">소아</option>' +
+                                            '<option value="B">유아</option>' +
+                                        '</select>' +
+                                    '</p>' +
+                                    '<p style="width: 6%;">' +
+                                        '<select name="prcCurrencyCode" class="form-control">' +
+                                            '<option value="KRW">₩</option>' +
+                                            '<option value="JPY">¥</option>' +
+                                            '<option value="USD">$</option>' +
+                                        '</select>' +
+                                    '</p>' +
+                                    '<p style="width: 10%;">' +
+                                        '<input type="text" name="price" value="" class="price" maxlength="10">' +
+                                    '</p>' +
+                                    '<p style="width: 10%;">' +
+                                        '<input type="text" name="discount" value="" class="price" maxlength="10">' +
+                                    '</p>' +
+                                    '<p style="width: 10%;">' +
+                                        '<input type="text" name="additional" value="" class="price" maxlength="10">' +
+                                    '</p>' +
+                                    '<p style="width: 6%;">' +
+                                        '<input type="text" name="cnt" value="">' +
+                                    '</p>' +
+                                    '<p style="width: 10%;" class="totalPrice">' +
+                                        0 +
+                                    '</p>' +
+                                    '<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+                                '</li>';
+                    }
+
+                    rpLists.html(html);
+                    $("input.price").onlyNumber();
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+
+            //$.post(url, datas, function (data) {
+            //    var rpLists = $("ul.rpLists.lists-body"),
+            //        html = "";
+
+            //    for (i in data) {
+            //        var pdtCode = data[i].pdtCode;
+            //        var pdtKey = data[i].pdtKey;
+
+            //        html += '<li>' +
+            //                    '<p style="width: 17%;">' +
+            //                        //'<input type="hidden" name="pdtCode" value="' + pdtCode + '">' +
+            //                        //'<input type="hidden" name="pdtKey" value="' + pdtKey + '">' +
+            //                        '<input type="hidden" name="prcKey" value="' + data[i].prcKey + '">' +
+            //                        '<input type="text" name="prcContent" value="' + data[i].PRC_CONTENT + '" maxlength="10" style="width: 134px;">' +
+            //                        '<button class="btn btn-default" data-target="getOptions">찾기</button>' +
+            //                    '</p>' +
+            //                    '<p style="width: 19%;">' +
+            //                        '<input type="text" name="revprcContent" value="' + data[i].REV_PRC_CONTENT + '">' +
+            //                    '</p>' +
+            //                    '<p style="width: 7%;">' +
+            //                        '<select name="revprcGB" class="form-control" data-aPrice="' + data[i].aPrice + '" data-cPrice="' + data[i].cPrice + '" data-bPrice="' + data[i].bPrice + '">';
+
+            //        if (data[i].REV_PRC_GB == "A")
+            //            html += "<option value='A' selected='selected'>성인</option>";
+            //        else
+            //            html += "<option value='A'>성인</option>";
+
+            //        if (data[i].REV_PRC_GB == "C")
+            //            html += "<option value='C' selected='selected'>소아</option>";
+            //        else
+            //            html += "<option value='C'>소아</option>";
+
+            //        if (data[i].REV_PRC_GB == "B")
+            //            html += "<option value='B' selected='selected'>유아</option>";
+            //        else
+            //            html += "<option value='B'>유아</option>";
+
+            //        html += '</select>' +
+            //                    '</p>' +
+            //                    '<p style="width: 6%;">' +
+            //                        '<select name="prcCurrencyCode" class="form-control">';
+
+            //        if (data[i].PRC_CURRENCY_CODE == "KRW")
+            //            html += "<option value='KRW' selected='selected'>₩</option>";
+            //        else
+            //            html += "<option value='KRW'>₩</option>";
+
+            //        if (data[i].PRC_CURRENCY_CODE == "JPY")
+            //            html += "<option value='JPY' selected='selected'>¥</option>";
+            //        else
+            //            html += "<option value='JPY'>¥</option>";
+
+            //        if (data[i].PRC_CURRENCY_CODE == "USD")
+            //            html += "<option value='USD' selected='selected'>$</option>";
+            //        else
+            //            html += "<option value='USD'>$</option>";
+
+            //        html += '</select>' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;">' +
+            //                        '<input type="text" name="price" value="' + data[i].REV_PRC_PRICE + '" class="price" maxlength="10">' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;">' +
+            //                        '<input type="text" name="discount" value="' + data[i].REV_PRC_DISCOUNT + '" class="price" maxlength="10">' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;">' +
+            //                        '<input type="text" name="additional" value="' + data[i].REV_PRC_ADDITIONAL_PRICE + '" class="price" maxlength="10">' +
+            //                    '</p>' +
+            //                    '<p style="width: 6%;">' +
+            //                        '<input type="text" name="cnt" value="' + data[i].REV_PRC_CNT + '">' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;" class="totalPrice">' +
+            //                        data[i].REV_PRC_TOTAL_PRICE.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+            //                    '</p>' +
+            //                    '<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+            //                '</li>';
+
+            //        //html += "<tr>" +
+            //        //            "<td>" +
+            //        //                "<input type='hidden' name='pdtCode' value='" + pdtCode + "' >" +
+            //        //                "<input type='hidden' name='pdtKey' value='" + pdtKey + "' >" +
+            //        //                "<input type='text' value='" + data[i].PRC_CONTENT + "' maxlength='10' style='width: 134px;'>" +
+            //        //                "<button>찾기</button>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<input type='text' value='" + data[i].REV_PRC_CONTENT + "'>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<select>";
+
+            //        //if (data[i].REV_PRC_GB == "A")
+            //        //    html += "<option value='A' selected='selected'>성인</option>";
+            //        //else
+            //        //    html += "<option value='A'>성인</option>";
+
+            //        //if (data[i].REV_PRC_GB == "C")
+            //        //    html += "<option value='C' selected='selected'>소아</option>";
+            //        //else
+            //        //    html += "<option value='C'>소아</option>";
+
+            //        //if (data[i].REV_PRC_GB == "B")
+            //        //    html += "<option value='B' selected='selected'>유아</option>";
+            //        //else
+            //        //    html += "<option value='B'>유아</option>";
+
+            //        //html +=         "</select>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<select>";
+
+            //        //if (data[i].PRC_CURRENCY_CODE == "KRW")
+            //        //    html += "<option value='KRW' selected='selected'>₩</option>";
+            //        //else
+            //        //    html += "<option value='KRW'>₩</option>";
+
+            //        //if (data[i].PRC_CURRENCY_CODE == "JPY")
+            //        //    html += "<option value='JPY' selected='selected'>¥</option>";
+            //        //else
+            //        //    html += "<option value='JPY'>¥</option>";
+
+            //        //if (data[i].PRC_CURRENCY_CODE == "USD")
+            //        //    html += "<option value='USD' selected='selected'>$</option>";
+            //        //else
+            //        //    html += "<option value='USD'>$</option>";
+
+            //        //html +=         "</select>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<input type='text' value='" + data[i].REV_PRC_PRICE + "' class='price' maxlength='10'>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<input type='text' value='" + data[i].REV_PRC_DISCOUNT + "' class='price' maxlength='10'>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<input type='text' value='" + data[i].REV_PRC_ADDITIONAL_PRICE + "' class='price' maxlength='10'>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<input type='text' value='" + data[i].REV_PRC_CNT + "'>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                 data[i].REV_PRC_TOTAL_PRICE +
+            //        //            "</td>" +
+            //        //        "</tr>";
+            //    }
+
+            //    if (html == "") {
+            //        html += '<li>' +
+            //                    '<p style="width: 17%;">' +
+            //                        //'<input type="hidden" name="pdtCode" value="">' +
+            //                        //'<input type="hidden" name="pdtKey" value="">' +
+            //                        '<input type="hidden" name="prcKey" value="">' +
+            //                        '<input type="text" name="prcContent" value="" maxlength="10" style="width: 134px;">' +
+            //                        '<button class="btn btn-default" data-target="getOptions">찾기</button>' +
+            //                    '</p>' +
+            //                    '<p style="width: 19%;">' +
+            //                        '<input type="text" name="revprcContent" value="">' +
+            //                    '</p>' +
+            //                    '<p style="width: 7%;">' +
+            //                        '<select name="revprcGB" class="form-control">' +
+            //                            '<option value="A">성인</option>' +
+            //                            '<option value="C">소아</option>' +
+            //                            '<option value="B">유아</option>' +
+            //                        '</select>' +
+            //                    '</p>' +
+            //                    '<p style="width: 6%;">' +
+            //                        '<select name="prcCurrencyCode" class="form-control">' +
+            //                            '<option value="KRW">₩</option>' +
+            //                            '<option value="JPY">¥</option>' +
+            //                            '<option value="USD">$</option>' +
+            //                        '</select>' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;">' +
+            //                        '<input type="text" name="price" value="" class="price" maxlength="10">' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;">' +
+            //                        '<input type="text" name="discount" value="" class="price" maxlength="10">' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;">' +
+            //                        '<input type="text" name="additional" value="" class="price" maxlength="10">' +
+            //                    '</p>' +
+            //                    '<p style="width: 6%;">' +
+            //                        '<input type="text" name="cnt" value="">' +
+            //                    '</p>' +
+            //                    '<p style="width: 10%;" class="totalPrice">' +
+            //                        0 +
+            //                    '</p>' +
+            //                    '<p style="width: 5%;"><a href="#" class="removeData"><span aria-hidden="true">&times;</span></a></p>' +
+            //                '</li>';
+
+            //        //html += "<tr>" +
+            //        //            "<td>" +
+            //        //                "<input type='hidden' name='pdtCode' value='' >" +
+            //        //                "<input type='hidden' name='pdtKey' value='' >" +
+            //        //                "<input type='text' value='' maxlength='10' style='width: 134px;'>" +
+            //        //                "<button>찾기</button>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<input type='text' value=''>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<select>" +
+            //        //                    "<option value='A'>성인</option>" +
+            //        //                    "<option value='C'>소아</option>" +
+            //        //                    "<option value='B'>유아</option>" +
+            //        //                "</select>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<select>" +
+            //        //                    "<option value='KRW'>₩</option>" +
+            //        //                    "<option value='JPY'>¥</option>" +
+            //        //                    "<option value='USD'>$</option>" +
+            //        //                "</select>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<input type='text' value='0' class='price' maxlength='10'>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<input type='text' value='0' class='price' maxlength='10'>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<input type='text' value='0' class='price' maxlength='10'>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                "<input type='text' value='0'>" +
+            //        //            "</td>" +
+            //        //            "<td>" +
+            //        //                 0 +
+            //        //            "</td>" +
+            //        //        "</tr>";
+            //    }
+
+            //    rpLists.html(html);
+            //    $("input.price").onlyNumber();
+            //});
+
+            $("article.revData2 li").eq(0).find("a").click();
+        });
+
+        $("ul.revLists > li:eq(0)").click();
+
+        $("ul.lists-body").delegate("button", "click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this),
+                revDay = _this.parents("form").find("input[name='REV_DAY']").val(),
+                revSeq = _this.parents("form").find("input[name='REV_SEQ']").val(),
+                target = _this.attr('data-target'),
+                url = '/Reserve/' + target;
+            @*target = "options",
+                url = "/Reserve/getOptions";
+
+            var _this = $(this),
+                code = _this.attr('data-code'),
+                rUrl = "@Request.Url.PathAndQuery",
+                target = _this.attr('data-target'),
+                url = '/Reserve/' + target;
+
+            var datas = { code: code };*@
+
+            _this.parents("li").siblings().removeClass("selected").end().addClass("selected");
+
+            var datas = { REV_DAY: revDay, REV_SEQ: revSeq };
+
+            var chkNo = _this.attr("data-no");
+
+            if (chkNo != undefined) {
+                datas = { REV_DAY: revDay, REV_SEQ: revSeq, no: chkNo };
+            }
+
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        });
+
+        $("ul.rpLists.lists-body").delegate("select[name='revprcGB']", "change", function () {
+            var _this = $(this),
+                parent = _this.parents("li"),
+                aPrice = _this.attr("data-aPrice"),
+                cPrice = _this.attr("data-cPrice"),
+                bPrice = _this.attr("data-bPrice"),
+                price = "",
+                prcKey = parent.find("input[name='prcKey']").val();
+
+            switch (_this.val()) {
+                case "A":
+                    price = aPrice;
+                    break;
+                case "C":
+                    price = cPrice;
+                    break;
+                case "B":
+                    price = bPrice;
+                    break;
+            }
+
+            if ((price == "0" || price == undefined) && prcKey != "0") {
+                alert("해당 구분의 요금이 존재하지 않습니다.");
+                _this.parents("li").find("input[name='price']").val(0);
+            }
+
+            if (prcKey != "0")
+                _this.parents("li").find("input[name='price']").val(price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+            var price = parent.find("input[name='price']").val().replace(/[^\d]+/g, ''),
+                discount = parent.find("input[name='discount']").val().replace(/[^\d]+/g, ''),
+                additional = parent.find("input[name='additional']").val().replace(/[^\d]+/g, ''),
+                cnt = parent.find("input[name='cnt']").val(),
+                totalPrice = parent.find("p.totalPrice");
+
+            var tPrice = ((price * 1) + (additional * 1) - (discount * 1)) * (cnt * 1);
+
+            totalPrice.text(tPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        });
+
+        $("ul.rpLists.lists-body").delegate("input.price, input[name='cnt']", "keypress keyup", function () {
+            var _this = $(this),
+                parents = _this.parents("li"),
+                price = parents.find("input[name='price']").val().replace(/[^\d]+/g, ''),
+                discount = parents.find("input[name='discount']").val().replace(/[^\d]+/g, ''),
+                additional = parents.find("input[name='additional']").val().replace(/[^\d]+/g, ''),
+                cnt = parents.find("input[name='cnt']").val(),
+                totalPrice = parents.find("p.totalPrice");
+
+            var tPrice = ((price * 1) + (additional * 1) - (discount * 1)) * (cnt * 1);
+
+            totalPrice.text(tPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        });
+
+        $('li[data-toggle="popup"]').on("dblclick", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this),
+                code = _this.attr('data-code'),
+                rUrl = "@Request.Url.PathAndQuery",
+                target = _this.attr('data-target'),
+                url = '/Reserve/' + target;
+
+            var datas = { code: code };
+
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        });
+
+        $('input.chkVoucher').on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this),
+                url = _this.attr('href'),
+                code = _this.attr('data-code'),
+                rUrl = "@Request.Url.PathAndQuery",
+                addClass = _this.attr('data-target'),
+                key = _this.parents("tr").attr('data-key');
+
+            if (url == undefined) {
+                url = '/Reserve/' + _this.attr("class").trim();
+                code = _this.parents("li.selected").attr('data-code');
+
+                key = _this.parent().parents("li").attr('data-key');
+            }
+
+            //console.log(url);
+
+            //console.log(code);
+
+            var datas = { code: code };
+
+            if (url.indexOf('#') == 0) {
+                $(url).modal('show');
+            } else {
+                $.get(url, datas, function (data) {
+                    $('<div class="modal fade ' + addClass + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+                });
+            }
+        });
+
+        $('button.default').on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this),
+                //code = _this.attr('data-code'),
+                rUrl = "@Request.Url.PathAndQuery",
+                target = _this.attr('data-target'),
+                url = '/Reserve/' + target;
+
+            $.get(url, null, function (data) {
+                $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+
+            //location.reload();
+        });
+    });
+
+    (function ($) {
+        // 숫자 제외하고 모든 문자 삭제.
+        $.fn.removeText = function (_v) {
+            //console.log("removeText: 숫자 제거 합니다.");
+            if (typeof (_v) === "undefined") {
+                $(this).each(function () {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            }
+            else {
+                return _v.replace(/[^0-9]/g, '');
+            }
+        };
+
+        // php의 number_format과 같은 효과.
+        $.fn.numberFormat = function (_v) {
+            this.proc = function (_v) {
+                var tmp = '',
+                    number = '',
+                    cutlen = 3,
+                    comma = ','
+                i = 0,
+                len = _v.length,
+                mod = (len % cutlen),
+                k = cutlen - mod;
+
+                for (i; i < len; i++) {
+                    number = number + _v.charAt(i);
+                    if (i < len - 1) {
+                        k++;
+                        if ((k % cutlen) == 0) {
+                            number = number + comma;
+                            k = 0;
+                        }
+                    }
+                }
+                return number;
+            };
+
+            var proc = this.proc;
+            if (typeof (_v) === "undefined") {
+                $(this).each(function () {
+                    this.value = proc($(this).removeText(this.value));
+                });
+            }
+            else {
+                return proc(_v);
+            }
+        };
+
+        // 위 두개의 합성.
+        // 콤마 불필요시 numberFormat 부분을 주석처리.
+        $.fn.onlyNumber = function (p) {
+            $(this).each(function (i) {
+                //$(this).attr({'style':'text-align:right'});
+
+                this.value = $(this).removeText(this.value);
+                this.value = $(this).numberFormat(this.value);
+
+                $(this).bind('keypress keyup', function (e) {
+                    this.value = $(this).removeText(this.value);
+                    this.value = $(this).numberFormat(this.value);
+                });
+            });
+        };
+
+    })(jQuery);
+</script>

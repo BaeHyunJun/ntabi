@@ -1,0 +1,149 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    section.content {
+        padding: 52px 0;
+        margin: 0 -15px;
+    }
+
+    section > article.getID {
+        padding: 20px;
+    }
+
+        section > article.getID > input,
+        section > article.getID > button,
+        section > article.getID > a {
+            width: 100%;
+            height: 45px;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            line-height: 45px;
+            border: 1px solid #ddd;
+        }
+
+            section > article.getID > button.getIDBtn {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: 10px 0 0;
+                color: white;
+                background: #a0ce54;
+                border: #a0ce54;
+                font-weight: bold;
+                padding: 0;
+                max-width: 450px;
+                margin: 0 auto;
+            }
+
+        section > article.getID > a {
+            margin: 10px 0 0;
+            display: block;
+            text-align: center;
+            color: black;
+            border: 2px solid #a0ce54;
+            font-weight: bold;
+            padding: 0;
+        }
+
+        section > article.getID > div {
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+            section > article.getID > div > label {
+                margin: 0;
+                color: #777;
+            }
+
+                section > article.getID > div > label > input {
+                    margin: 0;
+                    margin-right: 5px;
+                }
+
+                section > article.getID > div > label > a,
+                section > article.getID > div > label > span {
+                    color: #777;
+                }
+
+                section > article.getID > div > label > span {
+                    margin: 0 10px;
+                }
+</style>
+
+
+<section class="content">
+    <article class="getID">
+        <input type="text" name="id" placeholder="아이디" />
+        <input type="text" name="name" placeholder="이름" />
+        <input type="date" name="birth" placeholder="생년 월일" value="1980-12-01" />
+        <input type="text" name="email" placeholder="이메일" />
+
+        <button class="getIDBtn">비밀번호 찾기</button>
+    </article>
+</section>
+
+<script src="~/Scripts/jquery.cookie.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("article.getID button.getIDBtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var id = $("input[name='id']");//.val();
+            var name = $("input[name='name']");//.val();
+            var birth = $("input[name='birth']");
+            var email = $("input[name='email']");
+
+            if (id.val() == "") {
+                alert("아이디를 입력해주세요.");
+                id.focus();
+                return;
+            }
+
+            if (name.val() == "") {
+                alert("이름을 입력해주세요.");
+                name.focus();
+                return;
+            }
+
+            if (birth.val() == "") {
+                alert("생년월일을 입력해주세요.");
+                birth.focus();
+                return;
+            }
+
+            if (email.val() == "") {
+                alert("이메일을 입력해주세요.");
+                email.focus();
+                return;
+            }
+
+            var url = "/Home/getPW";
+            var data = { id: id.val(), name: name.val(), birth: birth.val(), mail: email.val() };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (rData) {
+                    alert(rData);
+
+                    //if (rData.indexOf("반갑습니다.") > -1) {
+                    //    location.href = "/";
+                    //}
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

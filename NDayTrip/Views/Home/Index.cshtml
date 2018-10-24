@@ -1,0 +1,551 @@
+﻿@{
+    Layout = null;// "~/Views/Shared/_Layout.cshtml";
+
+    string userAgent = Request.UserAgent;
+    string[] browser = { "iphone", "ipod", "ipad", "android", "blackberry", "windows ce", "nokia", "webos", "opera mini", "sonyericsson", "opera mobi", "iemobile", "windows phone" };
+    bool isMobile = false;
+
+    for (int iasd = 0; iasd < browser.Length; iasd++)
+    {
+        if (userAgent.ToLower().Contains(browser[iasd]))
+        {
+            isMobile = true;
+            break;
+        }
+    }
+
+    @*if (!isMobile)
+        {
+            <script>
+                location.href = "/Home/Maintenance";
+            </script>
+        }*@
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/css")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link href="http://fonts.googleapis.com/earlyaccess/nanumgothic.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/earlyaccess/nanumbrushscript.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/earlyaccess/nanumpenscript.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/earlyaccess/nanummyeongjo.css" rel="stylesheet">
+
+
+
+    <style>
+        * {
+            font-family: "Noto Sans KR" !important;
+            /*font–family: "Nanum Gothic";
+            font–family: "Nanum Myeongjo";
+            font–family: "Nanum Brush Script";
+            font–family: "Nanum Pen Script";*/
+        }
+
+        a {
+            color: black;
+        }
+
+        div.navbar,
+        div.navbar div.container,
+        div.navbar div.container div.navbar-header {
+            background-color: transparent;
+            border: none;
+        }
+
+            div.navbar div.container div.navbar-header > button {
+                margin: 4px 1px;
+            }
+
+            div.navbar div.container div.navbar-header button.menuBtn span.icon-bar {
+                width: 20px;
+                height: 3px;
+            }
+
+            div.navbar div.container div.navbar-header > a img.logo {
+                height: 70px;
+            }
+
+            div.navbar div.container div.navbar-header button.searchBtn span.glyphicon-search:before {
+                font-size: 16px;
+            }
+
+        p,
+        h5 {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+            overflow: hidden;
+            width: 90%;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-default" style="position: absolute; left: 0; right: 0; top: 0;">
+        <div class="container">
+            <div class="navbar-header">
+                @*<button type="button" class="navbar-toggle pull-left menuBtn" data-toggle="collapse" data-target=".menu">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>*@
+                <a href="/">
+                    <img class="logo" src="~/Content/Images/logo.png" alt="엔데이트립" />
+                </a>
+                @*<button type="button" class="navbar-toggle searchBtn" data-toggle="collapse" data-target=".search">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>*@
+            </div>
+
+            @*<div class="navbar-collapse collapse menu">
+                    <ul class="nav navbar-nav depth1">
+                        <li>
+                            버스투어 (지역 선택)
+                            <ul class="depth2">
+                                <li>
+                                    <a href="/Products/Lists?loc=HOKKAIDO">
+                                        <img src="~/content/Images/share/menu_hokkaido.png">
+                                        홋카이도
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Products/Lists?loc=OSAKA">
+                                        <img src="~/content/Images/share/menu_osaka.png">
+                                        오사카
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Products/Lists?loc=TOKYO">
+                                        <img src="~/content/Images/share/menu_tokyo.png">
+                                        도쿄
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Products/Lists?loc=OKINAWA">
+                                        <img src="~/content/Images/share/menu_okinawa.png">
+                                        오키나와
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Products/Lists?loc=FUKUOKA">
+                                        <img src="~/content/Images/share/menu_kyushu.png">
+                                        큐슈
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Products/Lists?loc=TSUSHIMA">
+                                        <img src="~/content/Images/share/menu_tsushima.png">
+                                        대마도
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="https://www.booking.com/?aid=1294434" target="_blank">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.timescar-rental.kr/af/7822000010/kr/" target="_blank">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/Community?type=NTB_qna">
+                                질문과 답변
+                            </a>
+                        </li>
+
+                        <li>@Html.ActionLink("마이페이지", "Index", "MyPage")</li>
+                        <li>
+                            @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm", style = "padding: 10px 15px; line-height: 20px;" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <a href="javascript:document.getElementById('logoutForm').submit()">
+                                    로그아웃
+                                </a>
+                            }
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="navbar-collapse collapse search">
+                </div>*@
+        </div>
+    </div>
+
+    <section style="padding-bottom: 50px;">
+        <article style="position: relative;">
+            <a href="/Products">
+                <img src="~/Content/Images/home/mobilemain_0911_.jpg" alt="배경이미지" style="width: 100%;" />
+                @*<div style="position: absolute; left: 0; top: 50%; right: 0; margin-top: -30px; text-align: center;">*@
+                <div style="position: absolute; left: 20px; bottom: 0; right: 20px; margin-top: -30px; text-align: left;">
+                    <p style="color: white; font-size: 20px; borderd-bottom: 1px solid white; display: inline;">일본을 더 일본답게</p>
+                    <h4 style="font-size: 26px; color: white; font-weight: bold;">엔데이트립</h4>
+                </div>
+            </a>
+        </article>
+
+        @*<a href="/Community/Views?t=event&k=1" style="position: relative; display: block; color: black; margin-top: 10px;">
+                <img src="~/Content/Images/home/event_open.jpg" style="width: 100%;" />
+            </a>*@
+
+        <article style="margin: 10px 0;">
+            <ul style="padding: 0; margin: 0; list-style: none;">
+                <li style="position: relative; margin-bottom: 10px;">
+                    <a href="/Products/Views?code=NTBLT41813&key=4">
+                        <img src="~/Content/Images/home/bestProduct/mobilebest_1_0911.jpg" style="width: 100%;" />
+                        <div style="position: absolute; bottom: 0; left: 0; color: white; padding-left: 5%; right: 0;">
+                            <h5>훗카이도 베스트 상품</h5>
+                            <p>59,000 원 ~</p>
+                        </div>
+                    </a>
+                </li>
+                <li style="position: relative; margin-bottom: 10px;">
+                    <a href="/Products/Views?code=NTBLT31716&key=3">
+                        <img src="~/Content/Images/home/bestProduct/mobilebest_2_0911.jpg" style="width: 100%;" />
+                        <div style="position: absolute; bottom: 0; left: 0; color: white; padding-left: 5%; right: 0;">
+                            <h5>오사카 베스트 상품</h5>
+                            <p>49,900 원 ~</p>
+                        </div>
+                    </a>
+                </li>
+                <li style="position: relative; margin-bottom: 10px;">
+                    <a href="/Products/Views?code=NTBLT11183&key=11">
+                        <img src="~/Content/Images/home/bestProduct//mobilebest_3_0911.jpg" style="width: 100%;" />
+                        <div style="position: absolute; bottom: 0; left: 0; color: white; padding-left: 5%; right: 0;">
+                            <h5>오키나와 버스투어</h5>
+                            <p>58,800 원 ~</p>
+                        </div>
+                    </a>
+                </li>
+                <li style="position: relative; margin-bottom: 10px;">
+                    <a href="/Products/Views?code=NTBLT4184&key=4">
+                        <img src="~/Content/Images/home/bestProduct/mbest_otaru_0724.jpg" style="width: 100%;" />
+                        <div style="position: absolute; bottom: 0; left: 0; color: white; padding-left: 5%; right: 0;">
+                            <h5>오타루,샤코탄 베스트 상품</h5>
+                            <p>59,000 원 ~</p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </article>
+
+        <a href="/Products/Views?code=NTBLT31811&key=3" style="position: relative; display: block; color: black;">
+            <img src="~/Content/Images/home/bestProduct/mhot_okinawa_180724.jpg" style="width: 100%;" />
+            <div style="position: absolute; top: 50%; left: 0; right: 0; margin-top: -28px; text-align: center;">
+                <span style="background: #00bafd; padding: 3px 10px; border-radius: 15px;">HOT</span>
+                <h5 style="font-size: 30px; letter-spacing: -2px; width: 100%; color: white;">OKINAWA</h5>
+            </div>
+        </a>
+
+        <article style="margin: 10px 0;">
+            <ul style="padding: 0; margin: 0; list-style: none;">
+                <li style="position: relative; margin-bottom: 10px; width: 48%; margin: 0 1% 10px; float: left;">
+                    <a href="/Products/Views?code=NTBLT2173&key=2" style="text-decoration: none;">
+                        <img src="~/Content/Images/home/bestProduct/mobiletour_1_0911.jpg" style="width: 100%;" />
+                        <div style="color: white; background-color: #ee5545; padding: 5%;">
+                            <h5 style="margin: 0; padding: 0; font-weight: bold; line-height: 24px;">큐슈</h5>
+                            <p>[1일 셔틀버스] <br />다유벳 </p>
+                        </div>
+                    </a>
+                </li>
+                <li style="position: relative; margin-bottom: 10px; width: 48%; margin: 0 1% 10px; float: right;">
+                    <a href="/Products/Views?code=NTBLT31714&key=3" style="text-decoration: none;">
+                        <img src="~/Content/Images/home/bestProduct/20171019_5.jpg" style="width: 100%;" />
+                        <div style="color: white; background-color: #19bc9d; padding: 5%;">
+                            <h5 style="margin: 0; padding: 0; font-weight: bold; line-height: 24px;">큐슈</h5>
+                            <p>[심야] <br />세이류 심야 온천</p>
+                        </div>
+                    </a>
+                </li>
+                <li style="position: relative; margin-bottom: 10px; width: 48%; margin: 0 1% 10px; float: left;">
+                    <a href="/Products/Views?code=NTBLT4176&key=4" style="text-decoration: none;">
+                        <img src="~/Content/Images/home/bestProduct/mobiletour_3_0911.jpg" style="width: 100%;" />
+                        <div style="color: white; background-color: #434a54; padding: 5%;">
+                            <h5 style="margin: 0; padding: 0; font-weight: bold; line-height: 24px;">대마도</h5>
+                            <p>[1일 현지투어]<br />히타카츠 근교투어</p>
+                        </div>
+                    </a>
+                </li>
+                <li style="position: relative; margin-bottom: 10px; width: 48%; margin: 0 1% 10px; float: right;">
+                    <a href="/Products/Views?code=NTBLT3171&key=3" style="text-decoration: none;">
+                        <img src="~/Content/Images/home/bestProduct/mday_tokyo_0724.jpg" style="width: 100%;" />
+                        <div style="color: white; background-color: #488ad6; padding: 5%;">
+                            <h5 style="margin: 0; padding: 0; font-weight: bold; line-height: 24px;">동경</h5>
+                            <p>[1일 현지투어]<br />후지산-하코네 </p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </article>
+
+        <footer style="text-align: center; font-size: 12px; padding-bottom: 10px;">
+            <div style="margin: 20px 0 15px;">
+                <a href="https://www.facebook.com/ndaytrip/" target="_blank"><img src="~/Content/Images/sns/facebook.png" style="width: 35px" /></a>
+                <a href="https://www.instagram.com/ndaytrip/" target="_blank"><img src="~/Content/Images/sns/instargram.png" style="width: 35px" /></a>
+                <a href="http://pf.kakao.com/_zGkTxl" target="_blank"><img src="~/Content/Images/sns/kakaotalk.png" style="width: 35px" /></a>
+            </div>
+            <div>
+                <a href="http://ndaytrip.com" class="btn btn-default">PC 버전</a>
+            </div>
+            <div style="margin: 10px 0">
+                <a href="/Company">회사소개</a>
+                <span>|</span>
+                <a>여행약관</a>
+                <span>|</span>
+                <a style="color: darkblue;">개인정보처리방침</a>
+                <span>|</span>
+                <a href="http://www.tourinsu.co.kr/join/join_banner.html?uniq_key=95AD16DFEB" target="_blank">여행자보험</a>
+            </div>
+            <div>
+                (주) 엔데이트립<br />
+                @*주소 : 부산광역시 중구 중앙대로 119 5F<br />*@
+                전화 : 1670-4601 | 팩스 : 051-466-4605<br />
+                Copyright © 2017 NdayTrip right reserved.<br />
+            </div>
+        </footer>
+    </section>
+
+    <div class="fMenu">
+        <ul>
+            <li><a href="/Products">@*LOCAL*@<img src="~/Content/Images/home/ICON_LOC.png" /></a></li>
+            <li><a href="https://www.booking.com/?aid=1294434" target="_blank">@*HOTEL*@<img src="~/Content/Images/home/ICON_HOTEL.png" /></a></li>
+            <li><a href="http://www.timescar-rental.kr/af/7822000010/kr/" target="_blank">@*RENTCAR*@<img src="~/Content/Images/home/ICON_CAR.png" /></a></li>
+            <li><a href="/Community">@*SOCIAL*@<img src="~/Content/Images/home/ICON_COM.png" /></a></li>
+            <li><a href="/Mypage">@*MYPAGE*@<img src="~/Content/Images/home/ICON_MY.png" /></a></li>
+        </ul>
+    </div>
+
+    @if (!isMobile)
+    {
+        <article class="pop-al" style="position: fixed; left: 0; right: 0; top: 0; bottom: 0; max-width: 450px; margin: 0 auto; background: rgba(0,0,0,.5); z-index: 9999; text-align: center;">
+            <div style="color: white; font-size: 16px; padding: 20px; border: 2px solid white; display: inline-block; text-align: center; margin-top: 200px;">
+                모바일 최적화 홈페이지입니다.<br />
+                모바일로 접근해주세요.<br /><br />
+                <a href='http://m.site.naver.com/0lDFu'><img src='http://qrcodethumb.phinf.naver.net/20170911_145/hj4ds_1505121404662h5WEs_PNG/0lDFu.png' /></a>
+            </div>
+        </article>
+    }
+
+    <div class="layerPop">
+        <div class="layer-container">
+            <div class="layer-conts">
+                <img src="~/Content/images/popup/ndyatrip_pop_181001.png" />
+            </div>
+            <div class="layer-foot">
+                <input type="checkbox" value="today" name="today" id="today">
+                <label for="today">
+                    오늘 하루 창 닫음
+                </label>
+                <a href="javascript:;" class="layer-close">
+                    [닫기]
+                </a>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="layerPop">
+        <div class="layer-container">
+            <div class="layer-conts">
+            <a href="#">
+               <img src="~/Content/images/popup/popup_ndaytrip181008.jpg" />
+            </a>
+            </div>
+            <div class="layer-foot">
+                <input type="checkbox" value="today" name="today" id="today">
+                <label for="today">
+                오늘 하루 창 닫음
+                </labe>
+                <a href="javascript:;" class="layer-close">
+                [닫기]
+                    </a>
+            </div>
+            </div>
+        </div>
+        <div class="layerPop">
+            <div class="layer-container">
+                <div class="layer-conts">
+                    <a href="#"><img src="~/Content/images/popup/popup_20180503.jpg" />
+                    </a>
+                </div>
+                <div class="layer-foot">
+                    <input type="checkbox" value="today" name="today" id="today">
+                    <label for="today">
+                        오늘 하루 창 닫음
+                    </label>
+                    <a href="javascript:;" class="layer-close">
+                        [닫기]
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="layerPop">
+            <div class="layer-container">
+                <div class="layer-conts">
+                    <a href="/Community/Views?t=notice&k=24">
+                <img src="~/Content/images/popup/popup_ndaytrip180921.jpg" />
+                    </a>
+                </div>
+                <div class="layer-foot">
+                    <input type="checkbox" value="today" name="today" id="today">
+                    <label for="today">
+                        오늘 하루 창 닫음
+                    </label>
+                    <a href="javascript:;" class="layer-close">
+                        [닫기]
+                    </a>
+                </div>
+            </div>
+        </div>*@
+
+    <style>
+        .layerPop {
+            display: none;
+            position: absolute;
+            top: 15%;
+            right: 5%;
+            z-index: 9999;
+        }
+
+        .layer-conts {
+            font-size: 0;
+        }
+
+        .layer-foot {
+            position: absolute;
+            bottom: 2%;
+            left: 37%;
+        }
+
+            .layer-foot input {
+                float: left;
+                width: 13px;
+                height: 13px;
+                margin-top: 6px;
+                margin-right: 4px;
+                vertical-align: text-bottom;
+            }
+
+            .layer-foot label {
+                font-size: 12px;
+                font-weight: normal;
+                letter-spacing: -1px;
+            }
+
+            .layer-foot a.layer-close {
+                position: absolute;
+                bottom: 265px;
+                left: 136px;
+                font-size: 12px;
+                width: 55px;
+                height: 55px;
+                border-radius: 50%;
+                text-indent: -9999px;
+            }
+    </style>
+
+    @*<style>
+        .layerPop {
+            position: absolute;
+            right: 5%;
+            width: 90%;
+            left: 5%;
+            top: 15%;
+            z-index: 999999;
+        }
+        .layerPop img {
+            width: 100%;
+        }
+        .layer-foot {
+            width: 100%;
+            padding: 0 10px;
+            font-size: 12px;
+            font-weight: normal;
+            background-color: #2a2a2a;
+            color: white;
+        }
+        .layer-foot input {
+            float: left;
+            display: block;
+            width: 15px;
+            height: 15px;
+            margin-right: 3px;
+            vertical-align: text-bottom;
+        }
+        .layer-foot label{
+            font-size: 12px;
+            font-weight: normal;
+            letter-spacing: -1px;
+            line-height: 20px;
+        }
+        .layer-foot a.layer-close {
+            position: absolute;
+            right: 10px;
+            bottom: 0;
+            width: 40px;
+            line-height: 20px;
+            color: white;
+            line-height: 28px;
+            text-align: center;
+            font-size: 12px;
+        }
+        </style>*@
+
+    <script src="~/Scripts/jquery.cookie.js"></script>
+
+    <script>
+        $("article.pop-al").on("click", function () {
+            $(this).hide();
+        });
+
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-106206861-1', 'auto');
+        ga('send', 'pageview');
+
+        $(document).ready(function () {
+            var date = new Date();
+
+            if ($.cookie("layerpop") != (date.getMonth() + 1) + "-" + date.getDate()) {
+                $("div.layerPop").show(0);
+            }
+
+            $(".layerPop a.layer-close").on("click", function () {
+                if ($(this).siblings("#today").is(":checked")) {
+                    setCookie();
+                }
+
+                $("div.layerPop").fadeOut();
+            });
+
+            function setCookie() {
+                var today = new Date();
+
+                $.cookie("layerpop", (today.getMonth() + 1) + "-" + today.getDate(), { expires: 1 });
+            }
+
+            function setZero(num, len) {
+                return "0".string(len - this.length) + num;
+            };
+        });
+
+    </script>
+</body>
+</html>

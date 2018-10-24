@@ -1,0 +1,124 @@
+﻿@{
+    string loc = @Request["loc"],
+           area = "",
+           imgPath = "/Content/Images/products/lists/" + loc + ".jpg";
+}
+
+@switch (loc)
+{
+    case "TOKYO":
+        area = "도쿄";
+        break;
+    case "OKINAWA":
+        area = "오키나와";
+        break;
+    case "OSAKA":
+        area = "오사카";
+        break;
+    case "TSUSHIMA":
+        area = "대마도";
+        break;
+    case "FUKUOKA":
+        area = "규슈";
+        break;
+    case "HOKKAIDO":
+        area = "북해도";
+        break;
+    case "NAGOYA":
+        area = "나고야";
+        break;
+    case "BEST":
+        area = "베스트 상품";
+        break;
+    default:
+        break;
+}
+
+<div class="pro_top">
+
+    <img src="@imgPath">
+
+    <p>@loc<br><span>@area</span></p>
+
+</div>
+
+<div class="pdtLists">
+
+    <ul>
+
+        @{
+        string code = "",
+        title = "",
+        content = "",
+        img = "",
+        option = "",
+        price = "",
+        Currency = "",
+        key = "";
+
+        foreach (object item in Model)
+        {
+        code = "";
+        title = "";
+        content = "";
+        img = "";
+        option = "";
+        price = "";
+        Currency = "";
+        key = "";
+
+        try { code = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { title = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { content = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { option = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { img = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { Currency = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { price = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+        catch { continue; }
+        try { key = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+        catch { continue; }
+
+        switch (Currency)
+        {
+        case "KRW":
+        Currency = "원";
+        break;
+        case "JPY":
+        Currency = "엔";
+        break;
+        case "USD":
+        Currency = "달러";
+        break;
+        }
+
+        <li>
+            <a href="./Views?code=@code&key=@key">
+                <figure style="background-image:url('@img');">
+                    @if (option != "없음")
+                    {
+                    <div>BEST</div>
+                    }
+                </figure>
+                <figcaption>
+                    <h3>@title</h3>
+                    <p>@content</p>
+                    @*<span>#10/10~02/28出</span>*@
+                    <div>
+                        1인<span> @{@String.Format("{0:#,##0}", int.Parse(price))}</span>@Currency 부터~
+                    </div>
+                </figcaption>
+            </a>
+        </li>
+
+        }
+
+        }
+    </ul>
+
+</div>

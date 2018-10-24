@@ -1,0 +1,52 @@
+﻿body{
+	min-width:320px;
+	max-width:768px;
+	margin:0;
+}
+div#wrap{}
+div#wrap a{
+	text-decoration:none;
+    color:#161616;
+}
+div#wrap p{
+	margin:0;
+}
+div#wrap ul{
+	margin:0;
+    padding:0;
+	list-style:none;
+}
+div#wrap h2, div#wrap h3, div#wrap h4, div#wrap h5{
+	margin:0
+}
+    
+div#wrap div#ntabiInfo{}
+div#wrap div#ntabiInfo div{
+    height: 230px;
+    padding: 30px 10px;
+    margin-bottom: 10px;
+    color: #e9e9e9;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+}
+div#wrap div#ntabiInfo div.ntabiIs{
+    background-image: url(/Content/Images/company/bg_ntabiIs.JPG);
+}
+div#wrap div#ntabiInfo div.ntabiFuture{
+    background-image: url(/Content/Images/company/bg_ntabiFuture.jpg);}
+div#wrap div#ntabiInfo div.ntabiLearn{
+    background-image: url(/Content/Images/company/bg_ntabiLearn.jpg);}
+div#wrap div#ntabiInfo div.ntabiLogo{
+    background-image: url(/Content/Images/company/bg_ntabiLogo.jpg);}
+div#wrap div#ntabiInfo div h4{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    font-size: 15px;
+    font-weight: normal;
+    border-bottom: 1px solid #888;
+}
+div#wrap div#ntabiInfo div p{
+    font-size: 13px;
+    line-height: 1.2em;
+}

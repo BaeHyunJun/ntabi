@@ -1,0 +1,718 @@
+﻿
+body{
+min-width:320px;
+max-width:768px;
+margin:0;
+}
+div#wrap{}
+div#wrap a{
+text-decoration:none;
+color:#161616;
+}
+div#wrap p{
+margin:0;
+}
+div#wrap ul{
+margin:0;
+padding:0;
+list-style:none;
+}
+div#wrap h3, div#wrap h4, div#wrap h5{
+margin:0
+}
+  
+/*회원가입1*/
+
+/*순서*/
+div#wrap div.join1 div.order{
+margin-top: 10px;
+margin-bottom: 20px;
+text-align: center;
+}
+div#wrap div.join1 div.order ul{}
+div#wrap div.join1 div.order li{
+display: inline-block;
+margin: 0 6px;
+padding-left: 3px;
+font-size: 13px;
+}
+div#wrap div.join1 div.order li:after{
+display: block;
+content: "";
+width: 1px;
+height: 10px;
+margin-top: -13px;
+margin-left: -6px;
+background-color: #999;
+}
+div#wrap div.join1 div.order li:first-child:after{display: none;}
+    
+/*메일*/
+div#wrap div.join1 section.confirm{
+position: relative;
+width: 100%;
+text-align: center;
+}
+div#wrap div.join1 section.confirm div.email:after{content: ""; display: block; clear: both;}
+div#wrap div.join1 section.confirm div.email input{
+padding: 3px 5px;
+box-sizing: border-box;
+border-radius: 0;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+div#wrap div.join1 section.confirm div.email input.idblank{
+float: left;
+width: 45%;
+}
+div#wrap div.join1 section.confirm div.email p{
+position: absolute;
+left: 50%;
+width: 6%;
+margin-left: -3%;
+text-align: center;
+}
+div#wrap div.join1 section.confirm div.email input.siteblank{
+float: right;
+width: 45%;
+}
+    
+/*셀렉박스*/
+div#wrap div.join1 section.confirm div#select_box{
+float: right;
+width: 45%;
+text-align: center;
+}
+div#wrap div.join1 section.confirm div.option{
+width: 100%;
+height: 25px;
+margin-top: 5px;
+}
+div#wrap div.join1 section.confirm div.option div#select_box {
+position: relative;
+width: 45%;
+height: 100%;
+}
+div#wrap div.join1 section.confirm div.option select {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 30px;
+min-height: 30px;
+padding: 2px 10px;
+color: #a97228;
+border: 1px solid #E9DDDD;
+border-radius: 0;
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+filter: alpha(opacity=0); /* IE 8 */
+}
+    
+/*버튼*/
+div#wrap div.join1 section.confirm p.btn{
+display: inherit;
+width: 60%;
+padding: 0;
+margin: 20px auto 0 auto;
+background-color:#a0ce54;
+}
+div#wrap div.join1 section.confirm p.btn a{
+display: inline-block;
+width: 100%;
+font-size:13px;
+letter-spacing:-0.5px;
+color: white;
+}
+
+
+/*회원가입2*/
+    
+/*입력창들간 간격*/
+div#wrap div.join2 section.infowrite{
+margin-top: 10px;
+margin-bottom: 40px;
+}
+
+/*제목들*/
+div#wrap div.join2 section h3{
+position:relative;
+margin:0 0 10px 20px;
+margin-left:10px;
+font-size:18px;
+letter-spacing:-1px;
+font-weight: normal;
+text-align: left;
+}
+
+div#wrap div.join2 section h3:after{
+display:block;
+content:"";
+position:absolute;
+width: 63%;
+top:15px;
+right:0;
+width:63%;
+height:2px;
+background-color:#eee;
+}
+    
+/*입력사항*/
+div#wrap div.join2 section div li h4{
+margin:10px 0 7px 10px;
+font-size:15px;
+}
+div#wrap div.join2 section div li{
+position: relative;
+margin-bottom: 10px;
+height: 30px;
+line-height: 30px;
+border-bottom: 1px solid #eee;
+box-sizing: border-box;
+}
+div#wrap div.join2 section div li:after{content: ""; display: block; clear: both;}
+div#wrap div.join2 section div li p{
+float:left;
+width:28%;
+font-size:14px;
+text-align:center;
+border-right:1px solid #eee;
+box-sizing:border-box;
+}
+div#wrap div.join2 section div li input{
+float:left;
+width:72%;
+height: 100%;
+padding-left:10px;
+font-size:12px;
+border-radius: 0;
+border:none;
+}
+div#wrap div.join2 section.selectinfowrite div li:nth-child(3){
+margin-bottom: 25px;
+}
+div#wrap div.join2 section.selectinfowrite div li:nth-child(4){
+height: auto;
+line-height:25px;
+}
+div#wrap div.join2 section.selectinfowrite div li:after{content: ""; display: block; clear: both;}
+div#wrap div.join2 section div li div.sex{
+float: left;
+width: 72%;
+}
+div#wrap div.join2 section.selectinfowrite div li div.sex:after{content: ""; display: block; clear: both;}
+div#wrap div.join2 section div li div.sex p{
+width: 40%;
+text-align: left;
+border: 0;
+}
+div#wrap div.join2 section div li div.sex p:first-child{
+margin-left: 10px;
+}
+div#wrap div.join2 section div li div.sex p input{
+width: 13px;
+height: 15px;
+margin-top: 5px;
+margin-right: 5px;
+}
+    
+/*비밀번호확인 글자간격줄임*/
+div#wrap div.join2 section.infowrite div.write li:nth-child(4) p{
+letter-spacing: -0.8px;
+}
+    
+/*중복확인*/
+div#wrap div.join2 section.infowrite div.write li:nth-child(1) a{
+display: block;
+position: absolute;
+top: 0;
+right: 0;
+height: 100%;
+font-size: 12px;
+letter-spacing: -0.5px;
+background-color: #f2f8e9;
+border-radius: 2px;
+}    
+    
+/*수신동의*/
+div#wrap div.join2 section div li p.agreecheck{
+display: inline-block;
+width: 100%;;
+height: 50%;
+margin-top: 3px;
+font-size: 10px;
+line-height: 1em;
+text-align: left;
+letter-spacing: -0.5px;
+border: 0;
+}
+div#wrap div.join2 section div li p.agreecheck input{
+width: 11px;
+margin: 0;
+margin-left: 29%;
+margin-right: 5px;
+}
+div#wrap div.join2 section div li p.agreecheck span{
+display: block;
+line-height: 15px;
+}
+
+/*주소검색*/
+div#wrap div.join2 section.selectinfowrite div.write li:nth-child(6) a{
+display: block;
+position: absolute;
+top: 0;
+right: 0;
+height: 100%;
+font-size: 12px;
+letter-spacing: -0.5px;
+background-color: #f2f8e9;
+border-radius: 2px;
+}
+
+    
+/*약관동의*/
+div#wrap div.join2 section.agree{
+margin-top: 50px;
+margin-bottom: 20px;
+padding: 0 10px;
+box-sizing: border-box;
+}
+
+div#wrap div.join2 section.agree > div{
+border: 1px solid #ddd;
+padding: 5px;
+margin: 5px auto 13px;
+height: 180px;
+text-align: left;
+overflow: auto;
+}
+div#wrap div.join2 section.agree h5{
+margin: 0;
+margin-top: 10px;
+font-size: 14px;
+}
+div#wrap div.join2 section.agree > div > ul{
+list-style: none;
+padding: 0;
+}
+div#wrap div.join2 section.agree > div > ul li{
+position: inherit;
+height: auto;
+margin: 0;
+line-height: 1.5em;
+border: none;
+}
+div#wrap div.join2 section.agree div li:after{display: none;}
+div#wrap div.join2 section.agree > div.agreeTxt2 > ul > li:first-child{
+padding: 0 5px;
+font-size: 13px;
+}
+div#wrap div.join2 section.agree > div > ul > li > div{
+padding: 0 5px;
+font-size: 13px;
+}
+div#wrap div.join2 section.agree > div > ul > li > p{
+float: inherit;
+width: 100%;
+text-align: left;
+border: 0;
+font-size: 13px;
+}
+div#wrap div.join2 section.agree > div > ul > li > ol > li{
+font-size: 13px;
+}
+div#wrap div.join2 section.agree > div > ul >li > div >p{
+float: inherit;
+width: 100%;
+margin: 3px 0;
+text-align: left;
+border: 0;
+}
+div#wrap div.join2 section.agree > div > ul > li > div> ol > li > ul{
+padding-left: 10px;
+}
+    
+div#wrap div.join2 section.agree > label{
+display: block;
+margin-right: 10px;
+font-size: 13px;
+text-align: right;
+}
+    
+/*전체동의하기*/
+div#wrap div.join2 section.agree > p.allagree{
+font-size: 13px;
+letter-spacing: -0.5px;
+text-align: center;
+}
+div#wrap div.join2 section.agree > p.allagree label{}
+section.agree > p.allagree label input{
+margin: 0;
+}
+
+/*버튼*/
+div#wrap div.join2 div.btn{
+width:100%;
+text-align: center;
+}
+div#wrap div.join2 div.btn > ul{
+width:80%;
+margin:0 auto;
+padding: 0;
+list-style: none;
+}
+div#wrap div.join2 div.btn > ul li{
+display: inline-block;
+}
+div#wrap div.join2 div.btn > ul li.write{
+width: 55%;
+background-color:#a0ce54;
+}
+div#wrap div.join2 div.btn > ul li.back{
+width: 42%;
+background-color:#e0e0e0;
+}
+div#wrap div.join2 div.btn > ul li a{
+display:block;
+text-align:center;
+font-size:13px;
+line-height: 25px;
+letter-spacing:-0.5px;
+text-decoration: none;
+color: #111;
+}
+div#wrap div.join2 div.btn > ul li.write a{
+color:white;
+}
+   
+
+
+/*회원가입3*/
+    
+/*타이틀*/
+div#wrap section.join3 h3{
+margin-top: 10px;
+margin-bottom: 30px;
+font-size: 14px;
+text-align: center;
+}
+div#wrap section.join3 h3:after{display:none;}
+    
+/*가입환영*/
+div#wrap section.join3{
+padding:0;
+}
+div#wrap section.join3 div.welcome{
+text-align: center;
+}
+div#wrap section.join3 div.welcome p.member{
+margin-bottom: 10px;
+font-size: 20px;
+}
+div#wrap section.join3 div.welcome p.family{
+font-size: 15px;
+}
+    
+/*버튼*/
+div#wrap section.join3 div.btn{
+display: inherit;
+height: 25px;
+margin-top: 30px;
+padding: 0;
+text-align: center;
+}
+div#wrap section.join3 div.btn > ul{
+width:80%;
+margin: 0 auto;
+}
+div#wrap section.join3 div.btn > ul li{
+position: inherit;
+height: 25px;
+}
+div#wrap section.join3 div.btn > ul li.login{
+float: left;
+width:49%;
+background-color:#a0ce54;
+}
+div#wrap section.join3 div.btn > ul li.back{
+float: right;
+width:49%;
+background-color:#e0e0e0;
+}
+div#wrap section.join3 div li:after{
+display:none;
+}
+div#wrap section.join3 div.btn > ul li a{
+display:block;
+text-align:center;
+font-size:13px;
+line-height: 25px;
+letter-spacing:-0.5px;
+color: #111;
+}
+div#wrap section.join3 div.btn > ul li.login a{
+color:white;
+}
+    
+
+
+/*아이디비밀번호찾기*/
+    
+/*박스간 간격*/
+div#wrap section.findpassword{
+margin-top: 60px;
+}
+    
+/*타이틀*/
+div#wrap div.find1 h2{
+font-size: 14px;
+font-weight: normal;
+margin: 10px 0 20px 10px;
+}
+    
+/*제목들*/
+div#wrap div.find1 section h3{
+position:relative;
+margin:0 0 10px 20px;
+margin-left:10px;
+font-size:18px;
+letter-spacing:-1px;
+font-weight: normal;
+}
+div#wrap div.find1 h3:after{
+display:block;
+content:"";
+position:absolute;
+top:15px;
+right:0;
+width:63%;
+height:2px;
+background-color:#eee;
+}
+div#wrap div.find1 section.findpassword h3{
+letter-spacing: -0.8px;
+}
+div#wrap div.find1 section.findid h3:after{
+width: 70%;
+}
+div#wrap div.find1 section.findpassword h3:after{
+width: 64%;
+}
+    
+    
+div#wrap div.find1 section > div{}
+    
+/*정보입력*/
+div#wrap div.find1 section div{}
+div#wrap div.find1 section div ul:after{content:""; display:block; clear:both;}
+div#wrap div.find1 section div li{
+position: relative;
+margin-bottom:10px;
+height:30px;
+line-height:30px;
+border-bottom:1px solid #eee;
+box-sizing:border-box;
+}
+div#wrap div.find1 section div li p{
+float:left;
+width:25%;
+font-size:14px;
+text-align:center;
+border-right:1px solid #eee;
+box-sizing:border-box;
+}
+div#wrap div.find1 section div li:nth-child(1) p:nth-child(2),
+div#wrap div.find1 section div li:nth-child(5) p:nth-child(2){
+width: 70%;
+padding-left: 10px;
+text-align: left;
+border-right: 0;
+}
+div#wrap div.find1 section div li:last-child{
+margin-bottom: 20px;
+}
+div#wrap div.find1 section div li input{
+float:left;
+width:75%;
+height: 100%;
+padding-left:10px;
+font-size:12px;
+border:none;
+border-radius: 0;
+}
+    
+/*버튼*/
+div#wrap div.find1 section p.btn{
+display: inherit;
+width: 60%;
+margin: 0 auto;
+padding: 0;
+background-color:#a0ce54;
+text-align: center;
+border-radius: 4px;
+border: 0;
+}
+div#wrap section p.btn a{
+display: block;
+font-size:13px;
+line-height: 25px;
+letter-spacing:-0.5px;
+color: white;
+}
+
+
+/*아이디 찾음*/
+
+div#wrap div.find2 section.findnotice{
+padding: 0 10px;
+text-align: center;
+box-sizing: border-box;
+}
+div#wrap div.find2 section.findnotice p.notice{
+margin-top: 50px;
+font-size: 14px;
+color: #555;
+}
+div#wrap div.find2 section.findnotice p.notice span{
+font-size: 18px;
+color: #222;
+}
+div#wrap div.find2 section.findnotice div.btn{
+width: 80%;
+margin: 0 auto;
+}
+div#wrap div.find2 section.findnotice div.btn p{
+width: 49%;
+margin-top: 50px;
+font-size: 13px;
+border-radius: 4px;
+background-color: #a0ce54;
+}
+div#wrap div.find2 section.findnotice div.btn p.login{
+float: left;
+}
+div#wrap div.find2 section.findnotice div.btn p.findpassword{
+float: right;
+}
+div#wrap div.find2 section.findnotice div.btn p a{
+display: block;
+width: 100%;
+height: 100%;
+line-height: 25px;
+color: white;
+}
+
+/*비밀번호 재설정 안내문구*/
+
+div#wrap div.find3 section.findnotice{
+padding: 0 10px;
+text-align: center;
+box-sizing: border-box;
+}
+div#wrap div.find3 section.findnotice p.notice{
+margin-top: 50px;
+font-size: 14px;
+color: #555;
+}
+div#wrap div.find3 section.findnotice div.btn{
+width: 80%;
+margin: 0 auto;
+}
+div#wrap div.find3 section.findnotice div.btn p{
+width: 49%;
+margin-top: 50px;
+font-size: 13px;
+border-radius: 4px;
+background-color: #a0ce54;
+}
+div#wrap div.find3 section.findnotice div.btn p.login{
+float: left;
+}
+div#wrap div.find3 section.findnotice div.btn p.main{
+float: right;
+}
+div#wrap div.find3 section.findnotice div.btn p a{
+display: block;
+width: 100%;
+height: 100%;
+line-height: 25px;
+color: white;
+}
+
+/*비밀번호 재설정*/    
+    
+div#wrap section.resetnotice{
+margin-top: 10px;
+}
+    
+/*제목*/
+div#wrap section.resetnotice h3{
+position:relative;
+margin:0 0 10px 10px;
+font-size:18px;
+letter-spacing:-1px;
+font-weight: normal;
+}
+div#wrap section.resetnotice h3:after{
+display:block;
+content:"";
+position:absolute;
+top:15px;
+right:0;
+width:59%;
+height:2px;
+background-color:#eee;
+}
+    
+div#wrap section.resetnotice p.notice{
+margin-bottom: 20px;
+font-size: 13px;
+text-align: center;
+}
+div#wrap section.resetnotice div.reset{}
+div#wrap section.resetnotice div.reset p{
+width: 70%;
+margin: 0 auto 15px auto;
+}
+div#wrap section.resetnotice div.reset p input{
+width: 100%;
+padding: 3px 5px;
+border: 0;
+border-radius: 0;
+border-bottom: 1px solid #ddd;
+box-sizing: border-box;
+}
+div#wrap section.resetnotice div.reset p input::placeholder{
+font-size: 12px;
+letter-spacing: -1px;
+}    
+div#wrap section.resetnotice div.btn{
+display: inherit;
+width: 75%;
+margin: 0 auto;
+padding: 0;
+}
+div#wrap section.resetnotice div.btn:after{display: block; clear: both; content: "";}
+div#wrap section.resetnotice div.btn p{
+width: 49%;
+margin-top: 15px;
+font-size: 13px;
+text-align: center;
+border-radius: 4px;
+background-color: #a0ce54;
+}
+div#wrap section.resetnotice div.btn p.reset{
+float: left;
+}
+div#wrap section.resetnotice div.btn p.main{
+float: right;
+}
+div#wrap section.resetnotice div.btn p a{
+display: block;
+width: 100%;
+height: 100%;
+line-height: 25px;
+color: white;
+}

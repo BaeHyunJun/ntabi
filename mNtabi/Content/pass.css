@@ -1,0 +1,249 @@
+﻿ 
+/*메뉴*/
+div#wrap section.menu{
+margin: 10px -10px 20px -10px;
+}
+div#wrap section.menu ul:after{content: ""; display: block; clear: both;}
+div#wrap section.menu li{
+float: left;
+width: 33.33%;
+border: 1px solid #eee;
+}
+div#wrap section.menu li:nth-child(1),
+div#wrap section.menu li:nth-child(2),
+div#wrap section.menu li:nth-child(3){
+border-bottom: 0;
+}
+div#wrap section.menu li:nth-child(1),
+div#wrap section.menu li:nth-child(2),
+div#wrap section.menu li:nth-child(4),
+div#wrap section.menu li:nth-child(5){
+border-right: 0;
+}
+div#wrap section.menu li a{
+display: block;
+width: 100%;
+height: 25px;
+text-align: center;
+line-height: 25px;
+font-size: 13px;
+color: #999;
+letter-spacing: -0.5px;
+}
+div#wrap section.menu li.on{
+background-color: #f9f9f9;
+}
+div#wrap section.menu li.on a{
+color: #2a2a2a;
+}
+    
+/*패스 리스트*/
+div#wrap section.pass{}
+div#wrap section.pass li{
+width: 100%;
+height: 160px;
+padding: 0 3px;
+margin-bottom: 10px;
+background-image: url("/Content/Images/pass/pass_box_m.png");
+background-repeat: no-repeat;
+background-position: center;
+background-size: 100% auto;
+}
+div#wrap section.pass li a{
+display: block;
+width: 100%;
+height: 100%;
+text-align: center;
+}
+div#wrap section.pass li a p.image{
+float: right;
+width: 50%;
+height: 100%;
+background-size: 90% auto;
+background-repeat: no-repeat;
+background-position: center;
+}
+div#wrap section.pass li a h4{
+padding-top: 35px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+font-size: 14px;
+font-weight: bold;
+}
+div#wrap section.pass li a p{}
+div#wrap section.pass li a p.price{
+}
+div#wrap section.pass li a p.price span{
+font-size: 16px;
+}
+div#wrap section.pass li a p.text{
+margin-top: 5px;
+padding: 0 8px;
+font-size: 13px;
+line-height: 1.2em;
+text-align: left;
+overflow: hidden;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+}
+    
+
+/*패스뷰*/    
+div#wrap div.mobilepass{}
+    
+/*타이틀*/
+div#wrap div.mobilepass h2{
+width:100%;
+margin-top:10px;
+font-size:18px;
+line-height:1.2em;
+text-align: center;
+}
+    
+/*사진*/
+div#wrap div.mobilepass div.images{
+width:100%;
+}
+div#wrap div.mobilepass div.images img{
+width:100%;
+}
+    
+/*패스간단정보*/
+div#wrap div.mobilepass p.passinfo{
+width: 100%;
+margin-top: 10px;
+font-size: 15px;
+}
+    
+/*패스상세정보*/
+div#wrap div.mobilepass section.passdetail{
+width: 100%;
+height: auto;
+margin-top: 20px;
+}
+div#wrap div.mobilepass section.passdetail div.content{
+height: 100%;
+padding: 0 5px;
+}
+div#wrap div.mobilepass section.passdetail div.content table{}
+div#wrap div.mobilepass section.passdetail div.content p{
+font-size: 14px;
+line-height: 1.2em;
+}
+div#wrap div.mobilepass section.passdetail div.content img{
+width: 100%;
+}
+
+/*예약하기창*/
+div#wrap div.bookingbox{
+position:fixed;
+bottom:0;
+width:100%;
+height:50px;
+margin: 0 -15px;
+text-align: center;
+background-color:rgba(70,70,70,0.9);
+z-index: 1030;
+}
+div#wrap div.bookingbox a{
+display:inline-block;
+padding: 6px 60px;
+margin-top: 8px;
+text-align:center;
+color:white;
+font-weight:600;
+letter-spacing:1.3px;
+border-radius:8px;
+background-color:#a0ce54;
+}
+    
+/*예약하기 눌렀을때 옵션!*/
+div#wrap div.bookingboxoption{
+position:fixed;
+top:100%;
+width: 100%;
+margin: 0 -15px;
+background-color:#fff;
+border-top: 1px solid #eee;
+z-index: 1030;
+}
+div#wrap div.bookingboxoption div.option{
+margin:10px 0;
+padding: 0 10px;
+box-sizing:border-box;
+}
+
+/*셀렉박스*/
+div#wrap div.bookingboxoption div.option div#select_box {
+position: relative;
+width: 85%;;
+height: 30px;
+margin:0 auto 5px auto;
+border: 1px solid #E9DDDD;
+}
+div#wrap div.bookingboxoption div.option div#select_box label {
+padding-left:20px;
+font-size: 14px;
+line-height:30px;
+color: #a97228;
+letter-spacing: 1px;
+}
+div#wrap div.bookingboxoption div.option div#select_box select#option {
+position:absolute;
+top:0;
+left:0;
+width: 100%;
+height: 30px;
+min-height: 30px;
+line-height: 30px;
+opacity: 0;
+filter: alpha(opacity=0); /* IE 8 */
+}
+    
+/*인원수*/
+div#wrap div.bookingboxoption div.people{
+width:100%;
+height:auto;
+max-height:100%;
+margin-bottom: 10px;
+overflow: auto;
+}
+div#wrap div.bookingboxoption div.people p{
+display: block;
+padding: 5px 20px;
+font-size: 14px;
+}
+div#wrap div.bookingboxoption div.people p select{
+float: right;
+width: 20%;
+padding: 0 5px;
+}
+
+/*총금액*/
+div#wrap div.bookingboxoption div.price{
+}
+div#wrap div.bookingboxoption div.price p{
+margin-bottom: 10px;
+}
+div#wrap div.bookingboxoption div.price p:after{content: ""; display: block; clear: both;}
+div#wrap div.bookingboxoption div.price p.pricetit{
+float: left;
+padding-left: 20px;
+margin-top: 6px;
+font-size: 12px;
+}
+div#wrap div.bookingboxoption div.price p.allprice{
+float: right;
+padding-right: 30px;
+font-size: 20px;
+font-weight: 600;
+color: #ff3f0c;
+}
+div#wrap div.bookingboxoption div.price p.allprice span{
+margin-left: 5px;
+font-size: 15px;
+font-weight: normal;
+}
+/*셀렉박스 끝*/

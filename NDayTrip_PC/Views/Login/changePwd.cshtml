@@ -1,0 +1,134 @@
+﻿@{
+    string key = Request["passkey"];
+}
+<style>
+    div#wrap article#container div.pro_top {
+        height: 80px;
+        background-color: #ededed;
+    }
+
+        div#wrap article#container div.pro_top p {
+            width: 1050px;
+            margin: 0 auto;
+            font-size: 24px;
+            line-height: 80px;
+        }
+
+    div#wrap article#container div.cont {
+        width: 1060px;
+        margin: 0 auto;
+        padding: 60px 0;
+        overflow: hidden;
+    }
+
+        div#wrap article#container div.cont section.getPwd {
+            padding: 10px;
+            text-align: center;
+        }
+
+        div#wrap article#container div.cont section > p {
+            border-bottom: 1px dotted #ddd;
+            padding-bottom: 40px;
+        }
+
+        div#wrap article#container div.cont section > input {
+            width: 250px;
+            height: 50px;
+            line-height: 50px;
+            padding: 10px;
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #ccc;
+        }
+
+        div#wrap article#container div.cont section > button {
+            margin: 20px auto;
+            width: 150px;
+            height: 50px;
+            background: #a0ce54;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+</style>
+
+<div class="pro_top">
+
+    <p><span>비밀번호 변경</span></p>
+
+</div>
+
+<div class="cont">
+    <section class="getPwd">
+        <p>※ 비밀번호는 영문 + 숫자로 6~20자 이내로 입력해주세요.</p>
+        <input type="text" name="id" placeholder="아이디" />
+        <input type="password" name="pwd" placeholder="비밀번호" />
+        <input type="password" name="chkPwd" placeholder="비밀번호 확인" />
+
+        <button class="changePwdBtn">비밀번호 변경</button>
+    </section>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("section.getPwd button.changePwdBtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            $(this).attr("disabled", true);
+
+            var id = $("input[name='id']");
+            var pwd = $("input[name='pwd']");
+            var chkPwd = $("input[name='chkPwd']");
+            var regPwd = /^(?=.*[A-Za-z0-9])((?=.*\d)|(?=.*\W)).{6,20}$/;
+
+            if (id.val() == "") {
+                alert("아이디를 입력해주세요.");
+                id.focus();
+                return;
+            }
+
+            if (pwd.val() == "") {
+                alert("비밀 번호를 입력해주세요.");
+                pwd.focus();
+                return;
+            }
+
+            if (!regPwd.test(pwd.val())) {
+                alert("비밀 번호는 영문 + 숫자로 6~20자 이내로 입력해주세요.");
+                pwd.focus();
+                return;
+            }
+
+            if (chkPwd.val() != pwd.val()) {
+                alert("비밀 번호가 서로 다릅니다.");
+                chkPwd.focus();
+                return;
+            }
+
+            var url = "/Login/changePW";
+            var data = { id: id.val(), pwd: pwd.val(), key: "@key" };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (rData) {
+                    alert(rData);
+
+                    $(this).attr("disabled", false);
+
+                    if (rData.indexOf("비밀 번호가 정상적으로 변경 되었습니다.") > -1) {
+                        location.href = "/";
+                    }
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

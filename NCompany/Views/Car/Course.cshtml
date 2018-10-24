@@ -1,0 +1,438 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string COU_SEQ = "",
+           COU_AREA_CODE = "",
+           COU_ADDRESS = "",
+           COU_LATITUDE = "",
+           COU_LONGITUDE = "",
+           COU_TITLE = "",
+           COU_CONT = "",
+           COU_attachment = "",
+           selected = "selected='selected'",
+           disabled = "disabled='disabled'"; 
+    
+    if (Model != null)
+    {
+        foreach (object item in Model)
+        {
+            try { COU_AREA_CODE     = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+            try { COU_ADDRESS       = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+            try { COU_LATITUDE      = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+            try { COU_LONGITUDE     = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+            try { COU_TITLE         = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+            try { COU_CONT          = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { continue; }
+            try { COU_attachment    = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { continue; }
+            try { COU_SEQ           = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { continue; }
+        }
+    }
+}
+
+<style>
+    section.car > div {
+        height: 100%;
+        padding-top: 55px;
+    }
+
+    section.car > div > form.searchForm {
+        border-bottom: 1px solid #ddd;
+        position: absolute;
+        right: 15px;
+        left: 15px;
+        top: 0;
+        padding: 10px;
+        margin: 0;
+        height: 55px;
+    }
+
+    section.car > div > form.searchForm > h3 {
+        margin: 0;
+        line-height: 45px;
+    }
+
+    section.car > div > div.row,
+    section.car > div > div.row > article,
+    section.car > div > div.row > article > div#map_canvas {
+        height: 100%;
+    }
+
+    section.car > div > div.row > article {
+        position: relative;
+        overflow: auto;
+    }
+
+    section.car > div > div.row > article > h4 {
+        position: absolute;
+        top: 0;
+        left: 100px;
+        right: 100px;
+        text-align: center;
+        font-size: 24px;
+        z-index: 9;
+        font-weight: bold;
+        line-height: 31px;
+    }
+
+    section.car > div > div.row > article > div.row {
+        padding: 15px;
+    }
+
+    a.removeAttach {
+        color: rgb(170, 170, 170);
+        text-decoration: line-through;
+        display: none;
+    }
+</style>
+
+<section class="car row">
+    <div class="col-md-12">
+        <form class="row searchForm" name="searchForm">
+            <button class="btn btn-default pull-right">조회</button>
+            <div class="form-group input-group col-md-5 pull-right">
+                <select class="form-control" name="searchCourse">
+                    <option value="">코스 명</option>
+                </select>
+            </div>
+            <div class="form-group input-group col-md-2 pull-right">
+                <select class="form-control" name="searchArea">
+                    <option value="">지역</option>
+                    @*<option value="KYU" @if (@COU_AREA_CODE == "KYU") { @selected }>규슈</option>
+                    <option value="TOK" @if (@COU_AREA_CODE == "TOK") { @selected }>도쿄</option>
+                    <option value="OSA" @if (@COU_AREA_CODE == "OSA") { @selected }>오사카</option>
+                    <option value="HOK" @if (@COU_AREA_CODE == "HOK") { @selected }>홋카이도</option>
+                    <option value="TSU" @if (@COU_AREA_CODE == "TSU") { @selected }>대마도</option>
+                    <option value="OKI" @if (@COU_AREA_CODE == "OKI") { @selected }>오키나와</option>*@
+                    <option value="KYU">규슈</option>
+                    <option value="TOK">도쿄</option>
+                    <option value="OSA">오사카</option>
+                    <option value="HOK">홋카이도</option>
+                    <option value="TSU">대마도</option>
+                    <option value="OKI">오키나와</option>
+                    <option value="NGY">나고야</option>
+                </select>
+            </div>
+            <h3>코스 관리</h3>
+        </form>
+        <div class="row">
+            <article class="col-md-5">
+                <h4>탑승지 위치</h4>
+                <div id="map_canvas"> </div>
+            </article>
+            <article class="col-md-7">
+                <h5 style="font-size: 20px; font-weight: bold; margin: 0; padding-top: 15px;">코스 정보</h5>
+                <div class="row">
+                    <div class="form-group input-group col-md-5">
+                        <div class="input-group-addon">지역</div>
+                        <select class="form-control" name="areaCode" @if (!string.IsNullOrEmpty(COU_AREA_CODE)) { @disabled }>
+                            <option value="">선택</option>
+                            <option value="KYU" @if (@COU_AREA_CODE == "KYU") { @selected }>규슈</option>
+                            <option value="TOK" @if (@COU_AREA_CODE == "TOK") { @selected }>도쿄</option>
+                            <option value="OSA" @if (@COU_AREA_CODE == "OSA") { @selected }>오사카</option>
+                            <option value="HOK" @if (@COU_AREA_CODE == "HOK") { @selected }>홋카이도</option>
+                            <option value="TSU" @if (@COU_AREA_CODE == "TSU") { @selected }>대마도</option>
+                            <option value="OKI" @if (@COU_AREA_CODE == "OKI") { @selected }>오키나와</option>
+                            <option value="NGY" @if (@COU_AREA_CODE == "NGY") { @selected }>나고야</option>
+                        </select>
+                    </div>
+                    <div class="form-group input-group col-md-7">
+                        <div class="input-group-addon">탑승지</div>
+                        <input type="text" class="form-control" maxlength="15" id="address" value="@COU_ADDRESS" onkeypress="if (event.keyCode == 13) { search(); return false; }">
+                        <div class="input-group-addon searchMapBtn" style="cursor: pointer;">검색</div>
+                    </div>
+                    <div class="form-group input-group col-md-12">
+                        <div class="input-group-addon">코스 제목</div>
+                        <input type="text" class="form-control" maxlength="50" value="@COU_TITLE" id="title" @if (!string.IsNullOrEmpty(COU_TITLE)) { @disabled }>
+                    </div>
+                    @if (!string.IsNullOrEmpty(COU_attachment))
+                    {
+                        string[] attachments = COU_attachment.Split(';');
+                        
+                        <div class="form-group input-group col-md-12">
+                            <h6>첨부파일</h6>
+
+                            <ul style="padding: 0; margin: 0; list-style: none; font-size: 0;">
+                                @foreach (string attachment in attachments)
+                                {
+                                    if (string.IsNullOrEmpty(attachment))
+                                    {
+                                        continue;   
+                                    }
+                                    
+                                    <li style="font-size: 12px;">
+                                        <a href="@attachment" download="download">
+                                            @Path.GetFileName(attachment)
+                                        </a>
+                                        <a class="pull-right removeAttachBtn" style="cursor: pointer;">x</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    <div class="form-group input-group col-md-12">
+                        <h6>주의 사항</h6>
+                        <textarea name="content" id="content" style="width: 100%;" rows="16">@COU_CONT</textarea>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(COU_TITLE))
+                    {
+                        <button type="button" class="btn btn-primary pull-right" id="updateCouBtn">수정</button>
+                        <a href="/Car/Course" class="btn btn-default pull-right" style="margin-right: 15px;">새로 작성</a>
+                        <a href="/Car/removeCourse?seq=@COU_SEQ&area=@COU_AREA_CODE" onclick="return confirm('코스를 삭제하시겠습니까?');" class="btn btn-danger pull-right removeCouBtn" style="margin-right: 15px;">삭제</a>
+                        
+                        <script>
+                            $("button#updateCouBtn").on("click", function () {
+                                var f = document.couForm;
+
+                                f.mode.value = "u";
+
+                                setCourse();
+                            });
+                        </script>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary pull-right" id="setCouBtn">등록</button>
+                    }
+
+                    <form name="couForm" class="" method="post" action="/Car/setCourse" enctype="multipart/form-data">
+                        <input type="hidden" name="mode" value="i" />
+                        <input type="hidden" name="seq" value="@COU_SEQ" />
+                        <input type="hidden" name="area" value="@COU_AREA_CODE" />
+                        <input type="hidden" name="lat" value="@COU_LATITUDE" />
+                        <input type="hidden" name="lng" value="@COU_LONGITUDE" />
+                        <input type="hidden" name="address" value="@COU_ADDRESS" />
+                        <input type="hidden" name="title" value="@COU_TITLE" />
+                        <input type="hidden" name="txt" value="@COU_CONT" />
+                        <input type="hidden" name="attach" value="@COU_attachment" />
+                        <input type="file" name="files" multiple />
+                    </form>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+@*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOCavluEV5R78T2xJ1YoyVu91zdN8DCAE&callback=initMap" async defer></script>*@
+<script src="~/Scripts/HuskyEZCreator.js"></script>
+
+@*@if (!string.IsNullOrEmpty(COU_LATITUDE) && !string.IsNullOrEmpty(COU_LONGITUDE))
+{
+    <script>
+        initialize($("#map_canvas")[0], "@COU_LATITUDE" * 1, "@COU_LONGITUDE" * 1, 17);
+    </script>
+}*@
+
+<script>
+    $("a.removeAttach").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+    });
+
+    var lat = "@COU_LATITUDE" * 1;
+    var lng = "@COU_LONGITUDE" * 1;
+
+    if (lat == 0)
+    {
+        lat = 35.108308;
+    }
+
+    if (lng == 0)
+    {
+        lng = 129.036387;
+    }
+
+    //initialize($("#map_canvas")[0], lat, lng, 17);
+
+    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 17,
+        center: { lat: lat, lng: lng }
+    });
+
+    var marker = new google.maps.Marker({
+        position: { lat: lat, lng: lng },
+        map: map
+    });
+
+    marker.setDraggable(true);
+
+    map.addListener("click", function (event) {
+        placeMarker(event.latLng);
+    });
+
+    function placeMarker(location) {
+        removeMarker();
+
+        marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+
+        //map.setCenter(location);
+    }
+
+    function removeMarker() {
+        marker.setOptions({
+            map: null,
+            visible: false
+        });
+        marker = null;
+    }
+
+    //marker.addListener("click", function () {
+    //    console.log("aaa");
+    //});
+
+    //var markerdrag = new google.maps.onMarkerDragEnd(marker)
+    //{
+    //    console.log(marker);
+    //}
+
+    function changeCourse()
+    {
+        var areaCode = $("form[name='searchForm'] select[name='searchArea']").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Event/JSON_getCourse",
+            data: { area: areaCode },
+            success: function (data) {
+                var html = "";
+
+                for (i in data) {
+                    html += "<option value='" + data[i].COU_SEQ + "'>" + data[i].COU_TITLE + "</option>";
+                }
+
+                if (html.length < 1) {
+                    html += "<option>해당 지역에 코스가 없습니다.</option>";
+                }
+
+                $("select[name=searchCourse]").html(html);
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    }
+
+    $("form[name='searchForm'] select[name='searchArea']").on("change", function () {
+        changeCourse();
+    });
+
+    $("form[name='searchForm'] select[name='searchArea']").val("@COU_AREA_CODE").attr("selected", "selected");
+    changeCourse();
+
+    $("a.removeAttachBtn").on("click", function () {
+        var _this = $(this),
+            seq = $("input[name=seq]").val(),
+            area = $("input[name=area]").val(),
+            attach = _this.prev().attr("href");
+
+        if(confirm("첨부 파일은 한번 삭제시 되돌릴 수 없습니다. 삭제하시겠습니까?"))
+        {
+            $.ajax({
+                type: "POST",
+                url: "/Car/JSON_removeAttachment",
+                data: { seq: seq, area: area, attach: attach },
+                success: function (data) {
+                    _this.css("display", "none").prev().addClass("removeAttach");//.css({ "color": "#aaa", "text-decoration": "line-through" });
+                    alert(data);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+    });
+
+    $(".searchMapBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        search();
+    });
+
+    var oEditors = [];
+
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: oEditors,
+        elPlaceHolder: "content",
+        sSkinURI: "/Editor/SmartEditor2Skin_vou",
+        fCreator: "createSEditor2"
+    });
+
+    $("#setCouBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        setCourse();
+    });
+
+    function setCourse() {
+        oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+
+        var area = $("select[name=areaCode] option:selected");
+        var address = $("input#address");
+        var title = $("input#title");
+
+        if (area.val() == "" || area.val() == undefined) {
+            alert("지역을 선택해주세요.");
+            area.focus();
+            return;
+        }
+
+        if (address.val() == "" || address.val() == undefined) {
+            alert("탑승지를 검색하여 지정해주세요.");
+            address.focus();
+            return;
+        }
+
+        if (title.val() == "" || title.val() == undefined) {
+            alert("코스 명을 입력해주세요.");
+            title.focus();
+            return;
+        }
+
+        var f = document.couForm;
+
+        f.txt.value = encodeURIComponent($("textarea#content").val());
+        f.address.value = address.val();
+        f.lat.value = marker == undefined ? "@COU_LATITUDE" : marker.getPosition().lat();
+        f.lng.value = marker == undefined ? "@COU_LONGITUDE" : marker.getPosition().lng();
+        f.title.value = title.val();
+        f.area.value = area.val();
+
+        f.submit();
+    }
+
+    function search() {
+        var geocoder = new google.maps.Geocoder();
+
+        geocodeAddress(geocoder, map);
+    }
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
+
+                removeMarker();
+
+                marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+
+                marker.setDraggable(true);
+            } else {
+                alert('해당 장소를 찾을 수 없습니다.');
+            }
+        });
+    }
+</script>

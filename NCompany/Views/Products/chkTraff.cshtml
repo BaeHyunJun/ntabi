@@ -1,0 +1,354 @@
+﻿@using NCompany.Models
+
+@{
+    Layout = null;
+    
+    var user = Session["user"] as User;
+}
+
+<style>
+</style>
+
+<div class="modal-dialog" role="document" style="width: 900px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">교통</h4>
+        </div>
+        <div class="modal-body">
+            <form name="prcForm" method="post" action="/Products/updateTrf" class="trfForm">
+                <input type="hidden" name="redirect" value="@Request["url"]" />
+                <input type="hidden" name="code" value="@Request["code"]" />
+                <input type="hidden" name="key" value="@Request["key"]" />
+                <table class="table text-center priceTable">
+                    <colgroup>
+                        <col style="width: 6%" />
+                        <col style="width: 10%" />
+                        <col style="width: 12%" />
+                        <col style="width: 14%" />
+                        <col style="width: 14%" />
+                        <col style="width: 19%" />
+                        <col style="width: 19%" />
+                        @*<col style="width: 11%" />*@
+                        <col style="width: 6%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>구분</th>
+                            <th>이름</th>
+                            <th>출발 시간</th>
+                            <th>도착 시간</th>
+                            <th>출발지</th>
+                            <th>도착지</th>
+                            @*<th>간단 설명</th>*@
+                            <th>제거</th>
+                            @*<th>추가</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            string txtSel = "selected='selected'",
+                                   no = "",
+                                   subseq = "",
+                                   tt = "",
+                                   tp = "",
+                                   st = "",
+                                   et = "",
+                                   sa = "",
+                                   ea = "";
+
+                            foreach (var item in Model)
+                            {
+                                try { no = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+                                try { subseq = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+                                try { tp = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+                                try { tt = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+                                try { st = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+                                try { et = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+                                try { sa = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+                                try { ea = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+
+                                <tr>
+                                    <td>
+                                        @if (subseq == "1")
+                                        {
+                                            @no
+                                        }
+                                        else
+                                        {
+                                            string rtTxt = "귀국";
+                                            
+                                            @rtTxt
+                                        }
+                                        <input type="hidden" name="seq[]" value="@no" />
+                                        <input type="hidden" name="subSeq[]" value="@subseq" />
+                                    </td>
+                                    <td>
+                                        <select name="type[]">
+                                            <option value="AIR" @if (tp == "AIR") { @txtSel }>항공</option>
+                                            <option value="SHP" @if (tp == "SHP") { @txtSel }>선박</option>
+                                            <option value="NBS" @if (tp == "NBS") { @txtSel }>버스</option>
+                                            <option value="NRT" @if (tp == "NRT") { @txtSel }>렌트카</option>
+                                            <option value="ETC" @if (tp == "ETC") { @txtSel }>기타</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="차량 이름" maxlength="8" value="@tt" name="title[]">
+                                    </td>
+                                    <td>
+                                        <input type="time" class="form-control" placeholder="출발 시간" maxlength="4" value="@st" name="stime[]">
+                                    </td>
+                                    <td>
+                                        <input type="time" class="form-control" placeholder="도착 시간" maxlength="4" value="@et" name="etime[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="출발지" maxlength="20" value="@sa" name="sarea[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="도착지" maxlength="20" value="@ea" name="earea[]">
+                                    </td>
+                                    <td>
+                                        <a href="#" class="removePrc"><span aria-hidden="true">&times;</span></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                        @if (string.IsNullOrEmpty(no))
+                        {
+                            <tr>
+                                <td>
+                                    -
+                                    <input type="hidden" name="seq[]" value="" />
+                                    <input type="hidden" name="subSeq[]" value="1" />
+                                </td>
+                                <td>
+                                    <select name="type[]">
+                                        <option value="" selected="selected">선택</option>
+                                        <option value="AIR">항공</option>
+                                        <option value="SHP">선박</option>
+                                        <option value="NBS">버스</option>
+                                        <option value="NRT">렌트카</option>
+                                        <option value="ETC">기타</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="차량 이름" maxlength="8" value="" name="title[]">
+                                </td>
+                                <td>
+                                    <input type="time" class="form-control" placeholder="출발 시간" maxlength="4" value="" name="stime[]">
+                                </td>
+                                <td>
+                                    <input type="time" class="form-control" placeholder="도착 시간" maxlength="4" value="" name="etime[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="출발지" maxlength="20" value="" name="sarea[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="도착지" maxlength="20" value="" name="earea[]">
+                                </td>
+                                <td>
+                                    <a href="#" class="removePrc"><span aria-hidden="true">&times;</span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-default" id="addPrice">추가</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">저장</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+<script>
+
+    $("table.priceTable tbody").delegate("select[name='type[]']", "change", function () {
+        var _this = $(this);
+
+        var parent = _this.parents("tr"),
+            parentSeq = parent.find("input[name='seq[]']").val(),
+            isRtTraff = false;
+
+        if (parent.next("tr.rtTraff").find("input[name='subSeq[]']").val() == undefined ||
+            parent.next("tr.rtTraff").find("input[name='subSeq[]']").val() != 2)
+        {
+            isRtTraff = true;
+        }
+
+        if (parent.hasClass("rtTraff"))
+        {
+            return;
+        }
+
+        if (_this.val() == "AIR" || _this.val() == "SHP") {
+
+            if (!isRtTraff)
+            {
+                return;
+            }
+
+            var html = '<tr class="rtTraff">' +
+                            '<td>' +
+                                '귀국' +
+                                '<input type="hidden" name="seq[]" value="' + parentSeq + '"/>' +
+                                '<input type="hidden" name="subSeq[]" value="2" />' + 
+                            '</td>' +
+                            '<td>' +
+                                '<select name="type[]">' +
+                                    '<option value="" selected="selected">선택</option>' +
+                                    '<option value="AIR">항공</option>' +
+                                    '<option value="SHP">선박</option>' +
+                                    '<option value="NBS">버스</option>' +
+                                    '<option value="NRT">렌트카</option>' +
+                                    '<option value="ETC">기타</option>' +
+                                '</select>' +
+                            '</td>' +
+                            '<td>' +
+                                '<input type="text" class="form-control" placeholder="차량 이름" maxlength="8" value="" name="title[]">' +
+                            '</td>' +
+                            '<td>' +
+                                '<input type="time" class="form-control" placeholder="출발 시간" maxlength="4" value="" name="stime[]">' +
+                            '</td>' +
+                            '<td>' +
+                                '<input type="time" class="form-control" placeholder="도착 시간" maxlength="4" value="" name="etime[]">' +
+                            '</td>' +
+                            '<td>' +
+                                '<input type="text" class="form-control" placeholder="출발지" maxlength="20" value="" name="sarea[]">' +
+                            '</td>' +
+                            '<td>' +
+                                '<input type="text" class="form-control" placeholder="도착지" maxlength="20" value="" name="earea[]">' +
+                            '</td>' +
+                            '<td>' +
+                                '<a href="#" class="removePrc">' +
+                                    '<span aria-hidden="true">&times;</span>' +
+                                '</a>' +
+                            '</td>' +
+                        '</tr>';
+
+            $("table.priceTable").find("tbody").append(html);
+        }
+        else {
+            parent.next("tr.rtTraff").remove();
+        }
+    });
+
+    $("#addPrice").on("click", function () {
+        var html =  '<tr>' +
+                        '<td>' +
+                            '-' +
+                            '<input type="hidden" name="seq[]" value="" />' +
+                            '<input type="hidden" name="subSeq[]" value="1" />' +
+                        '</td>' +
+                        '<td>' +
+                            '<select name="type[]">' +
+                                '<option value="" selected="selected">선택</option>' +
+                                '<option value="AIR">항공</option>' + 
+                                '<option value="SHP">선박</option>' +
+                                '<option value="NBS">버스</option>' +
+                                '<option value="NRT">렌트카</option>' +
+                                '<option value="ETC">기타</option>' +
+                            '</select>' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="text" class="form-control" placeholder="차량 이름" maxlength="8" value="" name="title[]">' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="time" class="form-control" placeholder="출발 시간" maxlength="4" value="" name="stime[]">' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="time" class="form-control" placeholder="도착 시간" maxlength="4" value="" name="etime[]">' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="text" class="form-control" placeholder="출발지" maxlength="20" value="" name="sarea[]">' +
+                        '</td>' +
+                        '<td>' +
+                            '<input type="text" class="form-control" placeholder="도착지" maxlength="20" value="" name="earea[]">' +
+                        '</td>' +
+                        '<td>' +
+                            '<a href="#" class="removePrc">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                            '</a>' +
+                        '</td>' +
+                    '</tr>';
+
+        if ($("table.priceTable tbody tr").length >= 7)
+        {
+            alert("교통은 7개까지만 생성할 수 있습니다.");
+            return;
+        }
+
+        $("table.priceTable").find("tbody").append(html);
+    });
+
+    $("table.priceTable tbody").delegate("a.removePrc", "click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var _this = $(this),
+            parent = _this.parents('tr'),
+            parentSeq = parent.find("input[name='seq[]']").val();
+
+        if (parent.siblings().length < 1) {
+            $("#addPrice").click();
+        }
+
+        //parent.remove();
+
+        $("input[name='seq[]'][value='" + parentSeq + "']").parents('tr').remove();
+    });
+
+    $("#uptBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.prcForm,
+            ErMsg = "",
+            focusEl,
+            isSub = true;
+
+        for (var i = 0; $('input[name="title[]"]').length > i; i++)
+        {
+            if ($('input[name="title[]"]')[i].value == "")
+            {
+                alert("이름을 꼭 입력해주세요.");
+                $('input[name="title[]"]')[i].focus();
+                isSub = false
+                break;
+            } else if ($('input[name="stime[]"]')[i].value == "") {
+                alert("출발 시간은 꼭 입력해주세요.");
+                $('input[name="stime[]"]')[i].focus();
+                isSub = false
+                break;
+            } else if ($('input[name="etime[]"]')[i].value == "") {
+                alert("도착 시간은 꼭 입력해주세요.");
+                $('input[name="etime[]"]')[i].focus();
+                isSub = false
+                break;
+            } else if ($('input[name="sarea[]"]')[i].value == "") {
+                alert("출발지를 꼭 입력해주세요.");
+                $('input[name="sarea[]"]')[i].focus();
+                isSub = false
+                break;
+            } else if ($('input[name="earea[]"]')[i].value == "") {
+                alert("도착지를 꼭 입력해주세요.");
+                $('input[name="earea[]"]')[i].focus();
+                isSub = false
+                break;
+            }
+        }
+
+        if (isSub)
+        {
+            $(this).attr("disabled", true);
+
+            f.submit();
+        } else {
+            return;
+        }
+    });
+</script>

@@ -1,0 +1,369 @@
+﻿@{
+    Layout = null;
+
+    DateTime now = DateTime.Now;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <title>엔데이트립 가이드 스케쥴러</title>
+
+    @Styles.Render("~/Content/css")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.css" />
+
+    <script src="~/Scripts/lib/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/locale-all.js"></script>
+
+    <style>
+        html, body {
+            padding: 0;
+            background: white;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            max-width: 450px;
+            position: relative;
+            min-width: auto;
+            min-height: auto;
+            margin: 0 auto;
+            background-color: #b6dc93;
+        }
+
+        .fc-basic-view .fc-body .fc-row 
+        {
+            min-height: 3em;
+        }
+
+        .fc-ltr .fc-basic-view .fc-day-top .fc-day-number 
+        {
+            padding: 0;
+        }
+
+        .fc-basic-view .fc-body .fc-row table thead td
+        {
+            height: 3em;
+            line-height: 3em;
+        }
+        
+        .fc-basic-view .fc-body .fc-row table thead td a
+        {
+            width: 100%;
+            text-align: center;
+        }
+
+        .fc-basic-view .fc-body .fc-row table tbody td.fc-event-container a
+        {
+            display: none;
+        }
+
+        .ui-widget.ui-widget-content
+        {
+            width: 100%;
+            height: 100%;
+        }
+
+        .ui-datepicker .ui-datepicker-header
+        {
+            display: none;
+        }
+
+        .ui-datepicker table
+        {
+            height: 100%;
+            margin: 0;
+        }
+
+        .ui-state-default, 
+        .ui-widget-content .ui-state-default
+        {
+            height: 43px;
+            line-height: 43px;
+            text-align: center;
+            border: none;
+            background-color: transparent;
+        }
+        /*.ui-state-active, 
+        .ui-widget-content .ui-state-active
+        {
+            background-color: #b6dc93;
+            border-radius: 25px;
+            font-weight: bold;
+            color: white;
+        }*/
+        td.abcdefg .ui-state-active, td.abcdefg .ui-widget-content .ui-state-active {
+            background-color: #b6dc93;
+            border-radius: 25px;
+            font-weight: bold;
+            color: white;
+        }
+
+        td.abcdefg .ui-state-default, 
+        td.abcdefg .ui-widget-content .ui-state-default
+        {
+            background-color: #b6dc93;
+            border-radius: 25px;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <section @*style="height: 30%;"*@>
+        <article style="position: relative; padding: 20px;">
+            <button type="button" class="btn btn-default pull-right" style="background-color: transparent; border: 1px solid black;">
+                <i class="glyphicon glyphicon-cog"></i>
+            </button>
+            <h3 style="margin: 0; font-size: 6em">@now.ToString()</h3>
+            <h4 style="margin: 0; font-size: 2em; font-weight: bold;">october</h4>
+            <ul style="display: none;">
+                <li>오늘 가이드</li>
+                <li>코 스 명 : <span>비에이 & 후라노</span></li>
+                @*<li>운전기사 : <span>백인철</span></li>
+                <li>탑승차량 : <span>대형 버스</span></li>*@
+                <li>탑승인원 : <span>2 명</span></li>
+                @*<li>특이사항 : <span>차량 번호 2491<br />운전기사 전화번호 : 123-456-7890</span></li>*@
+            </ul>
+        </article>
+    </section>
+    <div style="height: 50%; min-height: 295px; background-color: white; position: absolute; left: 0; right: 0; bottom: 0;">
+        <div id="datepicker" class="datepicker" style="width: 100%; height: 100%;"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            var dates = "";
+
+            function setSchedule()
+            {
+                var url = "/Guide/getDays";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    //data: { area: "HOK", emp: "ALL" },
+                    success: function (data) {
+
+                        dates = data;
+
+                        $("#datepicker").datepicker({
+                            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+                            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+                            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                            beforeShowDay: selectableDays,
+                            beforeShow: function (input, inst) {
+                                console.log(input);
+                                console.log(inst);
+                            },
+                            onChangeMonthYear: function (year, month, inst) {
+                                console.log(year);
+                                console.log(month);
+                                console.log(inst);
+                            }
+                        });
+                    }
+                });
+            }
+
+            setSchedule();
+
+            function zeroNum(num) {
+                var rNum = num;
+
+                if (rNum.length < 2) {
+                    rNum = "0" + rNum
+                }
+
+                return rNum;
+            }
+
+            function selectableDays(date) {
+                var dayOfMonth = date.getDate();
+
+                var dummy = zeroNum(date.getFullYear().toString()) + zeroNum((date.getMonth() + 1).toString()) + zeroNum(date.getDate().toString());
+
+                var arrayDays = $.map(dates, function (obj) { return obj.day });
+
+                //var idx;
+
+                if ($.inArray(dummy, arrayDays) > -1) {
+                    var className = "abcdefg";
+
+                    //idx = arrayDays.indexOf(dummy);
+
+                    return [true, className];
+                }
+
+                return [true, ""];
+            }
+
+            //$('div#datepicker').fullCalendar({
+            //    header: false,
+            //    locale: 'ko',
+            //    buttonIcons: false,
+            //    navLinks: true, 
+            //    editable: true,
+            //    eventLimit: false,
+            //    eventStartEditable: false,
+            //    height: "parent",
+            //    //eventLimit: 1,
+            //    //eventLimitText: "확인",
+            //    events: function (start, end, timezone, callback) {
+            //        var data1 = "ALL",
+            //            data2 = "HOK";
+
+            //        var datas = { type: data1, area: data2 };
+
+            //        $.ajax({
+            //            type: "POST",
+            //            url: "/Car/JSON_getSchedule",
+            //            data: datas,
+            //            success: function (data) {
+            //                var events = [];
+            //                var title = "";
+
+            //                for (i in data) {
+            //                    title = data[i].title;
+
+            //                    if (title.length >= 8) {
+            //                        title = data[i].title.substr(0, 7) + "..";
+            //                    }
+
+            //                    events.push({
+            //                        title: title + " (" + data[i].cnt + " 명)",
+            //                        start: data[i].date,
+            //                        guide: data[i].emp,
+            //                        car: data[i].car,
+            //                        type: getCarType(data[i].type),
+            //                        color: getColor(data[i].type),
+            //                        driver: data[i].driver,
+            //                        cnt: data[i].cnt,
+            //                        note: data[i].note,
+            //                        course: data[i].title,
+            //                        seq: data[i].seq,
+            //                        area: data[i].area,
+            //                    });
+            //                }
+
+            //                callback(events);
+            //            }
+            //            , beforeSend: function () {
+            //                $('#loading').show();
+            //            }
+            //            , complete: function () {
+            //                $('#loading').hide();
+            //            }
+            //        });
+            //    },
+            //    eventAfterRender: function(event, element, view) {
+            //        //console.log(event);
+            //        //console.log(element);
+            //        //console.log(view);
+            //    },
+            //    //eventRender: function (event, element) {
+            //    //    //element.qtip({
+            //    //    //    content: event.description
+            //    //    //});
+
+            //    //    var eventDateString = GetDateInCalFormat(event.start);
+            //    //    var $calDay = $('td.fc-day[data-date="' + eventDateString + '"]');
+            //    //    var dayEventCount = $calDay.attr('dayEventCount') ? parseInt($calDay.attr('dayEventCount')) : 0;
+
+            //    //    dayEventCount = dayEventCount + 1;
+            //    //    $calDay.attr('dayEventCount', dayEventCount);
+
+            //    //    if (dayEventCount <= maxEvents) {
+            //    //        //[any custom formatting]
+            //    //    }
+            //    //    else {
+            //    //        var missingEvents = dayEventCount - maxEvents;
+            //    //        $('.moreLink', $calDay).remove();
+            //    //        $moreLink = $('<div class="moreLink"/>')
+            //    //        $moreLink.html(BuildMoreLink(missingEvents));
+            //    //        $calDay.append($moreLink);
+            //    //        return false;
+            //    //    }
+            //    //},
+            //    eventClick: function (data, event, view) {
+            //        //location.href = "/Car/Course?sDay=" + data.start._i + "&area=" + data.area + "&course=" + data.seq;
+            //    }
+            //});
+
+            //function GetDateInCalFormat(dateToFormat) {
+            //    dd = dateToFormat.getDate();
+            //    mm = dateToFormat.getMonth() + 1;
+            //    yyyy = dateToFormat.getFullYear();
+            //    if (dd < 10) { dd = '0' + dd }
+            //    if (mm < 10) { mm = '0' + mm }
+            //    results = yyyy + '-' + mm + '-' + dd;
+            //    return results;
+            //}
+
+            function getCarType(txt) {
+                var carType = "";
+
+                switch (txt) {
+                    case "LBS":
+                        carType = "대형 버스";
+                        break;
+                    case "MBS":
+                        carType = "중형 버스";
+                        break;
+                    case "14 ":
+                        carType = "14인 승합차";
+                        break;
+                    case "10 ":
+                        carType = "10인 승합차";
+                        break;
+                    case "6  ":
+                        carType = "6인 승합차";
+                        break;
+                }
+
+                return carType;
+            }
+
+            function getColor(txt) {
+                var color = "red";
+
+                switch (txt) {
+                    case "LBS":
+                        color = "#7030a0";
+                        break;
+                    case "MBS":
+                        color = "#ff66ff";
+                        break;
+                    case "SBS":
+                        color = "#0070C0";
+                        break;
+                    case "14 ":
+                        color = "#92d050";
+                        break;
+                    case "10 ":
+                        color = "#ffc000";
+                        break;
+                    case "6  ":
+                        color = "#c5d9f1";
+                        break;
+                }
+
+                return color;
+            }
+        });
+    </script>
+
+</body>
+</html>
+

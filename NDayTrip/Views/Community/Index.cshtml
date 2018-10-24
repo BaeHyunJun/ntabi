@@ -1,0 +1,294 @@
+﻿@using NDayTrip.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var user = Session["user"] as User;
+}
+
+<style>
+    section.community {
+        margin: 0;
+        padding: 55px 0 50px;
+    }
+
+        section.community > article > div > h3 {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #a0ce54;
+        }
+
+        section.community > article.tab-content > div > ul {
+            padding: 0 10px;
+        }
+
+        section.community .tab-content > div > ul li.noCont {
+            border: 1px solid #ddd;
+            padding: 0;
+            margin: -5px -10px;
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+        }
+
+        section.community > article > div > ul > li > a > p {
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 24px;
+            margin: 0;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+            overflow: hidden;
+        }
+
+        section.community ul.event > li {
+            border: 1px solid #ddd;
+            padding: 0 !important;
+            line-height: normal !important;
+        }
+
+            section.community ul.event > li > a > img {
+                max-width: 100%;
+            }
+
+            section.community ul.event > li > a > p {
+                font-size: 16px;
+                padding: 5px 10px;
+            }
+
+            section.community ul.event > li > a > span {
+                padding: 5px 10px;
+                line-height: 20px;
+            }
+
+        section.community button.moreBtn {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+    article > div#qna form.qnaWrite > input {
+        width: 100%;
+        padding: 5px 10px;
+        height: 40px;
+        line-height: 40px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+    }
+
+    article > div#qna form.qnaWrite > textarea {
+        width: 100%;
+        padding: 0 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        line-height: 24px;
+    }
+
+    article > div#qna form.qnaWrite > button {
+        width: 100%;
+        height: 40px;
+    }
+</style>
+
+<section class="community">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab">자유 게시판</a></li>
+        <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab">이용 후기</a></li>
+        <li role="presentation"><a href="#qna" aria-controls="qna" role="tab" data-toggle="tab">문의 내역</a></li>
+        <li role="presentation"><a href="#event" aria-controls="event" role="tab" data-toggle="tab">이벤트</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <article class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="notice">
+            <h3>자유 게시판</h3>
+            <span></span>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="review">
+            <h3>이용 후기</h3>
+            <span></span>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="qna">
+            <h3>문의 내역</h3>
+            <span></span>
+            <form class="qnaWrite" method="post" action="/Community/Update">
+                <input type="hidden" name="type" value="qna" />
+                <input type="text" name="title" placeholder="제목" />
+                <textarea name="content" placeholder="내용을 입력해 주세요." rows="10"></textarea>
+                <button class="btn btn-default">등록</button>
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="event">
+            <h3>이벤트</h3>
+            <span></span>
+        </div>
+    </article>
+</section>
+
+<div class="fMenu">
+    <ul>
+        <li><a href="/Products">@*LOCAL*@<img src="~/Content/Images/home/ICON_LOC.png" /></a></li>
+        <li><a href="https://www.booking.com/?aid=1294434" target="_blank">@*HOTEL*@<img src="~/Content/Images/home/ICON_HOTEL.png" /></a></li>
+        <li><a href="http://www.timescar-rental.kr/af/7822000010/kr/" target="_blank">@*RENTCAR*@<img src="~/Content/Images/home/ICON_CAR.png" /></a></li>
+        <li class="active"><a href="/Community">SOCIAL@*<img src="~/Content/Images/home/ICON_COM.png" />*@</a></li>
+        <li><a href="/Mypage">@*MYPAGE*@<img src="~/Content/Images/home/ICON_MY.png" /></a></li>
+    </ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".qnaWrite").submit(function () {
+            var url = window.location.pathname + window.location.search;
+            url = encodeURIComponent(url);
+
+            if ($("input[name='title']").val() == "") {
+                alert("제목을 입력해 주세요.");
+                return false;
+            }
+
+            if ($("textarea[name='content']").val() == "") {
+                alert("내용을 입력해 주세요.");
+                return false;
+            }
+
+            if ("@user" == "") {
+                alert("로그인을 하셔야 글 등록이 진행됩니다.");
+                location.href = "/Home/NDTLogin?r=" + url;
+                return false;
+            }
+
+            return true;
+        });
+
+        var bdIdx = 0;
+
+        $("section.community > ul > li > a").on("click", function (e) {
+
+            bdIdx = 0;
+
+            var _this = $(this),
+                type = _this.attr("href").replace('#', '');
+
+            var url = "/Community/JSON_getBoard";
+            var datas = { type: type };
+
+            if (type == "qna") {
+                return;
+            }
+
+            var html = "";
+
+            if (type == "notice" && "@user" != "") {
+                html += "<button class='pull-right btn btn-success writeBtn'>글쓰기</button>";
+            }
+
+            html += "<h3>" + _this.text() + "</h3><span></span>";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    html += "<ul class='" + type + "'>";
+
+                    var idx = 0;
+
+                    for (i in data)
+                    {
+                        html += "<li>" +
+                                    "<a href='/Community/Views?t=" + type + "&k=" + data[i].post_ID + "'>";
+
+                        if (type == "event")
+                        {
+                            html +=     "<img src='" + data[i].post_thumb + "'>";
+                        }
+
+                        html +=         "<p>" + data[i].post_title + "</p>" +
+                                        "<span>등록일 : " + data[i].ist_date + " | " + data[i].name + "</span>" +
+                                    "</a>" +
+                                "</li>";
+
+                        idx++;
+                        bdIdx++;
+                    }
+
+                    if (idx == 0)
+                    {
+                        html += "<li class='noCont'>내용이 없습니다.</li>";
+                    }
+
+                    html += "</ul>";
+
+                    html += "<button class='btn btn-default moreBtn'>더보기</button>";
+
+                    $("div.tab-pane.active").html(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("section.community > ul > li > a").eq(0).click();
+
+        $("article.tab-content").delegate("div.active button.moreBtn", "click", function () {
+            var _this = $(this),
+                type = _this.parent().attr("id");
+
+            var url = "/Community/JSON_getBoard";
+            var datas = { type: type, idx: bdIdx };
+
+            var html = "";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var idx = 0;
+
+                    for (i in data) {
+                        html += "<li>" +
+                                    "<a href='/Community/Views?t=" + type + "&k=" + data[i].post_ID + "'>";
+
+                        if (type == "event") {
+                            html += "<img src='" + data[i].post_thumb + "'>";
+                        }
+
+                        html += "<p>" + data[i].post_title + "</p>" +
+                                        "<span>등록일 : " + data[i].ist_date + " | " + data[i].name + "</span>" +
+                                    "</a>" +
+                                "</li>";
+
+                        idx++;
+                        bdIdx++;
+                    }
+
+                    $("div.tab-pane.active > ul").append(html);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+
+        $("div.tab-pane.active").delegate(".writeBtn", "click", function () {
+
+            if ("@user" == "")
+            {
+                alert("로그인을 하셔야 글 등록이 진행됩니다.");
+            }
+            else
+            {
+                location.href = "/Community/Write?type=notice";
+            }
+        });
+    });
+</script>

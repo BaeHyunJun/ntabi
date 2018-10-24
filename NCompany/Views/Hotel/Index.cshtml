@@ -1,0 +1,365 @@
+﻿@using NCompany.Models
+@{
+    ViewBag.Title = "호텔";
+
+    string chknation = Request["nation"];
+    string chkarea = Request["area"];
+    string chkcity = Request["city"];
+    string chkstate = Request["state"];
+
+    string chkd = "selected='selected'";
+
+    var user = Session["user"] as User;
+}
+
+<style>
+    section.hotel ul
+    {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+    }
+
+    section.hotel form.searchForm > div
+    {
+        width: 100%;
+    }
+
+    section.hotel ul.table-header
+    {
+        margin: 0;
+        padding: 0; 
+        font-size: 0;
+        overflow: hidden;
+        list-style: none;
+    }
+
+    section.hotel ul.table-header > li
+    {
+        font-size: 14px;
+        float: left;
+        text-align: center;
+    }
+
+    section.hotel ul.table-body
+    {
+        overflow-y: scroll;
+        height: 500px;
+    }
+
+    section.hotel ul.table-body > li
+    {
+        border-top: 1px solid #ddd;
+    }
+
+    section.hotel ul.table-body ul.hotelData > li
+    {
+        display: inline-block;
+        font-size: 12px;
+        text-align: center;
+        line-height: 30px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+        overflow: hidden;
+    }
+
+    /* Base for label styling */
+    section.hotel [type="checkbox"]:not(:checked),
+    section.hotel [type="checkbox"]:checked {
+        position: absolute;
+        left: -9999px;
+    }
+
+    section.hotel [type="checkbox"]:not(:checked) + label,
+    section.hotel [type="checkbox"]:checked + label {
+        position: relative;
+        padding-left: .96em;
+        cursor: pointer;
+        vertical-align: text-top;
+    }
+
+    /* checkbox aspect */
+    section.hotel [type="checkbox"]:not(:checked) + label:before,
+    section.hotel [type="checkbox"]:checked + label:before {
+        content: '';
+        position: absolute;
+        left: 0; top: 0;
+        width: 1.25em; height: 1.25em;
+        border: 2px solid #ccc;
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+    }
+
+    /* checked mark aspect */
+    section.hotel [type="checkbox"]:not(:checked) + label:after,
+    section.hotel [type="checkbox"]:checked + label:after {
+        content: '✔';
+        position: absolute;
+        top: .1em; left: .3em;
+        font-size: 1.3em;
+        line-height: 0.8;
+        color: #09ad7e;
+        transition: all .2s;
+    }
+
+    /* checked mark aspect changes */
+    section.hotel [type="checkbox"]:not(:checked) + label:after {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    section.hotel [type="checkbox"]:checked + label:after {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* disabled checkbox */
+    section.hotel [type="checkbox"]:disabled:not(:checked) + label:before,
+    section.hotel [type="checkbox"]:disabled:checked + label:before {
+        box-shadow: none;
+        border-color: #bbb;
+        background-color: #ddd;
+    }
+</style>
+
+<section class="hotel row">
+    <article class="col-md-12">
+        <div class="row pull-right" style="margin-right: 0;">
+            <button type="button" class="btn btn-default searchPdtBtn">@ViewBag.Title 조회</button>
+            <a class="btn btn-success" id="HtlIst" data-toggle="popup" href="/Hotel/udtHotels" data-target="instHotel">@ViewBag.Title 등록</a>
+        </div>
+
+        <h3>@ViewBag.Title 관리</h3>
+
+        <div class="revArea">
+            <form class="form-inline searchForm" action="/hotel" method="get" name="srcForm">
+                <div class="form-group row">
+                    <label class="col-md-2">
+                        국가
+                        <select class="form-control" name="nation">
+                            <option value="">전체</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-2">
+                        지역
+                        <select class="form-control" name="area">
+                            <option value="">전체</option>
+                        </select>
+                    </label>
+
+                    <label class="col-md-2">
+                        진행 구분
+                        <select class="form-control" name="state">
+                            <option value="">전체</option>
+                            <option value="01" @if (chkstate == "01") { @chkd   }>준비중</option>
+                            <option value="02" @if (chkstate == "02") { @chkd   }>판매중</option>
+                            <option value="03" @if (chkstate == "03") { @chkd   }>마감</option>
+                        </select>
+                    </label>
+
+                    @*<label class="col-md-3">
+                        담당자
+                        <select class="form-control" name="emp">
+                            <option value="all">전체</option>
+                            <option value="2" @if (chkemp == "2") { @chkd  }>@Html.Action("getName", new { emp = 2 })</opt120ion>
+                            <option value="3" @if (chkemp == "3") { @chkd  }>@Html.Action("getName", new { emp = 3 })</option>
+                            <option value="4" @if (chkemp == "4") { @chkd  }>@Html.Action("getName", new { emp = 4 })</option>
+                            <option value="5" @if (chkemp == "5") { @chkd  }>@Html.Action("getName", new { emp = 5 })</option>
+                            <option value="6" @if (chkemp == "6") { @chkd  }>@Html.Action("getName", new { emp = 6 })</option>
+                            <option value="7" @if (chkemp == "7") { @chkd  }>@Html.Action("getName", new { emp = 7 })</option>
+                            <option value="11" @if (chkemp == "11") { @chkd   }>@Html.Action("getName", new { emp = 11 })</option>
+                            <option value="19" @if (chkemp == "19") { @chkd  }>@Html.Action("getName", new { emp = 19 })</option>
+                        </select>
+                    </label>*@
+                </div>
+            </form>
+
+            <ul class="table-header">
+                <li style="width: 4%">번호</li>
+                <li style="width: 9%">국가</li>
+                <li style="width: 12%">지역</li>
+                <li style="width: 36%">호텔 명</li>
+                <li style="width: 8%">상태</li>
+                <li style="width: 7%">-</li>
+                <li style="width: 8%">판매가</li>
+                <li style="width: 8%">판매일</li>
+                <li style="width: 8%">컨텐츠</li>
+            </ul>
+
+            <ul class="table-body">
+                @{
+                    string seq = "",
+                           proc = "",
+                           proc_Class = "",
+                           nation = "",
+                           area = "",
+                           title = "",
+                           o1 = "",
+                           o2 = "",
+                           o3 = "",
+                           strChk = "checked='checked'";
+
+                    foreach (object item in Model)
+                    {
+                        seq = "";
+                        proc = "";
+                        nation = "";
+                        area = "";
+                        title = "";
+                        proc_Class = "";
+                        o1 = "";
+                        o2 = "";
+                        o3 = "";
+
+                        try { seq       = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { continue; }
+                        try { nation    = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { continue; }
+                        try { area      = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { continue; }
+                        try { title     = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { continue; }
+                        try { proc      = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { continue; }
+
+                        try { o1        = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+                        try { o2        = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+                        try { o3        = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+
+                        switch (proc)
+                        {
+                            case "준비중":
+                                proc_Class = "prepare";
+                                break;
+                            case "판매중":
+                                proc_Class = "sell";
+                                break;
+                            case "마감":
+                                proc_Class = "end";
+                                break;
+                        }
+
+                        <li data-seq="@seq">
+                            <ul class="hotelData">
+                                <li style="width: 4%">@seq</li>
+                                <li class="pdtKey" style="width: 9%">@nation</li>
+                                <li style="width: 12%">@area</li>
+                                <li style="width: 36%">
+                                    <a data-toggle="popup" href="/Hotel/udtHotels" data-seq="@seq" data-target="instHotel">@title</a>
+                                </li>
+                                <li style="width: 8%"><span class="@proc_Class">@proc</span></li>
+                                <li style="width: 7%">-</li>
+                                <li style="width: 8%"><input type="checkbox" id="chkPrice_@seq" class="chkPrice" @if (o1 == "Y") { @strChk } data-toggle="popup" data-target="chkPrice" /><label for="chkPrice_@seq"></label></li>
+                                <li style="width: 8%"><input type="checkbox" id="chkDays_@seq" class="chkDays" @if (o2 == "Y") { @strChk } data-toggle="popup" data-target="chkDays" /><label for="chkDays_@seq"></label></li>
+                                <li style="width: 8%"><input type="checkbox" id="chkContent_@seq" class="chkContent" @if (o3 == "Y") { @strChk } data-toggle="popup" data-target="chkContent" /><label for="chkContent_@seq"></label></li>
+                            </ul>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    </article>
+</section>
+
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popup"]').on("click", function (e) {
+            e.preventDefault();
+            var _this = $(this),
+                url = _this.attr('href'),
+                seq = _this.attr('data-seq'),
+                rUrl = "@Request.Url.PathAndQuery",
+                addClass = _this.attr('data-target');
+
+            if (url == undefined) {
+                url = '/Hotel/' + _this.attr("class").trim();
+
+                seq = _this.parent().parents("li").attr('data-seq');
+            }
+
+            var datas = { seq: seq };
+
+            if (url.indexOf('#') == 0) {
+                $(url).modal('show');
+            } else {
+                $.get(url, datas, function (data) {
+                    $('<div class="modal fade ' + addClass + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+                });
+            }
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+
+            location.reload();
+        });
+        function getNations() {
+            var url = "/Products/JSON_getCode";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { category: 'NAT' },
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].AlterCode + '" data-code3="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                    }
+
+                    $("select[name='nation']").html(html);
+                    $("select[name='nation']").val("@chknation");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                    getAreas();
+                }
+            });
+        }
+
+        getNations();
+
+        function getAreas() {
+            var _this = $("select[name=nation]");
+
+            var url = "/Products/JSON_getCode";
+            var datas = { category: 'ARE', nation: _this.find("option:selected").attr("data-code3") };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var html = '<option value="">선택</option>';
+
+                    for (i in data) {
+                        html += '<option value="' + data[i].ComCode + '">' + data[i].Code_Kor + '</option>';
+                        //html += '<option value="' + i + '">' + data[i] + '</option>';
+                    }
+
+                    $("select[name='area']").html(html);
+                    $("select[name='area']").val("@chkarea");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        $("select[name=nation]").on("change", function () {
+            getAreas();
+        });
+
+        $("button.searchPdtBtn").on("click", function () {
+            var f = document.srcForm;
+
+            f.submit();
+        });
+    });
+</script>

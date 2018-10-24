@@ -1,0 +1,622 @@
+﻿@using mNtabi.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var user = Session["user"] as User;
+
+    string inHotels = "";
+    Dictionary<int, List<string>> rHData = ViewBag.rHData;
+
+    string revType = Request["type"];
+
+    string code = "",
+           key = "",
+           title = "",
+           nation = "",
+           area = "",
+           pdtDays = "",
+           stater = "",
+           ACnt = "",
+           APrice = "",
+           CCnt = "",
+           CPrice = "",
+           BCnt = "",
+           BPrice = "",
+           revDate = "",
+           empNo = "",
+
+           trfCode = "",
+           TRF_TITLE = "",
+           TRF_STIME1 = "",
+           TRF_STIME2 = "",
+           TRF_SAREA = "",
+           TRF_ETIME1 = "",
+           TRF_ETIME2 = "",
+           TRF_EAREA = "",
+           TRF_TYPE = "",
+
+           PRC_CODE = "",
+           PRC_SEQ = "",
+           PRC_Currency_Code = "",
+           PRC_APRICE = "",
+           PRC_CPRICE = "",
+           PRC_BPRICE = "",
+           PRC_EXP = "",
+
+           subSeq = "",
+           sTraffTxt = "",
+           eTraffTxt = "",
+           sCity = "",
+
+           empName = "",
+           empTel = "",
+           empMail = "",
+
+           userKor = "",
+           userBirth = "",
+           userEmail = "",
+           userPhone = "",
+           userLast = "",
+           userFirst = "",
+           userSex = "",
+           userYY = "",
+           userSEQ = "";
+
+    try
+    {
+        foreach (object item in Model)
+        {
+            try { code = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+            catch { }
+            try { key = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+            catch { }
+            try { title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { }
+            try { nation = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+            catch { }
+            try { area = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+            catch { }
+            try { pdtDays = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+            catch { }
+            try { stater = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+            catch { }
+            try { ACnt = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+            catch { }
+            try { APrice = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+            catch { }
+            try { CCnt = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+            catch { }
+            try { CPrice = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+            catch { }
+            try { BCnt = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+            catch { }
+            try { BPrice = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+            catch { }
+            try { revDate = item.GetType().GetProperties()[13].GetValue(item, null).ToString(); }
+            catch { }
+            try { empNo = item.GetType().GetProperties()[14].GetValue(item, null).ToString(); }
+            catch { }
+        }
+
+        if (code == "NTBVP3183")
+        {
+            CCnt = ACnt;
+        }
+
+        foreach (object item in ViewBag.prcData)
+        {
+            try { PRC_CODE = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { }
+            try { PRC_SEQ = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+            catch { }
+            try { PRC_Currency_Code = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+            catch { }
+            try { PRC_APRICE = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+            catch { }
+            try { PRC_CPRICE = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+            catch { }
+            try { PRC_BPRICE = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+            catch { }
+            try { PRC_EXP = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+            catch { }
+        }
+
+        foreach (object item in ViewBag.userData)
+        {
+            try { userKor = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+            catch { }
+            try { userBirth = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+            catch { }
+            try { userEmail = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { }
+            try { userPhone = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+            catch { }
+            try { userLast = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+            catch { }
+            try { userFirst = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+            catch { }
+            try { userSex = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+            catch { }
+            try { userYY = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+            catch { }
+            try { userSEQ = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+            catch { }
+        }
+
+        foreach (object item in ViewBag.trfData)
+        {
+            try { trfCode = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { }
+            try { TRF_TITLE = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+            catch { }
+            try
+            {
+                if (string.IsNullOrEmpty(TRF_STIME1))
+                {
+                    TRF_STIME1 = item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+                }
+                else
+                {
+                    TRF_STIME2 = item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+                }
+            }
+            catch { }
+            try { TRF_SAREA = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+            catch { }
+            try
+            {
+                if (string.IsNullOrEmpty(TRF_ETIME1))
+                {
+                    TRF_ETIME1 = item.GetType().GetProperties()[6].GetValue(item, null).ToString();
+                }
+                else
+                {
+                    TRF_ETIME2 = item.GetType().GetProperties()[6].GetValue(item, null).ToString();
+                }
+            }
+            catch { }
+            try { TRF_EAREA = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+            catch { }
+
+            try { TRF_TYPE = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+            catch { }
+
+            try { subSeq = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+            catch { }
+
+            if (subSeq.Equals("1"))
+            {
+                sTraffTxt = TRF_TITLE;// TRF_SAREA + " - " + TRF_TITLE + " - " + TRF_EAREA;
+                sCity = TRF_SAREA;
+            }
+            else if (subSeq.Equals("2"))
+            {
+                eTraffTxt = TRF_TITLE;//TRF_SAREA + " - " + TRF_TITLE + " - " + TRF_EAREA;
+            }
+        }
+
+        foreach (object item in ViewBag.empData)
+        {
+            try { empName = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+            catch { }
+            try { empTel = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+            catch { }
+            try { empMail = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+            catch { }
+        }
+    }
+    catch
+    {
+
+    }
+
+    string pdtArea = "";
+    string pdtNation = "";
+
+    switch (nation)
+    {
+        case "JP":
+            pdtNation = "일본";
+            break;
+        case "HM":
+            pdtNation = "홍콩/마카오";
+            break;
+        case "TW":
+            pdtNation = "대만";
+            break;
+        case "SA":
+            pdtNation = "동남아";
+            break;
+        case "HN":
+            pdtNation = "하와이";
+            break;
+        case "GS":
+            pdtNation = "괌/사이판";
+            break;
+        default:
+            pdtNation = code;
+            break;
+    }
+
+    switch (area)
+    {
+        case "KYU":
+        case "FUK":
+            pdtArea = "규슈";
+            break;
+        case "TOK":
+        case "TYO":
+            pdtArea = "도쿄";
+            break;
+        case "OSA":
+            pdtArea = "오사카";
+            break;
+        case "HOK":
+        case "CTS":
+            pdtArea = "홋카이도";
+            break;
+        case "TSU":
+        case "TSM":
+            pdtArea = "대마도";
+            break;
+        case "OKI":
+        case "OKA":
+            pdtArea = "오키나와";
+            break;
+        case "NGY":
+            pdtArea = "나고야";
+            break;
+        case "HKG":
+            pdtArea = "홍콩";
+            break;
+        case "TPE":
+            pdtArea = "타이페이";
+            break;
+        case "DAD":
+            pdtArea = "다낭";
+            break;
+        case "CEB":
+            pdtArea = "세부";
+            break;
+        case "HNL":
+            pdtArea = "호놀룰루";
+            break;
+        case "GUM":
+            pdtArea = "괌";
+            break;
+        case "SPN":
+            pdtArea = "사이판";
+            break;
+    }
+
+    int inCnt = Convert.ToInt32(pdtDays.Substring(0, 2));
+    int dayCnt = Convert.ToInt32(pdtDays.Substring(2));
+
+    string daysTxt = (dayCnt - 1) + "박 " + dayCnt + "일";
+
+    if ((dayCnt - 1 - inCnt) > 0)
+    {
+        string tempTxt = "";
+
+        if (TRF_TYPE == "AIR")
+        {
+            tempTxt = "기내";
+        }
+        else if (TRF_TYPE == "SHP")
+        {
+            tempTxt = "선내";
+        }
+
+        daysTxt += " (" + tempTxt + (dayCnt - 1 - inCnt) + "박)";
+    }
+}
+
+@using (Html.BeginForm("Confirm", "Reserve", FormMethod.Post, new { @class = "form-horizontal", role = "form", name = "rForm" }))
+{
+
+    @Html.Hidden("type", revType)
+
+    @Html.Hidden("code", code)
+    @Html.Hidden("key", key)
+    @Html.Hidden("aCnt", ACnt)
+    @Html.Hidden("cCnt", CCnt)
+    @Html.Hidden("bCnt", BCnt)
+
+    @Html.Hidden("user_YY", userYY)
+    @Html.Hidden("user_SEQ", userSEQ)
+
+    if (revType == "pdt")
+    {
+        @Html.Hidden("date", revDate)
+
+        @Html.Hidden("prcCD", PRC_CODE)
+        @Html.Hidden("trfCD", trfCode)
+
+        @Html.Hidden("inHotels", Request["inHotels"])
+    }
+    else if (revType == "pass")
+    {
+        @Html.Hidden("option", Request["option"])
+        @Html.Hidden("currency", Request["currency"])
+    }
+
+<div class="rev">
+    <h2>예약하기</h2>
+    <section class="subscriber">
+        <h3>예약자 정보입력</h3>
+        <div>
+            <ul>
+                <li>
+                    <p>이름</p>
+                    <input type="text" name="rName" placeholder="이름" value="@userKor" />
+                </li>
+                <li>
+                    <p>생년월일</p>
+                    <input type="text" name="rBrith" placeholder="YYYYMMDD" value="@userBirth" />
+                </li>
+                <li>
+                    <p>휴대전화</p>
+                    <input type="text" name="rPhone" placeholder="휴대전화 (숫자만 입력해주세요.)" value="@userPhone" />
+                </li>
+                <li>
+                    <p>E-mail</p>
+                    <input type="text" name="rEmail" placeholder="이메일" value="@userEmail" />
+                </li>
+            </ul>
+        </div>
+    </section> <!--.subscriber-->
+
+    @if (revType == "pdt")
+    {
+
+    <section class="traveler">
+        <h3>여행자 정보입력</h3>
+        <p class="number">
+                성인 @ACnt 명 | 소아 @CCnt 명 | 유아 @BCnt 명
+        </p>
+        <p class="same"><input name="chkP" type="checkbox">※ 예약자가 대표 여행자일 경우 체크해주세요.</p>
+        @{
+    int totalCnt = Convert.ToInt32(ACnt) + Convert.ToInt32(CCnt) + Convert.ToInt32(BCnt);
+        }
+
+        @for (int i = 1; i <= totalCnt; i++)
+        {
+            int Cnt = i;
+
+            string travelerGB = "",
+                   travelerCD = "";
+
+            if (Cnt <= Convert.ToInt32(ACnt))
+            {
+                travelerGB = "성인";
+                travelerCD = "A";
+            }
+            else if (Cnt <= Convert.ToInt32(ACnt) + Convert.ToInt32(CCnt))
+            {
+                travelerGB = "소아";
+                travelerCD = "C";
+            }
+            else
+            {
+                travelerGB = "유아";
+                travelerCD = "I";
+            }
+
+    <div class="traveler">
+        @if (Cnt <= 1)
+        {
+            <h4>대표 여행자 ( @travelerGB ) <span> *</span></h4>
+        }
+        else
+        {
+            <h4>여행자 @Cnt ( @travelerGB )</h4>
+        }
+        <ul>
+            <li>
+                <p>한글 이름</p>
+                <input type="text" placeholder="한글 이름" name="name_kor" />
+                <input type="hidden" name="GB" value="@travelerCD" />
+            </li>
+            <li>
+                <p>영문이름</p>
+                <input type="text" placeholder="영문 성" name="name_last" />
+                <input type="text" placeholder="영문 이름" name="name_first" />
+            </li>
+            <li>
+                <p>생년월일</p>
+                <input type="text" name="birth" placeholder="YYYYMMDD" />
+            </li>
+            <li>
+                <p>성별</p>
+                <select name="sex">
+                    <option value="">성별</option>
+                    <option value="M">남자</option>
+                    <option value="F">여자</option>
+                </select>
+            </li>
+            <li>
+                <p>휴대전화</p>
+                <input type="text" name="phone" placeholder="-없이 입력해주세요." />
+            </li>
+        </ul>
+    </div> <!--.traveler-->
+        }
+    </section> <!--.traveler-->
+    }
+    <section class="payinfo">
+        <h3>결제정보</h3>
+        <div class="number">
+            <h5>인원 -</h5>
+            <p>
+                성인 @ACnt 명 | 소아 @CCnt 명 | 유아 @BCnt 명
+            </p>
+        </div>
+        <div class="option">
+            <h5>옵션 -</h5>
+            <p>@PRC_EXP</p>
+
+            @try
+            {
+                if (rHData.Count > 0)
+                {
+                <p>
+                    호텔
+                    <span>
+                        - @MvcHtmlString.Create(inHotels)
+                    </span>
+                </p>
+                }
+            }
+            catch
+            {
+
+            }
+        </div>
+        <p class="final">
+            @{
+                int totalPrice = Convert.ToInt32(APrice) * Convert.ToInt32(ACnt);
+
+                if (Convert.ToInt32(CCnt) > 0)
+                {
+                    totalPrice += Convert.ToInt32(CPrice) * Convert.ToInt32(CCnt);
+                }
+
+                if (Convert.ToInt32(BCnt) > 0)
+                {
+                    totalPrice += Convert.ToInt32(BPrice) * Convert.ToInt32(BCnt);
+                }
+
+                @String.Format("{0:#,##0}", totalPrice)
+            }
+        </p>
+    </section> <!--.payinfo-->
+    <div class="btn">
+        <ul>
+            <li class="write"><a href="#">예약하기</a></li>
+            @*<li class="back"><a href="#">돌아가기</a></li>*@
+        </ul>
+    </div>
+</div>
+}
+
+<script>
+    $("input[name=chkP]").on("click", function () {
+
+        var name_kor = $("input[name=name_kor]").eq(0),
+            name_last = $("input[name=name_last]").eq(0),
+            name_first = $("input[name=name_first]").eq(0),
+            birth = $("input[name=birth]").eq(0),
+            phone = $("input[name=phone]").eq(0),
+            sex = $("select[name=sex]").eq(0);
+
+        if ($(this).prop("checked")) {
+            name_kor.val("@userKor");
+            name_last.val("@userLast");
+            name_first.val("@userFirst");
+            birth.val("@userBirth");
+            phone.val("@userPhone");
+            sex.val("@userSex");
+        }
+        else {
+            name_kor.val("");
+            name_last.val("");
+            name_first.val("");
+            birth.val("");
+            phone.val("");
+            sex.val("성별");
+        }
+    });
+
+    $("li.write > a").on("click", function () {
+        if ("@user" == "") {
+            alert("로그인을 해주세요.");
+            location.reload();
+            return;
+        }
+
+        var name_kor = $("input[name=name_kor]").eq(0).val(),
+            name_last = $("input[name=name_last]").eq(0).val(),
+            name_first = $("input[name=name_first]").eq(0).val(),
+            birth = $("input[name=birth]").eq(0).val(),
+            phone = $("input[name=phone]").eq(0).val(),
+            sex = $("select[name=sex]").eq(0).val(),
+            rName = $("input[name=rName]").val(),
+            rBrith = $("input[name=rBrith]").val(),
+            rEmail = $("input[name=rEmail]").val(),
+            rPhone = $("input[name=rPhone]").val();
+
+        var reg_name = /^[가-힣]{2,5}$/;
+        var reg_name_eng = /^[a-zA-Z]{2,10}$/;
+        var regexp = /^[0-9]*$/;
+
+        if (!reg_name.test(rName)) {
+            alert("예약자 이름이 잘못 입력 되었습니다. (한글, 2 ~ 5자리)");
+            $("input[name=rName]").focus();
+            return false;
+        }
+
+        if (rPhone.length < 10 || rPhone.length > 11) {
+            alert("예약자 전화번호가 잘못 입력 되었습니다(숫자만 입력해 주세요.)");
+            $("input[name=rPhone]").focus();
+            return false;
+        }
+
+        if (!regexp.test(rPhone)) {
+            alert("예약자 전화번호는 숫자만 입력해주세요.");
+            $("input[name=rPhone]").focus();
+            return false;
+        }
+
+        if ("@revType" == "pdt") {
+            if (!reg_name.test(name_kor)) {
+                alert("이름이 잘못 입력 되었습니다. (한글, 2 ~ 5자리)");
+                $("input[name=name_kor]").eq(0).focus();
+                return false;
+            }
+
+            if (!reg_name_eng.test(name_last)) {
+                alert("영문 성이 잘못 입력 되었습니다.");
+                $("input[name=name_last]").eq(0).focus();
+                return false;
+            }
+
+            if (!reg_name_eng.test(name_first)) {
+                alert("영문 이름이 잘못 입력 되었습니다.");
+                $("input[name=name_first]").eq(0).focus();
+                return false;
+            }
+
+            if (birth.length < 8 || birth.length > 8) {
+                alert("생년월일이 잘못 입력 되었습니다(예: 20170101)");
+                $("input[name=birth]").eq(0).focus();
+                return false;
+            }
+
+            if (!regexp.test(birth)) {
+                alert("생년월일은 숫자만 입력해주세요.");
+                $("input[name=birth]").eq(0).focus();
+                return false;
+            }
+
+            if (phone.length < 10 || birth.length > 11) {
+                alert("전화번호가 잘못 입력 되었습니다(숫자만 입력해 주세요.)");
+                $("input[name=phone]").eq(0).focus();
+                return false;
+            }
+
+            if (!regexp.test(phone)) {
+                alert("전화번호는 숫자만 입력해주세요.");
+                $("input[name=phone]").eq(0).focus();
+                return false;
+            }
+        }
+
+        // 값 체크
+
+        $(this).attr("disabled", true);
+        var f = document.rForm;
+        f.method = "post";
+        //f.action = "reserve_fin";
+        f.submit();
+    });
+</script>

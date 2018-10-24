@@ -1,0 +1,181 @@
+﻿@using NCompany.Models
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    @*<meta name="viewport" content="width=device-width, initial-scale=1.0">*@
+    <title>Corp "N" - @ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    @{
+        string controllerName = "",
+               actionName = "";
+
+        try { controllerName = this.ViewContext.Controller.ControllerContext.RouteData.Values["controller"].ToString().ToLower(); } catch { }
+        try { actionName = this.ViewContext.Controller.ControllerContext.RouteData.Values["action"].ToString().ToLower(); } catch { }
+
+        string cssName = controllerName + ".css";
+
+        <link rel="stylesheet" type="text/css" href="/Content/@cssName">
+        
+        var user = Session["user"] as User;
+
+        if (user == null)
+        {
+            <script>
+                location.href = "/";
+            </script>
+        }
+
+        string PER_CODE = user.PER_CODE,
+               POS_CODE = user.POS_CODE,
+               Login = user.Login;
+    }
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOCavluEV5R78T2xJ1YoyVu91zdN8DCAE"></script>
+
+    <script>
+        function initialize(el, lat, lng, zoom) {
+            var uluru = { lat: lat, lng: lng };
+            var map = new google.maps.Map(el, {
+                zoom: zoom,
+                center: uluru
+            });
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
+
+            marker.setDraggable(true);
+        }
+    </script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>               
+                @Html.ActionLink("Corp \"N\"", "DashBoard", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (PER_CODE == "PA" || PER_CODE == "OP")
+                    {
+                        @*<li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">상품 관리 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("상품 관리", "Index", "Products")</li>
+                                <li>@Html.ActionLink("코스 관리", "Course", "Car")</li>
+                            </ul>
+                        </li>*@
+                        
+                        <li>@Html.ActionLink("상품 관리", "Index", "Products")</li>
+                        
+                        <li>@Html.ActionLink("예약 관리", "Index", "Reserve")</li>
+                        
+                        <li>@Html.ActionLink("호텔 관리", "Index", "Hotel")</li>
+                    }
+
+                    @if (PER_CODE == "PA" || (PER_CODE == "GD" && POS_CODE == "PC") || PER_CODE == "OP")
+                    {
+                        @*<li>@Html.ActionLink("행사 관리", "Index", "Event")</li>*@
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">행사 관리 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("스케쥴", "Schedule", "Car")</li>
+                                <li>@Html.ActionLink("고객 관리", "Index", "Event")</li>
+                                <li>@Html.ActionLink("코스 관리", "Course", "Car")</li>
+                                @*<li>@Html.ActionLink("차량 관리", "Index", "Car")</li>*@
+                                @*<li>@Html.ActionLink("행사 관리", "dayCourse", "Car")</li>*@
+                            </ul>
+                        </li>
+                    }
+                    
+                    @if (PER_CODE == "PA")
+                    { 
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">인사 / 회계 <span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li>@Html.ActionLink("회계 관리", "Index", "Account")</li>
+                                <li>@Html.ActionLink("인사 관리", "Index", "Manage")</li>
+                            </ul>
+                        </li>
+                    }
+                    
+                    @*@if (GRO_CODE == "GG")
+                    { 
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">홈페이지 관리<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li>@Html.ActionLink("메인 롤링 관리", "Index", "Homepage")</li>
+                            </ul>
+                        </li>
+                    }*@
+                    
+                    <li class="dropdown">
+                        <a class="dropdown-toggle community" data-toggle="dropdown">커뮤니티 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("자유게시판", "Notice", "Community")</li>
+                            <li>@Html.ActionLink("질문과 답변", "Qna", "Community")</li>
+                            <li>@Html.ActionLink("상품 후기", "Review", "Community")</li>
+                            <li>@Html.ActionLink("이벤트", "Event", "Community")</li>
+                            <li>@Html.ActionLink("기획전 모음", "promotion", "Community")</li>
+                            <li>@Html.ActionLink("관광지 소개", "Recommend", "Community")</li>
+                            <li>@Html.ActionLink("항공 상품 문의", "inQueryAir", "Products")</li>
+                        </ul>
+                    </li>
+
+                    @*@if (PER_CODE == "PA" || PER_CODE == "OP")
+                    {
+                        <li>@Html.ActionLink("네이버 상품 등록", "Index", "Naver")</li>
+                    }*@
+                    
+                </ul>
+                @*@Html.Partial("_LoginPartial")*@
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <footer>
+            <p>&copy; Corp "N"</p>
+        </footer>
+    </div>
+
+    <div id="loading">
+        <img src="~/Content/Images/loading.gif" alt="로딩중..." />
+    </div>
+
+    <script>
+        var url = "/Community/JSON_chkNTalk";
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            success: function (data) {
+                if (data == "Y")
+                {
+                    $("a.community").prepend('<img src="/Content/images/community/icon_new.png" alt="새로운 글">')
+                }
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    </script>
+</body>
+</html>

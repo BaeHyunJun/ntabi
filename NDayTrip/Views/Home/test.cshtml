@@ -1,0 +1,593 @@
+﻿@using NDayTrip.Models
+
+@{
+    Layout = null;
+
+    var user = Session["user"] as User;
+
+    if (user != null)
+    {
+        <script>
+            location.href = "/Products";
+        </script>
+    }
+
+    string userAgent = Request.UserAgent;
+    string[] browser = { "iphone", "ipod", "ipad", "android", "blackberry", "windows ce", "nokia", "webos", "opera mini", "sonyericsson", "opera mobi", "iemobile", "windows phone" };
+    bool isMobile = false;
+
+    for (int iasd = 0; iasd < browser.Length; iasd++)
+    {
+        if (userAgent.ToLower().Contains(browser[iasd]))
+        {
+            isMobile = true;
+            break;
+        }
+    }
+
+    if (!isMobile)
+    {
+        <script>
+            location.href = "/Home/Maintenance";
+        </script>
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/css")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    <h1 class="sr-only sr-only-focusable">인트로</h1>
+
+    <section class="home">
+        <h2 class="sr-only sr-only-focusable">배경</h2>
+
+        @*<article class="snsLoginForm">
+                <h3 class="sr-only sr-only-focusable">SNS 로그인 폼</h3>
+                <span>
+                    <img src="~/Content/Images/nlog_btn.png" alt="네이버 로그인"/>
+                </span>
+                <span>
+                    <img src="~/Content/Images/flog_btn.png" alt="페이스북 로그인" />
+                </span>
+            </article>*@
+
+        <article class="footer">
+            <h3 class="sr-only sr-only-focusable">푸터</h3>
+            <span class="openForm" data-target="login">
+                로그인
+            </span>
+            <span class="openForm" data-target="membership">
+                회원가입
+            </span>
+        </article>
+    </section>
+
+    <section class="slideForm">
+        <h2 class="sr-only sr-only-focusable">슬라이더 폼</h2>
+        <div class="bg closeForm"></div>
+        <article class="login">
+            <div class="form-Body">
+                <form name="loginForm">
+                    <h3>로그인</h3>
+                    <ul>
+                        <li>
+                            <div class="left">
+                                <input type="text" name="id" value="" placeholder="아이디">
+                                <input type="password" name="pwd" value="" placeholder="비밀번호">
+                            </div>
+                            <div class="right">
+                                <button>로그인</button>
+                            </div>
+                        </li>
+                        <li>
+                            <label><input type="checkbox" name="setid" id="setid" /> 아이디 저장하기</label>
+                        </li>
+                    </ul>
+                </form>
+
+                <div class="footer">
+                    <span class="openForm" data-target="getid">
+                        아이디 찾기
+                    </span>
+                    <span class="openForm" data-target="getpwd">
+                        비밀번호 찾기
+                    </span>
+                </div>
+            </div>
+        </article>
+
+        <article class="getid">
+            <div class="form-Body">
+                <form name="getidForm">
+                    <h3>아이디 찾기</h3>
+                    <table>
+                        <tr>
+                            <td>
+                                이름
+                            </td>
+                            <td>
+                                <input type="text" name="getid_name" value="" placeholder="이름">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                생년월일
+                            </td>
+                            <td>
+                                <input type="text" name="getid_birth" value="" placeholder="생년월일">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                메일주소
+                            </td>
+                            <td>
+                                <input type="text" name="getid_birth" value="" placeholder="메일주소">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button>아이디 찾기</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+                <div class="footer">
+                    <span class="openForm" data-target="login">
+                        로그인
+                    </span>
+                    <span class="openForm" data-target="getpwd">
+                        비밀번호 찾기
+                    </span>
+                </div>
+            </div>
+        </article>
+
+        <article class="getpwd">
+            <div class="form-Body">
+                <form name="getpwdForm">
+                    <h3>비밀번호 찾기</h3>
+                    <table>
+                        <tr>
+                            <td>
+                                아이디
+                            </td>
+                            <td>
+                                <input type="text" name="getpwd_id" value="" placeholder="아이디">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                이름
+                            </td>
+                            <td>
+                                <input type="text" name="getpwd_name" value="" placeholder="이름">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                생년월일
+                            </td>
+                            <td>
+                                <input type="text" name="getpwd_birth" value="" placeholder="생년월일">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                메일주소
+                            </td>
+                            <td>
+                                <input type="text" name="getpwd_birth" value="" placeholder="메일주소">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button>비밀번호 찾기</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+                <div class="footer">
+                    <span class="openForm" data-target="getid">
+                        아이디 찾기
+                    </span>
+                    <span class="openForm" data-target="login">
+                        로그인
+                    </span>
+                </div>
+            </div>
+        </article>
+
+        <article class="membership">
+            <div class="form-Body">
+                <form name="membershipForm">
+                    <h3>회원가입</h3>
+                    <table>
+                        <colgroup>
+                            <col style="width: 40%" />
+                            <col style="width: 60%" />
+                        </colgroup>
+                        <tr>
+                            <td>
+                                아이디
+                            </td>
+                            <td>
+                                <input type="text" name="signup_id">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                비밀번호
+                            </td>
+                            <td>
+                                <input type="password" name="signup_pwd">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                비밀번호확인
+                            </td>
+                            <td>
+                                <input type="password" name="signup_chk_pwd">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                이름
+                            </td>
+                            <td>
+                                <input type="text" name="signup_name">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                전화번호
+                            </td>
+                            <td>
+                                <input type="tel" name="signup_tel1" maxlength="3"><span>-</span><input type="tel" name="signup_tel2" maxlength="4"><span>-</span><input type="tel" name="signup_tel3" maxlength="4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                이메일
+                            </td>
+                            <td>
+                                <input type="text" name="signup_mail">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                생년월일
+                            </td>
+                            <td>
+                                <input type="text" name="signup_birth" maxlength="8">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+                <div class="footer">
+                    <span class="btn btn-default closeForm">
+                        가입취소
+                    </span>
+                    <span class="btn btn-default signup">
+                        회원가입
+                    </span>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <div id="loading">
+        <img src="~/Content/Images/loading.gif" alt="로딩중..." />
+    </div>
+
+    <script src="~/Scripts/jquery.cookie.js"></script>
+
+    <script>
+            $(document).ready(function () {
+                $(".openForm").on("click", function () {
+                    var _this = $(this);
+                    var target = _this.attr('data-target');
+
+                    $("section.slideForm").show();
+
+                    var top = "50%";
+
+                    switch(target)
+                    {
+                        case "login":
+                            top = "50%";
+                            break;
+                        case "membership":
+                            top = "15%";
+                            break;
+                        case "getid":
+                            top = "40%";
+                            break;
+                        case "getpwd":
+                            top = "30%";
+                            break;
+                    }
+
+                    $("." + target).stop().siblings('article').animate({ "top": "100%" }, 300).end().animate({ "top": top }, 300);
+                });
+
+                $(".slideForm .closeForm").on("click", function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    var parent = $("section.slideForm");
+
+                    parent.hide();
+                    parent.find("article").css("top", "100%");
+                });
+
+                $("#setid").on("click", function () {
+                    var _this = $(this);
+                    var id = $("input[name='id']").val();
+
+                    if (_this.is(":checked") == true)
+                    {
+                        $.cookie('userID', id);
+                    } else {
+                        $.removeCookie('userID');
+                    }
+                });
+
+                var ckID = $.cookie('userID');
+
+                if (ckID != "" && ckID != undefined)
+                {
+                    $("#setid").attr("checked", true);
+                    $("input[name='id']").val(ckID);
+                }
+
+                $("form[name='loginForm'] button").on("click", function (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    var id = $("input[name='id']");//.val();
+                    var pwd = $("input[name='pwd']");//.val();
+
+                    if (id.val() == "")
+                    {
+                        alert("아이디를 입력해주세요.");
+                        id.focus();
+                        return;
+                    }
+
+                    if (pwd.val() == "") {
+                        alert("비밀번호를 입력해주세요.");
+                        pwd.focus();
+                        return;
+                    }
+
+                    var url = "/Home/Login";
+                    var data = { id: id.val(), pwd: pwd.val() };
+
+                    //$.post(url, data, function (rData) {
+                    //    alert(rData);
+
+                    //    if(rData.indexOf("반갑습니다.") > -1)
+                    //    {
+                    //        location.href = "/Products";
+                    //    }
+                    //});
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: data,
+                        success: function (rData) {
+                            alert(rData);
+
+                            if (rData.indexOf("반갑습니다.") > -1) {
+                                location.href = "/Products";
+                            }
+                        }
+                        ,beforeSend:function(){
+                            $('#loading').show();
+                        }
+                        ,complete:function(){
+                            $('#loading').hide();
+                        }
+                    });
+                });
+
+                $("article.membership span.signup").on("click", function () {
+
+                    var id = $("input[name='signup_id']");
+                    var pwd = $("input[name='signup_pwd']");
+                    var chk_pwd = $("input[name='signup_chk_pwd']");
+                    var name = $("input[name='signup_name']");
+                    var tel1 = $("input[name='signup_tel1']");
+                    var tel2 = $("input[name='signup_tel2']");
+                    var tel3 = $("input[name='signup_tel3']");
+                    var mail = $("input[name='signup_mail']");
+                    var birth = $("input[name='signup_birth']");
+
+                    var regId = /^[_A-Za-z0-9]{5,12}$/;
+                    var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+                    var regPwd = /^(?=.*[A-Za-z0-9])((?=.*\d)|(?=.*\W)).{6,20}$/;
+                    var regName = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+                    var regTel = /[0-9]/;
+                    var regBirth = /[0-9]{4}[-\/][0-9]{2}[-\/][0-9]{2}/;
+
+                    if (id.val() == "") {
+                        alert("아이디를 입력해주세요.");
+                        id.focus();
+                        return;
+                    }
+
+                    if (!regId.test(id.val())) {
+                        alert("아이디는 영문과 숫자로만 5~12자 이내로 입력하세요.");
+                        id.focus();
+                        return;
+                    }
+
+                    if (pwd.val() == "") {
+                        alert("비밀번호를 입력해주세요.");
+                        pwd.focus();
+                        return;
+                    }
+
+                    if (!regPwd.test(pwd.val())) {
+                        alert("비밀번호는 영문 + 숫자로 6~20자 이내로 입력해주세요.");
+                        pwd.focus();
+                        return;
+                    }
+
+                    if (chk_pwd.val() != pwd.val()) {
+                        alert("비밀 번호가 서로 다릅니다.");
+                        chk_pwd.focus();
+                        return;
+                    }
+
+                    if (name.val() == "") {
+                        alert("이름을 입력해주세요.");
+                        name.focus();
+                        return;
+                    }
+
+                    if (name.val().length < 3) {
+                        alert("이름을 제대로 입력해주세요.");
+                        name.focus();
+                        return;
+                    }
+
+                    //if (!regName.test(name.val())) {
+                    //    alert("이름은 한글로만 입력해주세요.");
+                    //    name.focus();
+                    //    return;
+                    //}
+
+                    if (tel1.val() == "") {
+                        alert("전화 번호를 입력해주세요.");
+                        tel1.focus();
+                        return;
+                    }
+
+                    if (tel1.val().length < 3) {
+                        alert("전화 번호를 제대로 입력해주세요.");
+                        tel1.focus();
+                        return;
+                    }
+
+                    if (!regTel.test(tel1.val())) {
+                        alert("전화번호는 숫자로만 입력해주세요.");
+                        tel1.focus();
+                        return;
+                    }
+
+                    if (tel2.val() == "") {
+                        alert("전화 번호를 입력해주세요.");
+                        tel2.focus();
+                        return;
+                    }
+
+                    if (tel2.val().length < 3) {
+                        alert("전화 번호를 제대로 입력해주세요.");
+                        tel2.focus();
+                        return;
+                    }
+
+                    if (!regTel.test(tel2.val())) {
+                        alert("전화번호는 숫자로만 입력해주세요.");
+                        tel2.focus();
+                        return;
+                    }
+
+                    if (tel3.val() == "") {
+                        alert("전화 번호를 입력해주세요.");
+                        tel3.focus();
+                        return;
+                    }
+
+                    if (tel3.val().length < 4) {
+                        alert("전화 번호를 제대로 입력해주세요.");
+                        tel3.focus();
+                        return;
+                    }
+
+                    if (!regTel.test(tel3.val())) {
+                        alert("전화번호는 숫자로만 입력해주세요.");
+                        tel3.focus();
+                        return;
+                    }
+
+                    if (mail.val() == "") {
+                        alert("메일을 입력해주세요.");
+                        mail.focus();
+                        return;
+                    }
+
+                    if (!regEmail.test(mail.val()))
+                    {
+                        alert("메일주소를 제대로 입력해 주세요.");
+                        mail.focus();
+                        return;
+                    }
+
+                    if (birth.val() == "") {
+                        alert("생년월일을 입력해주세요.");
+                        birth.focus();
+                        return;
+                    }
+
+                    if (!regTel.test(birth.val()) || birth.val().length < 8) {
+                        alert("생년월일은 19801010의 형식으로 입력해주세요.");
+                        birth.focus();
+                        return;
+                    }
+
+                    //if (!regBirth.test(birth.val())) {
+                    //    alert("생년월일은 1980-01-01 또는 1980/01/01 로 입력해주세요.");
+                    //    birth.focus();
+                    //    return;
+                    //}
+
+                    var tel = tel1.val() + "-" + tel2.val() + "-" + tel3.val();
+
+                    var url = "/Home/SignUp";
+                    var datas = { id: id.val(), pwd: pwd.val(), name: name.val(), tel: tel, mail: mail.val(), birth: birth.val() };
+
+                    //$.post(url, datas, function (data) {
+                    //    alert(data);
+                    //});
+
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: datas,
+                        success: function (data) {
+                            alert(data);
+                        }
+                        , beforeSend: function () {
+                            $('#loading').show();
+                        }
+                        , complete: function () {
+                            $('#loading').hide();
+                        }
+                    });
+                });
+
+            });
+    </script>
+</body>
+</html>

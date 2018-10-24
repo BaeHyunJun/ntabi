@@ -1,0 +1,140 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    section#NVP {
+        width: 100%;
+        max-width: initial !important;
+    }
+
+        section#NVP div.nvpIn {
+            position: relative;
+            width: 100%;
+            height: 1700px;
+            margin: 0 auto;
+            background-image: url('/Content/Images/variety/bg_NVP2.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center 0;
+        }
+
+            section#NVP div.nvpIn p.title {
+                width: 642px;
+                margin: 0 auto;
+                padding-top: 9%;
+            }
+
+                section#NVP div.nvpIn p.title img {
+                }
+
+            section#NVP div.nvpIn ul.nvpPd {
+	        margin-top: 230px;
+                text-align: center;
+            }
+
+                section#NVP div.nvpIn ul.nvpPd:after {
+                    content: "";
+                    display: block;
+                    clear: both;
+                }
+
+                section#NVP div.nvpIn ul.nvpPd li {
+                    display: inline-block;
+                    margin: 0 90px;
+                    padding-top: 0;
+                }
+
+                    section#NVP div.nvpIn ul.nvpPd li > a {
+                        display: inline-block;
+                        margin: 0 auto;
+                        width: 120px;
+                        height: 120px;
+                    }
+
+                        section#NVP div.nvpIn ul.nvpPd li > a p.icon02 {
+                            display: none;
+                        }
+
+                        section#NVP div.nvpIn ul.nvpPd li > a:hover p.icon01 {
+                            display: none;
+                        }
+
+                        section#NVP div.nvpIn ul.nvpPd li > a:hover p.icon02 {
+                            display: block;
+                        }
+
+                    section#NVP div.nvpIn ul.nvpPd li > p.nvpPdExplain {
+                        display: none;
+                        width: 348px;
+                        margin-left: -174px;
+                        position: absolute;
+                        top: 65%;
+                        left: 50%;
+                        text-align: center;
+                        color: #ffffff;
+                    }
+
+                    section#NVP div.nvpIn ul.nvpPd li:hover > p.nvpPdExplain {
+                        display: block;
+                    }
+
+    @* section#NVP div.nvpIn ul.nvpPdExplain {
+        margin-top: 100px;
+        list-style: none;
+    }
+
+    section#NVP div.nvpIn ul.nvpPdExplain li {
+        display: none;
+        text-align: center;
+        color: #ffffff;
+    }
+
+    *@ section#NVP div.nvpIn p.whenClick {
+        position: absolute;
+        bottom: 250px;
+        left: 50%;
+        margin-left: -150px;
+        width: 300px;
+        text-align: center;
+        font-size: 13px;
+        color: #ffffff;
+    }
+</style>
+
+<section id="NVP">
+    <div class="nvpIn">
+        <p class="title">
+            <img src="/Content/Images/variety/nvptitle.png" />
+        </p>
+        <ul class="nvpPd">
+            <li class="GoToGOTO">
+                <a href="/promotion/Views?f=GoToGOTO">
+                    <p class="icon01"><img src="/Content/Images/variety/icon_GoToGOTO.png" /></p>
+                    <p class="icon02"><img src="/Content/Images/variety/icon_GoToGOTO02.png" /></p>
+                </a>
+                <p class="nvpPdExplain">“ 고토열도 백패킹 원정대! ”</p>
+            </li>
+            <li class="JMT">
+                <a href="/Products/Views?C=NTBPT201817&K=20">
+                    <p class="icon01"><img src="/Content/Images/variety/icon_JMT.png" /></p>
+                    <p class="icon02"><img src="/Content/Images/variety/icon_JMT02.png" /></p>
+                </a>
+                <p class="nvpPdExplain">“ 부관훼리, 정말 맛있는 여행 2박3일 ”</p>
+            </li>
+            @*<li class="commingsoon">
+                    <a href="javascript:alert('오픈예정입니다.');">
+                        <p class="icon01"><img src="/Content/Images/variety/icon_comingsoon.png" /></p>
+                        <p class="icon02"><img src="/Content/Images/variety/icon_comingsoon2.png" /></p>
+                    </a>
+                    <p class="nvpPdExplain">“ 지금은 상품준비중입니다. COMING SOON! ”</p>
+                </li>*@
+        </ul>
+        @*<ul class="nvpPdExplain">
+                <li class="lifepubExplain">“ 진에어, 한여름밤의 루프탑파티 ”</li>
+                <li class="masterExplain">“ 부관훼리, 레이먼킴과 떠나는 규슈캠핑쿡킹 ”</li>
+                <li class="trekkingExplain">“ 부관훼리, 인생술집 1탄, 2박3일 이열치열 오뎅투어 ”</li>
+            </ul>*@
+        <p class="whenClick">* 클릭 시 선택한 상품 페이지로 이동합니다.</p>
+    </div>
+</section>

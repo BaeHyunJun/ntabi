@@ -1,0 +1,338 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Dictionary<string, List<string>> MagazineList = new Dictionary<string, List<string>>();
+
+    string date = Request["date"];
+
+    if (string.IsNullOrEmpty(date))
+    {
+        date = DateTime.Now.ToString("yyyyMM");
+    }
+
+    string year = date.Substring(0, 4),
+           month = date.Substring(4, 2);
+
+    /* 2017년 1월 매거진 */
+
+    List<string> Magazine = new List<string>();
+
+    switch (date)
+    {
+        case "201701":
+            Magazine.Add("/2017/magazine_01_01.jpg");
+            Magazine.Add("/2017/magazine_01_02.jpg");
+            Magazine.Add("/2017/magazine_01_03.jpg");
+            Magazine.Add("/2017/magazine_01_04.jpg");
+            Magazine.Add("/2017/magazine_01_05.jpg");
+            Magazine.Add("/2017/magazine_01_06.jpg");
+            Magazine.Add("/2017/magazine_01_07.jpg");
+            Magazine.Add("/2017/magazine_01_08.jpg");
+            Magazine.Add("/2017/magazine_01_09.jpg");
+            Magazine.Add("/2017/magazine_01_10.jpg");
+            Magazine.Add("/2017/magazine_01_11.jpg");
+            break;
+        case "201702":
+            Magazine.Add("/2017/magazine_02_01.jpg");
+            Magazine.Add("/2017/magazine_02_02.jpg");
+            Magazine.Add("/2017/magazine_02_03.jpg");
+            Magazine.Add("/2017/magazine_02_04.jpg");
+            Magazine.Add("/2017/magazine_02_05.jpg");
+            Magazine.Add("/2017/magazine_02_06.jpg");
+            Magazine.Add("/2017/magazine_02_07.jpg");
+            Magazine.Add("/2017/magazine_02_08.jpg");
+            Magazine.Add("/2017/magazine_02_09.jpg");
+            break;
+        case "201703":
+            Magazine.Add("/2017/magazine_03_01.jpg");
+            Magazine.Add("/2017/magazine_03_02.jpg");
+            Magazine.Add("/2017/magazine_03_03.jpg");
+            Magazine.Add("/2017/magazine_03_04.jpg");
+            Magazine.Add("/2017/magazine_03_05.jpg");
+            Magazine.Add("/2017/magazine_03_06.jpg");
+            Magazine.Add("/2017/magazine_03_07.jpg");
+            Magazine.Add("/2017/magazine_03_08.jpg");
+            Magazine.Add("/2017/magazine_03_09.jpg");
+            break;
+        case "201704":
+            Magazine.Add("/2017/magazine_04_01.jpg");
+            Magazine.Add("/2017/magazine_04_02.jpg");
+            Magazine.Add("/2017/magazine_04_03.jpg");
+            Magazine.Add("/2017/magazine_04_04.jpg");
+            Magazine.Add("/2017/magazine_04_05.jpg");
+            Magazine.Add("/2017/magazine_04_06.jpg");
+            Magazine.Add("/2017/magazine_04_07.jpg");
+            break;
+        case "201705":
+            Magazine.Add("/2017/magazine_05_01.jpg");
+            Magazine.Add("/2017/magazine_05_02.jpg");
+            Magazine.Add("/2017/magazine_05_03.jpg");
+            Magazine.Add("/2017/magazine_05_04.jpg");
+            Magazine.Add("/2017/magazine_05_05.jpg");
+            Magazine.Add("/2017/magazine_05_06.jpg");
+            Magazine.Add("/2017/magazine_05_07.jpg");
+            break;
+        case "201706":
+            Magazine.Add("/2017/magazine_06_01.jpg");
+            Magazine.Add("/2017/magazine_06_02.jpg");
+            Magazine.Add("/2017/magazine_06_03.jpg");
+            Magazine.Add("/2017/magazine_06_04.jpg");
+            Magazine.Add("/2017/magazine_06_05.jpg");
+            Magazine.Add("/2017/magazine_06_06.jpg");
+            Magazine.Add("/2017/magazine_06_07.jpg");
+            Magazine.Add("/2017/magazine_06_08.jpg");
+            Magazine.Add("/2017/magazine_06_09.jpg");
+            break;
+        case "201707":
+            Magazine.Add("/2017/magazine_07_01.jpg");
+            Magazine.Add("/2017/magazine_07_02.jpg");
+            Magazine.Add("/2017/magazine_07_03.jpg");
+            Magazine.Add("/2017/magazine_07_04.jpg");
+            Magazine.Add("/2017/magazine_07_05.jpg");
+            Magazine.Add("/2017/magazine_07_06.jpg");
+            Magazine.Add("/2017/magazine_07_07.jpg");
+            break;
+        case "201708":
+            Magazine.Add("/2017/magazine_08_01.jpg");
+            Magazine.Add("/2017/magazine_08_02.jpg");
+            Magazine.Add("/2017/magazine_08_03.jpg");
+            Magazine.Add("/2017/magazine_08_04.jpg");
+            Magazine.Add("/2017/magazine_08_05.jpg");
+            Magazine.Add("/2017/magazine_08_06.jpg");
+            Magazine.Add("/2017/magazine_08_07.jpg");
+            Magazine.Add("/2017/magazine_08_08.jpg");
+            Magazine.Add("/2017/magazine_08_09.jpg");
+            break;
+        case "201709":
+            Magazine.Add("/2017/magazine_09_01.jpg");
+            Magazine.Add("/2017/magazine_09_02.jpg");
+            Magazine.Add("/2017/magazine_09_03.jpg");
+            Magazine.Add("/2017/magazine_09_04.jpg");
+            Magazine.Add("/2017/magazine_09_05.jpg");
+            Magazine.Add("/2017/magazine_09_06.jpg");
+            Magazine.Add("/2017/magazine_09_07.jpg");
+            Magazine.Add("/2017/magazine_09_08.jpg");
+            break;
+        case "201710":
+            Magazine.Add("/2017/magazine_10_01.jpg");
+            Magazine.Add("/2017/magazine_10_02.jpg");
+            Magazine.Add("/2017/magazine_10_03.jpg");
+            Magazine.Add("/2017/magazine_10_04.jpg");
+            Magazine.Add("/2017/magazine_10_05.jpg");
+            Magazine.Add("/2017/magazine_10_06.jpg");
+            Magazine.Add("/2017/magazine_10_07.jpg");
+            break;
+        case "201711":
+            Magazine.Add("/2017/magazine_11_01.jpg");
+            Magazine.Add("/2017/magazine_11_02.jpg");
+            Magazine.Add("/2017/magazine_11_03.jpg");
+            Magazine.Add("/2017/magazine_11_04.jpg");
+            Magazine.Add("/2017/magazine_11_05.jpg");
+            Magazine.Add("/2017/magazine_11_06.jpg");
+            Magazine.Add("/2017/magazine_11_07.jpg");
+            Magazine.Add("/2017/magazine_11_08.jpg");
+            break;
+        case "201712":
+            Magazine.Add("/2017/magazine_12_01.jpg");
+            Magazine.Add("/2017/magazine_12_02.jpg");
+            Magazine.Add("/2017/magazine_12_03.jpg");
+            Magazine.Add("/2017/magazine_12_04.jpg");
+            Magazine.Add("/2017/magazine_12_05.jpg");
+            Magazine.Add("/2017/magazine_12_06.jpg");
+            Magazine.Add("/2017/magazine_12_07.jpg");
+            Magazine.Add("/2017/magazine_12_08.jpg");
+            Magazine.Add("/2017/magazine_12_09.jpg");
+            break;
+        case "201801":
+            Magazine.Add("/2018/magazine_01_01.jpg");
+            Magazine.Add("/2018/magazine_01_02.jpg");
+            Magazine.Add("/2018/magazine_01_03.jpg");
+            Magazine.Add("/2018/magazine_01_04.jpg");
+            Magazine.Add("/2018/magazine_01_05.jpg");
+            Magazine.Add("/2018/magazine_01_06.jpg");
+            Magazine.Add("/2018/magazine_01_07.jpg");
+            Magazine.Add("/2018/magazine_01_08.jpg");
+            break;
+        case "201802":
+            Magazine.Add("/2018/magazine_02_01.jpg");
+            Magazine.Add("/2018/magazine_02_02.jpg");
+            Magazine.Add("/2018/magazine_02_03.jpg");
+            Magazine.Add("/2018/magazine_02_04.jpg");
+            Magazine.Add("/2018/magazine_02_05.jpg");
+            Magazine.Add("/2018/magazine_02_06.jpg");
+            Magazine.Add("/2018/magazine_02_07.jpg");
+            break;
+        case "201803":
+            Magazine.Add("/2018/magazine_03_01.jpg");
+            Magazine.Add("/2018/magazine_03_02.jpg");
+            Magazine.Add("/2018/magazine_03_03.jpg");
+            Magazine.Add("/2018/magazine_03_04.jpg");
+            Magazine.Add("/2018/magazine_03_05.jpg");
+            Magazine.Add("/2018/magazine_03_06.jpg");
+            Magazine.Add("/2018/magazine_03_07.jpg");
+            Magazine.Add("/2018/magazine_03_08.jpg");
+            break;
+        case "201804":
+            Magazine.Add("/2018/magazine_04_01.jpg");
+            Magazine.Add("/2018/magazine_04_02.jpg");
+            Magazine.Add("/2018/magazine_04_03.jpg");
+            Magazine.Add("/2018/magazine_04_04.jpg");
+            Magazine.Add("/2018/magazine_04_05.jpg");
+            Magazine.Add("/2018/magazine_04_06.jpg");
+            Magazine.Add("/2018/magazine_04_07.jpg");
+            break;
+        case "201805":
+            Magazine.Add("/2018/magazine_05_01.jpg");
+            Magazine.Add("/2018/magazine_05_02.jpg");
+            Magazine.Add("/2018/magazine_05_03.jpg");
+            Magazine.Add("/2018/magazine_05_04.jpg");
+            Magazine.Add("/2018/magazine_05_05.jpg");
+            Magazine.Add("/2018/magazine_05_06.jpg");
+            Magazine.Add("/2018/magazine_05_07.jpg");
+            Magazine.Add("/2018/magazine_05_08.jpg");
+            Magazine.Add("/2018/magazine_05_09.jpg");
+            break;
+        case "201806":
+            Magazine.Add("/2018/magazine_06_01.jpg");
+            Magazine.Add("/2018/magazine_06_02.jpg");
+            Magazine.Add("/2018/magazine_06_03.jpg");
+            Magazine.Add("/2018/magazine_06_04.jpg");
+            Magazine.Add("/2018/magazine_06_05.jpg");
+            Magazine.Add("/2018/magazine_06_06.jpg");
+            Magazine.Add("/2018/magazine_06_07.jpg");
+            Magazine.Add("/2018/magazine_06_08.jpg");
+            Magazine.Add("/2018/magazine_06_09.jpg");
+            break;
+        case "201807":
+            Magazine.Add("/2018/magazine_07_01.jpg");
+            Magazine.Add("/2018/magazine_07_02.jpg");
+            Magazine.Add("/2018/magazine_07_03.jpg");
+            Magazine.Add("/2018/magazine_07_04.jpg");
+            Magazine.Add("/2018/magazine_07_05.jpg");
+            Magazine.Add("/2018/magazine_07_06.jpg");
+            Magazine.Add("/2018/magazine_07_07.jpg");
+            Magazine.Add("/2018/magazine_07_08.jpg");
+            Magazine.Add("/2018/magazine_07_09.jpg");
+            break;
+        case "201808":
+            Magazine.Add("/2018/magazine_08_01.jpg");
+            Magazine.Add("/2018/magazine_08_02.jpg");
+            Magazine.Add("/2018/magazine_08_03.jpg");
+            Magazine.Add("/2018/magazine_08_04.jpg");
+            Magazine.Add("/2018/magazine_08_05.jpg");
+            Magazine.Add("/2018/magazine_08_06.jpg");
+            Magazine.Add("/2018/magazine_08_07.jpg");
+            Magazine.Add("/2018/magazine_08_08.jpg");
+            Magazine.Add("/2018/magazine_08_09.jpg");
+            Magazine.Add("/2018/magazine_08_10.jpg");
+            Magazine.Add("/2018/magazine_08_11.jpg");
+            break;
+        case "201809":
+            Magazine.Add("/2018/magazine_09_01.jpg");
+            Magazine.Add("/2018/magazine_09_02.jpg");
+            Magazine.Add("/2018/magazine_09_03.jpg");
+            Magazine.Add("/2018/magazine_09_04.jpg");
+            Magazine.Add("/2018/magazine_09_05.jpg");
+            Magazine.Add("/2018/magazine_09_06.jpg");
+            Magazine.Add("/2018/magazine_09_07.jpg");
+            Magazine.Add("/2018/magazine_09_08.jpg");
+            Magazine.Add("/2018/magazine_09_09.jpg");
+            Magazine.Add("/2018/magazine_09_10.jpg");
+            Magazine.Add("/2018/magazine_09_11.jpg");
+            Magazine.Add("/2018/magazine_09_12.jpg");
+            Magazine.Add("/2018/magazine_09_13.jpg");
+            break;
+        case "201810":
+            Magazine.Add("/2018/magazine_10_01.jpg");
+            Magazine.Add("/2018/magazine_10_02.jpg");
+            Magazine.Add("/2018/magazine_10_03.jpg");
+            Magazine.Add("/2018/magazine_10_04.jpg");
+            Magazine.Add("/2018/magazine_10_05.jpg");
+            Magazine.Add("/2018/magazine_10_06.jpg");
+            Magazine.Add("/2018/magazine_10_07.jpg");
+            Magazine.Add("/2018/magazine_10_08.jpg");
+            Magazine.Add("/2018/magazine_10_09.jpg");
+            Magazine.Add("/2018/magazine_10_10.jpg");
+            Magazine.Add("/2018/magazine_10_11.jpg");
+            Magazine.Add("/2018/magazine_10_12.jpg");
+            Magazine.Add("/2018/magazine_10_13.jpg");
+            Magazine.Add("/2018/magazine_10_14.jpg");
+            Magazine.Add("/2018/magazine_10_15.jpg");
+            Magazine.Add("/2018/magazine_10_16.jpg");
+            Magazine.Add("/2018/magazine_10_17.jpg");
+            Magazine.Add("/2018/magazine_10_18.jpg");
+            Magazine.Add("/2018/magazine_10_19.jpg");
+            Magazine.Add("/2018/magazine_10_20.jpg");
+            Magazine.Add("/2018/magazine_10_21.jpg");
+            Magazine.Add("/2018/magazine_10_22.jpg");
+            Magazine.Add("/2018/magazine_10_23.jpg");
+            break;
+    }
+}
+
+
+<section class="magazineViews">
+    <h3 style="margin-top: 10px;">매거진</h3>
+
+    <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
+        <div class="col-xs-6">
+            <select class="form-control year">
+                <option>2017</option>
+                <option>2018</option>
+            </select>
+        </div>
+        <div class="col-xs-6">
+            <select class="form-control month">
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+                <option>04</option>
+                <option>05</option>
+                <option>06</option>
+                <option>07</option>
+                <option>08</option>
+                <option>09</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="Views">
+        @foreach (string item in Magazine)
+        {
+        <div>
+            <img src="/Content/Images/Magazine/@item" style="width: 100%;" />
+
+            @if (item == "/2018/magazine_10_22.jpg")
+            {
+            <iframe style="position: absolute; left: 0; top: 120px; width: 100%;" src="https://www.youtube.com/embed/fo0TIpRVvug" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            }
+        </div>
+        }
+    </div>
+</section>
+
+
+<script>
+    $(document).ready(function () {
+        var mainSlider = $('div.Views').bxSlider({
+            controls: false,
+            auto: false,
+            speed: 2000,
+            pager: false,
+        });
+        
+        $("select.year").val("@year");
+        $("select.month").val("@month");
+
+        $("select.month").on("change", function () {
+            var year    = $("select.year"),
+                month   = $("select.month");
+
+            location.href = "/Magazine/Views?date=" + year.val() + month.val();
+        });
+    });
+</script>
+2

@@ -1,0 +1,281 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string userName = ViewBag.user_Name;
+
+    int revCnt = ViewBag.rev_Cnt,
+        bdCnt = ViewBag.bd_Cnt;
+
+    string NM_KOR = "",
+           NM_ENG_FIRST = "",
+           NM_ENG_LAST = "",
+           EMAIL = "",
+           HANDPHONE = "",
+           HANDPHONE1 = "",
+           HANDPHONE2 = "",
+           HANDPHONE3 = "",
+           BIRTHDAY = "",
+           CU_HOME_ADDR = "",
+           SEX = "",
+           ID = "",
+           selected = "selected='selected'";
+
+
+    foreach(object item in Model)
+    {
+        try { NM_KOR        = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+        try { NM_ENG_FIRST  = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+        try { NM_ENG_LAST   = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+        try { EMAIL         = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+        try { HANDPHONE1    = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+        try { HANDPHONE2    = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+        try { HANDPHONE3    = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+        try { BIRTHDAY      = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); } catch { }
+        try { CU_HOME_ADDR  = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+        try { SEX           = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { }
+        try { ID            = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); } catch { }
+
+        HANDPHONE   = HANDPHONE1 + "-" + HANDPHONE2 + "-" + HANDPHONE3;
+        BIRTHDAY    = BIRTHDAY.Substring(0, 4) + "." + BIRTHDAY.Substring(4, 2) + "." + BIRTHDAY.Substring(6, 2);
+    }
+}
+
+<style>
+    div#wrap article#container div.pro_top {
+        height: 80px;
+        background-color: #ededed;
+    }
+
+        div#wrap article#container div.pro_top p {
+            width: 1050px;
+            margin: 0 auto;
+            font-size: 24px;
+            line-height: 80px;
+        }
+
+    div#wrap article#container ul.set {
+        padding: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+        width: 50%;
+        margin: 50px auto;
+    }
+
+        div#wrap article#container ul.set > li {
+            float: left;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid #ddd;
+            width: 33.333%;
+            padding: 18px 0 5px;
+            line-height: 35px;
+            border-left: 0;
+        }
+
+            div#wrap article#container ul.set > li:first-child {
+                border-left: 1px solid #ddd;
+            }
+
+    section.mypage {
+        margin-bottom: 60px;
+    }
+
+        section.mypage > form {
+            width: 500px;
+            margin: 0 auto;
+        }
+
+            section.mypage > form ul.revList {
+                padding: 0;
+                list-style: none;
+                font-size: 0;
+                margin: 6px;
+                overflow: hidden;
+            }
+
+                section.mypage > form ul.revList li {
+                    font-size: 16px;
+                    line-height: 30px;
+                    padding: 5px 10px;
+                    border: 1px solid #ddd;
+                    border-top: none;
+                }
+
+                    section.mypage > form ul.revList li:first-child {
+                        border-top: 1px solid #ddd;
+                    }
+
+    ul.revList > li {
+        position: relative;
+        height: 45px;
+    }
+
+        ul.revList > li > div {
+            position: absolute;
+            right: 0;
+            left: 100px;
+            top: 0;
+        }
+
+            ul.revList > li > div > input {
+                width: 100%;
+                height: 46px;
+                margin: -1px 0;
+                font-size: 16px;
+                line-height: 45px;
+                text-align: center;
+                border: 1px solid #ddd;
+                background-color: white;
+            }
+
+            ul.revList > li > div > select {
+                width: 100%;
+                height: 46px;
+                border: 1px solid #ccc;
+                margin-top: -1px;
+                text-align-last: center;
+            }
+
+    button.updateBtn {
+        width: 100%;
+        margin-top: 10px;
+        height: 45px;
+    }
+
+    ul.revList > li > div > input {
+        width: 100%;
+        height: 46px;
+        margin: -1px 0;
+        font-size: 16px;
+        line-height: 45px;
+        text-align: center;
+        border: 1px solid #ddd;
+        background-color: white;
+        border-radius: 0;
+        border-bottom: none;
+        border-right: none;
+    }
+
+    ul.revList > li:nth-child(9) > div > input {
+        border-bottom: 1px solid #ddd;
+    }
+
+    ul.revList > li > div > select {
+        width: 100%;
+        height: 46px;
+        border: 1px solid #ddd;
+        margin-top: -1px;
+        text-align-last: center;
+        border-bottom: none;
+        border-right: none;
+        border-radius: 0;
+    }
+</style>
+
+<section class="mypage">
+
+    <div class="pro_top">
+
+        <p><span>마이페이지</span></p>
+
+    </div>
+
+    <ul class="set">
+        <li><a href="/MyPage"><img src="~/Content/Images/mypage/icon_bus.png"><br>예약정보</a></li>
+        <li><a href="/MyPage/Board"><img src="~/Content/Images/mypage/icon_news.png"><br>게시물관리</a></li>
+        <li><a href="/MyPage/Info" class="in"><img src="~/Content/Images/mypage/icon_set_in.png"><br>정보수정</a></li>
+    </ul>
+
+    <form class="infoForm" method="post" action="/MyPage/updateInfo">
+        <ul class="revList">
+            <li>
+                <label>아이디</label>
+                <div>
+                    <input type="text" name="id" value="@ID" disabled="disabled" />
+                </div>
+            </li>
+            <li>
+                <label>이름</label>
+                <div>
+                    <input type="text" name="name" value="@NM_KOR" />
+                </div>
+            </li>
+            <li>
+                <label>영문 성</label>
+                <div>
+                    <input type="text" name="last" value="@NM_ENG_LAST" />
+                </div>
+            </li>
+            <li>
+                <label>영문 명</label>
+                <div>
+                    <input type="text" name="first" value="@NM_ENG_FIRST" />
+                </div>
+            </li>
+            <li>
+                <label>성별</label>
+                <div>
+                    <select name="sex">
+                        <option value="M" @if(SEX= ="M" ){ @selected }>남자</option>
+                        <option value="F" @if(SEX= ="F" ){ @selected }>여자</option>
+                    </select>
+                </div>
+            </li>
+            <li>
+                <label>생년월일</label>
+                <div>
+                    <input type="text" name="birth" value="@BIRTHDAY" />
+                </div>
+            </li>
+            <li>
+                <label>전화번호</label>
+                <div>
+                    <input type="text" name="tel" value="@HANDPHONE" />
+                </div>
+            </li>
+            <li>
+                <label>이메일</label>
+                <div>
+                    <input type="text" name="email" value="@EMAIL" />
+                </div>
+            </li>
+            <li>
+                <label>비밀번호</label>
+                <div>
+                    <input type="password" name="pwd" value="" />
+                </div>
+            </li>
+        </ul>
+
+        <button class="btn btn-default updateBtn">수정</button>
+    </form>
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        $(".infoForm").submit(function () {
+
+            var regPwd = /^(?=.*[A-Za-z0-9])((?=.*\d)|(?=.*\W)).{6,20}$/;
+            var pwd = $(".infoForm input[name=pwd]");
+
+            if (pwd.val() == "") {
+                alert("비밀번호를 입력해주세요.");
+                pwd.focus();
+                return false;
+            }
+
+            if (!regPwd.test(pwd.val())) {
+                alert("비밀번호는 영문 + 숫자로 6~20자 이내로 입력해주세요.");
+                pwd.focus();
+                return false;
+            }
+
+            $(document).scrollTop(0);
+            $(".infoForm input[name=birth]").val($(".infoForm input[name=birth]").val().replace(/[^0-9]/g, ''));
+            $(".infoForm input[name=tel]").val($(".infoForm input[name=tel]").val().replace(/[^0-9]/g, ''));
+
+            return true;
+        });
+    });
+</script>

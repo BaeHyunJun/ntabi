@@ -1,0 +1,214 @@
+﻿a,
+a:hover,
+a:focus
+{
+    color: black;
+    text-decoration: none;
+}
+
+section.community
+{
+    margin-top: 55px;
+}
+
+section.community > ul
+{
+    margin: 0 -15px;
+    font-size: 0;
+    border: none;
+}
+
+section.community > ul.nav-tabs > li
+{
+    /*width: 50%;*/
+    font-size: 16px; 
+    text-align: center;
+    width: 48%;
+    border: 2px solid #ddd;
+    margin: 1%;
+}
+
+section.community > ul.nav-tabs > li > a
+{
+    border: none;
+    border-radius: initial; 
+    color: black;
+    margin: 0;
+}
+
+section.community > ul.nav-tabs > li.active
+{
+    font-weight: bold;
+}
+
+section.community > ul.nav-tabs > li.active > a
+{
+    background: #a0ce54;
+    color: white;
+    border: none;
+}
+
+section.community .tab-content > div > ul
+{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 0;
+}
+
+section.community .tab-content > div > ul li
+{
+    font-size: 12px;
+    border-bottom: 1px solid #ddd;
+    line-height: 40px;
+    padding-top: 15px;
+}
+
+section.community .tab-content > div > ul.event li
+{
+    margin-top: 20px;
+}
+
+section.community .tab-content > div > ul li:first-child
+{
+    padding-top: 5px;
+}
+
+section.community .tab-content > div > ul li h4
+{
+    font-size: 14px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+section.community .tab-content > div > ul li span.date
+{
+    margin-right: 10px;
+}
+
+section.community .tab-content > div > ul li span.empName,
+section.community .tab-content > div > ul li span.state
+{
+    margin-left: 10px;
+}
+
+section.community .tab-content > div > ul li span.user
+{
+    margin: 0 10px;
+}
+    
+section.community .tab-content > div > ul li span.state
+{
+    color: blue;
+    font-weight: bold;
+}
+    
+section.community .tab-content
+{
+    text-align: center;
+}
+    
+section.community .tab-content > a.listBtn
+{
+    border-radius: 0;
+    background: #777;
+    color: white;
+    border: none;
+}
+    
+section.community .tab-content > div
+{
+    padding: 10px 0;
+    line-height: 40px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: left;
+}
+    
+section.community .tab-content > div > h4
+{
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+    
+section.community .tab-content > div > span.date
+{
+    margin-right: 10px;
+}
+    
+section.community .tab-content > div > span.user
+{
+    margin: 0 10px;
+}
+    
+section.community .tab-content > div > span.state
+{
+    margin-left: 10px;
+    color: blue;
+    font-weight: bold;
+}
+    
+section.community .tab-content > div > div.pdt
+{
+    line-height: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 14px;
+}
+    
+section.community .tab-content > div > div.pdt > span
+{
+    display: block;
+}
+    
+section.community .tab-content > div > div.cont
+{
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+    line-height: normal;
+    font-size: 14px;
+    font-weight: normal;
+}
+    
+section.community .tab-content > div > a.moreBtn
+{
+    background: #aaa;
+    width: 100%;
+    border-radius: 0;
+    color: white;
+    border: none;
+    margin-top: 15px;
+}
+
+section.community .tab-content > div#qna > div.btnGroup
+{
+    margin-top: 20px;
+    font-size: 0;
+    overflow: hidden;
+}
+    
+section.community .tab-content > div#qna > div.btnGroup > a
+{
+    width: 49%;
+    border-radius: 0;
+    color: white;
+    border: none;
+}
+    
+section.community .tab-content > div#qna > div.btnGroup > a.writeBtn
+{
+    background: #434343;
+    float: left;
+}
+    
+section.community .tab-content > div#qna > div.btnGroup > a.moreBtn
+{
+    background: #aaa;
+    float: right;
+}

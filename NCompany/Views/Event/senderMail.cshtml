@@ -1,0 +1,288 @@
+﻿@{
+    Layout = null;
+
+    string data = ViewBag.data;
+}
+
+<style>
+    div.ticket {
+        background: url(/images/ticket.jpg) no-repeat; 
+        height: 340px; 
+        margin: 0 auto; 
+        width: 720px;
+        padding-top: 60px;
+        padding-left: 30px;
+        position: relative;
+    }
+
+    div.ticket > div.ticData {
+        width: 282px;
+        display: inline-block;
+    }
+
+    div.ticket > div.txt {
+        overflow: auto;
+        padding: 20px;
+        width: 336px;
+        height: 270px;
+        float: right;
+        margin-right: 50px;
+        margin-top: -22px;
+    }
+
+    div.ticket > div.ticData > h5 {
+        margin: 0;
+        font-size: 20px;
+        color: #2a2a2a;
+        width: 267px;
+        line-height: 30px;
+        height: 60px;
+        overflow: hidden;
+    }
+
+    div.ticket > div.ticData > p {
+        font-size: 16px;
+        color: #2a2a2a;
+        margin: 0;
+        margin-left: 80px;
+        height: 38px;
+        line-height: 42px;
+        padding-left: 20px;
+    }
+
+    div.ticket > div.ticData > p.address > a {
+        display: block;
+    }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 785px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">바우처 전송</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-inline row searchForm" name="searchForm">
+                <div class="form-group col-md-3">
+                    <select class="form-control" name="searchArea">
+                        <option value="">지역</option>
+                        <option value="KYU">규슈</option>
+                        <option value="TOK">도쿄</option>
+                        <option value="OSA">오사카</option>
+                        <option value="HOK">홋카이도</option>
+                        <option value="TSU">대마도</option>
+                        <option value="OKI">오키나와</option>
+                        <option value="NGY">나고야</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-9">
+                    <select class="form-control" name="searchCourse">
+                        <option value="">코스 명</option>
+                    </select>
+                </div>
+            </form>
+
+            <hr />
+
+            <div class="ticket">
+                <div class="ticData">
+                    <h5 class="title">코스 제목이 나옵니다.</h5>
+                    <p class="name">대표자 명</p>
+                    <p class="tel">대표자 전화번호</p>
+                    <p class="date">출발 일</p>
+                    <p class="count">인원 수</p>
+                    <p class="address">
+                        <a href="#" target="_blank">
+                            탑승 지역
+                        </a>
+                    </p>
+                </div>
+                <div class="txt">
+
+                </div>
+            </div>
+
+            <form name="vouForm" class="modal-body" method="post" action="/Event/sender" enctype="multipart/form-data">
+                <input type="hidden" name="data" value="@data" />
+                <input type="hidden" name="area" value="" />
+                <input type="hidden" name="course" value="" />
+            </form>
+
+            @*<div class="form-group input-group pull-right" style="padding: 0 15px; width: 300px;">
+                <input type="text" class="form-control" maxlength="15" id="address" value="" onkeypress="if (event.keyCode == 13) { search(); return false; }">
+                <div class="input-group-addon searchMapBtn">검색</div>
+            </div>
+
+            <h4 style="font-size: 20px; font-weight: bold; margin: 15px 0">미팅 장소 지도</h4>
+
+            <div class="map_canvas" id="map_canvas" style="height:250px;"></div>
+
+            <p style="color: red;">※ 마커를 드래그해서 탑승처로 옮겨주세요.</p>
+
+            <h5>비고</h5>
+            <textarea id="txt" style="width: 360px; height: 160px; margin: 0 auto; display: block;"></textarea>
+
+            <form name="vouForm" class="modal-body" method="post" action="/Event/sender" enctype="multipart/form-data">
+                <input type="hidden" name="data" value="@data" />
+                <input type="hidden" name="lat" value="" />
+                <input type="hidden" name="lng" value="" />
+                <input type="hidden" name="address" value="" />
+                <input type="hidden" name="txt" value="" />
+                <input type="file" name="files" multiple />
+            </form>*@
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="senderBtn">전송</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("form[name='searchForm'] select[name='searchArea']").on("change", function () {
+        var areaCode = $(this).val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Event/JSON_getCourse",
+            data: { area: areaCode },
+            success: function (data) {
+                var html = "<option>코스를 선택해주세요.</option>";
+
+                for (i in data) {
+                    html += "<option value='" + data[i].COU_SEQ + "'>" + data[i].COU_TITLE + "</option>";
+                }
+
+                if (html.length < 1) {
+                    html = "<option>해당 지역에 코스가 없습니다.</option>";
+                }
+
+                $("select[name=searchCourse]").html(html);
+                $("select[name=searchCourse] option:eq(0)").attr("selected", "selected");
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    });
+
+    $("form[name='searchForm'] select[name='searchCourse']").on("change", function () {
+
+        var _this = $(this),
+            seq = _this.val(),
+            area = $("select[name='searchArea']").val();
+
+        var url = "/Event/JSON_getCourseData";
+        var datas = { seq: seq, area: area };
+
+        if (!(seq > 0))
+        {
+            alert("해당 코스를 검색하여 선택해주세요.");
+            $("select[name=searchCourse]").focus();
+            return;
+        }
+
+        $("input[name=course]").val(seq);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datas,
+            success: function (data) {
+                $("div.ticket h5.title").text(data[0].COU_TITLE);
+                $("div.ticket p.address > a").text(data[0].COU_ADDRESS);
+
+                var linkUrl = "http://ndaytrip.com/map?lat=" + data[0].COU_LATITUDE + "&lng=" + data[0].COU_LONGITUDE + "&z=18";
+
+                $("div.ticket p.address > a").attr("href", linkUrl);
+
+
+                $("div.ticket > div.txt").html(data[0].COU_CONT);
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+
+    });
+
+    $("button#senderBtn").on("click", function () {
+        var f = document.vouForm;
+
+        if ($("input[name=course]").val() == "")
+        {
+            alert("해당 코스를 검색하여 선택해주세요.");
+            $("input[name=course]").focus();
+            return;
+        }
+
+        $("input[name=area]").val($("select[name='searchArea']").val());
+
+        $(this).attr("disabled", true);
+
+        f.submit();
+    });
+
+    //$(".searchMapBtn").on("click", function (e) {
+    //    e.stopPropagation();
+    //    e.preventDefault();
+
+    //    search();
+    //});
+
+    //function search() {
+    //    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+    //        zoom: 17,
+    //        center: { lat: 35.108308, lng: 129.036387 }
+    //    });
+
+    //    var geocoder = new google.maps.Geocoder();
+
+    //    geocodeAddress(geocoder, map);
+    //}
+
+    //var marker
+
+    //function geocodeAddress(geocoder, resultsMap) {
+    //    var address = document.getElementById('address').value;
+    //    geocoder.geocode({ 'address': address }, function (results, status) {
+    //        if (status === 'OK') {
+    //            resultsMap.setCenter(results[0].geometry.location);
+    //            marker = new google.maps.Marker({
+    //                map: resultsMap,
+    //                position: results[0].geometry.location
+    //            });
+
+    //            marker.setDraggable(true);
+    //        } else {
+    //            alert('해당 장소를 찾을 수 없습니다.');
+    //        }
+    //    });
+    //}
+
+    //$("button#senderBtn").on("click", function () {
+    //    var f = document.vouForm;
+
+    //    if ($("input#address").val() == "")
+    //    {
+    //        alert("탑승처를 검색하여 선택해주세요.");
+    //        $("input#address").focus();
+    //        return;
+    //    }
+        
+    //    f.txt.value = $("textarea#txt").val();//.replace(/\n/g, "<br>");
+    //    f.address.value = $("input#address").val();
+    //    f.lat.value = marker.getPosition().lat();
+    //    f.lng.value = marker.getPosition().lng();
+
+    //    f.submit();
+    //});
+
+    //initialize($(".map_canvas")[0], 35.108308, 129.036387, 17);
+</script>

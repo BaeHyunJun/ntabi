@@ -1,0 +1,267 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string onClass = "class=on";
+}
+
+<style>
+    div#container > article > section.recommend {
+        padding-top: 20px;
+    }
+
+    section.recommend > ul {
+        padding: 0;
+        margin: 0;
+        margin-left: 4px;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+    }
+
+        section.recommend > ul > li {
+            float: left;
+            width: 294px;
+            height: 310px;
+            margin: 0 2px 10px 2px;
+            text-align: center;
+            font-size: 15px;
+            padding-top: 10px;
+            border: 1px solid #efefef;
+        }
+
+            section.recommend > ul > li:hover {
+                border: 1px solid orange;
+            }
+
+            section.recommend > ul > li > a {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+
+                section.recommend > ul > li > a img {
+                    width: 100%;
+                }
+
+                section.recommend > ul > li > a > div {
+                }
+
+                section.recommend > ul > li > a div.category {
+                    display: block;
+                    margin-top: 3px;
+                    margin-bottom: 8px;
+                }
+
+                    section.recommend > ul > li > a div.category > span {
+                        padding: 2px 8px;
+                        color: white;
+                        font-size: 12px;
+                        letter-spacing: -0.5px;
+                    }
+
+                        section.recommend > ul > li > a div.category > span.ryokan {
+                            background-color: red;
+                        }
+
+                        section.recommend > ul > li > a div.category > span.theme {
+                            background-color: blue;
+                        }
+
+                        section.recommend > ul > li > a div.category > span.local {
+                            background-color: orange;
+                        }
+
+                section.recommend > ul > li > a > div h4 {
+                    font-size: 16px;
+                }
+
+                section.recommend > ul > li > a > div p.remark {
+                    margin: 0;
+                    font-size: 14px;
+                }
+
+
+    section.recommend div.paging {
+        text-align: center;
+    }
+
+        section.recommend div.paging ul {
+            padding: 0;
+        }
+
+        section.recommend div.paging li {
+            display: inline-block;
+            margin: 20px 5px 0 5px;
+        }
+
+            section.recommend div.paging li a {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+
+                section.recommend div.paging li a.on {
+                    color: #a0ce54;
+                }
+
+            section.recommend div.paging li.prev_btn {
+                width: 15px;
+                height: 20px;
+            }
+
+                section.recommend div.paging li.prev_btn a {
+                    background-image: url('/Content/Images/recommend/pager_left.png');
+                    background-repeat: no-repeat;
+                    background-size: auto 60%;
+                    background-position: center;
+                    text-indent: -9999px;
+                }
+
+                    section.recommend div.paging li.prev_btn a span {
+                    }
+
+            section.recommend div.paging li.next_btn {
+                width: 15px;
+                height: 20px;
+            }
+
+                section.recommend div.paging li.next_btn a {
+                    background-image: url('/Content/Images/recommend/pager_right.png');
+                    background-repeat: no-repeat;
+                    background-size: auto 60%;
+                    background-position: center;
+                    text-indent: -9999px;
+                }
+
+                    section.recommend div.paging li.next_btn a span {
+                    }
+</style>
+
+<section class="recommend">
+    <h3 class="sr-only sr-only-focusable">엔타비에서 추천하는 여행지</h3>
+
+    <img src="~/Content/Images/recommend/bg.png" alt="여행 여기 어떄?" />
+
+    <ul>
+        @{
+            string key = "",
+                   title = "",
+                   date = "",
+                   name = "",
+                   thumb = "",
+                   cont = "",
+                   cat = "";
+
+            foreach (object item in Model)
+            {
+                key = "";
+                title = "";
+                date = "";
+                name = "";
+                thumb = "";
+                cont = "";
+                cat = "";
+
+                try { key = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                catch { }
+                try { title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                catch { }
+                try { date = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                catch { }
+                try { name = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                catch { }
+                try { thumb = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+                catch { }
+                try { cont = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+                catch { }
+                try { cat = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+                catch { }
+
+                switch (cat)
+                {
+                    case "local":
+                        cat = "<span class=" + cat + ">현지 소식</span>";
+                        break;
+                    case "theme":
+                        cat = "<span class=" + cat + ">테마 여행</span>";
+                        break;
+                    case "ryokan":
+                        cat = "<span class=" + cat + ">료칸</span>";
+                        break;
+                    default:
+                        cat = "<span class='local'>현지 소식</span>";
+                        break;
+                }
+
+                <li>
+                    <a href="/Recommend/Views?k=@key">
+                        <img src="@thumb" alt="@title" />
+                        <div>
+                            <div class="category">
+                                @MvcHtmlString.Create(cat)
+                            </div>
+                            <h4 class="title">@title</h4>
+                            <p class="remark">
+                                @cont
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+
+    <div class="paging">
+        <ul>
+            @{
+
+                int count = 0,
+                    pageNum = 1,
+                    maxPage = 1,
+                    boardNum = 0;
+
+                string className = "";
+
+                try { count = ViewBag.Cnt; }
+                catch { }
+                try { pageNum = ViewBag.pageNum; }
+                catch { }
+
+                decimal a = count / 10;
+
+                maxPage = count / 10;
+
+                boardNum = count - ((pageNum - 1) * 10);
+
+                if (count % 10 > 0)
+                {
+                    maxPage++;
+                }
+
+                if (pageNum > 1)
+                {
+                    <li class="prev_btn"><a href="?p=@(pageNum-1)"><span>전</span></a></li>
+                }
+
+                for (var i = 0; i < maxPage; i++)
+                {
+                    if (i + 1 == pageNum)
+                    {
+                        className = "class=on";
+                    }
+                    else
+                    {
+                        className = "";
+                    }
+
+                    <li><a href="?p=@(i+1)" @className><span>@(i + 1)</span></a></li>
+                }
+
+                if (pageNum < maxPage)
+                {
+                    <li class="next_btn"><a href="?p=@(pageNum+1)"><span>후</span></a></li>
+                }
+            }
+        </ul>
+    </div>
+</section>

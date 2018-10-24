@@ -1,0 +1,252 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string CU_ID = "",
+            CU_NM_KOR = "",
+            SEX = "",
+            CU_NM_ENG_FIRST = "",
+            CU_NM_ENG_LAST = "",
+            BIRTHDAY = "",
+            HANDPHONE1 = "",
+            HANDPHONE2 = "",
+            HANDPHONE3 = "",
+            EMAIL = "",
+            EMAIL_YN = "",
+            CU_HOME_ADDR = "",
+            CU_HOME_ADDR_F = "";
+
+    foreach (object item in Model)
+    {
+        CU_ID = "";
+        CU_NM_KOR = "";
+        SEX = "";
+        CU_NM_ENG_FIRST = "";
+        CU_NM_ENG_LAST = "";
+        BIRTHDAY = "";
+        HANDPHONE1 = "";
+        HANDPHONE2 = "";
+        HANDPHONE3 = "";
+        EMAIL = "";
+        EMAIL_YN = "";
+        CU_HOME_ADDR = "";
+        CU_HOME_ADDR_F = "";
+
+        try { CU_ID = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+        catch { }
+        try { CU_NM_KOR = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+        catch { }
+        try { SEX = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+        catch { }
+        try { CU_NM_ENG_FIRST = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+        catch { }
+        try { CU_NM_ENG_LAST = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+        catch { }
+        try { BIRTHDAY = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+        catch { }
+        try { HANDPHONE1 = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+        catch { }
+        try { HANDPHONE2 = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+        catch { }
+        try { HANDPHONE3 = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+        catch { }
+        try { EMAIL = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+        catch { }
+        try { EMAIL_YN = item.GetType().GetProperties()[10].GetValue(item, null).ToString(); }
+        catch { }
+        try { CU_HOME_ADDR = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+        catch { }
+        try { CU_HOME_ADDR_F = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+        catch { }
+    }
+}
+
+
+<section class="menu">
+    <ul>
+        <li>
+            <a href="/Mypage/">예약/결제내역</a>
+        </li>
+        <li>
+            <a href="/Mypage/MyBoard">내가쓴글</a>
+        </li>
+        <li class="on">
+            <a href="/Mypage/Myinfo">정보수정</a>
+        </li>
+    </ul>
+</section> <!--.menu-->
+<form class="form-horizontal infoForm" method="post" action="/Mypage/updateInfo">
+    <input type="hidden" name="inputID" value="@CU_ID" />
+    <input type="hidden" name="inputEmail" value="@EMAIL" />
+    <section class="memberinfo">
+        <h3>회원 정보</h3>
+        <div class="member">
+            <ul>
+                <li>
+                    <p>아이디</p>
+                    <p>@CU_ID</p>
+                </li>
+                <li>
+                    <p>이름</p>
+                    <input type="text" class="form-control" id="inputName" name="inputName" placeholder="이름" value="@CU_NM_KOR">
+                </li>
+                <li>
+                    <p>비밀번호</p>
+                    <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="6~20자 이내/영문+숫자 조합">
+                </li>
+                <li>
+                    <p>비밀번호 확인</p>
+                    <input type="password" class="form-control" id="inputPassword2" name="inputPassword2" placeholder="6~20자 이내/영문+숫자 조합">
+                </li>
+                <li>
+                    <p>이메일</p>
+                    <p>@EMAIL</p>
+                </li>
+            </ul>
+        </div> <!--.member-->
+    </section> <!--.memberinfo-->
+    <section class="selectmemberinfo">
+        <h3>선택 입력 사항</h3>
+        <div class="member">
+            <ul>
+                <li>
+                    <p>영문성</p>
+                    <input type="text" class="form-control" id="inputLastName" name="inputLastName" placeholder="영문 성" value="@CU_NM_ENG_LAST">
+                </li>
+                <li>
+                    <p>영문이름</p>
+                    <input type="text" class="form-control" id="inputFirstName" name="inputFirstName" placeholder="영문 이름" value="@CU_NM_ENG_FIRST">
+                </li>
+                <li>
+                    <p>핸드폰</p>
+                    <input type="text" class="form-control" id="inputTel" name="inputTel" placeholder="핸드폰" value="@HANDPHONE1@HANDPHONE2@HANDPHONE3">
+                </li>
+                <li>
+                    <p>성별</p>
+                    <div class="sex">
+                        <p>남자<input type="radio" name="inputSex" value="M"></p>
+                        <p>여자<input type="radio" name="inputSex" value="F"></p>
+                    </div>
+                </li>
+                <li>
+                    <p>생년월일</p>
+                    <input type="text" class="form-control" id="inputBirth" name="inputBirth" placeholder="생년월일" value="@BIRTHDAY">
+                </li>
+                <li>
+                    <p>수신동의</p>
+                    <div class="agreecheck">
+                        <p>E-mail<input type="checkbox" name="agree" value="check"></p>
+                        <p>SMS<input type="checkbox" name="agree" value="check"></p>
+                    </div> <!--.agreecheck-->
+                </li>
+            </ul>
+        </div> <!--.member-->
+    </section> <!--.selectmemberinfo-->
+    <p class="btn"><a href="#">정보 수정</a></p>
+</form>
+
+    @*<section class="leave">
+    <h3>회원 탈퇴</h3>
+    <div class="leavewrite">
+        <ul>
+            <li>
+                <p>아이디</p>
+                <input type="text" placeholder="아이디">
+            </li>
+            <li>
+                <p>비밀번호</p>
+                <input type="password" placeholder="비밀번호">
+            </li>
+            <li>
+                <p>핸드폰</p>
+                <input type="text" placeholder="핸드폰">
+            </li>
+        </ul>
+        <p class="btn"><a href="#">회원 탈퇴</a></p>
+    </div> <!--.leavewrite-->
+</section> <!--.leave-->*@
+
+
+<script type="text/javascript">
+    $(function () {
+        $("p.btn > a").click(function () {
+            $(".infoForm").submit();
+        });
+
+        $(".infoForm").submit(function () {
+
+            var regPwd = /^(?=.*[A-Za-z0-9])((?=.*\d)|(?=.*\W)).{6,20}$/;
+            var pwd = $(".infoForm input[name=inputPassword]");
+
+            var reg_name = /^[가-힣]{2,5}$/;
+            var reg_name_eng = /^[a-zA-Z]{2,10}$/;
+
+            var regexp = /^[0-9]*$/;
+
+            var name_kor = $("input[name=inputName]").eq(0).val(),
+                name_last = $("input[name=inputLastName]").eq(0).val(),
+                name_first = $("input[name=inputFIrstName]").eq(0).val(),
+                birth = $("input[name=inputBirth]").eq(0).val(),
+                phone = $("input[name=inputTel]").eq(0).val()
+
+            if (!reg_name.test(name_kor)) {
+                alert("이름이 잘못 입력 되었습니다. (한글, 2 ~ 5자리)");
+                $("input[name=inputName]").eq(0).focus();
+                return false;
+            }
+
+            if (!reg_name_eng.test(name_last)) {
+                alert("영문 성이 잘못 입력 되었습니다.");
+                $("input[name=inputLastName]").eq(0).focus();
+                return false;
+            }
+
+            if (!reg_name_eng.test(name_first)) {
+                alert("영문 이름이 잘못 입력 되었습니다.");
+                $("input[name=inputFIrstName]").eq(0).focus();
+                return false;
+            }
+
+            if (birth.length < 8 || birth.length > 8) {
+                alert("생년월일이 잘못 입력 되었습니다(예: 20170101)");
+                $("input[name=inputBirth]").eq(0).focus();
+                return false;
+            }
+
+            if (!regexp.test(birth)) {
+                alert("생년월일은 숫자만 입력해주세요.");
+                $("input[name=birth]").eq(0).focus();
+                return false;
+            }
+
+            if (phone.length < 10 || birth.length > 11) {
+                alert("전화번호가 잘못 입력 되었습니다(숫자만 입력해 주세요.)");
+                $("input[name=inputTel]").eq(0).focus();
+                return false;
+            }
+
+            if (!regexp.test(phone)) {
+                alert("전화번호는 숫자만 입력해주세요.");
+                $("input[name=birth]").eq(0).focus();
+                return false;
+            }
+
+            if (pwd.val() == "") {
+                alert("비밀번호를 입력해주세요.");
+                pwd.focus();
+                return false;
+            }
+
+            if (!regPwd.test(pwd.val())) {
+                alert("비밀번호는 영문 + 숫자로 6~20자 이내로 입력해주세요.");
+                pwd.focus();
+                return false;
+            }
+
+            $(document).scrollTop(0);
+            $(".infoForm input[name=inputBirth]").val($(".infoForm input[name=inputBirth]").val().replace(/[^0-9]/g, ''));
+            $(".infoForm input[name=inputTel]").val($(".infoForm input[name=inputTel]").val().replace(/[^0-9]/g, ''));
+
+            return true;
+        });
+    });
+</script>

@@ -1,0 +1,57 @@
+﻿@{
+    Layout = null;
+
+    string Url = ViewBag.url;
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    try { document.domain = "http://*.ntabi.*"; } catch (e) { }
+
+    var sUrl = "@Html.Raw(Url)";
+
+    if (sUrl != "blank") {
+        var oParameter = {};
+
+        sUrl.replace(/([^=]+)=([^&]*)(&|$)/g, function () {
+            oParameter[arguments[1]] = arguments[2];
+            return "";
+        });
+
+        if ((oParameter.errstr || '').length) {
+            (parent.jindo.FileUploader._oCallback[oParameter.callback_func + '_error'])(oParameter);
+        } else if (oParameter.isFeature == "true") {
+
+            var img = "<img src='" + oParameter.sFileURL + "' alt='" + oParameter.sFileName + "' style='position: static; width: 100%; height: 100%'/>";
+
+            if (oParameter.target != "") {
+                var feature = window.parent.opener.document.getElementById(oParameter.target);//.getElementsByClassName("feature");
+                var input = window.parent.opener.document.getElementsByName(oParameter.target)[0];
+            } else {
+                var feature = window.parent.opener.document.getElementById("featureImg");
+                var input = window.parent.opener.document.schForm.feature;
+            }
+
+            feature.innerHTML = img;
+            input.value = oParameter.sFileURL;
+
+            parent.close();
+
+        } else if (oParameter.isFeature == "pdt") {
+
+            var img =   "<li>" +
+                            "<img src='" + oParameter.sFileURL + "' alt='" + oParameter.sFileName + "' style='position: static; width: 100%; height: 100%'/>" +
+                            "<input type='hidden' name='img[]' value='" + oParameter.sFileURL + "'>" +
+                            "<span class='rmBtn'>삭제</span>" + 
+                        "</li>";
+
+            imageList = window.parent.opener.document.getElementById("imageList");
+
+            imageList.innerHTML += img;
+
+            parent.close();
+
+        } else {
+            (parent.jindo.FileUploader._oCallback[oParameter.callback_func + '_success'])(oParameter);
+        }
+    }
+</script>

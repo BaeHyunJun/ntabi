@@ -1,0 +1,103 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var type = Request["t"];
+
+    string onClass = "class=on";
+
+    if (string.IsNullOrEmpty(type))
+    {
+        type = "event";
+    }
+}
+
+<section class="menu">
+    <ul>
+        <li @if (type == "promotion" ) { @onClass }>
+            <a href="?t=promotion">기획전</a>
+        </li>
+        <li @if (type == "event" ) { @onClass }>
+            <a href="?t=event">이벤트/쿠폰</a>
+        </li>
+    </ul>
+</section> <!--.menu-->
+
+<section class="content">
+    <ul>
+
+        @{
+        string key = "",
+        title = "",
+        date = "",
+        name = "",
+        thumb = "",
+        category = "",
+        target = "",
+        url = "",
+        content = "";
+
+        foreach(object item in Model)
+        {
+        key = "";
+        title = "";
+        date = "";
+        name = "";
+        thumb = "";
+        category = "";
+        url = "";
+        target = "";
+        content = "";
+
+        try { key   = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+        try { title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+        try { date  = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+        try { name  = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+        try { thumb = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); } catch { }
+
+        try { target = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); } catch { }
+        try { category = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); } catch { }
+        try { content = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); } catch { }
+
+        switch(category)
+        {
+        case "event":
+        category = "이벤트";
+        break;
+        case "coupon":
+        category = "쿠폰";
+        break;
+        default:
+        category = "이벤트";
+        break;
+        }
+
+        if (type != "promotion")//category == "이벤트" || category == "쿠폰")
+        {
+        url = "/Event/Views?t=" + type + "&k=" + key;
+        }
+        else
+        {
+        url = "/promotion/Views?f=" + target;
+        }
+        <li>
+            <a href="@url">
+                <img src="@thumb" alt="@title" />
+                <div class="text">
+                    <h4>@title</h4>
+                    <p>
+                        @if (type != "promotion")
+                        {
+                        @category
+                        }
+                        else
+                        {
+                        @MvcHtmlString.Create(content)
+                        }
+                    </p>
+                </div> <!--.text-->
+            </a>
+        </li>
+        }
+        }
+    </ul>
+</section> <!--.content-->

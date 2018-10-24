@@ -1,0 +1,377 @@
+﻿@using mNtabi.Models;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var user = Session["user"] as User;
+
+    string userKey = user == null ? "" : user.Login;
+
+    string corp_code = "",
+           pdt_type_code = "",
+           pdt_ist_emp = "",
+           pdt_yy = "",
+           pdt_seq = "",
+           pdt_title = "",
+           pdt_content = "",
+           pdt_img_path = "",
+           code = "",
+           sch0 = "",
+           sch1 = "",
+           sch2 = "",
+           sch3 = "",
+           sch4 = "",
+           sch5 = "",
+           sch6 = "",
+           sch7 = "";
+
+    foreach (object item in Model)
+    {
+        corp_code = "";
+        pdt_type_code = "";
+        pdt_ist_emp = "";
+        pdt_yy = "";
+        pdt_seq = "";
+        pdt_title = "";
+        pdt_content = "";
+        pdt_img_path = "";
+        code = "";
+        sch0 = "";
+        sch1 = "";
+        sch2 = "";
+        sch3 = "";
+        sch4 = "";
+        sch5 = "";
+        sch6 = "";
+        sch7 = "";
+
+        corp_code = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+        pdt_type_code = item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+        pdt_ist_emp = item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+        pdt_yy = item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+        pdt_seq = item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+        pdt_title = item.GetType().GetProperties()[5].GetValue(item, null).ToString();
+        pdt_content = item.GetType().GetProperties()[6].GetValue(item, null).ToString();
+        pdt_img_path = item.GetType().GetProperties()[8].GetValue(item, null).ToString();
+        sch0 = item.GetType().GetProperties()[9].GetValue(item, null).ToString();
+        sch1 = item.GetType().GetProperties()[10].GetValue(item, null).ToString();
+        sch2 = item.GetType().GetProperties()[11].GetValue(item, null).ToString();
+        sch3 = item.GetType().GetProperties()[12].GetValue(item, null).ToString();
+        sch4 = item.GetType().GetProperties()[13].GetValue(item, null).ToString();
+        sch5 = item.GetType().GetProperties()[14].GetValue(item, null).ToString();
+        sch6 = item.GetType().GetProperties()[15].GetValue(item, null).ToString();
+        //sch7            = item.GetType().GetProperties()[16].GetValue(item, null).ToString();
+
+        code = corp_code + pdt_type_code + pdt_ist_emp + pdt_yy + pdt_seq;
+    }
+}
+
+<div class="mobilepass">
+    <h2>@pdt_title</h2>
+    <div class="images">
+        <img src="@pdt_img_path" />
+    </div> <!--.images-->
+    <p class="passinfo">
+        @pdt_content
+    </p> <!--.passinfo-->
+    <section class="passdetail">
+        <div class="content">
+            @MvcHtmlString.Create(sch0)
+            @MvcHtmlString.Create(sch1)
+            @MvcHtmlString.Create(sch2)
+            @MvcHtmlString.Create(sch3)
+            @MvcHtmlString.Create(sch4)
+            @MvcHtmlString.Create(sch5)
+            @MvcHtmlString.Create(sch6)
+            @*@MvcHtmlString.Create(sch7)*@
+        </div> <!--.content-->
+    </section> <!--.passdetail-->
+</div> <!--.mobilepass-->
+
+<div class="bookingbox">
+    <a href="#" class="bookingbtn">예약하기</a>
+</div> <!--.bookingbox-->
+
+<div class="bookingboxoption">
+    @using (Html.BeginForm("agree", "Reserve", FormMethod.Post, new { @class = "form-horizontal", role = "form", name = "reserveForm" }))
+    {
+    @Html.Hidden("pdtCode", code)
+    @Html.Hidden("pdtKey", pdt_ist_emp)
+    @Html.Hidden("APrice")
+    @Html.Hidden("CPrice")
+    @Html.Hidden("BPrice")
+    @Html.Hidden("currency")
+    @Html.Hidden("type", "pass")
+
+    @Html.Hidden("user", userKey)
+
+    string text1 = "성인",
+    text2 = "소아",
+    text3 = "유아";
+
+    switch (pdt_seq)
+    {
+    case "10":
+    case "20":
+    text1 = "일반";
+    text2 = "청소년 (만 12세 ~ 만 17세)";
+    text3 = "아동 (만 4세 ~ 만 11세)";
+    break;
+    }
+
+    <div class="option">
+        <div id="select_box">
+            <label for="option">옵션</label>
+            <select id="option" title="select option" name="option">
+                <option selected="selected">옵션</option>
+                @{
+                string prcSeq = "",
+                currency_code = "",
+                adult = "",
+                title = "",
+                child = "",
+                baby = "";
+
+                foreach (object item in ViewBag.prcData)
+                {
+                prcSeq = "";
+                currency_code = "";
+                adult = "";
+                title = "";
+                child = "";
+                baby = "";
+
+                prcSeq = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+                currency_code = item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+                adult = item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+                title = item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+                child = item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+                baby = item.GetType().GetProperties()[5].GetValue(item, null).ToString();
+
+                switch (currency_code)
+                {
+                case "JYP":
+                currency_code = "엔";
+                break;
+                case "KWN":
+                currency_code = "원";
+                break;
+                case "USD":
+                currency_code = "달러";
+                break;
+                }
+
+                <option value="@prcSeq" data-currency="@currency_code" data-adult="@adult" data-child="@child" data-baby="@baby">@title</option>
+                }
+                }
+            </select>
+        </div> <!--#select_box-->
+    </div> <!--.option-->
+
+    <div class="people">
+
+        <p style="display: none;">
+            @text1
+            <span>0</span>
+            <select name="adultCnt">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+            </select>
+        </p>
+        <p style="display: none;">
+            @text2
+            <span>0</span>
+            <select name="childCnt">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+            </select>
+        </p>
+        <p style="display: none;">
+            @text3
+            <span>0</span>
+            <select name="babyCnt">
+                <option>0</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+            </select>
+        </p>
+    </div> <!--.people-->
+    <div class="price">
+        <p class="pricetit">총 금액</p>
+        <p class="allprice">0 <span>원~</span></p>
+    </div> <!--.price-->
+    }
+</div> <!--.bookingboxobtion-->
+
+<script>
+    $("a.bookingbtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var resView = $("div.bookingboxoption"),
+            bg = $("div.booking_bg");
+
+        if (resView.position().top == $(window).height()) {
+            bg.show();
+            resView.css("top", "auto").stop().animate({ bottom: 50 }, 500, function () { });
+        }
+        else {
+            var url = window.location.pathname + window.location.search;
+            url = encodeURIComponent(url);
+
+            if ("@user" == "") {
+                alert("로그인을 하셔야 예약이 진행됩니다.");
+                $("a.loginBtn").click();
+                return;
+            }
+
+            var f = document.reserveForm;
+            //    trf = f.trfCD,
+            //    prc = f.prcCD;
+
+            //if (trf.value == undefined || trf.value == "") {
+            //    alert("교통을 선택해주세요.");
+            //    return;
+            //}
+
+            //if (prc.value == undefined || prc.value == "") {
+            //    alert("옵션을 선택해주세요.");
+            //    return;
+            //}
+
+            if (f.APrice.value == "") {
+                alert("옵션을 선택해주세요.");
+                return;
+            }
+
+            $(this).attr("disabeld", true);
+
+            f.method = "post";
+            f.action = "/Reserve/agree";
+            f.submit();
+        }
+
+    });
+
+    $("select#option").on("change", function () {
+        var _this = $(this),
+            options = _this.find("option:selected");
+
+        var adult = options.attr("data-adult"),
+            crncy = options.attr("data-currency"),
+            child = options.attr("data-child"),
+            baby = options.attr("data-baby");
+
+        var f = document.reserveForm,
+            aPrice = f.APrice,
+            cPrice = f.CPrice,
+            bPrice = f.BPrice,
+            currency = f.currency;
+
+        aPrice.value = adult;
+        cPrice.value = child;
+        bPrice.value = baby;
+        currency.value = crncy;
+
+        $("div#select_box").find("label").text(options.text());
+
+
+        if (adult > 0) {
+            $("select[name='adultCnt']").prev("span").text(adult + " " + getCurrency(crncy)).parents("p").show();
+        }
+        else {
+            $("select[name='adultCnt']").parents("p").hide();
+        }
+
+        if (child > 0) {
+            $("select[name='childCnt']").prev("span").text(child + " " + getCurrency(crncy)).parents("p").show();
+        }
+        else {
+            $("select[name='childCnt']").parents("p").hide();
+        }
+
+        if (baby > 0) {
+            $("select[name='babyCnt']").prev("span").text(baby + " " + getCurrency(crncy)).parents("p").show();
+        }
+        else {
+            $("select[name='babyCnt']").parents("p").hide();
+        }
+
+        setCntPrice();
+
+    });
+
+    function getCurrency(code) {
+        var currency_Txt = "";
+
+        switch (code) {
+            case "JPY":
+                currency_Txt = "엔";
+                break;
+            case "KRW":
+                currency_Txt = "원";
+                break;
+            case "USD":
+                currency_Txt = "달러";
+                break;
+        }
+
+        return currency_Txt;
+    }
+
+    $("div.people").delegate("select", "change", function () {
+        setCntPrice();
+    });
+
+    function setCntPrice() {
+        var aCnt = $("select[name=adultCnt]").val(),
+            cCnt = $("select[name=childCnt]").val(),
+            bCnt = $("select[name=babyCnt]").val();
+
+        var f = document.reserveForm,
+            aPrice = f.APrice,
+            cPrice = f.CPrice,
+            bPrice = f.BPrice,
+            currency = f.currency;
+
+        var aPrice = (aCnt * 1) * (aPrice.value * 1),
+            cPrice = (cCnt * 1) * (cPrice.value * 1),
+            bPrice = (bCnt * 1) * (bPrice.value * 1),
+            totalPrice = aPrice;// + bPrice + cPrice;
+
+        if ($("input#CPrice").val() == "0") {
+            $("select[name=childCnt]").parent().hide();
+        } else {
+            totalPrice += cPrice;
+        }
+
+        if ($("input#BPrice").val() == "0") {
+            $("select[name=babyCnt]").parent().hide();
+        } else {
+            totalPrice += bPrice;
+        }
+
+        $("p.allprice").text(totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + getCurrency(currency.value));
+    }
+</script>

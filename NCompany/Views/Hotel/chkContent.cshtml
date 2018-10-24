@@ -1,0 +1,318 @@
+﻿@using NCompany.Models
+
+@{
+    Layout = null;
+
+    var user = Session["user"] as User;
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/smart_editor2_in.css" />
+
+<style>
+    .modal-body {
+        min-height: 604px;
+    }
+
+    .schForm div.tab-content {
+        margin-top: 20px;
+    }
+
+        .schForm div.tab-content .sch {
+            position: relative;
+        }
+
+            .schForm div.tab-content .sch textarea {
+                min-height: 430px;
+                padding: 15px;
+            }
+
+            .schForm div.tab-content .sch .chkBtn {
+                position: absolute;
+                left: 50%;
+                top: 0;
+                margin-left: 10px;
+                margin-top: 230px;
+            }
+
+            .schForm div.tab-content .sch img {
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            .schForm div.tab-content .sch .prvContent {
+                position: absolute;
+                margin: 0;
+                left: 478px;
+                top: 76px;
+                right: 40px;
+                min-height: 383px;
+                max-height: 383px;
+                overflow-y: auto;
+            }
+
+                .schForm div.tab-content .sch .prvContent img {
+                    position: static;
+                    width: 100%;
+                }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 765px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">컨텐츠 작성</h4>
+        </div>
+        <div class="modal-body">
+            <form name="schForm" method="post" action="" class="schForm">
+                <input type="hidden" name="redirect" value="@Request["url"]" />
+                <input type="hidden" name="code" value="@Request["seq"]" />
+
+                <ul class="nav nav-tabs" id="schTabs">
+                    <li role="presentation" class="active"><a href="#sch0" aria-controls="sch0" role="tab" data-toggle="tab">대표이미지</a></li>
+                    <li role="presentation"><a href="#sch1" aria-controls="sch1" role="tab" data-toggle="tab">예약진행과정</a></li>
+                    <li role="presentation"><a href="#sch2" aria-controls="sch2" role="tab" data-toggle="tab">확인사항</a></li>
+                    <li role="presentation"><a href="#sch3" aria-controls="sch3" role="tab" data-toggle="tab">특전</a></li>
+                    <li role="presentation"><a href="#sch4" aria-controls="sch4" role="tab" data-toggle="tab">포함</a></li>
+                    <li role="presentation"><a href="#sch5" aria-controls="sch5" role="tab" data-toggle="tab">불포함</a></li>
+                    <li role="presentation"><a href="#sch6" aria-controls="sch6" role="tab" data-toggle="tab">취소수수료</a></li>
+                    <li role="presentation"><a href="#sch7" aria-controls="sch7" role="tab" data-toggle="tab">일정</a></li>
+                    <li role="presentation"><a href="#sch8" aria-controls="sch8" role="tab" data-toggle="tab">모바일용</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane row sch active" id="sch0">
+                        <a class="col-sm-7 uploadImg" href="#">
+                            <img src="~/Content/images/upload.jpg" style="margin-top: 95px;" />
+                        </a>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">
+                            <div id="featureImg">
+                                @*@if (!string.IsNullOrEmpty(feature))
+                                {
+                                    <img src="@feature" alt="대표이미지" width="100%" height="100%" style="position: static" />
+                                }*@
+                            </div>
+                            <input type="hidden" name="feature" value="@*@feature*@" />
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane row sch" id="sch1">
+                        <textarea class="col-sm-6 content" name="content1" id="content1">@*@sch0*@</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@*@MvcHtmlString.Create(sch0)*@</div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch2">
+                        <textarea class="col-sm-6 content" name="content2" id="content2">@*@sch1*@</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@*@MvcHtmlString.Create(sch1)*@</div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch3">
+                        <textarea class="col-sm-6 content" name="content3" id="content3">@*@sch2*@</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@*@MvcHtmlString.Create(sch2)*@</div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch4">
+                        <textarea class="col-sm-6 content" name="content4" id="content4">@*@sch3*@</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@*@MvcHtmlString.Create(sch3)*@</div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch5">
+                        <textarea class="col-sm-6 content" name="content5" id="content5">@*@sch4*@</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@*@MvcHtmlString.Create(sch4)*@</div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch6">
+                        <textarea class="col-sm-6 content" name="content6" id="content6">@*@sch5*@</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@*@MvcHtmlString.Create(sch5)*@</div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch7">
+                        <textarea class="col-sm-6 content" name="content7" id="content7">@*@schedule*@</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@*@MvcHtmlString.Create(schedule)*@</div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane row sch" id="sch8">
+                        <textarea class="col-sm-6 content" name="content8" id="content8">@*@sch6*@</textarea>
+                        <div class="chkBtn">
+                            <a href="#" class="btn btn-default">확인</a>
+                        </div>
+                        <img src="~/Content/images/phone.png" />
+                        <div class="se2_inputarea prvContent">@*@MvcHtmlString.Create(sch6)*@</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">저장</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/HuskyEZCreator.js"></script>
+
+<script>
+    var oEditors = [];
+
+    function asd() {
+        $(".content").each(function () {
+            var id = $(this).attr("id");
+
+            nhn.husky.EZCreator.createInIFrame({
+                oAppRef: oEditors,
+                elPlaceHolder: id,
+                sSkinURI: "/Editor/SmartEditor2Skin",
+                fCreator: "createSEditor2"
+            });
+        });
+    }
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        e.target // newly activated tab
+        e.relatedTarget // previous active tab
+
+        var className = $(this).attr("aria-controls");
+
+        var txtara = $("div#" + className).find("textarea.content");
+        var id = txtara.attr("id");
+
+        var isShow = txtara.css("display");
+
+        if (isShow == "block")
+        {
+            nhn.husky.EZCreator.createInIFrame({
+                oAppRef: oEditors,
+                elPlaceHolder: id,
+                sSkinURI: "/Editor/SmartEditor2Skin",
+                fCreator: "createSEditor2"
+            });
+        }
+
+        //asd();
+    })
+
+    $('.uploadImg').on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var opt = "left=0,top=0,width=403,height=359,scrollbars=yes,location=no,status=0,resizable=no";
+        window.open("/Editor/Photo_uploader?isFeature=true", "대표 이미지", opt);
+    });
+
+    $('#schTabs a').click(function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        $(this).tab('show');
+    });
+
+    $('.sch .chkBtn a').on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var _this = $(this),
+            parent = _this.parents('.sch'),
+            txt = parent.attr("id");
+
+        oEditors.getById["content" + txt.substring(txt.length - 1)].exec("UPDATE_CONTENTS_FIELD", []);
+
+        var cont = parent.find('textarea').val();
+
+        parent.find("div.prvContent").html(cont);
+    });
+
+    $("#uptBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.schForm;
+
+        $(".content").each(function () {
+            var id = $(this).attr("id");
+
+            try{
+                oEditors.getById[id].exec("UPDATE_CONTENTS_FIELD", []);
+            }
+            catch (e)
+            {
+
+            }
+        });
+
+        var rdt  = f.redirect.value;
+        var code = f.code.value;
+        var key  = f.key.value;
+        var type = f.type.value;
+        var fimg = f.feature.value;
+        var ct1  = f.content1.value;
+        var ct2  = f.content2.value;
+        var ct3  = f.content3.value;
+        var ct4  = f.content4.value;
+        var ct5  = f.content5.value;
+        var ct6  = f.content6.value;
+        var ct8  = f.content8.value;
+
+        var schedule = f.content7.value;        // 일정 따로 저장
+
+        var url = "/Products/updateSch";
+
+        ct1 = encodeURIComponent(ct1);
+        ct2 = encodeURIComponent(ct2);
+        ct3 = encodeURIComponent(ct3);
+        ct4 = encodeURIComponent(ct4);
+        ct5 = encodeURIComponent(ct5);
+        ct6 = encodeURIComponent(ct6);
+        ct8 = encodeURIComponent(ct8);
+
+        schedule = encodeURIComponent(schedule);
+
+        var data = { code: code, key: key, type: type, feature: fimg, ct1: ct1, ct2: ct2, ct3: ct3, ct4: ct4, ct5: ct5, ct6: ct6, ct7: ct8, schedule: schedule }
+
+        //$.post(url, data, function (msg) {
+        //    alert(msg);
+        //});
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function (data) {
+                alert(data);
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    });
+</script>

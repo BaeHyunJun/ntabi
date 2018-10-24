@@ -1,0 +1,188 @@
+﻿@using NDayTrip_PC.Models
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ndaytrip</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="naver-site-verification" content="bf33f6ef560943298bd77751cb671dd447a776f6" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @{
+        string controllerName = "";
+
+        try
+        {
+            controllerName = this.ViewContext.Controller.ControllerContext.RouteData.Values["controller"].ToString().ToLower();
+        }
+        catch { }
+
+        string cssName = controllerName + ".css";
+
+        <link rel="stylesheet" type="text/css" href="/Content/@cssName">
+
+        string logo = "logo.png",
+               bestLink = "/Products/Lists?loc=BEST";
+
+        if (controllerName == "home")
+        {
+            logo = "logo_fff.png";
+            bestLink = "#";
+        }
+
+        string userAgent = Request.UserAgent;
+        string[] browser = { "iphone", "ipod", "ipad", "android", "blackberry", "windows ce", "nokia", "webos", "opera mini", "sonyericsson", "opera mobi", "iemobile", "windows phone" };
+        bool isMobile = false;
+
+        for (int iasd = 0; iasd < browser.Length; iasd++)
+        {
+            if (userAgent.ToLower().Contains(browser[iasd]))
+            {
+                isMobile = true;
+                break;
+            }
+        }
+    }
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</head>
+
+<body class="@controllerName">
+    <div id="wrap">
+
+        <header>
+            <a class="logo" href="/">
+                <h2>엔데이트립<img src="/Content/images/@logo" alt="엔데이트립"></h2>
+            </a>
+
+            <div class="nav">
+                <ul class="lnb">
+                    @Html.Partial("_LoginPartial")
+                </ul>
+
+                <div class="gnb">
+
+                    <ul class="depth1">
+                        <li>
+                            <a href="#" class="localtour">현지투어</a>
+                            <ul class="localtour">
+                                <li><a href="/Products/Lists?loc=HOKKAIDO">북해도</a></li>
+                                <li><a href="/Products/Lists?loc=OSAKA">오사카</a></li>
+                                <li><a href="/Products/Lists?loc=OKINAWA">오키나와</a></li>
+                                @*<li><a href="/Products/Lists?loc=NAGOYA">나고야</a></li>*@
+                                <li><a href="/Products/Lists?loc=TOKYO">동경</a></li>
+                                <li><a href="/Products/Lists?loc=FUKUOKA">큐슈</a></li>
+                                <li><a href="/Products/Lists?loc=TSUSHIMA">대마도</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="@bestLink" class="bestproduct">베스트상품</a>
+                        </li>
+                        <li>
+                            <a href="#" class="hotelnrent">호텔렌트카</a>
+                            <ul class="hotelnrent">
+                                <li><a href="https://www.booking.com/?aid=1294434" target="_blank">Booking.com</a></li>
+                                <li><a href="https://www.web-rentacar.com/kr/agt/ntabi.asp?afrieitcd=ntabi" target="_blank">렌트카</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="community">커뮤니티</a>
+                            <ul class="community">
+                                <li><a href="/Community/Lists?t=notice">자유게시판</a></li>
+                                <li><a href="/Community/Lists?t=review">이용후기</a></li>
+                                <li><a href="/Community/Lists?t=qna">문의하기</a></li>
+                                <li><a href="/Community/Lists?t=event">이벤트</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <article id="container">
+            @RenderBody()
+        </article>
+
+        <div class="foot">
+
+            <div class="foot_left">
+                <img src="/Content/images/logo_fff.png">
+                Copyrightⓒ2017 NdayTrip right reserverd.
+            </div>
+
+            <div class="foot_right">
+
+                <a href="http://m.ndaytrip.com" class="btn btn-default changeMobile" style="color: white; float: right; font-size: 12px; border-color: white; position: absolute; top: -20px; right: 0;">Mobile 버전</a>
+
+                <span>
+                    (주) 엔데이트립 | 대표:김윤중<br>
+                    사업자 등록번호 : 605-86-34084 | 통신판매등록번호 : 제2016-부산중구-0041 | 관광사업등록증 : 부산광역시 중구청 제2015-000006호 <br>
+                    @*주소 : 부산광역시 중구 중앙대로 119 (상현빌딩 3층) |*@ 전화 : 1670-4601 | 팩스 : 051-466-4605
+                </span>
+            </div>
+
+            <ul class="footer_Sns">
+                <li><a href="https://www.facebook.com/ndaytrip/" target="_blank" class="ico_facebook">facebook</a></li>
+                <li><a href="https://www.instagram.com/ndaytrip/" target="_blank" class="ico_instagram">instagram</a></li>
+                <li><a href="http://pf.kakao.com/_zGkTxl" target="_blank" class="ico_kakaostory">kakao</a></li>
+            </ul>
+
+        </div>
+
+        <div class="top_btn">
+            <a href="#"><img src="/Content/images/icon_top.png"></a>
+        </div>
+
+    </div>
+
+    <div id="loading">
+        <img src="~/Content/Images/loading.gif" alt="로딩중..." />
+    </div>
+
+    <script src="~/Scripts/jquery.cookie.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".top_btn a").on("click", function (e) {
+                e.preventDefault();
+
+                movingWindow(0);
+            });
+
+            $("div.nav div.gnb ul.depth1 > li > a").on("click", function (e) {
+                var _this = $(this),
+                    areaName = _this.attr("class"),
+                    linkUrl = _this.attr("href");
+
+                if (linkUrl == "#") {
+                    e.preventDefault();
+
+                    movingWindow($("#" + areaName).offset().top);
+                }
+            });
+
+            function movingWindow(top) {
+                var body = $("html, body");
+
+                body.animate({
+                    scrollTop: top
+                }, 500);
+            }
+        });
+    </script>
+
+    @if (isMobile)
+    {
+        <script>
+            $(document).ready(function () {
+                $("a.changeMobile").on("click", function () {
+                    $.cookie('mobile', true);
+                });
+
+                location.href = "http://m.ndaytrip.com";
+            });
+        </script>
+    }
+</body>
+</html>

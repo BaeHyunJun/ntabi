@@ -1,0 +1,88 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="join1">
+    <div class="order">
+        <ul>
+            <li>이메일인증</li>
+            <li>정보입력/약관동의</li>
+            <li>가입완료</li>
+        </ul>
+    </div> <!--.order-->
+    <section class="confirm">
+        <div class="email">
+            <input type="text" name="email_ID" id="email_ID" class="idblank"> <p> @@ </p> <input type="text" name="email_Domain" id="email_Domain" class="siteblank" disabled value="naver.com">
+
+        </div> <!--.email-->
+        <div class="option">
+            <div id="select_box">
+                <select name="selectEmail" id="selectEmail option">
+                    <option value="">직접입력</option>
+                    <option value="naver.com" selected>naver.com</option>
+                    <option value="hanmail.net">hanmail.net</option>
+                    <option value="nate.com">nate.com</option>
+                    <option value="gmail.com">gmail.com</option>
+                    <option value="daum.net">daum.net</option>
+                </select>
+            </div>
+        </div> <!--.option-->
+        <p class="btn chkMailBtn">
+            <a href="#">인증 메일받기</a>
+        </p>
+    </section> <!--.confirm-->
+</div> <!--.join1-->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("select[name=selectEmail]").change(function () {
+
+            $("select[name=selectEmail] option:selected").each(function () {
+                var _this = $(this);
+                if (_this.val() == '' || _this.val() == undefined) {
+                    $("#email_Domain").val('');
+                    $("#email_Domain").attr("disabled", false);
+                    $("#email_Domain").focus();
+                } else {
+                    $("#email_Domain").val(_this.text());
+                    $("#email_Domain").attr("disabled", true);
+                }
+            });
+        });
+
+        $(".chkMailBtn a").on("click", function (e) {
+            var regEmail = /^[\w\-]+@@(?:(?:[\w\-]{2,}\.)+[a-zA-Z]{2,})$/i;
+            var mailID = $("#email_ID");
+            var mailDomain = $("#email_Domain");
+            var _this = $(this);
+
+            if (!regEmail.test(mailID.val() + "@@" + mailDomain.val())) {
+                alert("메일을 입력해주세요.");
+                mailID.focus();
+                return;
+            }
+
+            _this.attr("disabled", true);
+
+            var url = "/Members/senderMail";
+            var data = { emailID: mailID.val(), emailDomain: mailDomain.val() };
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (txt) {
+                    alert(txt);
+
+                    _this.attr("disabled", false);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>

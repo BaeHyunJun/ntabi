@@ -1,0 +1,126 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    div.main_list {
+        margin: 60px -15px 40px;
+    }
+
+        div.main_list ul.m_list {
+            padding: 0;
+            list-style: none;
+            overflow: hidden;
+        }
+
+            div.main_list ul.m_list li {
+                margin: 0 -15px 3px;
+                position: relative;
+            }
+
+                /*div.main_list ul.m_list li:nth-child(2n) {
+        float: right;
+    }*/
+
+                div.main_list ul.m_list li img {
+                    width: 100%;
+                }
+
+                div.main_list ul.m_list li div.txtBox {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: 50%;
+                    color: white;
+                    text-align: center;
+                    margin: -28px 0 0;
+                }
+
+                    div.main_list ul.m_list li div.txtBox h5 {
+                        font-size: 24px;
+                        font-weight: bold;
+                        margin: 0;
+                    }
+
+    a.back {
+        display: none;
+    }
+</style>
+
+<div class="main_list">
+    <ul class="m_list">
+        <li>
+            <a href="/Products/Lists?loc=HOKKAIDO">
+                <img src="~/Content/Images/products/pdt_menu_hokkaido.jpg">
+                <div class="txtBox">
+                    <h5>북해도</h5>
+                    <p>HOKKAIDO</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/Products/Lists?loc=OSAKA">
+                <img src="~/Content/Images/products/pdt_menu_osaka.jpg">
+                <div class="txtBox">
+                    <h5>오사카</h5>
+                    <p>OSAKA</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/Products/Lists?loc=OKINAWA">
+                <img src="~/Content/Images/products/mobilelocal_okinawa_0911.jpg">
+                <div class="txtBox">
+                    <h5>오키나와</h5>
+                    <p>OKINAWA</p>
+                </div>
+            </a>
+        </li>
+        @*<li>
+                <a href="/Products/Lists?loc=NAGOYA">
+                    <img src="~/Content/Images/products/pdt_menu_nagoya.jpg">
+                    <div class="txtBox">
+                        <h5>나고야</h5>
+                        <p>NAGOYA</p>
+                    </div>
+                </a>
+            </li>*@
+        <li>
+            <a href="/Products/Lists?loc=TOKYO">
+                <img src="~/Content/Images/products/pdt_menu_tokyo.jpg">
+                <div class="txtBox">
+                    <h5>동경</h5>
+                    <p>TOKYO</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/Products/Lists?loc=FUKUOKA">
+                <img src="~/Content/Images/products/mobilelocal_kyushu_0911.jpg">
+                <div class="txtBox">
+                    <h5>큐슈</h5>
+                    <p>FUKUOKA</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="/Products/Lists?loc=TSUSHIMA">
+                <img src="~/Content/Images/products/pdt_menu_tsushima.jpg">
+                <div class="txtBox">
+                    <h5>대마도</h5>
+                    <p>TSUSHIMA</p>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="fMenu">
+    <ul>
+        <li class="active"><a href="/Products">LOCAL@*<img src="~/Content/Images/home/ICON_LOC.png" />*@</a></li>
+        <li><a href="https://www.booking.com/?aid=1294434" target="_blank">@*HOTEL*@<img src="~/Content/Images/home/ICON_HOTEL.png" /></a></li>
+        <li><a href="http://www.timescar-rental.kr/af/7822000010/kr/" target="_blank">@*RENTCAR*@<img src="~/Content/Images/home/ICON_CAR.png" /></a></li>
+        <li><a href="/Community">@*SOCIAL*@<img src="~/Content/Images/home/ICON_COM.png" /></a></li>
+        <li><a href="/Mypage">@*MYPAGE*@<img src="~/Content/Images/home/ICON_MY.png" /></a></li>
+    </ul>
+</div>

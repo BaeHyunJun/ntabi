@@ -1,0 +1,231 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    div#container > article > section.likePdt {
+        padding-top: 10px;
+    }
+
+    section.likePdt > h3 {
+        font-size: 14px;
+        color: #2a2a2a;
+        letter-spacing: -1px;
+    }
+
+    section.likePdt ul,
+    section.likePdtLists ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+    }
+
+        section.likePdt ul.listsHeader {
+            text-align: center;
+        }
+
+            section.likePdt ul.listsHeader > li {
+                margin: 0;
+                padding: 0 19px;
+                position: relative;
+                display: inline-block;
+            }
+
+                section.likePdt ul.listsHeader > li:before {
+                    content: '';
+                    border-right: 1px solid #777;
+                    display: block;
+                    position: absolute;
+                    top: 4px;
+                    bottom: 2px;
+                    left: 0;
+                }
+
+                section.likePdt ul.listsHeader > li:first-child:before {
+                    display: none;
+                }
+
+                section.likePdt ul.listsHeader > li > a {
+                    color: #9f9f9f;
+                    font-size: 16px;
+                }
+
+                section.likePdt ul.listsHeader > li.on > a {
+                    color: #101010;
+                }
+
+    div#container > article > section.likePdtLists {
+        max-width: none;
+        margin-top: 30px;
+    }
+
+    section.likePdtLists > ul.listsBody > li:nth-child(2n + 1) {
+        background-color: #ebebeb;
+    }
+
+    section.likePdtLists > ul.listsBody > li > a {
+        max-width: 1200px;
+        display: block;
+        margin: 0 auto;
+        height: 200px;
+        padding: 10px 0;
+    }
+
+        section.likePdtLists > ul.listsBody > li > a > div.pdt {
+            display: block;
+            height: 100%;
+        }
+
+            section.likePdtLists > ul.listsBody > li > a > div.pdt > img {
+                float: left;
+                height: 180px;
+            }
+
+            section.likePdtLists > ul.listsBody > li > a > div.pdt > div {
+                float: left;
+                margin-left: 30px;
+                padding: 20px 0;
+                font-size: 15px;
+                position: relative;
+                height: 100%;
+            }
+
+                section.likePdtLists > ul.listsBody > li > a > div.pdt > div div.pdtInfo {
+                    float: left;
+                    width: 640px;
+                    position: relative;
+                    height: 100%;
+                    border-right: 1px solid #d1d1d1;
+                }
+
+                    section.likePdtLists > ul.listsBody > li > a > div.pdt > div div.pdtInfo > * {
+                        display: block;
+                        margin-bottom: 5px;
+                    }
+
+                    section.likePdtLists > ul.listsBody > li > a > div.pdt > div div.pdtInfo > span.code {
+                        color: #fa892d;
+                    }
+
+                    section.likePdtLists > ul.listsBody > li > a > div.pdt > div div.pdtInfo > h4.title {
+                        color: #0b0b0b;
+                    }
+
+                    section.likePdtLists > ul.listsBody > li > a > div.pdt > div div.pdtInfo > span.remark {
+                        color: #525252;
+                    }
+
+                    section.likePdtLists > ul.listsBody > li > a > div.pdt > div div.pdtInfo > p {
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        margin-bottom: 0;
+                        color: #3f3f3f;
+                    }
+
+                section.likePdtLists > ul.listsBody > li > a > div.pdt > div div.priceInfo {
+                    width: 280px;
+                    height: 100%;
+                    float: right;
+                    text-align: center;
+                    font-size: 26px;
+                    line-height: 140px;
+                    font-weight: bold;
+                    color: #df2a17;
+                }
+</style>
+
+<section class="likePdt">
+    <h3>마이페이지 > 찜한상품</h3>
+
+    <ul class="listsHeader">
+        <li>
+            <a href="/Mypage">예약/결제내역</a>
+        </li>
+        @*
+        <li class="on">
+            <a href="/Mypage/LikePdt">찜한상품</a>
+        </li>*@
+        <li>
+            <a href="/Mypage/MyBoard">내가쓴글</a>
+        </li>
+        <li>
+            <a href="/Mypage/MyInfo">정보수정</a>
+        </li>
+    </ul>
+</section>
+
+<section class="likePdtLists">
+    <ul class="listsBody">
+        @*
+        <li>
+            <a href="./Views?C=NTBFT2181&K=2">
+                <div class="pdt">
+                    <img src="~/Content/Images/Products/lists/pd_thum01.jpg" alt="[에어부산] 동겨/요코하마/하코네 OR 디즈니랜드 3일" />
+                    <div>
+                        <div class="pdtInfo">
+                            <span class="code">PJP2017112</span>
+                            <h4 class="title">[에어부산] 동겨/요코하마/하코네 OR 디즈니랜드 3일</h4>
+                            <span class="remark">2일째 하코네 온천 OR 디즈니랜드 선택가능!</span>
+                            <p>
+                                2박 3일 | 2018.03 ~ 2018.05<br />
+                                부산 출발 11:00 ~ 나리타 출발 17:30<br />
+                                에어부산
+                            </p>
+                        </div>
+                        <div class="priceInfo">
+                            599,000 ~
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="./Views?C=NTBFT2181&K=2">
+                <div class="pdt">
+                    <img src="~/Content/Images/Products/lists/pd_thum01.jpg" alt="[에어부산] 동겨/요코하마/하코네 OR 디즈니랜드 3일" />
+                    <div>
+                        <div class="pdtInfo">
+                            <span class="code">PJP2017112</span>
+                            <h4 class="title">[에어부산] 동겨/요코하마/하코네 OR 디즈니랜드 3일</h4>
+                            <span class="remark">2일째 하코네 온천 OR 디즈니랜드 선택가능!</span>
+                            <p>
+                                2박 3일 | 2018.03 ~ 2018.05<br />
+                                부산 출발 11:00 ~ 나리타 출발 17:30<br />
+                                에어부산
+                            </p>
+                        </div>
+                        <div class="priceInfo">
+                            599,000 ~
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="./Views?C=NTBFT2181&K=2">
+                <div class="pdt">
+                    <img src="~/Content/Images/Products/lists/pd_thum01.jpg" alt="[에어부산] 동겨/요코하마/하코네 OR 디즈니랜드 3일" />
+                    <div>
+                        <div class="pdtInfo">
+                            <span class="code">PJP2017112</span>
+                            <h4 class="title">[에어부산] 동겨/요코하마/하코네 OR 디즈니랜드 3일</h4>
+                            <span class="remark">2일째 하코네 온천 OR 디즈니랜드 선택가능!</span>
+                            <p>
+                                2박 3일 | 2018.03 ~ 2018.05<br />
+                                부산 출발 11:00 ~ 나리타 출발 17:30<br />
+                                에어부산
+                            </p>
+                        </div>
+                        <div class="priceInfo">
+                            599,000 ~
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>*@
+    </ul>
+</section>

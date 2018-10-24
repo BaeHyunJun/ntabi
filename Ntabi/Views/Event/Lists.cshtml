@@ -1,0 +1,240 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var type = Request["t"];
+
+    string onClass = "class=on";
+
+    if (string.IsNullOrEmpty(type))
+    {
+        type = "promotion";
+    }
+}
+
+<style>
+    div#container > article > section.passLists {
+        padding-top: 10px;
+    }
+
+    section.passLists > h3 {
+        font-size: 14px;
+        font-weight: normal;
+        letter-spacing: -0.5px;
+    }
+
+    section.passLists > ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+    }
+
+    section.passLists ul.listsHeader {
+        text-align: center;
+    }
+
+        section.passLists ul.listsHeader > li {
+            margin: 0;
+            padding: 0 19px;
+            position: relative;
+            display: inline-block;
+        }
+
+            section.passLists ul.listsHeader > li:before {
+                content: '';
+                border-right: 1px solid #777;
+                display: block;
+                position: absolute;
+                top: 4px;
+                bottom: 2px;
+                left: 0;
+            }
+
+            section.passLists ul.listsHeader > li:first-child:before {
+                display: none;
+            }
+
+            section.passLists ul.listsHeader > li > a {
+                color: #9f9f9f;
+                font-size: 16px;
+            }
+
+            section.passLists ul.listsHeader > li.on > a {
+                color: #101010;
+            }
+
+    section.passLists ul.listsBody {
+        margin-top: 30px;
+    }
+
+        section.passLists ul.listsBody > li {
+            position: relative;
+            margin-bottom: 20px;
+            width: 33%;
+            display: inline-block;
+        }
+
+            section.passLists ul.listsBody > li img {
+                width: 100%;
+            }
+
+            section.passLists ul.listsBody > li > a {
+                display: block;
+            }
+
+                section.passLists ul.listsBody > li > a div.dataInfo {
+                    position: absolute;
+                    width: 250px;
+                    height: 200px;
+                    top: 50%;
+                    left: 50%;
+                    margin: -100px 0 0 -125px;
+                    background: rgba(0,0,0,.6);
+                    text-align: center;
+                }
+
+                    section.passLists ul.listsBody > li > a div.dataInfo h4.title {
+                        position: absolute;
+                        width: 200px;
+                        top: 50px;
+                        left: 50%;
+                        margin-left: -100px;
+                        font-size: 18px;
+                        color: white;
+                        font-weight: normal;
+                    }
+
+                    section.passLists ul.listsBody > li > a div.dataInfo > p {
+                    }
+
+                        section.passLists ul.listsBody > li > a div.dataInfo > p > span {
+                            font-size: 25px;
+                            color: #ff0101;
+                        }
+
+                    section.passLists ul.listsBody > li > a div.dataInfo > div.remark {
+                        position: absolute;
+                        width: 200px;
+                        bottom: 30px;
+                        left: 50%;
+                        margin-left: -100px;
+                        font-size: 15px;
+                        color: white;
+                    }
+
+                        section.passLists ul.listsBody > li > a div.dataInfo > div.remark:before {
+                            position: absolute;
+                            top: -20px;
+                            left: 50%;
+                            display: block;
+                            content: "";
+                            width: 8px;
+                            height: 1px;
+                            margin-left: -4px;
+                            background-color: white;
+                        }
+</style>
+
+<section class="passLists">
+    <h3>기획전,이벤트/쿠폰</h3>
+
+    <ul class="listsHeader">
+        <li @if (type == "promotion") { @onClass     }>
+            <a href="./Lists?t=promotion">기획전</a>
+        </li>
+        <li @if (type == "event") { @onClass   }>
+            <a href="./Lists?t=event">이벤트/쿠폰</a>
+        </li>
+    </ul>
+
+    <ul class="listsBody">
+
+        @{
+            string key = "",
+                   title = "",
+                   date = "",
+                   name = "",
+                   thumb = "",
+                   category = "",
+                   target = "",
+                   url = "",
+                   content = "";
+
+            foreach (object item in Model)
+            {
+                key = "";
+                title = "";
+                date = "";
+                name = "";
+                thumb = "";
+                category = "";
+                url = "";
+                target = "";
+                content = "";
+
+                try { key = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                catch { }
+                try { title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                catch { }
+                try { date = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                catch { }
+                try { name = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                catch { }
+                try { thumb = item.GetType().GetProperties()[8].GetValue(item, null).ToString(); }
+                catch { }
+
+                try { target = item.GetType().GetProperties()[9].GetValue(item, null).ToString(); }
+                catch { }
+                try { category = item.GetType().GetProperties()[11].GetValue(item, null).ToString(); }
+                catch { }
+                try { content = item.GetType().GetProperties()[12].GetValue(item, null).ToString(); }
+                catch { }
+
+                switch (category)
+                {
+                    case "event":
+                        category = "이벤트";
+                        break;
+                    case "coupon":
+                        category = "쿠폰";
+                        break;
+                    default:
+                        category = "이벤트";
+                        break;
+                }
+
+                if (type != "promotion")//category == "이벤트" || category == "쿠폰")
+                {
+                    url = "./Views?t=" + type + "&k=" + key;
+                }
+                else
+                {
+                    url = "/promotion/Views?f=" + target;
+                }
+                <li>
+                    <a href="@url">
+                        <img src="@thumb" alt="@title" />
+                        <div class="dataInfo">
+                            <h4 class="title">
+                                @title
+                            </h4>
+                            <div class="remark">
+                                @if (type != "promotion")
+                                {
+                                    @category
+                                }
+                                else
+                                {
+                                    @MvcHtmlString.Create(content)
+                                }
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            }
+        }
+
+
+    </ul>
+</section>

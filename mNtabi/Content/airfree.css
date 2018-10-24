@@ -1,0 +1,93 @@
+﻿
+body{
+	min-width:320px;
+	max-width:768px;
+	margin:0;
+}
+div#wrap{}
+div#wrap a{
+	text-decoration:none;
+    color:#161616;
+}
+div#wrap p{
+	margin:0;
+}
+div#wrap ul{
+	margin:0;
+    padding:0;
+	list-style:none;
+}
+div#wrap h2, div#wrap h3, div#wrap h4, div#wrap h5{
+	margin:0
+}
+    
+/*배너*/
+div#wrap section.banner{
+    margin: 0 -15px 30px -15px;
+}
+div#wrap section.banner p{
+    width: 100%;
+}
+div#wrap section.banner p img{
+    width: 100%;
+}
+    
+/*상품*/
+div#wrap section.pd{
+    overflow: hidden;
+}
+div#wrap section.pd li{
+    position: relative;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    background-color: #efefef;
+}
+div#wrap section.pd li a{
+    display: block;
+    width: 100%;
+}
+div#wrap section.pd li a img{
+    width: 100%;
+}
+div#wrap section.pd li a div.box{
+    position: absolute;
+	top: 3%;
+    left: 3%;
+}
+div#wrap section.pd li a div.box p{
+    float: left;
+    margin-right: 5px;
+    padding: 2px 5px;
+    font-size: 12px;
+    letter-spacing: -1px;
+    color: white;
+}
+div#wrap section.pd li a div.box p.cord{
+    background-color: #22be4e;
+}
+div#wrap section.pd li a div.box p.start{
+    background-color: #1f26b6;
+}
+div#wrap section.pd li a div.text{
+    margin-top: 8px;
+}
+div#wrap section.pd li a div.text p{}
+div#wrap section.pd li a div.text p.tit{
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+div#wrap section.pd li a div.text p.subtit{
+    height: 36px;
+    margin-top: 3px;
+    font-size: 14px;
+    letter-spacing: -0.5px;
+	overflow:hidden;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+}

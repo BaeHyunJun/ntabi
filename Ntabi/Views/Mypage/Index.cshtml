@@ -1,0 +1,470 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    string userName = ViewBag.user_Name;
+
+    int revCnt = ViewBag.rev_Cnt,
+        bdCnt = ViewBag.bd_Cnt;
+}
+
+<style>
+    div#container > article > section.experience {
+        padding-top: 10px;
+    }
+
+    section.experience{
+        position: relative;
+    }
+    section.experience > h3 {
+        font-size: 14px;
+        color: #2a2a2a;
+	letter-spacing: -1px;
+    }
+    
+    section.experience ul
+    {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+    }
+
+    section.experience ul.listsHeader
+    {
+        text-align: center;
+    }
+
+    section.experience ul.listsHeader > li
+    {
+        margin: 0;
+        padding: 0 19px;
+        position: relative;
+        display: inline-block;
+    }
+
+    section.experience ul.listsHeader > li:before {
+        content: '';
+        border-right: 1px solid #777;
+        display: block;
+        position: absolute;
+        top: 4px;
+        bottom: 2px;
+        left: 0;
+    }
+
+    section.experience ul.listsHeader > li:first-child:before {
+        display: none;
+    }
+
+    section.experience ul.listsHeader > li > a
+    {
+        color: #9f9f9f;
+        font-size: 16px;
+    }
+
+    section.experience ul.listsHeader > li.on > a
+    {
+        color: #101010;
+    }
+
+    section.experience table.listsBody
+    {
+        width: 100%;
+        margin-top: 50px;
+    }
+
+    section.experience table.listsBody > thead
+    {
+        border-bottom: 1px solid #ddd;
+    }
+
+    section.experience table.listsBody > thead > tr
+    {
+        line-height: 45px;
+    }
+
+    section.experience table.listsBody > thead > tr > th
+    {
+        text-align: center;
+        font-size: 15px;
+        color: #424242;
+        width: 10%;
+    }
+
+    section.experience table.listsBody > tbody > tr
+    {
+        line-height: 42px;
+        text-align: center;
+        font-size: 15px;
+        color: #2a2a2a;
+    }
+
+    section.experience table.listsBody > tbody > tr td.title
+    {
+        text-align: left;
+    }
+
+    section.experience table.listsBody > tbody > tr td.title > a
+    {
+        display: block;
+    }
+
+    section.experience table.listsBody > tbody > tr td.title > a > h4
+    {
+        font-size: 14px;
+        font-weight: normal;
+    }
+
+    section.experience div.paging
+    {
+	position; relative;
+        height: 120px;
+	margin-top: 5px;
+        text-align: center;
+	border-top: 1px solid #999;
+    }
+
+    section.experience div.paging > ul
+    {
+        line-height: 120px;
+    }
+
+    section.experience div.paging > ul > li
+    {
+        display: inline-block;
+        padding: 5px 10px;
+    }
+
+    section.experience div.paging > ul > li > a
+    {
+        font-size: 13px;
+        color: #9f9f9f;
+    }
+
+    section.experience div.paging > ul > li.on > a
+    {
+        color: black;
+    }
+
+    section.experience div.paging > p
+    {
+        position: absolute;
+        right: 20px;
+        bottom: 10px;;
+        font-size: 12px;
+        color: #5c5c5c;
+    }
+
+    div#container > article section.process
+    {
+        margin-top: 80px;
+    }
+
+    section.process > h3
+    {
+        font-size: 17px;
+        color: #111;
+        display: block;
+        text-align: center;
+        border-top: 1px solid #2a2a2a;
+        line-height: 30px;
+        border-bottom: 2px solid #2a2a2a;
+    }
+
+    section.process > ul
+    {
+        margin: 0;
+        list-style: none;
+        font-size: 0;
+        overflow: hidden;
+        padding: 20px 0;
+        text-align: center;
+        border-bottom: 1px solid #2a2a2a;
+    }
+
+    section.process > ul > li
+    {
+        width: 14%;
+        display: inline-block;
+        height: 100px;
+        position: relative;
+    }
+
+    section.process > ul > li > h4
+    {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+</style>
+
+<section class="experience">
+    <h3>마이페이지 > 예약/결제내역</h3>
+
+    <ul class="listsHeader">
+        <li class="on">
+            <a href="/Mypage">예약/결제내역</a>
+        </li>
+        @*<li>
+            <a href="/Mypage/LikePdt">찜한상품</a>
+        </li>*@
+        <li>
+            <a href="/Mypage/MyBoard">내가쓴글</a>
+        </li>
+        <li>
+            <a href="/Mypage/MyInfo">정보수정@*/탈퇴*@</a>
+        </li>
+    </ul>
+
+    <table class="listsBody">
+        <colgroup>
+            <col style="width: 10%;" />
+            <col style="width: 60%;" />
+            <col style="width: 10%;" />
+            <col style="width: 10%;" />
+            <col style="width: 10%;" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>예약일</th>
+                <th>상품명</th>
+                <th>출발일</th>
+                <th>상품가</th>
+                <th>예약상태</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                string revDay = "",
+                       revSeq = "",
+                       pdtTitle = "",
+                       revStartDay = "",
+                       revPCnt = "",
+                       revState = "",
+                       revPrice = "",
+                       pdtImg = "";
+
+                foreach (object item in Model)
+                {
+                    revDay = "";
+                    revSeq = "";
+                    pdtTitle = "";
+                    revStartDay = "";
+                    revPCnt = "";
+                    revState = "";
+                    revPrice = "";
+                    pdtImg = "";
+
+                    try { revDay = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                    catch { continue; }
+                    try { revSeq = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                    catch { continue; }
+                    try { pdtTitle = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); }
+                    catch { continue; }
+                    try { revStartDay = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); }
+                    catch { continue; }
+                    try { revPCnt = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); }
+                    catch { continue; }
+                    try { revState = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); }
+                    catch { continue; }
+                    try { revPrice = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); }
+                    catch { continue; }
+                    try { pdtImg = item.GetType().GetProperties()[7].GetValue(item, null).ToString(); }
+                    catch { continue; }
+
+                    switch (revState)
+                    {
+                        case "10":
+                            revState = "<h5 style='color: red;'>취소</h5>";
+                            break;
+                        case "20":
+                            revState = "<h5 style='color: #01790d;'>확인중</h5>";
+                            break;
+                        case "30":
+                            revState = "<h5 style='color: #960ce8;'>진행중</h5>";
+                            break;
+                        case "40":
+                            revState = "<h5 style='color: #f84a0d;'>확정</h5>";
+                            break;
+                        case "50":
+                            revState = "<h5 style='color: blue;'>완료</h5>";
+                            break;
+                    }
+
+                    <tr>
+                        <td>@revDay</td>
+                        <td class="title">
+                            <a href="/Mypage/revPdt?d=@revDay&k=@revSeq">
+                                <h4>@pdtTitle</h4>
+                            </a>
+                        </td>
+                        <td>@revStartDay</td>
+                        <td>@String.Format("{0:#,##0}", int.Parse(revPrice)) 원</td>
+                        <td>@MvcHtmlString.Create(revState)</td>
+                    </tr>
+                }
+}
+
+
+
+            @*<tr>
+                <td>2018.03.09</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>[톡까!항공권]진에어 오키나와 특가 항공권 3일</h4>
+                    </a>
+                </td>
+                <td>2018.03.13</td>
+                <td>12,229,000</td>
+                <td>예약 확인 중</td>
+            </tr>
+            <tr>
+                <td>2018.03.09</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>[톡까!항공권]진에어 오키나와 특가 항공권 3일</h4>
+                    </a>
+                </td>
+                <td>2018.03.13</td>
+                <td>12,229,000</td>
+                <td>예약 확인 중</td>
+            </tr>
+            <tr>
+                <td>2018.03.09</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>[톡까!항공권]진에어 오키나와 특가 항공권 3일</h4>
+                    </a>
+                </td>
+                <td>2018.03.13</td>
+                <td>12,229,000</td>
+                <td>예약 확인 중</td>
+            </tr>
+            <tr>
+                <td>2018.03.09</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>[톡까!항공권]진에어 오키나와 특가 항공권 3일</h4>
+                    </a>
+                </td>
+                <td>2018.03.13</td>
+                <td>12,229,000</td>
+                <td>예약 확인 중</td>
+            </tr>
+            <tr>
+                <td>2018.03.09</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>[톡까!항공권]진에어 오키나와 특가 항공권 3일</h4>
+                    </a>
+                </td>
+                <td>2018.03.13</td>
+                <td>12,229,000</td>
+                <td>예약 확인 중</td>
+            </tr>
+            <tr>
+                <td>2018.03.09</td>
+                <td class="title">
+                    <a href="#">
+                        <h4>[톡까!항공권]진에어 오키나와 특가 항공권 3일</h4>
+                    </a>
+                </td>
+                <td>2018.03.13</td>
+                <td>12,229,000</td>
+                <td>예약 확인 중</td>
+            </tr>*@
+        </tbody>
+    </table>
+
+    <div class="paging">
+        <ul>
+            @{
+                int count = 0,
+                    pageNum = 1,
+                    maxPage = 1,
+                    boardNum = 0;
+
+                try { count = ViewBag.Cnt; }
+                catch { }
+                try { pageNum = ViewBag.pageNum; }
+                catch { }
+
+                decimal a = count / 10;
+
+                maxPage = count / 10;
+
+                boardNum = count - ((pageNum - 1) * 10);
+                
+                string className = "";
+                
+                if (count % 10 > 0)
+                {
+                    maxPage++;
+                }
+
+                if (pageNum > 1)
+                {
+                    <li class="prev_btn"><a href="?idx=@(pageNum-1)"><span><</span></a></li>
+                }
+
+                for (var i = 0; i < maxPage; i++)
+                {
+                    if (i + 1 == pageNum)
+                    {
+                        className = "class=on";
+                    }
+                    else
+                    {
+                        className = "";
+                    }
+
+                    <li><a href="?idx=@(i+1)" @className><span>@(i + 1)</span></a></li>
+                }
+
+                if (pageNum < maxPage)
+                {
+                    <li class="next_btn"><a href="?&idx=@(pageNum+1)"><span>></span></a></li>
+                }
+            }
+        </ul>
+    </div>
+</section>
+
+<section class="process">
+    <h3>
+        예약진행 순서
+    </h3>
+
+    <ul>
+        <li>
+            <img src="~/content/Images/Mypage/icon_01.png" alt="상품 예약" />
+            <h4>상품 예약</h4>
+        </li>
+        <li>
+            <img src="~/content/Images/Mypage/icon_02.png" alt="담당자 확인전화" />
+            <h4>담당자 확인전화</h4>
+        </li>
+        <li>
+            <img src="~/content/Images/Mypage/icon_04.png" alt="여권사본 송부" />
+            <h4>여권사본 송부</h4>
+        </li>
+        <li>
+            <img src="~/content/Images/Mypage/icon_03.png" alt="예약금 입금" />
+            <h4>예약금 입금</h4>
+        </li>
+        <li>
+            <img src="~/content/Images/Mypage/icon_05.png" alt="잔금 입금" />
+            <h4>잔금 입금</h4>
+        </li>
+        <li>
+            <img src="~/content/Images/Mypage/icon_06.png" alt="자료 및 티켓수령" />
+            <h4>자료 및 티켓수령</h4>
+        </li>
+        <li>
+            <img src="~/content/Images/Mypage/icon_07.png" alt="출발" />
+            <h4>출발</h4>
+        </li>
+    </ul>
+</section>

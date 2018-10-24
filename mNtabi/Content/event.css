@@ -1,0 +1,215 @@
+﻿
+body{
+min-width:320px;
+max-width:768px;
+margin:0;
+}
+div#wrap a{
+text-decoration: none;
+color:#161616;
+}
+div#wrap p{
+margin:0;
+}
+div#wrap ul{
+margin:0;
+padding:0;
+list-style:none;
+}
+div#wrap h3, div#wrap h4{
+margin:0
+}
+    
+/*메뉴*/
+div#wrap section.menu{
+width: 100%;
+margin-top: 10px;
+margin-bottom: 20px;
+text-align: center;
+}
+div#wrap section.menu li{
+display: inline-block;
+margin: 0 10px;
+}
+div#wrap section.menu li a{
+display: block;
+font-size: 14px;
+color: #999;
+}
+div#wrap section.menu li.on a{
+color: #2a2a2a;
+}
+    
+/*이벤트 리스트*/
+div#wrap section.content{
+margin: 0 -20px;
+}
+div#wrap section.content li{
+position: relative;
+width: 100%;
+margin-bottom: 10px;
+}
+div#wrap section.content li a{
+display: block;
+}
+div#wrap section.content li a img{
+width: 100%;
+overflow: hidden;
+}
+div#wrap section.content li a div.text{
+position: relative;
+position: absolute;
+top: 50%;
+left: 50%;
+width: 70%;
+height: 60%;
+padding: 10px;
+box-sizing: border-box;
+margin-left: -35%;
+margin-top: -23%;
+text-align: center;
+color: white;
+background-color: rgba(0,0,0,0.6);
+overflow: hidden;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+}
+div#wrap section.content li a div.text h4{
+margin-top: 20%;
+font-size: 15px;
+font-weight: normal;
+}
+div#wrap section.content li a div.text p{
+margin-top: 5%;
+}
+
+
+div#wrap article#container ul.set {
+padding: 0;
+list-style: none;
+font-size: 0;
+overflow: hidden;
+width: 50%;
+margin: 50px auto;
+}
+
+div#wrap article#container ul.set > li {
+float: left;
+font-size: 14px;
+text-align: center;
+border: 1px solid #ddd;
+width: 25%;
+padding: 18px 0 5px;
+line-height: 35px;
+border-left: 0;
+}
+
+div#wrap article#container ul.set > li:first-child {
+border-left: 1px solid #ddd;
+}
+
+div#wrap article#container ul.set > li a.in {
+color: #a0ce54;
+}
+
+div#wrap article#container ul.set > li > a > img {
+width: 100%;
+}
+
+
+/*쿠폰헤더*/
+div#wrap section.coupon {
+margin: 20px -10px 0 -10px;
+}
+div#wrap section.coupon h4 {
+border-bottom: 1px solid #ddd;
+padding: 20px 20px;
+font-size: 15px;
+background-color: #a0ce54;
+color: white;
+font-weight: normal;
+display: block;
+}
+div#wrap section.coupon h4 span {
+float: right;
+font-size: 13px;
+line-height: 15px;
+}
+div#wrap section.coupon span {
+display: block;
+margin: 5px 0;
+padding-right: 10px;
+text-align: right;
+}
+
+/*쿠폰이미지*/
+div#wrap section.coupon div.cont {}
+div#wrap section.coupon div.cont img {
+max-width: 768px;
+width: 100%;
+}
+
+
+/*이벤트*/
+div#wrap section.events {
+max-width: none !important;
+padding: 0;
+margin: 0 -10px !important;
+border: none;
+}
+div#wrap section.events h4,
+div#wrap section.events span {
+display: none;
+}
+div#wrap section.events div.cont {
+padding: 0;
+margin: 0;
+}
+div#wrap section.events div.cont p {
+width: 100%;
+margin: 0;
+}
+div#wrap section.events div.cont img {
+max-width: none;
+width: 100%;
+}
+
+/*이벤트리플*/
+div#wrap section.events div.reply {
+max-width: none;
+width: 100%;
+margin: 20px auto;
+}
+div#wrap section.events div.reply > h2 {
+font-size: 15px;
+font-weight: normal;
+margin-bottom: 20px;
+}
+div#wrap section.board div.reply div.comment{
+position: relative;
+background-color: #eee;
+padding: 8px;
+}
+div#wrap section.board div.reply div.comment textarea.rContent {
+width: 100%;
+padding: 10px;
+line-height: 1.1em;
+height: 72px;
+border-radius: 0;
+resize: none;
+}
+div#wrap section.board div.reply div.comment a.reply_add_btn {
+position: absolute;
+bottom: 8px;
+right: 8px;
+width: 20%;
+height: 72px;
+display: block;
+line-height: 72px;
+text-align: center;
+background-color: #a0ce54 !important;
+color: white;
+font-size: 13px;
+color: white;
+}

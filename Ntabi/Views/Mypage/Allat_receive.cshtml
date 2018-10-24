@@ -1,0 +1,14 @@
+﻿@{
+    string sResultCd = Request.Form["allat_result_cd"];
+    string sResultMsg = Request.Form["allat_result_msg"];
+    string sEncData = Request.Form["allat_enc_data"];
+}
+
+<script>
+    if(window.opener != undefined) {
+        opener.result_submit("@sResultCd", "@sResultMsg", "@sEncData");
+	    window.close();
+	} else {
+        parent.result_submit("@sResultCd", "@sResultMsg", "@sEncData");
+    }
+</script>

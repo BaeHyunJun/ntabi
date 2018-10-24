@@ -1,0 +1,96 @@
+﻿
+body{
+min-width:320px;
+max-width:768px;
+margin:0;
+}
+div#wrap a{
+text-decoration: none;
+color:#161616;
+}
+div#wrap p{
+margin:0;
+}
+div#wrap ul{
+margin:0;
+padding:0;
+list-style:none;
+}
+div#wrap h3, div#wrap h4{
+margin:0
+}
+    
+
+div#wrap section.nvp{
+position: relative;
+margin: 0 -15px -50px -15px;
+}
+div#wrap section.nvp div.nvpbg{
+width: 100%;
+height: 1000px;
+background-image: url("/Content/Images/variety/bg_NVP.jpg");
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+}
+div#wrap section.nvp p.tit{
+position: absolute;
+top: 4%;
+left: 50%;
+margin-left: -35%;
+width: 70%;
+}
+div#wrap section.nvp p.tit img{
+width: 100%;
+}
+div#wrap section.nvp div.button{
+position: absolute;
+top: 28%;
+width: 100%
+}
+div#wrap section.nvp div.button li{
+width: 100%;
+margin: 0 auto;
+margin-bottom: 40px;
+}
+div#wrap section.nvp div.button li:hover{
+border-radius: 20px;
+background-color: rgba(0,0,0,0.3);
+}
+div#wrap section.nvp div.button li a{
+display: block;
+width: 100%;
+text-align: center;
+}
+div#wrap section.nvp div.button li a:after{content: ""; display: block; clear: both;}
+@*div#wrap section.nvp div.button li a p{
+float: left;
+}*@
+div#wrap section.nvp div.button li a p.icon{
+display: inline-block;
+width: 36%;
+}
+div#wrap section.nvp div.button li a p.icon img{
+width: 30%;
+}
+div#wrap section.nvp div.button li a p.text{
+width: 100%;
+margin-top: 15px;
+font-size: 15px;
+text-align: center;
+color: white;
+box-sizing: border-box;
+}
+div#wrap section.nvp div.button li a p.text span{
+display: block;
+height: 28px;
+font-size: 18px;
+}
+div#wrap section.nvp p.click{
+position: absolute;
+bottom: 3%;
+width: 100%;
+color: white;
+text-align: center;
+font-size: 12px;
+}

@@ -1,0 +1,120 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="find1">
+    <h2>아이디/비밀번호 찾기</h2>
+    <section class="findid">
+        <h3>아이디 찾기</h3>
+        <div class="write">
+            <ul>
+                <li>
+                    <p>이름</p>
+                    <input type="text" name="Uname" placeholder="이름">
+                </li>
+                <li>
+                    <p>이메일</p>
+                    <input type="text" name="Uemail" placeholder="가입시 인증한 이메일을 입력해주세요.">
+                </li>
+            </ul>
+        </div> <!--.write-->
+        <p class="btn"><a href="#" class="getIDBtn">아이디 찾기</a></p>
+    </section> <!--.findid-->
+    <section class="findpassword">
+        <h3>비밀번호 찾기</h3>
+        <div class="write">
+            <ul>
+                <li>
+                    <p>아이디</p>
+                    <input type="text" name="Pid" placeholder="아이디">
+                </li>
+                <li>
+                    <p>이름</p>
+                    <input type="text" name="Pname" placeholder="이름">
+                </li>
+                <li>
+                    <p>이메일</p>
+                    <input type="text" name="Pemail" placeholder="가입시 인증한 이메일을 입력해주세요.">
+                </li>
+            </ul>
+        </div> <!--.write-->
+        <p class="btn"><a href="#" class="getPwdBtn">비밀번호 찾기</a></p>
+    </section> <!--.findpassword-->
+</div> <!--.find1-->
+
+<form method="post" action="./getid" name="getForm">
+    @Html.Hidden("id")
+    @Html.Hidden("name")
+    @Html.Hidden("email")
+</form>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("a.getIDBtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var name = $("input[name='Uname']");
+            var email = $("input[name='Uemail']");
+
+            if (name.val() == "") {
+                alert("이름을 입력해주세요.");
+                name.focus();
+                return;
+            }
+
+            if (email.val() == "") {
+                alert("이메일을 입력해주세요.");
+                email.focus();
+                return;
+            }
+
+            $(this).attr("disabeld", true);
+
+            var f = document.getForm;
+
+            f.action = "/Members/find2";
+            f.name.value = name.val();
+            f.email.value = email.val();
+            f.submit();
+        });
+
+        $("a.getPwdBtn").on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var id = $("input[name='Pid']");
+            var name = $("input[name='Pname']");
+            var email = $("input[name='Pemail']");
+
+            if (id.val() == "") {
+                alert("아이디를 입력해주세요.");
+                id.focus();
+                return;
+            }
+
+            if (name.val() == "") {
+                alert("이름을 입력해주세요.");
+                name.focus();
+                return;
+            }
+
+            if (email.val() == "") {
+                alert("이메일을 입력해주세요.");
+                email.focus();
+                return;
+            }
+
+            $(this).attr("disabeld", true);
+
+            var f = document.getForm;
+
+            f.action = "/Members/find3";
+            f.id.value = id.val();
+            f.name.value = name.val();
+            f.email.value = email.val();
+            f.submit();
+        });
+    });
+</script>

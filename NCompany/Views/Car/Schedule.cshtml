@@ -1,0 +1,330 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string COU_AREA_CODE = Request["area"],
+           selected = "selected='selected'";
+}
+<link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.css"/>
+@*<link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.print.css"/>*@
+
+<style>
+    div.tooltiptopicevent
+    {
+        width: auto;
+        height: auto;
+        background: white;
+        position: absolute;
+        z-index: 10001;
+        padding: 10px;
+        line-height: 200%;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+
+    .fc-content
+    {
+        cursor: pointer;
+    }
+</style>
+
+<script src="~/Scripts/lib/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/locale-all.js"></script>
+
+
+<section class="car row">
+    <article class="col-md-12">
+        <div id="datepicker" class="datepicker col-md-9"></div>
+        <div class="col-md-3">
+            <h4>가이드&배차 스케쥴</h4>
+            <hr />
+            <div class="form-group input-group col-md-12">
+                <div class="input-group-addon">분류</div>
+                <select name="type" class="form-control" disabled="disabled">
+                    <option value="">차량별</option>
+                    <option value="">가이드별</option>
+                </select>
+            </div>
+            <div class="form-group input-group col-md-12">
+                <div class="input-group-addon">지역</div>
+                <select name="area" class="form-control">
+                    <option value="HOK" @if (COU_AREA_CODE == "HOK") { @selected; }>홋카이도</option>
+                    <option value="OSA" @if (COU_AREA_CODE == "OSA") { @selected; }>오사카</option>
+                    <option value="TOK" @if (COU_AREA_CODE == "TOK") { @selected; }>도쿄</option>
+                    <option value="KYU" @if (COU_AREA_CODE == "KYU") { @selected; }>규슈</option>
+                    <option value="TSU" @if (COU_AREA_CODE == "TSU") { @selected; }>대마도</option>
+                    <option value="OKI" @if (COU_AREA_CODE == "OKI") { @selected; }>오키나와</option>
+                </select>
+            </div>
+            <div class="form-group input-group col-md-12">
+                <div class="input-group-addon">타입</div>
+                <select name="type2" class="form-control">
+                    <option value="ALL">전체</option>
+                    <option value="LBS">대형 버스</option>
+                    <option value="MBS">중형 버스</option>
+                    <option value="SBS">소형 버스</option>
+                    <option value="14">14 인승</option>
+                    <option value="10">10 인승</option>
+                    <option value="8">8 인승</option>
+                    <option value="6">6 인승</option>
+                </select>
+            </div>
+            <div class="form-group input-group col-md-12 text-right">
+                <button class="btn btn-default schBtn" style="margin-right: 10px;">조회</button>
+                @*<a class="btn btn-success" data-toggle="popup" href="/Car/setSchedule">등록</a>*@
+            </div>
+            <hr />
+            <h4>차량타입</h4>
+            <ul style="padding: 0; margin: 0; list-style: none;">
+                <li><span style="color: red; margin-right: 10px; font-size: 20px;">■</span>배차 안됨</li>
+                <li><span style="color: #7030a0; margin-right: 10px; font-size: 20px;">■</span>대형 버스</li>
+                <li><span style="color: #ff66ff; margin-right: 10px; font-size: 20px;">■</span>중형 버스</li>
+                <li><span style="color: #0070C0; margin-right: 10px; font-size: 20px;">■</span>소형 버스</li>
+                <li><span style="color: #92d050; margin-right: 10px; font-size: 20px;">■</span>14인 승합차</li>
+                <li><span style="color: #ffc000; margin-right: 10px; font-size: 20px;">■</span>10인 승합차</li>
+                <li><span style="color: #c5d9f1; margin-right: 10px; font-size: 20px;">■</span>6인 승합차</li>
+                @*<li>캐빈 (練馬 349  た 20 02)</li>*@
+            </ul>
+        </div>
+    </article>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popup"]').on("click", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            var _this = $(this),
+                url = _this.attr('href'),
+                target = _this.attr('data-target');
+
+            var datas = {};
+
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade ' + target + '">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        });
+
+        $(document).on('hidden.bs.modal', function (e) {
+            $(e.target).remove();
+
+            //location.reload();
+        });
+
+        $("button.schBtn").on("click", function () {
+
+            var data1 = $("select[name='type2']").val(),
+                data2 = $("select[name='area']").val();
+
+            location.href = "/Car/Schedule?area=" + data2;
+
+            //var data1 = $("select[name='type2']").val(),
+            //    data2 = $("select[name='area']").val();
+
+            //var datas = { type: data1, area: data2 };
+
+            //$('div#datepicker').fullCalendar('removeEvents');
+
+            //$('div#datepicker').fullCalendar("addEventSource", function (start, end, timezone, callback) {
+            //    $.ajax({
+            //        type: "POST",
+            //        url: "/Car/JSON_getSchedule",
+            //        data: datas,
+            //        success: function (data) {
+            //            var events = [];
+            //            var title = "";
+
+            //            for (i in data) {
+            //                title = data[i].title;
+
+            //                if (title.length >= 8) {
+            //                    title = data[i].title.substr(0, 7) + "..";
+            //                }
+
+            //                events.push({
+            //                    title: title + " (" + data[i].cnt + " 명)",
+            //                    start: data[i].date,
+            //                    guide: data[i].emp,
+            //                    car: data[i].car,
+            //                    type: getCarType(data[i].type),
+            //                    color: getColor(data[i].type),
+            //                    driver: data[i].driver,
+            //                    cnt: data[i].cnt,
+            //                    note: data[i].note,
+            //                    course: data[i].title,
+            //                    seq: data[i].seq,
+            //                    area: data[i].area,
+            //                });
+            //            }
+
+            //            callback(events);
+            //        }
+            //        , beforeSend: function () {
+            //            $('#loading').show();
+            //        }
+            //        , complete: function () {
+            //            $('#loading').hide();
+            //        }
+            //    });
+            //});
+        });
+
+        $('div#datepicker').fullCalendar({
+            header: {
+                left: "",
+                center: "title",
+                right: "today prev, next"
+            },
+            locale: 'ko',
+            buttonIcons: false,
+            navLinks: true,
+            editable: true,
+            eventLimit: true,
+            eventStartEditable: false,
+            events: function (start, end, timezone, callback) {
+                var data1 = "ALL",
+                    data2 = $("select[name=area]").val();
+
+                var datas = { type: data1, area: data2 };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Car/JSON_getSchedule",
+                    data: datas,
+                    success: function (data) {
+                        var events = [];
+                        var title = "";
+
+                        //console.log(data);
+
+                        for(i in data)
+                        {
+                            title = data[i].title;
+
+                            if (title.length >= 8)
+                            {
+                                title = data[i].title.substr(0, 7) + "..";
+                            }
+
+                            events.push({
+                                title: title + " (" + data[i].cnt + " 명)",
+                                start: data[i].date,
+                                guide: data[i].emp,
+                                car: data[i].car,
+                                type: getCarType(data[i].type),
+                                color: getColor(data[i].type),
+                                driver: data[i].driver,
+                                cnt: data[i].cnt,
+                                note: data[i].note,
+                                course: data[i].title,
+                                seq: data[i].seq,
+                                area: data[i].area,
+                                sub: data[i].sub,
+                            });
+                        }
+
+                        callback(events);
+                    }
+                    , beforeSend: function () {
+                        $('#loading').show();
+                    }
+                    , complete: function () {
+                        $('#loading').hide();
+                    }
+                });
+            },
+            eventMouseover: function (data, event, view) {
+                tooltip = '<div class="tooltiptopicevent">' +
+                              ' 코 스 명 : ' + data.course + '</br>' +
+                              ' 출 발 일 : ' + data.start._i + '</br>' +
+                              ' 가 이 드 : ' + data.guide + '</br>' +
+                              '운전 기사 : ' + data.driver + '</br>' +
+                              '차량 타입 : ' + data.type + '</br>' +
+                              '탑승 차량 : ' + data.car + '</br>' +
+                              '탑승 인원 : ' + data.cnt + ' 명</br>' +
+                              '특이 사항 : ' + data.note +
+                          '</div>';
+
+                $("body").append(tooltip);
+                $(this).mouseover(function (e) {
+                    $(this).css('z-index', 10000);
+                    $('.tooltiptopicevent').fadeIn('500');
+                    $('.tooltiptopicevent').fadeTo('10', 1.9);
+                }).mousemove(function (e) {
+                    $('.tooltiptopicevent').css('top', e.pageY - 50);
+                    $('.tooltiptopicevent').css('left', e.pageX + 20);
+                });
+            },
+            eventMouseout: function (data, event, view) {
+                $(this).css('z-index', 8);
+
+                $('.tooltiptopicevent').remove();
+            },
+            eventClick: function (data, event, view) {
+                //var url = "/Car/setSchedule";
+
+                //var datas = { seq: data.seq, date: data.start._i };
+
+                //$.get(url, datas, function (data) {
+                //    $('<div class="modal fade">' + data + '</div>').modal();
+                //});
+
+                location.href = "/Car/dayCourse?sDay=" + data.start._i + "&area=" + data.area + "&course=" + data.seq + "&sub=" + data.sub;
+            }
+        });
+
+        function getCarType(txt) {
+            var carType = "";
+
+            switch (txt) {
+                case "LBS":
+                    carType = "대형 버스";
+                    break;
+                case "MBS":
+                    carType = "중형 버스";
+                    break;
+                case "14 ":
+                    carType = "14인 승합차";
+                    break;
+                case "10 ":
+                    carType = "10인 승합차";
+                    break;
+                case "6  ":
+                    carType = "6인 승합차";
+                    break;
+            }
+
+            return carType;
+        }
+
+        function getColor(txt)
+        {
+            var color = "red";
+
+            switch(txt)
+            {
+                case "LBS":
+                    color = "#7030a0";
+                    break;
+                case "MBS":
+                    color = "#ff66ff";
+                    break;
+                case "SBS":
+                    color = "#0070C0";
+                    break;
+                case "14 ":
+                    color = "#92d050";
+                    break;
+                case "10 ":
+                    color = "#ffc000";
+                    break;
+                case "6  ":
+                    color = "#c5d9f1";
+                    break;
+            }
+
+            return color;
+        }
+    });
+</script>

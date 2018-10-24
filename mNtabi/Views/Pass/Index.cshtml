@@ -1,0 +1,90 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var type = Request["t"];
+
+    string onClass = "class=on";
+
+    if (string.IsNullOrEmpty(type))
+    {
+        type = "";
+    }
+}
+<section class="menu">
+    <ul>
+        <li @if (type == "") { @onClass }>
+            <a href="pass">전체보기</a>
+        </li>
+        <li @if (type == "KYU") { @onClass }>
+            <a href="pass?t=KYU">규슈</a>
+        </li>
+        <li @if (type == "OSA") { @onClass }>
+            <a href="pass?t=OSA">오사카/교토/고베</a>
+        </li>
+        <li @if (type == "TOK") { @onClass }>
+            <a href="pass?t=TOK">동경/긴토</a>
+        </li>
+        <li @if (type == "HOK") { @onClass }>
+            <a href="pass?t=HOK">홋카이도</a>
+        </li>
+        <li @if (type == "ETC") { @onClass }>
+            <a href="pass?t=ETC">기타</a>
+        </li>
+    </ul>
+</section> <!--.menu-->
+
+<section class="pass">
+    <ul>
+        @{
+            string corp_code = "",
+                   pdt_type_code = "",
+                   pdt_ist_emp = "",
+                   pdt_yy = "",
+                   pdt_seq = "",
+                   pdt_title = "",
+                   pdt_content = "",
+                   pdt_img_path = "",
+                   code = "",
+                   currency_code = "",
+                   minPrice = "";
+
+            foreach (object item in Model)
+            {
+                corp_code = item.GetType().GetProperties()[0].GetValue(item, null).ToString();
+                pdt_type_code = item.GetType().GetProperties()[1].GetValue(item, null).ToString();
+                pdt_ist_emp = item.GetType().GetProperties()[2].GetValue(item, null).ToString();
+                pdt_yy = item.GetType().GetProperties()[3].GetValue(item, null).ToString();
+                pdt_seq = item.GetType().GetProperties()[4].GetValue(item, null).ToString();
+                pdt_title = item.GetType().GetProperties()[5].GetValue(item, null).ToString();
+                pdt_content = item.GetType().GetProperties()[6].GetValue(item, null).ToString();
+                pdt_img_path = item.GetType().GetProperties()[8].GetValue(item, null).ToString();
+                currency_code = item.GetType().GetProperties()[9].GetValue(item, null).ToString();
+                minPrice = item.GetType().GetProperties()[10].GetValue(item, null).ToString();
+
+                code = corp_code + pdt_type_code + pdt_ist_emp + pdt_yy + pdt_seq;
+
+                switch (currency_code)
+                {
+                    case "JYP":
+                        currency_code = "엔";
+                        break;
+                    case "KWN":
+                        currency_code = "원";
+                        break;
+                    case "USD":
+                        currency_code = "달러";
+                        break;
+                }
+
+                <li>
+                    <a href="/Pass/Views?C=@{@code}&K=@pdt_ist_emp">
+                        <p class="image" style="background-image:url('@pdt_img_path');"></p>
+                        <h4>@pdt_title</h4>
+                        <p class="price">@{@String.Format("{0:#,##0}", int.Parse(minPrice))} <span>엔~</span></p>
+                        <p class="text">@pdt_content</p>
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+</section> <!--.pass-->

@@ -1,0 +1,138 @@
+﻿
+body{
+min-width:320px;
+max-width:768px;
+margin:0;
+}
+div#wrap{}
+div#wrap a{
+text-decoration:none;
+color:#161616;
+}
+div#wrap p{
+margin:0;
+}
+div#wrap ul{
+margin:0;
+padding:0;
+list-style:none;
+}
+div#wrap h2, div#wrap h3, div#wrap h4, div#wrap h5{
+margin:0
+}
+    
+/*탑*/
+div#wrap div.theme section.top{
+margin: 0 -15px 30px -15px;
+}
+div#wrap div.theme section.top p{
+width: 100%;
+}
+div#wrap div.theme section.top p img{
+width: 100%;
+}
+    
+/*상품*/
+div#wrap div.theme section.list{
+overflow: hidden;
+}
+div#wrap div.theme section.list ul:after{display: block; clear: both; content: "";}
+div#wrap div.theme section.list li{
+position: relative;
+float: left;
+width: 49%;
+padding-top: 5px;
+margin-bottom: 8px;
+overflow: hidden;
+border: 1px solid #eee;
+}
+div#wrap div.theme section.list li:nth-child(even){
+float: right;
+}
+div#wrap div.theme section.list li a{
+display: block;
+width: 100%;
+height: 100%;
+padding-bottom: 5px;
+}
+div#wrap div.theme section.list li a img{
+width: 100%;
+}
+div#wrap div.theme section.list li a div.box{
+position: absolute;
+top: 2%;
+left: 7%;
+}
+div#wrap div.theme section.list li a div.box span{
+padding: 1px 4px;
+font-size: 12px;
+letter-spacing: -1px;
+color: white;
+}
+div#wrap div.theme section.list li a div.box span.ryokan{
+background-color: red;
+}
+div#wrap div.theme section.list li a div.box span.local{
+background-color: orange;
+}
+div#wrap div.theme section.list li a div.text{
+margin-top: 4px;
+text-align: center;
+}
+div#wrap div.theme section.list li a div.text p{}
+div#wrap div.theme section.list li a div.text p.tit{
+font-size: 15px;
+font-weight: 600;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+div#wrap div.theme section.list li a div.text p.subtit{
+margin-top: 3px;
+font-size: 14px;
+line-height: 1em;
+letter-spacing: -0.5px;
+}
+    
+/*페이저*/
+div#wrap div.theme div.paging{
+width: 100%;
+margin-top: 30px;
+text-align: center;
+}
+div#wrap div.theme div.paging ul li{
+display: inline-block;
+margin: 0 5px;
+}
+div#wrap div.theme div.paging ul li a{
+display: block;
+color: #999;
+}
+div#wrap div.theme div.paging ul li a.on{
+color: #2a2a2a;
+}
+
+/*테마여행 뷰*/
+div#wrap section.board{}
+div#wrap section.board:after{content: ""; display: block; clear: both;}
+div#wrap section.board h4{
+margin-top: 5px;
+text-align: center;
+overflow: hidden;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+}
+div#wrap section.board span{
+float: right;
+margin: 5px;
+}
+div#wrap section.board span.date{}
+div#wrap section.board span.writer{}
+div#wrap section.board div.cont{}
+div#wrap section.board div.cont p{
+margin: 0 -10px;
+}
+div#wrap section.board div.cont p img{
+width: 100%;
+}

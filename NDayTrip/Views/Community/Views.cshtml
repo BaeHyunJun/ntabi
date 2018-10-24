@@ -1,0 +1,302 @@
+﻿@using NDayTrip.Models;
+@using System.Text.RegularExpressions;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var user = Session["user"] as User;
+
+    string type = "",
+           key = "",
+           title = "",
+           date = "",
+           name = "",
+           state = "",
+           content = "";
+
+    foreach (object item in Model)
+    {
+        type = "";
+        key = "";
+        title = "";
+        date = "";
+        name = "";
+        state = "";
+        content = "";
+
+        try { type = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+        try { key = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+        try { title = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+        try { date = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+        try { state = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+        try { name = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+        try { content = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+
+<style>
+    div.cont img {
+        max-width: 100%;
+    }
+
+    section.community {
+        margin: 0;
+        padding: 55px 0 30px;
+        /*padding: 55px 0 0;*/
+    }
+
+        section.community > article > div {
+            font-size: 12px;
+            padding-top: 5px;
+            line-height: 22px;
+        }
+
+            section.community > article > div > h4 {
+                font-size: 14px;
+                font-weight: bold;
+                line-height: 24px;
+            }
+
+            section.community > article > div span.user {
+                float: right;
+            }
+
+            section.community > article > div div.cont {
+                border-top: 1px solid #ddd;
+                margin: 20px 0 0;
+                padding: 20px 0;
+            }
+
+        section.community > article div.comm {
+            position: relative;
+            overflow: hidden;
+        }
+
+            section.community > article div.comm > div {
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 60px;
+            }
+
+                section.community > article div.comm > div > textarea {
+                    width: 100%;
+                }
+
+            section.community > article div.comm > a.cmdBtn {
+                width: 55px;
+                float: right;
+                height: 50px;
+                line-height: 35px;
+                background-color: #a0ce54;
+                color: white;
+                font-size: 15px;
+                font-weight: bold;
+            }
+
+            section.community > article div.comm > ul {
+                clear: both;
+                padding: 0;
+                margin: 0;
+                padding-top: 20px;
+            }
+
+                section.community > article div.comm > ul > li {
+                    border-bottom: 1px solid #ddd;
+                    padding: 10px;
+                }
+
+                    section.community > article div.comm > ul > li:first-child {
+                        border-top: 1px solid #ddd;
+                    }
+</style>
+
+<section class="community">
+    <article>
+        <div>
+            <h4>@title</h4>
+            <span class="date">등록일 @date</span><span class="user">@name</span>
+            <div class="cont">
+                @*@MvcHtmlString.Create(content.Replace("\r\n|\n|\r", "<br />"))*@
+
+                @{
+                string cont = content;
+
+                try
+                {
+                cont = Regex.Replace(cont, @"\r\n|\n|\r", "<br />");
+                }
+                catch { }
+
+                @MvcHtmlString.Create(cont)
+                }
+
+            </div>
+
+            <a class="pull-right btn btn-default" href="/Community">목록으로</a>
+
+            @if (type == "NTB_event" || type == "NTB_qna")
+            {
+
+            <div class="comm">
+
+                @if (@*user != null &&*@ type == "NTB_event")
+                {
+                <div>
+                    <textarea placeholder="답변을 입력해주세요" rows="2"></textarea>
+                </div>
+                <a class="btn btn-default cmdBtn">등록</a>
+                }
+                <ul>
+
+                    @{
+                    try
+                    {
+                    var aa = item.GetType().GetProperties()[7].GetValue(item, null);
+
+                    string rid = "",
+                    rcont = "",
+                    rdate = "",
+                    rname = "";
+
+                    foreach (object ab in aa as List
+                    <review>
+                        )
+                        {
+                        rid = "";
+                        rcont = "";
+                        rdate = "";
+                        rname = "";
+
+                        try { rid = ab.GetType().GetProperties()[0].GetValue(ab, null).ToString(); } catch { }
+                        try { rname = ab.GetType().GetProperties()[3].GetValue(ab, null).ToString(); } catch { }
+                        try { rcont = ab.GetType().GetProperties()[4].GetValue(ab, null).ToString(); } catch { }
+                        try { rdate = ab.GetType().GetProperties()[6].GetValue(ab, null).ToString(); } catch { }
+
+                        if (rcont == "")
+                        {
+                        continue;
+                        }
+
+                        @*<li data-key="@rid">
+                            @{
+                            cont = rcont;
+
+                            try
+                            {
+                            cont = Regex.Replace(cont, @"\r\n|\n|\r", "<br />");
+                            }
+                            catch { }
+
+                            @MvcHtmlString.Create(cont)
+                            }
+
+                            <span>@rdate | @rdate</span>
+                        </li>*@
+
+                        <li>
+                            <p>
+                                @{
+                                cont = rcont;
+
+                                try
+                                {
+                                cont = Regex.Replace(cont, @"\r\n|\n|\r", "<br />");
+                                }
+                                catch { }
+
+                                @MvcHtmlString.Create(cont)
+                                }
+                            </p>
+                            <span class="date">등록일 @rdate</span><span class="user">@rname</span>
+                        </li>
+
+                        }
+
+
+                        }
+                        catch { }
+                        }
+
+                        @*<li>
+                            <p>
+                                감사합니다.
+                            </p>
+                            <span class="date">등록일 @date</span><span class="user">@name</span>
+                        </li>
+                        <li>
+                            <p>
+                                감사합니다.
+                            </p>
+                            <span class="date">등록일 @date</span><span class="user">@name</span>
+                        </li>
+                        <li>
+                            <p>
+                                감사합니다.
+                            </p>
+                            <span class="date">등록일 @date</span><span class="user">@name</span>
+                        </li>
+                        <li>
+                            <p>
+                                감사합니다.
+                            </p>
+                            <span class="date">등록일 @date</span><span class="user">@name</span>
+                        </li>*@
+                </ul>
+            </div>
+
+            }
+
+        </div>
+    </article>
+</section>
+
+
+<script>
+    $(document).ready(function () {
+        $("div.comm a.cmdBtn").on("click", function () {
+            var url = window.location.pathname + window.location.search;
+            url = encodeURIComponent(url);
+
+            if ("@user" == "") {
+                alert("로그인을 하셔야 댓글을 등록할 수 있습니다.");
+                location.href = "/Home/NDTLogin?r=" + url;
+                return;
+            }
+
+            var _this = $(this),
+                key = "@key",
+                cont = _this.parents("div.comm").find("textarea");
+
+            var url = "/Community/JSON_Update";
+            var datas = { type: "@type", key: key, content: cont.val() };
+
+            if (cont.val() == "") {
+                alert("내용을 입력해 주세요.");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    var cmdHtml = "";
+
+                    cmdHtml = "<li><p>" + data.post_content + "</p><span class='date'>등록일 " + data.ist_date.substring(0, 4) + "-" + data.ist_date.substring(4, 6) + "-" + data.ist_date.substring(6, 8) + "</span><span class='user'>" + data.name + "</span>"
+
+                    $("div.comm ul").html(cmdHtml);
+                    cont.val("");
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        });
+    });
+</script>
+
+
+    }
+}

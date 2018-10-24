@@ -1,0 +1,257 @@
+﻿@using NCompany.Models
+
+@{
+    Layout = null;
+    
+    var user = Session["user"] as User;
+}
+
+<style>
+</style>
+
+<div class="modal-dialog" role="document" style="width: 710px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">판매가</h4>
+        </div>
+        <div class="modal-body">
+            <form name="prcForm" method="post" action="/Products/updatePrc" class="prcForm">
+                <input type="hidden" name="redirect" value="@Request["url"]" />
+                <input type="hidden" name="code" value="@Request["code"]" />
+                <input type="hidden" name="key" value="@Request["key"]" />
+                <table class="table text-center priceTable">
+                    <colgroup>
+                        <col style="width: 7%" />
+                        <col style="width: 10%" />
+                        <col style="width: 13%" />
+                        <col style="width: 13%" />
+                        <col style="width: 13%" />
+                        <col style="width: 13%" />
+                        <col style="width: 24%" />
+                        <col style="width: 7%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>화폐</th>
+                            <th>성인 요금</th>
+                            <th>소아 요금</th>
+                            <th>유아 요금</th>
+                            <th>수익</th>
+                            <th>간단 설명</th>
+                            <th>제거</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            string txtSel = "selected='selected'",
+                                   no = "",
+                                   cu = "",
+                                   ap = "",
+                                   cp = "",
+                                   bp = "",
+                                   pf = "",
+                                   ct = "";
+                            
+                            foreach (var item in Model)
+                            {
+                                try { no = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+                                try { cu = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+                                try { ap = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+                                try { cp = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+                                try { bp = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+                                try { pf = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+                                try { ct = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+                                
+                                <tr>
+                                    <td>
+                                        @no
+                                        <input type="hidden" name="seq[]" value="@no" />
+                                    </td>
+                                    <td>
+                                        <select name="currency[]">
+                                            <option value="KRW" @if (cu == "KWR") { @txtSel }>KRW</option>
+                                            <option value="JPY" @if (cu == "JPY") { @txtSel }>JPY</option>
+                                            <option value="USD" @if (cu == "USD") { @txtSel }>USD</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="성인 요금" maxlength="8" value="@ap" name="adult[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="소아 요금" maxlength="8" value="@cp" name="child[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="유아 요금" maxlength="8" value="@bp" name="baby[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="수익 금" maxlength="8" value="@pf" name="profit[]">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="설 명" maxlength="20" value="@ct" name="content[]">
+                                    </td>
+                                    <td>
+                                        <a href="#" class="removePrc"><span aria-hidden="true">&times;</span></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                        @if (string.IsNullOrEmpty(no))
+                        {
+                            <tr>
+                                <td>
+                                    -
+                                    <input type="hidden" name="seq[]" value="" />
+                                </td>
+                                <td>
+                                    <select name="currency[]">
+                                        <option value="KRW" selected="selected">KRW</option>
+                                        <option value="JPY">JPY</option>
+                                        <option value="USD">USD</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="성인 요금" maxlength="8" value="" name="adult[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="소아 요금" maxlength="8" value="" name="child[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="유아 요금" maxlength="8" value="" name="baby[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="수익 금" maxlength="8" value="" name="profit[]">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" placeholder="설 명" maxlength="20" value="" name="content[]">
+                                </td>
+                                <td>
+                                    <a href="#" class="removePrc"><span aria-hidden="true">&times;</span></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            <button type="button" class="btn btn-default" id="addPrice">추가</button>
+            <button type="button" class="btn btn-primary" id="uptBtn">저장</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+<script>
+    $("#addPrice").on("click", function () {
+        var html =  '<tr>' +
+                        '<td>-<input type="hidden" name="seq[]" value=""/></td>' +
+                        '<td>' +
+                            '<select name="currency[]">' +
+                                '<option value="KRW" selected="selected">KRW</option>' +
+                                '<option value="JPY">JPY</option>' +
+                                '<option value="USD">USD</option>' +
+                            '</select>' +
+                        '</td>' +
+                        '<td><input type="text" class="form-control" placeholder="성인 요금" maxlength="8" value="" name="adult[]"></td>' +
+                        '<td><input type="text" class="form-control" placeholder="소아 요금" maxlength="8" value="" name="child[]"></td>' +
+                        '<td><input type="text" class="form-control" placeholder="유아 요금" maxlength="8" value="" name="baby[]"></td>' +
+                        '<td><input type="text" class="form-control" placeholder="수익 금" maxlength="8" value="" name="profit[]"></td>' +
+                        '<td><input type="text" class="form-control" placeholder="요금 제목" maxlength="20" value="" name="content[]"></td>' +
+                        '<td><a href="#" class="removePrc"><span aria-hidden="true">&times;</span></a></td>' +
+                    '</tr>';
+
+        //신권식파트장 요청으로 우선 제한을 30으로 확대함(20180705)
+        if ($("table.priceTable tbody tr").length >= 30) {
+            alert("판매가는 30개까지만 생성할 수 있습니다.");
+            return;
+        }
+
+        $("table.priceTable").find("tbody").append(html);
+    });
+
+    $("table.priceTable tbody").delegate("a.removePrc", "click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (!confirm("삭제하면 판매일도 같이 삭제 됩니다. \n정말 삭제하시겠습니까?"))
+        {
+            return false;
+        }
+
+        var _this = $(this),
+            parent = _this.parents('tr');
+
+        if (parent.siblings().length < 1) {
+            //return;
+            $("#addPrice").click();
+        }
+        var prcSeq = parent.find("input[name='seq[]']").val();
+
+        if (prcSeq != undefined ||
+            prcSeq != "")
+        {
+            var url = "/Products/removeDays";
+            var datas = { code: "@Request["code"]", key: "@Request["key"]", seq: prcSeq }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: datas,
+                success: function (data) {
+                    console.log(data);
+                }
+                , beforeSend: function () {
+                    $('#loading').show();
+                }
+                , complete: function () {
+                    $('#loading').hide();
+                }
+            });
+        }
+
+        parent.remove();
+    });
+
+    $("#uptBtn").on("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var f = document.prcForm,
+            ErMsg = "",
+            focusEl,
+            isSub = true;
+
+        for (var i = 0; $('select[name="currency[]"]').length > i; i++)
+        {
+            if ($('select[name="currency[]"]')[i].value == "")
+            {
+                alert("화폐 종류를 꼭 선택해주세요.");
+                $('select[name="currency[]"]')[i].focus();
+                isSub = false
+                break;
+            } else if ($('input[name="adult[]"]')[i].value == "") {
+                alert("성인 요금은 꼭 입력해주세요.");
+                $('input[name="adult[]"]')[i].focus();
+                isSub = false
+                break;
+            } else if ($('input[name="profit[]"]')[i].value == "") {
+                alert("요금 제목은 꼭 입력해주세요.");
+                $('input[name="profit[]"]')[i].focus();
+                isSub = false
+                break;
+            }
+        }
+
+        if (isSub)
+        {
+            $(this).attr("disabled", true);
+
+            f.submit();
+        } else {
+            return;
+        }
+    });
+</script>

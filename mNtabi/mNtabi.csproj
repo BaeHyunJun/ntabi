@@ -1,0 +1,905 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9BB59E60-E291-46D5-8D4D-607AD11D0EBD}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>mNtabi</RootNamespace>
+    <AssemblyName>mNtabi</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Json">
+      <HintPath>..\..\..\..\네이트온 받은 파일\20180731\json-for-dotnet-1.2\System.Net.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=__MvcPagesVersion__, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AirFreeController.cs" />
+    <Compile Include="Controllers\CommunityController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\Home2Controller.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MagazineController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\MypageController.cs" />
+    <Compile Include="Controllers\PassController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\PromotionController.cs" />
+    <Compile Include="Controllers\RecommendController.cs" />
+    <Compile Include="Controllers\ReserveController.cs" />
+    <Compile Include="Controllers\varietyController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ACC_0.cs" />
+    <Compile Include="Models\ADM_0.cs" />
+    <Compile Include="Models\AllatUtil.cs" />
+    <Compile Include="Models\BANK.cs" />
+    <Compile Include="Models\BNK_0.cs" />
+    <Compile Include="Models\CAR_0.cs" />
+    <Compile Include="Models\CHAT_Message.cs" />
+    <Compile Include="Models\CHAT_Room.cs" />
+    <Compile Include="Models\CHAT_SaveText.cs" />
+    <Compile Include="Models\CHAT_User_Room.cs" />
+    <Compile Include="Models\COU_0.cs" />
+    <Compile Include="Models\COU_1.cs" />
+    <Compile Include="Models\COU_2.cs" />
+    <Compile Include="Models\CU001.cs" />
+    <Compile Include="Models\CU_Meta.cs" />
+    <Compile Include="Models\DataBase.cs" />
+    <Compile Include="Models\DETAIL.cs" />
+    <Compile Include="Models\EMP_0.cs" />
+    <Compile Include="Models\EVE_0.cs" />
+    <Compile Include="Models\GRO_0.cs" />
+    <Compile Include="Models\HTL_0.cs" />
+    <Compile Include="Models\HTL_1.cs" />
+    <Compile Include="Models\HTL_2.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NtabiDB.cs" />
+    <Compile Include="Models\NT_Board_2.cs" />
+    <Compile Include="Models\PDT_0.cs" />
+    <Compile Include="Models\PDT_1.cs" />
+    <Compile Include="Models\PDT_2.cs" />
+    <Compile Include="Models\PDT_3.cs" />
+    <Compile Include="Models\PDT_4.cs" />
+    <Compile Include="Models\PDT_5.cs" />
+    <Compile Include="Models\PER_0.cs" />
+    <Compile Include="Models\POS_0.cs" />
+    <Compile Include="Models\PRC_0.cs" />
+    <Compile Include="Models\review.cs" />
+    <Compile Include="Models\REV_0.cs" />
+    <Compile Include="Models\REV_1.cs" />
+    <Compile Include="Models\REV_2.cs" />
+    <Compile Include="Models\REV_3.cs" />
+    <Compile Include="Models\sysdiagrams.cs" />
+    <Compile Include="Models\TB_AreaTree.cs" />
+    <Compile Include="Models\TB_Category.cs" />
+    <Compile Include="Models\TB_ComCode.cs" />
+    <Compile Include="Models\TB_Guide.cs" />
+    <Compile Include="Models\TB_HtlResInfo.cs" />
+    <Compile Include="Models\TB_TelPack.cs" />
+    <Compile Include="Models\TB_Transfer.cs" />
+    <Compile Include="Models\TRF_0.cs" />
+    <Compile Include="Models\TRF_1.cs" />
+    <Compile Include="Models\TSMS_AGENT_MESSAGE.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\VOU_0.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\airfree.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\community.css" />
+    <Content Include="Content\company.css" />
+    <Content Include="Content\event.css" />
+    <Content Include="Content\home.css" />
+    <Content Include="Content\Images\AirFree\banner_afp.jpg" />
+    <Content Include="Content\Images\community\bg_chat_logo.png" />
+    <Content Include="Content\Images\community\icon_chat_guest.png" />
+    <Content Include="Content\Images\community\icon_chat_ntabi.png" />
+    <Content Include="Content\Images\community\icon_new.png" />
+    <Content Include="Content\Images\company\bg_ntabiFuture.jpg" />
+    <Content Include="Content\Images\company\bg_ntabiIs.JPG" />
+    <Content Include="Content\Images\company\bg_ntabiLearn.jpg" />
+    <Content Include="Content\Images\company\bg_ntabiLogo.jpg" />
+    <Content Include="Content\Images\home\best\best01_180715.jpg" />
+    <Content Include="Content\Images\home\best\best01_m.jpg" />
+    <Content Include="Content\Images\home\best\best02_180715.jpg" />
+    <Content Include="Content\Images\home\best\best02_m.jpg" />
+    <Content Include="Content\Images\home\best\best03_180715.jpg" />
+    <Content Include="Content\Images\home\best\best03_180716.jpg" />
+    <Content Include="Content\Images\home\best\best03_m.jpg" />
+    <Content Include="Content\Images\home\best\best04_180716.jpg" />
+    <Content Include="Content\Images\home\best\best04_180729.jpg" />
+    <Content Include="Content\Images\home\best\best04_m.jpg" />
+    <Content Include="Content\Images\home\best\best05_180730.jpg" />
+    <Content Include="Content\Images\home\mainslider\mainslider_m_momcebu.jpg" />
+    <Content Include="Content\Images\home\mainslider\mainslider_m_naturekamchatka.jpg" />
+    <Content Include="Content\Images\home\mainslider\mainslider_m_okinawapension.jpg" />
+    <Content Include="Content\Images\home\mainslider\mainslider_m_osakacycling.jpg" />
+    <Content Include="Content\Images\home\mainslider\mainslider_m_ureshinocamping.jpg" />
+    <Content Include="Content\Images\home\menu\mainmenu_m_guam.jpg" />
+    <Content Include="Content\Images\home\menu\mainmenu_m_hawaii.jpg" />
+    <Content Include="Content\Images\home\menu\mainmenu_m_hongkong.jpg" />
+    <Content Include="Content\Images\home\menu\mainmenu_m_japan.jpg" />
+    <Content Include="Content\Images\home\menu\mainmenu_m_philippines.jpg" />
+    <Content Include="Content\Images\home\menu\mainmenu_m_russia.jpg" />
+    <Content Include="Content\Images\home\menu\mainmenu_m_taiwan.jpg" />
+    <Content Include="Content\Images\home\menu\mainmenu_m_vietnam.jpg" />
+    <Content Include="Content\Images\home\signature\signature01_180715.jpg" />
+    <Content Include="Content\Images\home\signature\signature02_180715.jpg" />
+    <Content Include="Content\Images\home\signature\signature03_180727.jpg" />
+    <Content Include="Content\Images\home\signature\signature04_180730.jpg" />
+    <Content Include="Content\Images\home\theme\theme_banner_180808.jpg" />
+    <Content Include="Content\Images\home\variety\icon_lifepub.png" />
+    <Content Include="Content\Images\home\variety\icon_momcebu.png" />
+    <Content Include="Content\Images\home\variety\icon_rooftopparty.png" />
+    <Content Include="Content\Images\home\variety\lifepub.jpg" />
+    <Content Include="Content\Images\home\variety\momcebu.jpg" />
+    <Content Include="Content\Images\home\variety\nvp_campingcooking_m.jpg" />
+    <Content Include="Content\Images\home\variety\nvp_odentour_m.jpg" />
+    <Content Include="Content\Images\home\variety\nvp_rooftopparty_m.jpg" />
+    <Content Include="Content\Images\home\mainslider\mainslider01_m_180717.jpg" />
+    <Content Include="Content\Images\home\mainslider\mainslider02_m_180717.jpg" />
+    <Content Include="Content\Images\home\mainslider\mainslider03_m_180717.jpg" />
+    <Content Include="Content\Images\home\mainslider\mainslider04_m_180717.jpg" />
+    <Content Include="Content\Images\home\mainslider\mainslider05_m_180717.jpg" />
+    <Content Include="Content\Images\home\variety\rooftopparty.jpg" />
+    <Content Include="Content\Images\members\mail.png" />
+    <Content Include="Content\Images\members\password.png" />
+    <Content Include="Content\Images\newsample\banner_ndt_m.jpg" />
+    <Content Include="Content\Images\newsample\bg_basic.png" />
+    <Content Include="Content\Images\newsample\bg_menu_air.jpg" />
+    <Content Include="Content\Images\newsample\bg_menu_daytour.jpg" />
+    <Content Include="Content\Images\newsample\bg_menu_package.jpg" />
+    <Content Include="Content\Images\newsample\bg_menu_ship.jpg" />
+    <Content Include="Content\Images\newsample\btn_back.png" />
+    <Content Include="Content\Images\newsample\btn_facebook.png" />
+    <Content Include="Content\Images\newsample\btn_insta.png" />
+    <Content Include="Content\Images\newsample\btn_kakao.png" />
+    <Content Include="Content\Images\newsample\btn_menu.png" />
+    <Content Include="Content\Images\newsample\btn_nvp_viewbox.png" />
+    <Content Include="Content\Images\newsample\btn_sideclose.png" />
+    <Content Include="Content\Images\newsample\icon_JMT.png" />
+    <Content Include="Content\Images\newsample\icon_nvp_JMT.png" />
+    <Content Include="Content\Images\newsample\icon_nvp_rooftopparty.png" />
+    <Content Include="Content\Images\newsample\icon_rooftopparty.png" />
+    <Content Include="Content\Images\newsample\icon_side_airfree.png" />
+    <Content Include="Content\Images\newsample\icon_side_booking.png" />
+    <Content Include="Content\Images\newsample\icon_side_insurance.png" />
+    <Content Include="Content\Images\newsample\icon_side_kosoku.png" />
+    <Content Include="Content\Images\newsample\icon_side_pass.png" />
+    <Content Include="Content\Images\newsample\icon_side_rentcar.png" />
+    <Content Include="Content\Images\newsample\icon_side_variety.png" />
+    <Content Include="Content\Images\newsample\icon_side_wifi.png" />
+    <Content Include="Content\Images\newsample\img_best01.jpg" />
+    <Content Include="Content\Images\newsample\img_best02.jpg" />
+    <Content Include="Content\Images\newsample\img_best03.jpg" />
+    <Content Include="Content\Images\newsample\img_best04.jpg" />
+    <Content Include="Content\Images\newsample\img_best05.jpg" />
+    <Content Include="Content\Images\newsample\img_best06.jpg" />
+    <Content Include="Content\Images\newsample\img_best07.jpg" />
+    <Content Include="Content\Images\newsample\img_best08.jpg" />
+    <Content Include="Content\Images\newsample\img_best09.jpg" />
+    <Content Include="Content\Images\newsample\img_best10.jpg" />
+    <Content Include="Content\Images\newsample\img_nvp_commingsoon.jpg" />
+    <Content Include="Content\Images\newsample\img_nvp_JMT.jpg" />
+    <Content Include="Content\Images\newsample\img_nvp_rooftopparty.jpg" />
+    <Content Include="Content\Images\newsample\img_signature01.jpg" />
+    <Content Include="Content\Images\newsample\img_signature02.jpg" />
+    <Content Include="Content\Images\newsample\img_signature03.jpg" />
+    <Content Include="Content\Images\newsample\img_signature04.jpg" />
+    <Content Include="Content\Images\newsample\img_signature05.jpg" />
+    <Content Include="Content\Images\newsample\img_signature06.jpg" />
+    <Content Include="Content\Images\newsample\JMT.jpg" />
+    <Content Include="Content\Images\newsample\logo.png" />
+    <Content Include="Content\Images\newsample\mainSlider_minamishimabara.jpg" />
+    <Content Include="Content\Images\newsample\mainSlider_miyagiolle.jpg" />
+    <Content Include="Content\Images\newsample\mainSlider_naturekamchatka.jpg" />
+    <Content Include="Content\Images\newsample\mainSlider_osakacycling.jpg" />
+    <Content Include="Content\Images\newsample\mainSlider_osakasetpack.jpg" />
+    <Content Include="Content\Images\newsample\nvp_line.png" />
+    <Content Include="Content\Images\newsample\rooftopparty.jpg" />
+    <Content Include="Content\Images\pass\banner_pass.jpg" />
+    <Content Include="Content\Images\pass\banner_rentcar.jpg" />
+    <Content Include="Content\Images\pass\banner_wifi.jpg" />
+    <Content Include="Content\Images\pass\pass_box_m.png" />
+    <Content Include="Content\Images\products\banner_Ntalk.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_andothers.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_beetle.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_camellia.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_hokkaido.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_kyushu.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_mongolia.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_nina.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_okinawa.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_osaka.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_panstar.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_pukwan.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_russia.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_tokyo.jpg" />
+    <Content Include="Content\Images\products\best\img_pdlist_tsushima.jpg" />
+    <Content Include="Content\Images\products\bg_chat_logo.png" />
+    <Content Include="Content\Images\products\img_guamsaipanbest.jpg" />
+    <Content Include="Content\Images\products\img_guamsaipandaytour.jpg" />
+    <Content Include="Content\Images\products\img_guamsaipanfree.jpg" />
+    <Content Include="Content\Images\products\img_guamsaipanpackage.jpg" />
+    <Content Include="Content\Images\products\img_hawaiibest.jpg" />
+    <Content Include="Content\Images\products\img_hawaiidaytour.jpg" />
+    <Content Include="Content\Images\products\img_hawaiifree.jpg" />
+    <Content Include="Content\Images\products\img_hawaiipackage.jpg" />
+    <Content Include="Content\Images\products\img_hokkaidobest.jpg" />
+    <Content Include="Content\Images\products\img_hokkaidodaytour.jpg" />
+    <Content Include="Content\Images\products\img_hokkaidofree.jpg" />
+    <Content Include="Content\Images\products\img_hokkaidopackage.jpg" />
+    <Content Include="Content\Images\products\img_hongkongbest.jpg" />
+    <Content Include="Content\Images\products\img_hongkongdaytour.jpg" />
+    <Content Include="Content\Images\products\img_hongkongfree.jpg" />
+    <Content Include="Content\Images\products\img_hongkongpackage.jpg" />
+    <Content Include="Content\Images\products\img_japanbest.jpg" />
+    <Content Include="Content\Images\products\img_japandaytour.jpg" />
+    <Content Include="Content\Images\products\img_japanfree.jpg" />
+    <Content Include="Content\Images\products\img_japanpackage.jpg" />
+    <Content Include="Content\Images\products\img_kyushuair.jpg" />
+    <Content Include="Content\Images\products\img_kyushubest.jpg" />
+    <Content Include="Content\Images\products\img_kyushudaytour.jpg" />
+    <Content Include="Content\Images\products\img_kyushupackage.jpg" />
+    <Content Include="Content\Images\products\img_kyushuship.jpg" />
+    <Content Include="Content\Images\products\img_okinahwabest.jpg" />
+    <Content Include="Content\Images\products\img_okinahwadaytour.jpg" />
+    <Content Include="Content\Images\products\img_okinahwafree.jpg" />
+    <Content Include="Content\Images\products\img_okinahwapackage.jpg" />
+    <Content Include="Content\Images\products\img_oklnahwadaytour.jpg" />
+    <Content Include="Content\Images\products\img_osakaair.jpg" />
+    <Content Include="Content\Images\products\img_osakabest.jpg" />
+    <Content Include="Content\Images\products\img_osakadaytour.jpg" />
+    <Content Include="Content\Images\products\img_osakapackage.jpg" />
+    <Content Include="Content\Images\products\img_osakaship.jpg" />
+    <Content Include="Content\Images\products\img_philippinebest.jpg" />
+    <Content Include="Content\Images\products\img_philippinedaytour.jpg" />
+    <Content Include="Content\Images\products\img_philippinefree.jpg" />
+    <Content Include="Content\Images\products\img_philippinepackage.jpg" />
+    <Content Include="Content\Images\products\img_taiwanbest.jpg" />
+    <Content Include="Content\Images\products\img_taiwandaytour.jpg" />
+    <Content Include="Content\Images\products\img_taiwanfree.jpg" />
+    <Content Include="Content\Images\products\img_taiwanpackage.jpg" />
+    <Content Include="Content\Images\products\img_tokyobest.jpg" />
+    <Content Include="Content\Images\products\img_tokyodaytour.jpg" />
+    <Content Include="Content\Images\products\img_tokyofree.jpg" />
+    <Content Include="Content\Images\products\img_tokyopackage.jpg" />
+    <Content Include="Content\Images\products\img_tsushimabest.jpg" />
+    <Content Include="Content\Images\products\img_tsushimadaytour.jpg" />
+    <Content Include="Content\Images\products\img_tsushimafree.jpg" />
+    <Content Include="Content\Images\products\img_tsushimapackage.jpg" />
+    <Content Include="Content\Images\products\img_vietnambest.jpg" />
+    <Content Include="Content\Images\products\img_vietnamdaytour.jpg" />
+    <Content Include="Content\Images\products\img_vietnamfree.jpg" />
+    <Content Include="Content\Images\products\img_vietnampackage.jpg" />
+    <Content Include="Content\Images\products\views\btn_calendarL.png" />
+    <Content Include="Content\Images\products\views\btn_calendarR.png" />
+    <Content Include="Content\Images\products\views\procData.jpg" />
+    <Content Include="Content\Images\promotion\promotion_beppuolle.jpg" />
+    <Content Include="Content\Images\promotion\promotion_campingcooking.jpg" />
+    <Content Include="Content\Images\promotion\promotion_endlessnesscamel.jpg" />
+    <Content Include="Content\Images\promotion\promotion_enjoytsushima.jpg" />
+    <Content Include="Content\Images\promotion\promotion_ferrytwo.jpg" />
+    <Content Include="Content\Images\promotion\promotion_kyushuolle.jpg" />
+    <Content Include="Content\Images\promotion\promotion_momcebu.jpg" />
+    <Content Include="Content\Images\promotion\promotion_naturekamchatka.jpg" />
+    <Content Include="Content\Images\promotion\promotion_odentour.jpg" />
+    <Content Include="Content\Images\promotion\promotion_okinawapension.jpg" />
+    <Content Include="Content\Images\promotion\promotion_osakacycling.jpg" />
+    <Content Include="Content\Images\promotion\promotion_pukuanothertrip.jpg" />
+    <Content Include="Content\Images\promotion\promotion_rooftopparty.jpg" />
+    <Content Include="Content\Images\promotion\promotion_tvshimonoseki.jpg" />
+    <Content Include="Content\Images\promotion\promotion_tvshimonoseki_m.jpg" />
+    <Content Include="Content\Images\recommend\theme_top.jpg" />
+    <Content Include="Content\Images\reserve\banner_pass.jpg" />
+    <Content Include="Content\Images\reserve\banner_rentcar.jpg" />
+    <Content Include="Content\Images\reserve\banner_wifi.jpg" />
+    <Content Include="Content\Images\reserve\passgo.jpg" />
+    <Content Include="Content\Images\reserve\rentcargo.jpg" />
+    <Content Include="Content\Images\reserve\wifigo.jpg" />
+    <Content Include="Content\Images\share\banner_magazine_m.jpg" />
+    <Content Include="Content\Images\share\banner_ndt_m.jpg" />
+    <Content Include="Content\Images\share\banner_Ntalk.png" />
+    <Content Include="Content\Images\share\btn_back.png" />
+    <Content Include="Content\Images\share\btn_facebook.png" />
+    <Content Include="Content\Images\share\btn_insta.png" />
+    <Content Include="Content\Images\share\btn_kakao.png" />
+    <Content Include="Content\Images\share\btn_menu.png" />
+    <Content Include="Content\Images\share\btn_sideclose.png" />
+    <Content Include="Content\Images\share\icon_side_airfree.png" />
+    <Content Include="Content\Images\share\icon_side_booking.png" />
+    <Content Include="Content\Images\share\icon_side_insurance.png" />
+    <Content Include="Content\Images\share\icon_side_kosoku.png" />
+    <Content Include="Content\Images\share\icon_side_pass.png" />
+    <Content Include="Content\Images\share\icon_side_rentcar.png" />
+    <Content Include="Content\Images\share\icon_side_variety.png" />
+    <Content Include="Content\Images\share\icon_side_wifi.png" />
+    <Content Include="Content\Images\share\icon_sns_facebook.png" />
+    <Content Include="Content\Images\share\icon_sns_insta.png" />
+    <Content Include="Content\Images\share\icon_sns_kakao.png" />
+    <Content Include="Content\Images\share\logo.png" />
+    <Content Include="Content\Images\share\logo_m.png" />
+    <Content Include="Content\Images\share\side_guam.jpg" />
+    <Content Include="Content\Images\share\side_hawaii.jpg" />
+    <Content Include="Content\Images\share\side_hongkong.jpg" />
+    <Content Include="Content\Images\share\side_japan.jpg" />
+    <Content Include="Content\Images\share\side_ndaytrip.jpg" />
+    <Content Include="Content\Images\share\side_philippines.jpg" />
+    <Content Include="Content\Images\share\side_russia.jpg" />
+    <Content Include="Content\Images\share\side_taiwan.jpg" />
+    <Content Include="Content\Images\share\side_vietnam.jpg" />
+    <Content Include="Content\Images\variety\bg_NVP.jpg" />
+    <Content Include="Content\Images\variety\icon_campingcooking.png" />
+    <Content Include="Content\Images\variety\icon_campingcooking02.png" />
+    <Content Include="Content\Images\variety\icon_lifepub.png" />
+    <Content Include="Content\Images\variety\icon_lifepub02.png" />
+    <Content Include="Content\Images\variety\icon_momcomfortable.png" />
+    <Content Include="Content\Images\variety\icon_rooftopparty.png" />
+    <Content Include="Content\Images\variety\icon_rooftopparty02.png" />
+    <Content Include="Content\Images\variety\nvptitle.png" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_08.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_09.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_10.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_01_11.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_02_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_02_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_02_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_02_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_02_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_02_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_02_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_02_08.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_02_09.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_03_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_03_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_03_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_03_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_03_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_03_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_03_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_03_08.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_03_09.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_04_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_04_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_04_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_04_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_04_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_04_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_04_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_05_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_05_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_05_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_05_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_05_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_05_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_05_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_06_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_06_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_06_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_06_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_06_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_06_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_06_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_06_08.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_06_09.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_07_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_07_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_07_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_07_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_07_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_07_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_07_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_08.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_08_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_08_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_08_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_08_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_08_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_08_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_08_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_08_08.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_08_09.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_09.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_09_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_09_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_09_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_09_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_09_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_09_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_09_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_09_08.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_10.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_10_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_10_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_10_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_10_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_10_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_10_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_10_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_11.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_11_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_11_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_11_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_11_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_11_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_11_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_11_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_11_08.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_12.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_12_01.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_12_02.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_12_03.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_12_04.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_12_05.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_12_06.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_12_07.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_12_08.jpg" />
+    <Content Include="Content\Images\Magazine\2017\magazine_12_09.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_01_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_01_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_01_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_01_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_01_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_01_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_01_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_01_08.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_02_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_02_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_02_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_02_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_02_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_02_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_02_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_03_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_03_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_03_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_03_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_03_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_03_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_03_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_03_08.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_04_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_04_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_04_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_04_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_04_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_04_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_04_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_05_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_05_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_05_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_05_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_05_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_05_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_05_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_05_08.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_05_09.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_06_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_06_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_06_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_06_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_06_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_06_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_06_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_06_08.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_06_09.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_07_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_07_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_07_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_07_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_07_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_07_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_07_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_07_08.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_07_09.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_08.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_09.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_10.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_08_11.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_08.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_09.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_10.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_11.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_12.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_09_13.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_01.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_02.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_03.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_04.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_05.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_06.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_07.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_08.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_09.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_10.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_11.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_12.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_13.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_14.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_15.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_16.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_17.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_18.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_19.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_20.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_21.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_22.jpg" />
+    <Content Include="Content\Images\Magazine\2018\magazine_10_23.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_10.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_11.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_12.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_2.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_3.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_4.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_5.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_6.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_7.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_8.jpg" />
+    <Content Include="Content\Images\Magazine\default\commingsoon_9.jpg" />
+    <Content Include="Content\Images\Magazine\img_pagehere.png" />
+    <Content Include="Content\members.css" />
+    <Content Include="Content\mypage.css" />
+    <Content Include="Content\pass.css" />
+    <Content Include="Content\products.css" />
+    <Content Include="Content\recommend.css" />
+    <Content Include="Content\reserve.css" />
+    <Content Include="Content\variety.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Promotion\beppuolle.html" />
+    <Content Include="Promotion\campingcooking.html" />
+    <Content Include="Promotion\endlessnesscamel.html" />
+    <Content Include="Promotion\enjoytsushima.html" />
+    <Content Include="Promotion\ferrytwo.html" />
+    <Content Include="Promotion\kyushuolle.html" />
+    <Content Include="Promotion\momcebu.html" />
+    <Content Include="Promotion\naturekamchatka.html" />
+    <Content Include="Promotion\odentour.html" />
+    <Content Include="Promotion\okinawapension.html" />
+    <Content Include="Promotion\osakacycling.html" />
+    <Content Include="Promotion\pukuanothertrip.html" />
+    <Content Include="Promotion\rooftopparty.html" />
+    <Content Include="Promotion\tvshimonoseki.html" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\mNtabi.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.bxslider.js" />
+    <Content Include="Scripts\jquery.bxslider2.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.3.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Shared\_SubMenu.cshtml" />
+    <Content Include="Views\Products\Lists.cshtml" />
+    <Content Include="Views\Products\Views.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Company\Map.cshtml" />
+    <Content Include="Views\variety\Index.cshtml" />
+    <Content Include="Views\Event\Index.cshtml" />
+    <Content Include="Views\AirFree\Index.cshtml" />
+    <Content Include="Views\Members\join1.cshtml" />
+    <Content Include="Views\Members\join3.cshtml" />
+    <Content Include="Views\Members\join2.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Members\find1.cshtml" />
+    <Content Include="Views\Members\find2.cshtml" />
+    <Content Include="Views\Members\find3.cshtml" />
+    <Content Include="Views\Members\find4.cshtml" />
+    <Content Include="Views\Promotion\Views.cshtml" />
+    <Content Include="Views\Event\Views.cshtml" />
+    <Content Include="Views\Community\Lists.cshtml" />
+    <Content Include="Views\Community\Views.cshtml" />
+    <Content Include="Views\Community\Write.cshtml" />
+    <Content Include="Views\Mypage\Index.cshtml" />
+    <Content Include="Views\Mypage\revPdt.cshtml" />
+    <Content Include="Views\Mypage\MyBoard.cshtml" />
+    <Content Include="Views\Mypage\MyInfo.cshtml" />
+    <Content Include="Views\Reserve\Confirm.cshtml" />
+    <Content Include="Views\Reserve\rev.cshtml" />
+    <Content Include="Views\Reserve\agree.cshtml" />
+    <Content Include="Views\Recommend\Index.cshtml" />
+    <Content Include="Views\Recommend\Views.cshtml" />
+    <Content Include="Views\Pass\Index.cshtml" />
+    <Content Include="Views\Pass\Views.cshtml" />
+    <Content Include="Views\Home2\Index.cshtml" />
+    <Content Include="Views\Products\Chat.cshtml" />
+    <Content Include="Views\Community\Chat.cshtml" />
+    <Content Include="Views\Mypage\Allat_receive.cshtml" />
+    <Content Include="Views\Mypage\checkpay_receive.cshtml" />
+    <Content Include="Views\Company\privacy.cshtml" />
+    <Content Include="Views\Company\service.cshtml" />
+    <Content Include="Views\Magazine\Views.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49636</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49636/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

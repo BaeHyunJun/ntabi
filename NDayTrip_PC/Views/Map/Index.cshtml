@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+
+    string lat = Request["lat"],
+           lng = Request["lng"],
+           zoom = Request["z"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        h3 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 9999;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h3>탑승처 안내 지도</h3>
+    <div id="map"></div>
+    <script>
+        function initMap() {
+            var uluru = { lat: "@lat" * 1, lng: "@lng" * 1 };
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: "@zoom" * 1,
+                center: uluru
+            });
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSVJgwsm3VuYPsbcY8bDHCQZl9xy8H92Y&callback=initMap">
+    </script>
+</body>
+</html>

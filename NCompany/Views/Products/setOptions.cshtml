@@ -1,0 +1,322 @@
+﻿@{
+    Layout = null;
+
+    string days = Request["days"];
+    
+    int inCnt = Convert.ToInt32(days.Substring(0, 2));
+}
+
+<style>
+    div.setOptions div.modal-body > div
+    {
+        overflow: hidden;
+    }
+
+    div.setOptions div.modal-body ul.nav.nav-tabs
+    {
+        width: 20%;
+        float: left;
+        border: none;
+    }
+
+    div.setOptions div.modal-body ul.nav.nav-tabs > li
+    {
+        float: none;
+    }
+
+    div.setOptions div.modal-body ul.nav.nav-tabs > li.active
+    {
+        border-right: 1px solid white;
+    }
+
+    div.setOptions div.modal-body ul.nav.nav-tabs > li > a
+    {
+        text-align: center;
+        border: 1px solid #ddd;
+        border-right: transparent;
+        border-radius: 5px 0 0 5px;
+    }
+
+    div.setOptions div.modal-body div.tab-content
+    {
+        width: 80%;
+        float: left;
+        padding: 20px;
+        margin-left: -1px;
+        min-height: 200px;
+        border: 1px solid #ddd;
+    }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 500px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">결합 상품 세팅</h4>
+        </div>
+        <div class="modal-body">
+
+            <div class="select_hotels">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    @*<li role="presentation" class="active"><a href="#hotel" aria-controls="hotel" role="tab" data-toggle="tab">호텔</a></li>*@
+                    @*<li role="presentation"><a href="#options" aria-controls="options" role="tab" data-toggle="tab">료칸</a></li>*@
+
+                    @for (int idx = 1; idx <= inCnt; idx++)
+                    {
+                        <li role="presentation"><a href="#hotel_@idx" aria-controls="options" role="tab" data-toggle="tab">@idx 박</a></li>
+                    }
+                </ul>
+                <div class="tab-content">
+
+                    @for (int idx = 1; idx <= inCnt; idx++)
+                    {
+                        <div role="tabpanel" class="tab-pane row" id="hotel_@idx">
+
+                            @*<div class="form-group input-group col-xs-12 col-md-12">
+                                <select class="form-control" name="hotel_@idx">
+                                    <option>호텔을 선택해주세요.</option>
+                                    @foreach (object item in Model)
+                                    {
+                                        hotel_seq = "";
+                                        hotel_name = "";
+
+                                        try { hotel_seq = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); }
+                                        catch { }
+                                        try { hotel_name = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); }
+                                        catch { }
+
+                                        <option value="@hotel_seq">@hotel_name</option>
+                                    }
+                                </select>
+                            </div>*@
+
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <div class="input-group" style="width: 40%; float: left;">
+                <input type="text" class="form-control" placeholder="호텔검색">
+                <span class="input-group-btn">
+                    <button class="btn btn-default srcHtlBtn" type="button">검색</button>
+                </span>
+            </div>
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            <button type="button" class="btn btn-success" id="addHotelBtn">추가</button>
+            <button type="button" class="btn btn-primary" id="uptInhotelBtn">등록</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    if ("@inCnt" == 0)
+    {
+        alert("선택 할 수 있는 호텔이 없습니다.");
+        $(".setOptions ").remove();
+    }
+
+    var inHotels = $("input[name=inHotels]").val().split(',');
+
+    if (inHotels != "")
+    {
+        for (i = 0; i < inHotels.length; i++)
+        {
+            var seq = inHotels[i].split(':');
+
+            //$("select[name='hotel[]']").eq(i).val($.trim(seq[1]));
+
+            //$("select[name='hotel_" + $.trim(seq[0]) + "']").val($.trim(seq[1]));
+
+            //$("div#hotel_" + $.trim(seq[0])).
+
+            var idx = $.trim(seq[0]);
+            var htl = $.trim(seq[1]);
+            var cin = $.trim(seq[2]);
+
+            setHotelListBoxs(idx, htl, cin);
+        }
+    }
+
+    function setHotelListBoxs(idx, htl, cin)
+    {
+        var url = "/Products/JSON_searchHotelSeq";
+        var datas = { seq: htl };
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datas,
+            success: function (data) {
+                var html = '<div class="form-group input-group col-xs-12 col-md-12">' +
+                                '<input type="hidden" name="hotel_' + idx + '_chkIn" value="' + cin + '">' +
+                                '<select class="form-control" name="hotel_' + idx + '" disabled="disabled">' +
+                                    '<option>호텔을 선택해주세요.</option>';
+
+                for (i in data) {
+                    html += '<option value="' + data[i].seq + '"';
+
+                    if (data[i].seq == htl) {
+                        html += ' selected="selected"'
+                    }
+
+                    html += '>' + data[i].name + '</option>';
+                }
+
+                html += '</select>' +
+                        '<div class="input-group-btn"><button class="btn btn-default removeHTLBtn" type="button">삭제</button></div>' +
+                        '<div class="input-group-btn">' +
+                            '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">연박 <span class="caret"></span></button>' +
+                            '<ul class="dropdown-menu dropdown-menu-right">';
+
+                for (i = 2; i <= "@inCnt"; i++)
+                {
+                    html +=     '<li data-in="' + i + '"><a href="#">' + i + ' 박</a></li>';
+                }
+
+                html +=     '</ul>' +
+                        '</div>' +
+                            '</div>';
+
+                $("div#hotel_" + idx).append(html);
+            }
+        });
+    }
+
+    $("ul.nav.nav-tabs").find("li").eq(0).find("a").click();
+
+    $("#addHotelBtn").on("click", function () {
+        var url = "/Products/JSON_getHotels";
+        var datas = { nation: '@Request["nation"]', area: '@Request["area"]' };
+        var parent = $("div.tab-content > div.active");
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: datas,
+            success: function (data) {
+                var html = '<div class="form-group input-group col-xs-12 col-md-12">' +
+                                '<input type="hidden" name="' + parent.attr("id") + '_chkIn" value="N">' +
+                                '<select class="form-control" name="' + parent.attr("id") + '">' +
+                                    '<option>호텔을 선택해주세요.</option>';
+
+                for (i in data) {
+                    html += '<option value="' + data[i].seq + '">' + data[i].name + '</option>';
+                }
+
+                html +=         '</select>' +
+                        '<div class="input-group-btn"><button class="btn btn-default removeHTLBtn" type="button">삭제</button></div>' +
+                        '<div class="input-group-btn">' +
+                            '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">연박 <span class="caret"></span></button>' +
+                            '<ul class="dropdown-menu dropdown-menu-right">';
+
+                for (i = 2; i <= "@inCnt"; i++) {
+                    html +=     '<li data-in="' + i + '"><a href="#">' + i + ' 박</a></li>';
+                }
+
+                html += '</ul>' +
+                        '</div>' +
+                            '</div>';
+
+                parent.append(html);
+            }
+            , beforeSend: function () {
+                $('#loading').show();
+            }
+            , complete: function () {
+                $('#loading').hide();
+            }
+        });
+    });
+
+    $("div.tab-content").delegate("ul.dropdown-menu li", "click", function () {
+        var _this = $(this),
+            inCnt = _this.attr("data-in");
+
+        if (confirm("연박 체크 하시겠습니까?"))
+        {
+            _this.parents("ul").prev("button").text(inCnt + " 박");
+            //_this.parents("div.form-group").find("input[type='hidden']").val("Y");
+
+            var htlSeq = _this.parents("div.form-group").find("select option:checked").val();
+
+            for (i = 2; i <= inCnt; i++) {
+                var exists = 0 != $('#hotel_' + i + ' option[value=' + htlSeq + ']').length;
+                $('#hotel_' + (i - 1)).find("input[type='hidden']").val("Y");
+
+                if (!exists) 
+                {
+                    setHotelListBoxs(i, htlSeq, "N");
+                }
+            }
+        }
+    });
+
+    $("div.tab-content").delegate("button.removeHTLBtn", "click", function () {
+        var _this = $(this);
+
+        _this.parents("div.form-group").remove();
+    });
+
+    $("#uptInhotelBtn").on("click", function () {
+        var inhotels = $("div.select_hotels").find("select"),
+            hotelseq = "";//.val();
+
+        inhotels.each(function (idx) {
+            var value = $(this).val(),
+                chkIn = $(this).prev("input[type=hidden]").val();
+
+            if (chkIn == "")
+                chkIn = "N";
+
+            hotelseq += $(this).attr("name").split('_')[1] + " : " + value + " : " + chkIn + ", ";
+
+            if (!$.isNumeric(value))
+            {
+                alert("호텔을 선택해주세요.");
+                $(this).focus();
+                hotelseq = "";
+                return false;
+            }
+        })
+
+        //if (hotelseq == "")
+        //{
+        //    return false;
+        //}
+
+        $("input[name=inHotels]").val(hotelseq);
+        $("input[name=combine]").attr("checked", "checked");
+        //$(".setOptions ").remove();
+    });
+
+    $(".srcHtlBtn").on("click", function () {
+        var _this = $(this),
+            text = _this.parents("div.input-group").find("input").val();
+
+        var url = "/Products/searchHotels";
+        var datas = { title: text };
+
+        if(text == "")
+        {
+            alert("호텔 명을 입력해주세요.");
+            return;
+        }
+
+        if (url.indexOf('#') == 0) {
+            $(url).modal('show');
+        } else {
+            $.get(url, datas, function (data) {
+                $('<div class="modal fade searchHotels">' + data + '</div>').modal({ backdrop: 'static', keyboard: false });
+            });
+        }
+    });
+
+    $(document).on('hidden.bs.modal', function (e) {
+        $(e.target).remove();
+    });
+</script>

@@ -1,0 +1,122 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    div.modal-dialog table.priceTable th
+    {
+        text-align: center;
+    }
+</style>
+
+<div class="modal-dialog" role="document" style="width: 710px;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">옵션 정보</h4>
+        </div>
+        <div class="modal-body">
+            <table class="table text-center priceTable">
+                <colgroup>
+                    <col style="width: 10%" />
+                    <col style="width: 15%" />
+                    <col style="width: 15%" />
+                    <col style="width: 15%" />
+                    <col style="width: 15%" />
+                    <col style="width: 23%" />
+                    <col style="width: 7%" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>화폐</th>
+                        <th>성인 요금</th>
+                        <th>소아 요금</th>
+                        <th>유아 요금</th>
+                        <th>수익</th>
+                        <th>간단 설명</th>
+                        <th>선택</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        string txtSel = "selected='selected'",
+                               no = "",
+                               cu = "",
+                               ap = "",
+                               cp = "",
+                               bp = "",
+                               pf = "",
+                               ct = "";
+                               
+                        foreach (object item in Model)
+                        {
+                                try { no = item.GetType().GetProperties()[0].GetValue(item, null).ToString(); } catch { }
+                                try { cu = item.GetType().GetProperties()[1].GetValue(item, null).ToString(); } catch { }
+                                try { ap = item.GetType().GetProperties()[2].GetValue(item, null).ToString(); } catch { }
+                                try { cp = item.GetType().GetProperties()[3].GetValue(item, null).ToString(); } catch { }
+                                try { bp = item.GetType().GetProperties()[4].GetValue(item, null).ToString(); } catch { }
+                                try { pf = item.GetType().GetProperties()[5].GetValue(item, null).ToString(); } catch { }
+                                try { ct = item.GetType().GetProperties()[6].GetValue(item, null).ToString(); } catch { }
+                        
+                    <tr data-no="@no" data-currency="@cu" data-aPrice="@ap" data-cPrice="@cp" data-bPrice="@bp" data-profit="@pf" data-content="@ct">
+                        <td>
+                            @cu
+                        </td>
+                        <td>
+                            @ap
+                        </td>
+                        <td>
+                            @cp
+                        </td>
+                        <td>
+                            @bp
+                        </td>
+                        <td>
+                            @pf
+                        </td>
+                        <td>
+                            @ct
+                        </td>
+                        <td>
+                            <a href="#" class="selectPrc">✔</a>
+                        </td>
+                    </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("table.priceTable").delegate("a.selectPrc", "click", function () {
+            var _this = $(this),
+                parents = _this.parents("tr"),
+                prcSeq = parents.attr("data-no"),
+                currency = parents.attr("data-currency"),
+                aPrice = parents.attr("data-aPrice"),
+                cPrice = parents.attr("data-cPrice"),
+                bPrice = parents.attr("data-bPrice"),
+                profit = parents.attr("data-profit"),
+                content = parents.attr("data-content");
+
+            var target = $("article.revData2 li.selected");
+
+            target.find("input[name='prcKey']").val(prcSeq);
+            target.find("input[name='prcContent']").val(content);
+            target.find("select[name='prcCurrencyCode']").val(currency);
+
+            target.find("select[name='revprcGB']").val("A");
+            target.find("select[name='revprcGB']").attr("data-aPrice", (aPrice * 1) + (profit * 1));
+            target.find("select[name='revprcGB']").attr("data-cPrice", (cPrice * 1) + (profit * 1));
+            target.find("select[name='revprcGB']").attr("data-bPrice", (bPrice * 1) + (profit * 1));
+
+            target.find("input[name='price']").val(((aPrice * 1) + (profit * 1)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+            _this.parents(".modal").modal("hide");
+        });
+    });
+</script>
